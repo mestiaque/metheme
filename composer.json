@@ -1,0 +1,31 @@
+{
+    "name": "isotope/crm",
+    "type": "library",
+    "description": "",
+    "keywords": [
+        "Laravel"
+    ],
+    "authors": [
+        {
+            "name": "IsotopeIT",
+            "email": "info@isotopeit.com",
+            "homepage": "https://isotopeit.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Isotope\\CRM\\": "src/"
+        }
+    },
+    "autoload-dev": {},
+    "extra": {
+        "copyright": "https://isotopeit.com",
+        "laravel": {
+            "providers": [
+                "Isotope\\CRM\\CRMServiceProvider"
+            ],
+            "aliases": {}
+        }
+    },
+    "license": "MIT"
+}
