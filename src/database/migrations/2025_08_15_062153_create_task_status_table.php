@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('task_status', function (Blueprint $table) {
-            $table->integer('id', true);
+        Schema::create('task_statuses', function (Blueprint $table) {
+            $table->id();
             $table->string('title', 100);
             $table->string('key_name', 100);
             $table->string('color', 7);
             $table->integer('sort');
             $table->boolean('hide_from_kanban')->default(false);
-            $table->boolean('deleted')->default(false);
+            $table->boolean('is_active')->default(false);
             $table->boolean('hide_from_non_project_related_tasks')->default(false);
+            $table->timestamps();
         });
     }
 
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('task_status');
+        Schema::dropIfExists('task_statuses');
     }
 };

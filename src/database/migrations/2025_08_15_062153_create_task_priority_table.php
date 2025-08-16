@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('task_priority', function (Blueprint $table) {
-            $table->integer('id', true);
+        Schema::create('task_priorities', function (Blueprint $table) {
+            $table->id();
             $table->string('title', 100);
             $table->string('icon', 20);
             $table->string('color', 7);
-            $table->boolean('deleted')->default(false);
+            $table->boolean('is_active')->default(false);
+            $table->timestamps();
         });
     }
 
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('task_priority');
+        Schema::dropIfExists('task_priorities');
     }
 };
