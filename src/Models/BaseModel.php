@@ -2,9 +2,9 @@
 
 namespace Isotope\CRM\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Isotope\Metronic\Models\MasterModel;
 
-class BaseModel extends Model
+class BaseModel extends MasterModel
 {
     //
 }
