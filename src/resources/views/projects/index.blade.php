@@ -18,4 +18,18 @@
     </div>
 </div>
 
+@push('js')
+    <script>
+        $(document).ready(() => {
+            $('a[data-act="ajax-model"]').click(function (e) {
+                e.preventDefault();
+                var url = $(this).data('action-url');
+                $('#ajax-model .modal-content').load(url, function () {
+                    $('#ajax-model').modal('toggle');
+                });
+            });
+        });
+    </script>
+@endpush
+
 @endsection
