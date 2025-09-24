@@ -18,15 +18,21 @@ return new class extends Migration
             $table->string('project_type', 16)->default('client_project');
             $table->date('start_date')->nullable();
             $table->date('deadline')->nullable();
-            $table->foreignId('client_id')->nullable()->constrained('clients');
+            // $table->foreignId('client_id')->nullable()->constrained('clients');
+            $table->integer('client_id')->nullable();
             $table->string('status', 16)->default('open');
             $table->text('labels')->nullable();
             $table->double('price')->default(0);
             $table->mediumText('starred_by');
-            $table->foreignId('estimate_id')->nullable()->constrained('estimates');
-            $table->foreignId('order_id')->nullable()->constrained('orders');
-            $table->foreignId('created_by')->nullable()->constrained('users');
-            $table->foreignId('updated_by')->nullable()->constrained('users');
+            $table->integer('estimate_id')->nullable();
+            $table->integer('order_id')->nullable();
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
+
+            // $table->foreignId('estimate_id')->nullable()->constrained('estimates');
+            // $table->foreignId('order_id')->nullable()->constrained('orders');
+            // $table->foreignId('created_by')->nullable()->constrained('users');
+            // $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->timestamps();
         });
     }
