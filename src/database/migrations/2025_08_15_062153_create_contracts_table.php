@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('contracts', function (Blueprint $table) {
-            $table->integer('id', true);
+            $table->id();
             $table->text('title');
             $table->integer('client_id');
             $table->integer('project_id');
@@ -20,12 +20,12 @@ return new class extends Migration
             $table->date('valid_until');
             $table->mediumText('note')->nullable();
             $table->date('last_email_sent_date')->nullable();
-            $table->enum('status', ['draft', 'sent', 'accepted', 'declined'])->default('draft');
+            $table->string('status')->default('draft');
             $table->integer('tax_id')->default(0);
             $table->integer('tax_id2')->default(0);
-            $table->enum('discount_type', ['before_tax', 'after_tax']);
+            $table->string('discount_type')->default('before_tax');
             $table->double('discount_amount');
-            $table->enum('discount_amount_type', ['percentage', 'fixed_amount']);
+            $table->string('discount_amount_type')->default('percentage');
             $table->mediumText('content');
             $table->string('public_key', 10);
             $table->integer('accepted_by')->default(0);
@@ -34,6 +34,9 @@ return new class extends Migration
             $table->mediumText('files');
             $table->integer('company_id')->default(0);
             $table->boolean('deleted')->default(false);
+            $table->foreignId('created_by')->nullable();
+            $table->foreignId('updated_by')->nullable();
+            $table->timestamps();
         });
     }
 

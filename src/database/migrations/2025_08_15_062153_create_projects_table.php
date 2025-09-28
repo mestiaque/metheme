@@ -24,10 +24,10 @@ return new class extends Migration
             $table->text('labels')->nullable();
             $table->double('price')->default(0);
             $table->mediumText('starred_by');
-            $table->integer('estimate_id')->nullable();
-            $table->integer('order_id')->nullable();
-            $table->integer('created_by')->nullable();
-            $table->integer('updated_by')->nullable();
+            $table->foreignId('estimate_id')->nullable();
+            $table->foreignId('order_id')->nullable();
+            $table->foreignId('created_by')->nullable();
+            $table->foreignId('updated_by')->nullable();
 
             // $table->foreignId('estimate_id')->nullable()->constrained('estimates');
             // $table->foreignId('order_id')->nullable()->constrained('orders');

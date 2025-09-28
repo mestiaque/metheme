@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('clients', function (Blueprint $table) {
-            $table->integer('id', true);
+            $table->id();
             $table->string('company_name', 150);
-            $table->enum('type', ['organization', 'person'])->default('organization');
+            $table->string('type')->default('organization');
             $table->text('address')->nullable();
             $table->string('city', 50)->nullable();
             $table->string('state', 50)->nullable();
@@ -42,6 +42,9 @@ return new class extends Migration
             $table->string('currency', 3)->nullable();
             $table->boolean('disable_online_payment')->default(false);
             $table->text('labels')->nullable();
+            $table->foreignId('created_by')->nullable();
+            $table->foreignId('updated_by')->nullable();
+            $table->timestamps();
         });
     }
 
