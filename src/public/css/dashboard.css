@@ -1,0 +1,72 @@
+/* Common style for icon container */
+.quick-access-icon {
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Hover effect for entire button */
+.btn-quick-access:hover .quick-access-icon {
+    transform: scale(1.15) rotate(5deg);
+}
+
+/* Unique icon colors */
+.icon-products {
+    background: rgba(40, 167, 69, 0.15);
+    color: #28a745;
+}
+.icon-sales {
+    background: rgba(0, 123, 255, 0.15);
+    color: #007bff;
+}
+.icon-purchases {
+    background: rgba(127, 0, 0, 0.15);
+    color: #550a0ad4;
+}
+.icon-stock {
+    background: rgba(23, 162, 184, 0.15);
+    color: #17a2b8;
+}
+.icon-product-variants {
+    background: rgba(255, 87, 34, 0.15);
+    color: #ff5722;
+}
+.icon-brands {
+    background: rgba(156, 39, 176, 0.15);
+    color: #9c27b0;
+}
+.icon-packs {
+    background: rgba(233, 30, 99, 0.15);
+    color: #e91e63;
+}
+.icon-settings {
+    background: rgba(0, 0, 0, 0.10);
+    color: #292c2e;
+}
+.custom-card {
+    transition: all 0.3s ease;
+    border-radius: 12px;
+}
+
+.custom-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.custom-card .card-body {
+    transition: background 0.3s ease;
+}
+
+.custom-card:hover .card-body {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+.custom-card i {
+    transition: transform 0.3s ease;
+}
+
+.custom-card:hover i {
+    transform: scale(1.2) rotate(5deg);
+}

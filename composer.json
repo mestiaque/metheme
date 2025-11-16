@@ -1,31 +1,28 @@
 {
-    "name": "isotope/crm",
+    "name": "encodex/metheme",
+    "description": "Metheme module for Laravel (by Encodex)",
     "type": "library",
-    "description": "",
-    "keywords": [
-        "Laravel"
-    ],
+    "keywords": ["Laravel", "Metheme", "Encodex"],
     "authors": [
         {
-            "name": "IsotopeIT",
-            "email": "info@isotopeit.com",
-            "homepage": "https://isotopeit.com"
+            "name": "Encodex",
+            "email": "info@encodex.com",
+            "homepage": "https://encodex.com"
         }
     ],
     "autoload": {
         "psr-4": {
-            "Isotope\\CRM\\": "src/"
+            "Encodex\\Metheme\\": "src/"
         }
     },
-    "autoload-dev": {},
     "extra": {
-        "copyright": "https://isotopeit.com",
         "laravel": {
             "providers": [
-                "Isotope\\CRM\\CRMServiceProvider"
-            ],
-            "aliases": {}
+                "Encodex\\Metheme\\MEServiceProvider"
+            ]
         }
     },
-    "license": "MIT"
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
