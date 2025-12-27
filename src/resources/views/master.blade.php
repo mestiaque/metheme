@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'EncodeX | Dashboard')</title>
+    <title>{{ config('app.name', 'ESTIAQUE') }}  | @yield('title', 'Dashboard')</title>
 
     <!--begin::Accessibility Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -15,10 +15,11 @@
     <!--end::Accessibility Meta Tags-->
 
     <!--begin::Primary Meta Tags-->
-    <meta name="title" content="@yield('meta-title', 'EncodeX | Dashboard')" />
-    <meta name="author" content="@yield('meta-author', 'Encodex')" />
-    <meta name="description" content="@yield('meta-description', 'EncodeX, M. Estiaque Ahmed Khan')" />
-    <meta name="keywords" content="@yield('meta-keywords', 'M. Estiaque Ahmed Khan, admin dashboard, laravel, encodex')" />
+  <meta name="title" content="@yield('meta-title', config('me_settings.meta_title'))" />
+  <meta name="author" content="@yield('meta-author', config('me_settings.meta_author'))" />
+  <meta name="description" content="@yield('meta-description', config('me_settings.meta_description'))" />
+  <meta name="keywords" content="@yield('meta-keywords', config('me_settings.meta_keywords'))" />
+
     <!--end::Primary Meta Tags-->
 
     <!--begin::Accessibility Features-->
@@ -81,7 +82,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link rel="icon" href="{{ asset('assets/img/favicon/Encodex.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ get_image('app_ico') ?? asset('assets/img/favicon/Encodex.ico') }}" type="image/x-icon">
     <link href="{{ asset('css/form-styles.css') }}" rel="stylesheet">
     <link href="{{ asset('css/encodex.css') }}" rel="stylesheet">
     <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
@@ -96,10 +97,10 @@
     <div class="app-wrapper">
 
       <!-- Include Header Component -->
-      @include('metheme::header')
+      @include('me::header')
 
       <!-- Include Sidebar Component -->
-      @include('metheme::sidebar')
+      @include('me::sidebar')
 
       <!--begin::App Main-->
       <main class="app-main">
@@ -130,7 +131,7 @@
       <!--end::App Main-->
 
       <!-- Include Footer Component -->
-      @include('metheme::footer')
+      @include('me::footer')
     </div>
     <!--end::App Wrapper-->
 

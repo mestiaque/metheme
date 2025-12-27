@@ -31,8 +31,10 @@ class MEServiceProvider extends ServiceProvider
         }
 
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
-        $this->loadViewsFrom(__DIR__ . '/resources/views', 'metheme');
-        $this->loadTranslationsFrom(__DIR__ . '/resources/lang', 'metheme');
+        $this->loadViewsFrom(__DIR__ . '/resources/views', 'ME');
+        $this->loadViewsFrom(__DIR__ . '/resources/views', 'me');
+        $this->loadTranslationsFrom(__DIR__ . '/resources/lang', 'ME');
+        $this->loadTranslationsFrom(__DIR__ . '/resources/lang', 'me');
 
         /*
         |--------------------------------------------------------------------------
@@ -68,6 +70,18 @@ class MEServiceProvider extends ServiceProvider
 
         /*
         |--------------------------------------------------------------------------
+        | Publish Error Pages
+        |--------------------------------------------------------------------------
+        */
+        if ($filesystem->exists(__DIR__ . '/resources/views/errors')) {
+            $this->publishes([
+                __DIR__ . '/resources/views/errors' => resource_path('views/errors'),
+            ], 'metheme-errors');
+        }
+        // php artisan vendor:publish --tag=metheme-errors --force
+
+        /*
+        |--------------------------------------------------------------------------
         | Register Middleware
         |--------------------------------------------------------------------------
         */
@@ -99,6 +113,10 @@ class MEServiceProvider extends ServiceProvider
         // If you want to extend Laravel auth config (optional)
         if (file_exists(__DIR__ . '/Config/auth.php')) {
             $this->mergeConfigFrom(__DIR__ . '/Config/auth.php', 'auth');
+        }
+
+        if (file_exists(__DIR__ . '/Config/me_settings.php')) {
+            $this->mergeConfigFrom(__DIR__ . '/Config/me_settings.php', 'me_settings');
         }
     }
 

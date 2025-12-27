@@ -25,7 +25,7 @@ class RoleController extends Controller
     {
         $roles = Role::withCount('users')->latest()->paginate(get_setting('pagination', 10))
 ;
-        return view('metheme::roles.index', compact('roles'));
+        return view('me::roles.index', compact('roles'));
     }
 
     public function create()
@@ -33,7 +33,7 @@ class RoleController extends Controller
         $configPermissions = config('permissions') ?? [];
         $permissions = $this->getPermissionsFromConfig($configPermissions);
 
-        return view('metheme::roles.create', compact('permissions'));
+        return view('me::roles.create', compact('permissions'));
     }
 
     private function getPermissionsFromConfig(array $configPermissions): Collection
@@ -98,7 +98,7 @@ class RoleController extends Controller
     public function show(Role $role)
     {
         $role->load('users', 'rolePermission');
-        return view('metheme::roles.show', compact('role'));
+        return view('me::roles.show', compact('role'));
     }
 
     public function edit(Role $role)
@@ -115,7 +115,7 @@ class RoleController extends Controller
             ->pluck('id')
             ->toArray();
 
-        return view('metheme::roles.edit', compact('role', 'permissions', 'selectedPermissionIds'));
+        return view('me::roles.edit', compact('role', 'permissions', 'selectedPermissionIds'));
     }
 
     public function update(Request $request, Role $role)

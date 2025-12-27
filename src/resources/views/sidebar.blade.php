@@ -5,16 +5,16 @@
     @php $url = get_setting('root_url') ?: '/'; @endphp
     <a href="{{ $url }}" class="brand-link">
       @if(get_setting('shop_logo'))
-        <img src="{{ route('shop_logo.show', get_setting('shop_logo')) }}" class="brand-image opacity-75 shadow" alt="ENcodeX">
+        <img src="{{ route('shop_logo.show', get_setting('shop_logo')) }}" class="brand-image opacity-75 " alt="ENcodeX">
       @else
-        <img src="{{ asset('assets/img/default-img/Encodex_c.png') }}" class="brand-image opacity-75 shadow" alt="ENcodeX">
+        <img src="{{ asset('assets/img/default-img/Encodex_c.png') }}" class="brand-image opacity-75" alt="ENcodeX">
       @endif
-      <span class="brand-text fw-light">{{ get_setting('shop_name', 'ENCODEX') }}</span>
+      {{-- <span class="brand-text hide-mobile fw-light">{{ get_setting('shop_name', 'ENCODEX') }}</span> --}}
     </a>
   </div>
 
   <div class="sidebar-wrapper">
-    <nav class="mt-2">
+    <nav class="">
       <ul
         class="nav sidebar-menu flex-column"
         data-lte-toggle="treeview"
@@ -23,6 +23,7 @@
         data-accordion="false"
         id="navigation"
       >
+        <li class="company-text-sidebar">{{ get_setting('shop_name', 'ENCODEX') }}</li>
         @foreach(config('sidebar') as $item)
           @if(isset($item['header']))
             <li class="nav-header">
@@ -153,13 +154,34 @@
 }
 
 aside .brand-image{
-    filter: drop-shadow(rgb(255, 255, 255) 2px 0px 6px);
-    background: #f1efef !important;
+    /* filter: drop-shadow(rgb(255, 255, 255) 2px 0px 6px); */
+    filter:
+            drop-shadow(0 0 8px white)
+            drop-shadow(0 0 12px white)
+            drop-shadow(0 0 16px white) !important;
+    /* background: #f1efef !important; */
 }
 
 .sidebar-menu > .parentnav:first-child {
     border-top: none;
 }
 
+.company-text-sidebar{
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    color: #ffffff;
+    white-space: normal !important;
+}
+
+
+  @media (max-width: 767px) {
+      .hide-mobile {
+          display: none !important;
+      }
+  }
+
 </style>
 <!--end::Sidebar-->
+
+

@@ -6,19 +6,22 @@
         <div class="login-form">
             <div class="login-header">
                 <div class="login-avatar">
-                    {{-- <i class="fas fa-user"></i> --}}
-                    <img loading="lazy" src="{{ asset('assets/img/favicon/Encodex.ico') }}" class="brand-image opacity-75 shadow " style="width: 100%" alt="ENcodeX">
+                    <img loading="lazy" src="{{ asset('assets/img/favicon/Encodex.ico') }}" class="brand-image opacity-75 shadow" style="width: 100%" alt="ENcodeX">
                 </div>
-                <h1 class="login-title text-shadow">{{ __('WELCOME') }}</h1>
-                <p style="text-align: center; color:#ffffff7a" class="text-shadow">{{ __('Enter your username and password to log in.') }}</p>
+                <h1 class="login-title text-shadow">{{ __('FORGOT PASSWORD') }}</h1>
+                <p style="text-align: center; color:#ffffff7a" class="text-shadow">
+                    {{ __('No problem. Just let us know your email address and we will email you a password reset link.') }}
+                </p>
             </div>
 
+            <!-- Session Status (সফলভাবে ইমেইল গেলে দেখাবে) -->
             @if (session('status'))
-                <div class="alert alert-success mb-4">
+                <div class="alert alert-success mb-4" style="background: rgba(40, 167, 69, 0.2); color: #2ecc71; border: 1px solid #2ecc71;">
                     {{ session('status') }}
                 </div>
             @endif
 
+            <!-- Validation Errors -->
             @if ($errors->any())
                 <div class="alert alert-danger mb-4">
                     @foreach ($errors->all() as $error)
@@ -27,35 +30,25 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('login') }}">
+            <form method="POST" action="{{ route('password.email') }}">
                 @csrf
-                <div class="form-group ">
-                    <label class="text-shadow" for="email">{{ __('EMAIL') }}</label>
-                    <input type="email" class="form-control text-shadow box-shadow" id="email" name="email"
-                        value="{{ old('email') }}" spellcheck="false" required autofocus>
+
+                <!-- Email Address -->
+                <div class="form-group">
+                    <label class="text-shadow" for="email">{{ __('EMAIL ADDRESS') }}</label>
+                    <input type="email" class="form-control text-shadow box-shadow" id="email" name="email" value="{{ old('email') }}" required autofocus>
                 </div>
 
-                <div class="form-group" style="position: relative;">
-                    <label class="text-shadow" for="password">{{ __('PASSWORD') }}</label>
-                    <input type="password" class="form-control text-shadow box-shadow" id="password" name="password" required>
-                    <span class="password-toggle text-shadow" id="togglePassword" style="position: absolute; right: 15px; top: 41px; cursor: pointer;">
-                        <i class="fas fa-eye"></i>
-                    </span>
-                </div>
-
-
-                <div class="remember-me">
-                    <label class="custom-checkbox text-shadow ">
-                        <input type="checkbox" class="box-shadow" id="remember_me" name="remember">
-                        <span class="box-shadow"></span>
-                        {{ __('Remember Me') }}
-                    </label>
-                </div>
-
-
-                <button type="submit" class="btn-login btn btn-blank box-shadow">
-                    {{ __('LOGIN') }}
+                <button type="submit" class="btn-login btn btn-blank box-shadow mt-3">
+                    {{ __('EMAIL PASSWORD RESET LINK') }}
                 </button>
+
+                <div class="text-center mt-4">
+                    <p style="color:#ffffff7a" class="text-shadow">
+                        {{ __('Remember your password?') }} 
+                        <a href="{{ route('login') }}" style="color: #fff; text-decoration: underline;">{{ __('Back to Login') }}</a>
+                    </p>
+                </div>
             </form>
         </div>
     </div>

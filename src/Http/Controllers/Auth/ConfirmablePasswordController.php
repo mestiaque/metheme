@@ -16,7 +16,7 @@ class ConfirmablePasswordController extends Controller
      */
     public function show(): View
     {
-        return view('metheme::auth.confirm-password');
+        return view('me::auth.confirm-password');
     }
 
     /**

@@ -29,7 +29,7 @@ class SettingController extends Controller
             'login_url' => Setting::get('login_url', url('/login')),
         ];
 
-        return view('metheme::settings.configurations', compact('settings'));
+        return view('me::settings.configurations', compact('settings'));
     }
 
     public function updateConfigurations(Request $request)

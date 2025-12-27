@@ -1,4 +1,4 @@
-@extends('metheme::master')
+@extends('me::master')
 
 @section('title', __('Dashboard'))
 

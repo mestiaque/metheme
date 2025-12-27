@@ -19,7 +19,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('metheme::auth.register');
+        return view('me::auth.register');
     }
 
     /**

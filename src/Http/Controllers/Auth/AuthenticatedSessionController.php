@@ -17,7 +17,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
-        return view('metheme::auth.login');
+        return view('me::auth.login');
     }
 
     /**

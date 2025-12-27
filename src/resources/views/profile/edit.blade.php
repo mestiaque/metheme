@@ -1,4 +1,4 @@
-@extends('metheme::.master')
+@extends('me::.master')
 
 @section('title', __('Profile'))
 
@@ -11,7 +11,7 @@
                     <h6 class="mb-0">@lang('Update Profile Information')</h6>
                 </div>
                 <div class="card-body">
-                    @include('metheme::profile.partials.update-profile-information-form')
+                    @include('me::profile.partials.update-profile-information-form')
                 </div>
             </div>
         </div>
@@ -22,7 +22,7 @@
                     <h6 class="mb-0">@lang('Update Password')</h6>
                 </div>
                 <div class="card-body">
-                    @include('metheme::profile.partials.update-password-form')
+                    @include('me::profile.partials.update-password-form')
                 </div>
             </div>
         </div>

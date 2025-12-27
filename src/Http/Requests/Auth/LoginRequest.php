@@ -50,7 +50,7 @@ class LoginRequest extends FormRequest
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'email' => $user ? 'Your account has been deactivated.' : trans('metheme::metheme.auth_failed'),
+                'email' => $user ? 'Your account has been deactivated.' : trans('me::metheme.auth_failed'),
             ]);
         }
 
@@ -61,7 +61,7 @@ class LoginRequest extends FormRequest
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'email' => trans('metheme::metheme.auth_failed'),
+                'email' => trans('me::metheme.auth_failed'),
             ]);
         }
 
@@ -84,7 +84,7 @@ class LoginRequest extends FormRequest
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
         throw ValidationException::withMessages([
-            'email' => trans('metheme::metheme.auth_throttle', [
+            'email' => trans('me::metheme.auth_throttle', [
                 'seconds' => toBanglaPhone($seconds),
                 'minutes' => toBanglaPhone(ceil($seconds / 60)),
             ]),

@@ -1,12 +1,12 @@
 <!--begin::Header-->
-<nav class="app-header navbar navbar-expand bg-body sticky-top shadow bg-encodex">
+<nav class="app-header navbar navbar-expand bg-body sticky-top shadow guest-header">
   <!--begin::Container-->
   <div class="container-fluid">
     <!--begin::Start Navbar Links-->
     <ul class="navbar-nav">
-      <li class="nav-item d-none d-md-block">
+      <li class="nav-item d-nonex d-md-block">
         <a href="/" class="nav-link">
-          <img src="{{ asset('assets/img/default-img/Encodex_c.png') }}" class="company-logo" alt="Company Logo">
+          <img  loading="lazy" src="{{ get_image('app_logo') ?? asset('assets/img/default-img/Encodex_c.png') }}" class="company-logo" alt="Company Logo">
         </a>
       </li>
     </ul>
@@ -16,51 +16,6 @@
     <ul class="navbar-nav ms-auto">
 
       <!--end::Navbar Search-->
-
-      <!--begin::Messages Dropdown Menu-->
-      <li class="nav-item dropdown d-none">
-        <a class="nav-link" data-bs-toggle="dropdown" href="#">
-          <i class="bi bi-chat-text"></i>
-          <span class="navbar-badge badge text-bg-danger">3</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-end">
-          <a href="#" class="dropdown-item">
-            <i class="bi bi-envelope me-2"></i> New Messages
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">See All Messages</a>
-        </div>
-      </li>
-      <!--end::Messages Dropdown Menu-->
-
-      <!--begin::Notifications Dropdown Menu-->
-      <li class="nav-item dropdown d-none">
-        <a class="nav-link" data-bs-toggle="dropdown" href="#">
-          <i class="bi bi-bell-fill"></i>
-          <span class="navbar-badge badge text-bg-warning">15</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-          <span class="dropdown-item dropdown-header">15 Notifications</span>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="bi bi-envelope me-2"></i> 4 new messages
-            <span class="float-end text-secondary fs-7">3 mins</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="bi bi-people-fill me-2"></i> 8 friend requests
-            <span class="float-end text-secondary fs-7">12 hours</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="bi bi-file-earmark-fill me-2"></i> 3 new reports
-            <span class="float-end text-secondary fs-7">2 days</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer"> See All Notifications </a>
-        </div>
-      </li>
-      <!--end::Notifications Dropdown Menu-->
 
       <!--begin::Language Selector-->
       @if(get_setting('enable_translation'))
@@ -72,10 +27,10 @@
                 <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="gap: 6px;">
                     @if($language === 'bn')
                         <span style="font-size: 18px;">🇧🇩</span>
-                        <span>বাংলা</span>
+                        <span class="hide-mobile">বাংলা</span>
                     @else
                         <span style="font-size: 18px;">🇺🇸</span>
-                        <span>English</span>
+                        <span class="hide-mobile">English</span>
                     @endif
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
@@ -105,12 +60,40 @@
       </li>
       <!--end::Fullscreen Toggle-->
 
-      <!--begin::User Menu Dropdown-->
-      <li class="nav-item dropdown user-menu">
-        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                <img class="user-image rounded-circle shadow" src="{{ asset('front/img/funny-face1.jpeg') }}">
-          <span class="d-none d-md-inline user-name">Guest</span>
-        </a>
+        @php
+            $animals = [
+                ['name' => 'Happy Panda', 'emoji' => '🐼'],
+                ['name' => 'Sneaky Fox', 'emoji' => '🦊'],
+                ['name' => 'Witty Owl', 'emoji' => '🦉'],
+                ['name' => 'Cheeky Monkey', 'emoji' => '🐒'],
+                ['name' => 'Bouncy Bunny', 'emoji' => '🐇'],
+                ['name' => 'Curious Cat', 'emoji' => '🐱'],
+                ['name' => 'Sly Raccoon', 'emoji' => '🦝'],
+                ['name' => 'Jolly Dolphin', 'emoji' => '🐬'],
+                ['name' => 'Mischief Mouse', 'emoji' => '🐭'],
+                ['name' => 'Playful Penguin', 'emoji' => '🐧'],
+                ['name' => 'Chirpy Sparrow', 'emoji' => '🐦'],
+                ['name' => 'Brave Bear', 'emoji' => '🐻'],
+                ['name' => 'Daring Duck', 'emoji' => '🦆'],
+                ['name' => 'Funky Frog', 'emoji' => '🐸'],
+            ];
+
+            // Pick random if session not set
+            $animal = session('user_animal') ?? $animals[array_rand($animals)];
+
+            // Save to session so it stays the same for user
+            if (!session()->has('user_animal')) {
+                session(['user_animal' => $animal]);
+            }
+        @endphp
+
+
+      <li class="nav-item dropdown user-menu d-inline-flex" >
+          <span class="" style="font-size:25px;font-family: cursive; height: 1rem; width: 1rem; margin-right:2px">{{ $animal['emoji'] }}</span>
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" style="vertical-align: middle !important">
+                    {{-- <img class="user-image rounded-circle shadow" src="{{ asset('front/img/smile_face.jpg') }}"> --}}
+                <span class="d-none d-md-inline user-name">{{ session('user_name') ?? $animal['name'] }}</span>
+            </a>
       </li>
       <!--end::User Menu Dropdown-->
     </ul>
@@ -124,9 +107,21 @@
     .company-logo {
         height: 34px;
         width: auto;
-        margin-top: -6.51px !important;
-        filter: drop-shadow(rgb(255, 255, 255) 2px 3px 8px);
+        margin-top: -6.5px;
+        /* Stronger, deeper white drop shadow */
+        filter:
+            drop-shadow(0 0 8px white)
+            drop-shadow(0 0 12px white)
+            drop-shadow(0 0 16px white);
+        padding: 2px;
+        border-radius: 6px;
     }
+
+    .guest-header{
+        background: #2c7ac6 !important;
+    }
+
+
     .fullscreen-toggle i{
         margin-top: -1.1px !important;
     }
@@ -141,6 +136,19 @@
     .user-name{
         margin-top: -1px !important;
     }
+
+
+
+    @media (max-width: 767px) {
+        .hide-mobile {
+            display: none !important;
+        }
+        .container-fluid{
+            padding: 0  ;
+        }
+    }
+
+
 </style>
 
 

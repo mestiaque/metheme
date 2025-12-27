@@ -2,7 +2,7 @@
 
 return [
     [
-        'title' => 'Dashboard-Encodex',
+        'title' => 'Dashboard-ME',
         'icon'  => 'fas fa-tachometer-alt',
         'route' => 'encodex.dashboard',
         'icon_color' => 'text-encodex-secondary',
@@ -10,7 +10,7 @@ return [
     ],
 
     [
-        'title'    => 'User Management-Encodex',
+        'title'    => 'User Management-ME',
         'icon'     => 'fas fa-users-cog',
         'icon_color' => 'text-success',
         'children' => [
@@ -32,7 +32,7 @@ return [
     ],
 
     [
-        'title'    => 'Admin-Encodex',
+        'title'    => 'Admin-ME',
         'icon'     => 'fas fa-cog',
         'icon_color' => 'text-danger',
         'children' => [

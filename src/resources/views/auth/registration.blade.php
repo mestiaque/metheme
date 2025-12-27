@@ -1,24 +1,18 @@
 @extends('me::blank')
-@section('title', 'Login')
-@section('meta-title', 'Login - ' . config('app.name'))
+@section('title', '403 Forbidden')
+@section('meta-title', '403 Forbidden')
 @section('content')
     <div class="login-card">
         <div class="login-form">
             <div class="login-header">
                 <div class="login-avatar">
-                    {{-- <i class="fas fa-user"></i> --}}
-                    <img loading="lazy" src="{{ asset('assets/img/favicon/Encodex.ico') }}" class="brand-image opacity-75 shadow " style="width: 100%" alt="ENcodeX">
+                    <img loading="lazy" src="{{ asset('assets/img/favicon/Encodex.ico') }}" class="brand-image opacity-75 shadow" style="width: 100%" alt="ENcodeX">
                 </div>
-                <h1 class="login-title text-shadow">{{ __('WELCOME') }}</h1>
-                <p style="text-align: center; color:#ffffff7a" class="text-shadow">{{ __('Enter your username and password to log in.') }}</p>
+                <h1 class="login-title text-shadow">{{ __('REGISTER') }}</h1>
+                <p style="text-align: center; color:#ffffff7a" class="text-shadow">{{ __('Create your account to get started.') }}</p>
             </div>
 
-            @if (session('status'))
-                <div class="alert alert-success mb-4">
-                    {{ session('status') }}
-                </div>
-            @endif
-
+            <!-- Error/Status Messages -->
             @if ($errors->any())
                 <div class="alert alert-danger mb-4">
                     @foreach ($errors->all() as $error)
@@ -27,14 +21,22 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('login') }}">
+            <form method="POST" action="{{ route('register') }}">
                 @csrf
-                <div class="form-group ">
-                    <label class="text-shadow" for="email">{{ __('EMAIL') }}</label>
-                    <input type="email" class="form-control text-shadow box-shadow" id="email" name="email"
-                        value="{{ old('email') }}" spellcheck="false" required autofocus>
+                
+                <!-- Name Field -->
+                <div class="form-group">
+                    <label class="text-shadow" for="name">{{ __('FULL NAME') }}</label>
+                    <input type="text" class="form-control text-shadow box-shadow" id="name" name="name" value="{{ old('name') }}" required autofocus>
                 </div>
 
+                <!-- Email Field -->
+                <div class="form-group">
+                    <label class="text-shadow" for="email">{{ __('EMAIL ADDRESS') }}</label>
+                    <input type="email" class="form-control text-shadow box-shadow" id="email" name="email" value="{{ old('email') }}" required>
+                </div>
+
+                <!-- Password Field -->
                 <div class="form-group" style="position: relative;">
                     <label class="text-shadow" for="password">{{ __('PASSWORD') }}</label>
                     <input type="password" class="form-control text-shadow box-shadow" id="password" name="password" required>
@@ -43,21 +45,45 @@
                     </span>
                 </div>
 
-
-                <div class="remember-me">
-                    <label class="custom-checkbox text-shadow ">
-                        <input type="checkbox" class="box-shadow" id="remember_me" name="remember">
-                        <span class="box-shadow"></span>
-                        {{ __('Remember Me') }}
-                    </label>
+                <!-- OTP Field (6 Digit & Mobile Auto-fill ready) -->
+                <div class="form-group">
+                    <label class="text-shadow" for="otp">{{ __('6-DIGIT OTP') }}</label>
+                    <input type="text" 
+                        class="form-control text-shadow box-shadow text-center" 
+                        style="letter-spacing: 10px; font-size: 20px; font-weight: bold;" 
+                        id="otp" name="otp" 
+                        maxlength="6" 
+                        pattern="\d{6}" 
+                        inputmode="numeric" 
+                        autocomplete="one-time-code" 
+                        placeholder="000000" 
+                        required>
+                    <small style="color:#ffffff7a">{{ __('Enter the code sent to your email/mobile') }}</small>
                 </div>
 
-
-                <button type="submit" class="btn-login btn btn-blank box-shadow">
-                    {{ __('LOGIN') }}
+                <button type="submit" class="btn-login btn btn-blank box-shadow mt-3">
+                    {{ __('REGISTER NOW') }}
                 </button>
+
+                <!-- Divider -->
+                <div class="text-center my-4" style="color: #ffffff7a; position: relative;">
+                    <hr style="border-color: #ffffff26;">
+                    <span style="position: absolute; top: -12px; background: #222; padding: 0 15px; left: 50%; transform: translateX(-50%);">{{ __('OR') }}</span>
+                </div>
+
+                <!-- Google Login Button -->
+                <a href="{{ url('auth/google') }}" class="btn btn-blank box-shadow w-100 mb-3" style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                    <i class="fab fa-google"></i> {{ __('Continue with Google') }}
+                </a>
+
+                <div class="text-center mt-3">
+                    <p style="color:#ffffff7a" class="text-shadow">
+                        {{ __('Already have an account?') }} <a href="{{ route('login') }}" style="color: #fff; text-decoration: underline;">{{ __('Login') }}</a>
+                    </p>
+                </div>
             </form>
         </div>
+
     </div>
 
 

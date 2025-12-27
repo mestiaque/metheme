@@ -1,9 +1,9 @@
-@extends('metheme::master')
+@extends('me::master')
 
 @section('title', trans('Edit Role'))
 
 @push('buttons')
-  @component('metheme::components.btn.add-button', [
+  @component('me::components.btn.add-button', [
       'route' => route('encodex.roles.index'),
       'text' => __('All Roles'),
       'class' => 'btn-encodex-list'

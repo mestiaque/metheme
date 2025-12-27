@@ -24,13 +24,13 @@ class UserController extends Controller
     public function index()
     {
         $users = User::with('roles')->latest()->paginate(get_setting('pagination', 10));
-        return view('metheme::users.index', compact('users'));
+        return view('me::users.index', compact('users'));
     }
 
     public function create()
     {
         $roles = Role::all();
-        return view('metheme::users.create', compact('roles'));
+        return view('me::users.create', compact('roles'));
     }
 
     public function store(Request $request)
@@ -81,14 +81,14 @@ class UserController extends Controller
     public function show(User $user)
     {
         $user->load('roles');
-        return view('metheme::users.show', compact('user'));
+        return view('me::users.show', compact('user'));
     }
 
     public function edit(User $user)
     {
         $roles = Role::all();
         $userRoles = $user->roles->pluck('id')->toArray();
-        return view('metheme::users.edit', compact('user', 'roles', 'userRoles'));
+        return view('me::users.edit', compact('user', 'roles', 'userRoles'));
     }
 
     public function update(Request $request, $id)

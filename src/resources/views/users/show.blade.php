@@ -1,9 +1,9 @@
-@extends('metheme::master')
+@extends('me::master')
 
 @section('title', trans('User Details'))
 
 @push('buttons')
-  @component('metheme::components.btn.add-button', [
+  @component('me::components.btn.add-button', [
       'route' => route('encodex.users.index'),
       'text' => __('All Users'),
       'class' => 'btn-encodex-list'

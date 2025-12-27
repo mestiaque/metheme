@@ -15,7 +15,7 @@ class ProfileController extends Controller
 {
     public function edit(Request $request): View
     {
-        return view('metheme::profile.edit', [
+        return view('me::profile.edit', [
             'user' => $request->user(),
         ]);
     }

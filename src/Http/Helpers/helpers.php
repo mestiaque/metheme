@@ -1,5 +1,7 @@
 <?php
 
+use Encodex\Metheme\Models\Setting;
+
 if (!function_exists('get_setting')) {
     /**
      * Get a setting value by key
@@ -10,7 +12,27 @@ if (!function_exists('get_setting')) {
      */
     function get_setting($key, $default = null)
     {
-        return Encodex\Metheme\Models\Setting::get($key, $default);
+        return Setting::get($key, $default);
+    }
+}
+
+if (!function_exists('get_image')) {
+    /**
+     * Get the full URL of a stored image by key
+     *
+     * @param string $key   // example: 'app_ico', 'app_logo', 'profile_image', 'signature_image'
+     * @param string|null $default   // optional default image if setting is empty
+     * @return string
+     */
+    function get_image($key, $default = null)
+    {
+        $filename = Setting::get($key);
+
+        if (!$filename) {
+            return $default ? asset($default) : null;
+        }
+
+        return asset("storage/images/{$key}/{$filename}");
     }
 }
 

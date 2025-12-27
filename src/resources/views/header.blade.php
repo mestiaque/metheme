@@ -9,11 +9,10 @@
           <i class="bi bi-list"></i>
         </a>
       </li>
-      <li class="nav-item d-none d-md-block">
-        @php $url = get_setting('root_url') ?: '/'; @endphp
-
-        <a href="{{ $url }}" class="nav-link">
-          <img src="{{ asset('assets/img/default-img/Encodex_c.png') }}" class="company-logo" alt="Company Logo">
+      <li class="nav-item d-nonex d-md-block">
+        <a href="{{ route('admin.dashboard') }}" class="nav-link">
+          {{-- <img loading="lazy" src="{{ asset('assets/img/default-img/Encodex_c.png') }}" class="company-logo" alt="Company Logo"> --}}
+          <img loading="lazy" src="{{ get_image('app_logo') ?? asset('assets/img/default-img/Encodex_c.png') }}" class="company-logo" alt="Company Logo">
         </a>
       </li>
     </ul>
@@ -79,10 +78,10 @@
                 <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="gap: 6px;">
                     @if($language === 'bn')
                         <span style="font-size: 18px;">🇧🇩</span>
-                        <span>বাংলা</span>
+                        <span class="hide-mobile">বাংলা</span>
                     @else
                         <span style="font-size: 18px;">🇺🇸</span>
-                        <span>English</span>
+                        <span class="hide-mobile">English</span>
                     @endif
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
@@ -131,22 +130,19 @@
         </a>
         <ul class="dropdown-menu dropdown-menu-end">
           <li class="py-1">
-            @php $profile_url = get_setting('profile_url') ?: route('encodex.profile.edit'); @endphp
-            <a class="dropdown-item" href="{{ $profile_url }}">
+            <a class="dropdown-item" href="{{ route('admin.profile.edit') }}">
               <i class="bi bi-person me-2"></i> @lang("Profile")
             </a>
           </li>
           @can('setting.edit')
           <li class="py-1">
-            @php $setting_url = get_setting('setting_url') ?: route('encodex.settings.edit'); @endphp
-            <a class="dropdown-item" href="{{ $setting_url }}">
+            <a class="dropdown-item" href="{{ route('admin.settings.edit') }}">
               <i class="bi bi-gear me-2"></i> @lang("Settings")
             </a>
           </li>
           @endcan
           <li><hr class="dropdown-divider"></li>
           <li class="pb-1">
-            @php $logout_url = get_setting('logout_url') ?: route('logout'); @endphp
             <form method="POST" action="{{ route('logout') }}">
               @csrf
               <button type="submit" class="dropdown-item">
@@ -187,5 +183,26 @@
     }
 </style>
 
+<style>
+    .company-logo {
+        /* filter:
+            drop-shadow(0 0 8px white)
+            drop-shadow(0 0 12px white)
+            drop-shadow(0 0 16px white); */
+        padding: 2px;
+        border-radius: 6px;
+    }
+
+    @media (max-width: 767px) {
+        .hide-mobile {
+            display: none !important;
+        }
+        .container-fluid{
+            padding: 0  ;
+        }
+    }
+
+
+</style>
 
 

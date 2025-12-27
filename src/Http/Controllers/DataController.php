@@ -16,12 +16,12 @@ class DataController extends Controller
 
     public function index()
     {
-        return view('metheme::dashboard');
+        return view('me::dashboard');
     }
 
     public function clearDataForm()
     {
-        return view('metheme::settings.clear');
+        return view('me::settings.clear');
     }
 
     public function clearData(Request $request)

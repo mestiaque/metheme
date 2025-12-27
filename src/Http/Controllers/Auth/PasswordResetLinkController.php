@@ -15,7 +15,7 @@ class PasswordResetLinkController extends Controller
      */
     public function create(): View
     {
-        return view('metheme::auth.forgot-password');
+        return view('me::auth.forgot-password');
     }
 
     /**
