@@ -4,7 +4,7 @@
 
 @push('buttons')
   @component('me::components.btn.add-button', [
-      'route' => route('encodex.roles.index'),
+      'route' => route('me.roles.index'),
       'text' => __('All Roles'),
       'class' => 'btn-encodex-list'
   ])
@@ -15,7 +15,7 @@
 <div class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-body">
-            <form action="{{ route('encodex.roles.store') }}" method="POST">
+            <form action="{{ route('me.roles.store') }}" method="POST">
                 @csrf
 
                 <div class="row">

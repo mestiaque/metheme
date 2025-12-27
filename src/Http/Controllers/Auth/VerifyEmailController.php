@@ -1,6 +1,6 @@
 <?php
 
-namespace Encodex\Metheme\Http\Controllers\Auth;
+namespace ME\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Verified;

@@ -3,7 +3,7 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('encodex.profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
+    <form method="post" action="{{ route('me.profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
         @csrf
         @method('patch')
 

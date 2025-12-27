@@ -1,6 +1,6 @@
 <?php
 
-namespace Encodex\Metheme\Models;
+namespace ME\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

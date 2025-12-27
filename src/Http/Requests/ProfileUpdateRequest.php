@@ -1,9 +1,9 @@
 <?php
 
-namespace Encodex\Metheme\Http\Requests;
+namespace ME\Http\Requests;
 
 use Illuminate\Validation\Rule;
-use Encodex\Metheme\Models\User;
+use ME\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProfileUpdateRequest extends FormRequest

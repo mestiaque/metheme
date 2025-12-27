@@ -4,7 +4,7 @@
 
 @push('buttons')
   @component('me::components.btn.add-button', [
-      'route' => route('encodex.users.index'),
+      'route' => route('me.users.index'),
       'text' => __('All Users'),
       'class' => 'btn-encodex-list'
   ])
@@ -15,7 +15,7 @@
 <div class="container-fluids">
     <div class="card shadow mb-4">
         <div class="card-body">
-            <form action="{{ route('encodex.users.store') }}" method="POST" autocomplete="off" enctype="multipart/form-data">
+            <form action="{{ route('me.users.store') }}" method="POST" autocomplete="off" enctype="multipart/form-data">
                 @csrf
 
                 <div class="row">

@@ -1,11 +1,11 @@
 <?php
 
-namespace Encodex\Metheme;
+namespace ME;
 
 use Illuminate\Routing\Router;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
-use Encodex\Metheme\Http\Middleware\AuthorizationMiddleware;
+use ME\Http\Middleware\AuthorizationMiddleware;
 
 class MEServiceProvider extends ServiceProvider
 {
@@ -131,6 +131,6 @@ class MEServiceProvider extends ServiceProvider
 
     private function registerAuthProvider()
     {
-        $this->app->register(\Encodex\Metheme\Providers\AuthServiceProvider::class);
+        $this->app->register(\ME\Providers\AuthServiceProvider::class);
     }
 }

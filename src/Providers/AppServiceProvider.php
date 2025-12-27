@@ -1,6 +1,6 @@
 <?php
 
-namespace Encodex\Metheme\Providers;
+namespace ME\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Translation\FileLoader;

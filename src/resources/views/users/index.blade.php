@@ -4,7 +4,7 @@
 
 @push('buttons')
   @component('me::components.btn.add-button', [
-      'route' => route('encodex.users.create'),
+      'route' => route('me.users.create'),
       'text' => __('Add User'),
       'class' => 'btn-encodex-create'
   ])
@@ -64,14 +64,14 @@
                                 <td>{{ $user->created_at ? $user->created_at->format('d M Y') : __('N/A') }}</td>
                                 <td class="text-center">
                                     <div class="d-inline-flex align-items-center gap-1">
-                                        <a href="{{ route('encodex.users.show', $user->id) }}" class="btn btn-sm me-1 btn-encodex-show" title="@lang("View")">
+                                        <a href="{{ route('me.users.show', $user->id) }}" class="btn btn-sm me-1 btn-encodex-show" title="@lang("View")">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <a href="{{ route('encodex.users.edit', $user->id) }}" class="btn btn-sm me-1 btn-encodex-edit {{ $user->id === auth()->id() ? 'disabled-link' : '' }}" title="@lang("Edit")" >
+                                        <a href="{{ route('me.users.edit', $user->id) }}" class="btn btn-sm me-1 btn-encodex-edit {{ $user->id === auth()->id() ? 'disabled-link' : '' }}" title="@lang("Edit")" >
                                             <i class="fas fa-edit"></i>
                                         </a>
 
-                                        <form action="{{ route('encodex.users.toggle-active', $user->id) }}" method="POST" class="d-inline">
+                                        <form action="{{ route('me.users.toggle-active', $user->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('PATCH')
                                             <button type="submit" class="btn btn-sm me-1 {{ $user->is_active ? 'btn-encodex-deactive' : 'btn-encodex-active' }}"
@@ -81,7 +81,7 @@
                                             </button>
                                         </form>
 
-                                        <form action="{{ route('encodex.users.destroy', $user->id) }}" method="POST" class="d-inline">
+                                        <form action="{{ route('me.users.destroy', $user->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-encodex-delete" title="@lang("Delete")"

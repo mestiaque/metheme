@@ -5,9 +5,9 @@
     @php $url = get_setting('root_url') ?: '/'; @endphp
     <a href="{{ $url }}" class="brand-link">
       @if(get_setting('shop_logo'))
-        <img src="{{ route('shop_logo.show', get_setting('shop_logo')) }}" class="brand-image opacity-75 " alt="ENcodeX">
+        <img src="{{ route('shop_logo.show', get_setting('shop_logo')) }}" class="brand-image opacity-75 " alt="mESTIAQUE">
       @else
-        <img src="{{ asset('assets/img/default-img/Encodex_c.png') }}" class="brand-image opacity-75" alt="ENcodeX">
+        <img src="{{ asset('assets/img/default-img/Encodex_c.png') }}" class="brand-image opacity-75" alt="mESTIAQUE">
       @endif
       {{-- <span class="brand-text hide-mobile fw-light">{{ get_setting('shop_name', 'ENCODEX') }}</span> --}}
     </a>
@@ -23,7 +23,7 @@
         data-accordion="false"
         id="navigation"
       >
-        <li class="company-text-sidebar">{{ get_setting('shop_name', 'ENCODEX') }}</li>
+        <li class="company-text-sidebar">{{ get_setting('shop_name', 'mESTIAQUE') }}</li>
         @foreach(config('sidebar') as $item)
           @if(isset($item['header']))
             <li class="nav-header">

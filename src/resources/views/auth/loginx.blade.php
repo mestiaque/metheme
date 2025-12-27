@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'EncodeX') }} - @lang("Login")</title>
+    <title>{{ config('app.name', 'mESTIAQUE') }} - @lang("Login")</title>
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:400,500,600,700&display=swap">
@@ -336,7 +336,7 @@
                 <div class="login-header">
                     <div class="login-avatar">
                         {{-- <i class="fas fa-user"></i> --}}
-                        <img src="{{ asset('assets/img/favicon/Encodex.ico') }}" class="brand-image opacity-75 shadow " style="width: 100%" alt="ENcodeX">
+                        <img src="{{ asset('assets/img/favicon/Encodex.ico') }}" class="brand-image opacity-75 shadow " style="width: 100%" alt="mESTIAQUE">
                     </div>
                     <h1 class="login-title text-shadow">{{ __('WELCOME') }}</h1>
                     <p style="text-align: center;" class="text-shadow">{{ __('Enter your username and password to log in.') }}</p>

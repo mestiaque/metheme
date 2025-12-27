@@ -49,7 +49,7 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('encodex.data.clear') }}" onsubmit="return confirmClear()">
+                    <form method="POST" action="{{ route('me.data.clear') }}" onsubmit="return confirmClear()">
                         @csrf
 
                         <div class="form-group">

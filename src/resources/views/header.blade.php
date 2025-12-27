@@ -10,7 +10,7 @@
         </a>
       </li>
       <li class="nav-item d-nonex d-md-block">
-        <a href="{{ route('admin.dashboard') }}" class="nav-link">
+        <a href="{{ Route::has('admin.dashboard') ? route('admin.dashboard') : route('me.dashboard') }}" class="nav-link">
           {{-- <img loading="lazy" src="{{ asset('assets/img/default-img/Encodex_c.png') }}" class="company-logo" alt="Company Logo"> --}}
           <img loading="lazy" src="{{ get_image('app_logo') ?? asset('assets/img/default-img/Encodex_c.png') }}" class="company-logo" alt="Company Logo">
         </a>
@@ -126,17 +126,17 @@
                 <img class="user-image rounded-circle shadow"
                     src="{{ asset('backend/img/undraw_profile.svg') }}">
             @endif
-          <span class="d-none d-md-inline user-name">{{ Auth::user()->name ?? 'EncodeX' }}</span>
+          <span class="d-none d-md-inline user-name">{{ Auth::user()->name ?? 'mESTIAQUE' }}</span>
         </a>
         <ul class="dropdown-menu dropdown-menu-end">
           <li class="py-1">
-            <a class="dropdown-item" href="{{ route('admin.profile.edit') }}">
+            <a class="dropdown-item" href="{{ Route::has('admin.profile.edit') ? route('admin.profile.edit') : route('me.profile.edit') }}">
               <i class="bi bi-person me-2"></i> @lang("Profile")
             </a>
           </li>
           @can('setting.edit')
           <li class="py-1">
-            <a class="dropdown-item" href="{{ route('admin.settings.edit') }}">
+            <a class="dropdown-item" href="{{ Route::has('admin.settings.edit') ? route('admin.settings.edit') : route('me.settings.edit') }}">
               <i class="bi bi-gear me-2"></i> @lang("Settings")
             </a>
           </li>

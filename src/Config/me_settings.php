@@ -26,7 +26,7 @@ return [
     |--------------------------------------------------------------------------
     | আপনার প্রজেক্টের সাথে সম্পর্কিত কি-ওয়ার্ডগুলো এখানে কমা দিয়ে লিখুন।
     */
-    'meta_keywords' => env('ME_META_KEYWORDS', 'M. Estiaque Ahmed Khan, Admin Dashboard, Laravel Package, Encodex, PHP Developer, Full-Stack Developer, Web Panel'),
+    'meta_keywords' => env('ME_META_KEYWORDS', 'M. Estiaque Ahmed Khan, Admin Dashboard, Laravel Package, ESTIAQUE, PHP Developer, Full-Stack Developer, Web Panel'),
 
     /*
     |--------------------------------------------------------------------------

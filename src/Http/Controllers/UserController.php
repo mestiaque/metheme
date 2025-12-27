@@ -1,24 +1,24 @@
 <?php
 
-namespace Encodex\Metheme\Http\Controllers;
+namespace ME\Http\Controllers;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Encodex\Metheme\Models\Role;
-use Encodex\Metheme\Models\User;
+use ME\Models\Role;
+use ME\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Encodex\Metheme\Http\Controllers\Controller;
-use Encodex\Metheme\Http\Middleware\AuthorizationMiddleware;
+use ME\Http\Controllers\Controller;
+use ME\Http\Middleware\AuthorizationMiddleware;
 
 class UserController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('authorization:encodex_user.view')->only(['index', 'show']);
-        $this->middleware('authorization:encodex_user.create')->only(['create', 'store']);
-        $this->middleware('authorization:encodex_user.edit')->only(['edit', 'update', 'toggleActive']);
-        $this->middleware('authorization:encodex_user.delete')->only('destroy');
+        $this->middleware('authorization:me_user.view')->only(['index', 'show']);
+        $this->middleware('authorization:me_user.create')->only(['create', 'store']);
+        $this->middleware('authorization:me_user.edit')->only(['edit', 'update', 'toggleActive']);
+        $this->middleware('authorization:me_user.delete')->only('destroy');
     }
 
     public function index()
@@ -75,7 +75,7 @@ class UserController extends Controller
             $user->roles()->sync([$request->role]);
         }
 
-        return redirect()->route('encodex.users.index')->with('success', __('User created successfully'));
+        return redirect()->route('me.users.index')->with('success', __('User created successfully'));
     }
 
     public function show(User $user)
@@ -149,14 +149,14 @@ class UserController extends Controller
             $user->roles()->detach();
         }
 
-        return redirect()->route('encodex.users.index')->with('success', __('User updated successfully'));
+        return redirect()->route('me.users.index')->with('success', __('User updated successfully'));
     }
 
     public function toggleActive(User $user)
     {
         // Prevent deactivating your own account
         if ($user->id === auth()->id()) {
-            return redirect()->route('encodex.users.index')
+            return redirect()->route('me.users.index')
                 ->with('error', 'You cannot deactivate your own account');
         }
 
@@ -164,7 +164,7 @@ class UserController extends Controller
         $user->save();
 
         $status = $user->is_active ? 'activated' : 'deactivated';
-        return redirect()->route('encodex.users.index')
+        return redirect()->route('me.users.index')
             ->with('success', "User {$status} successfully");
     }
 
@@ -172,13 +172,13 @@ class UserController extends Controller
     {
         // Prevent deleting yourself
         if ($user->id === auth()->id()) {
-            return redirect()->route('encodex.users.index')
+            return redirect()->route('me.users.index')
                 ->with('error', 'You cannot delete your own account');
         }
 
         $user->delete();
 
-        return redirect()->route('encodex.users.index')
+        return redirect()->route('me.users.index')
             ->with('success', 'User deleted successfully');
     }
 }

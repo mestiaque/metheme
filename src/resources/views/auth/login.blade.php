@@ -7,7 +7,7 @@
             <div class="login-header">
                 <div class="login-avatar">
                     {{-- <i class="fas fa-user"></i> --}}
-                    <img loading="lazy" src="{{ asset('assets/img/favicon/Encodex.ico') }}" class="brand-image opacity-75 shadow " style="width: 100%" alt="ENcodeX">
+                    <img loading="lazy" src="{{ asset('assets/img/favicon/Encodex.ico') }}" class="brand-image opacity-75 shadow " style="width: 100%" alt="mESTIAQUE">
                 </div>
                 <h1 class="login-title text-shadow">{{ __('WELCOME') }}</h1>
                 <p style="text-align: center; color:#ffffff7a" class="text-shadow">{{ __('Enter your username and password to log in.') }}</p>

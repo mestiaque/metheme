@@ -1,8 +1,8 @@
 <?php
 
-namespace Encodex\Metheme\Traits;
+namespace ME\Traits;
 
-use Encodex\Metheme\Helpers\PermissionHelper;
+use ME\Helpers\PermissionHelper;
 
 trait HasPermissions
 {

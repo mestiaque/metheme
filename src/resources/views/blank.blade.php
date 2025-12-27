@@ -9,7 +9,7 @@
     <meta name="title" content="@yield('meta-title', 'M. ESTIAQUE')" />
     <meta name="author" content="@yield('meta-author', config('app.name', 'ESTIAQUE'))" />
     <meta name="description" content="@yield('meta-description', 'M. Estiaque Ahmed Khan is a skilled Software Engineer and Full-Stack Web Developer specializing in PHP, Laravel, and modern web technologies. Based in Dhaka, Bangladesh, he creates high-quality web applications and innovative solutions.')" />
-    <meta name="keywords" content="@yield('meta-keywords', 'Estiaque, Web Developer, Encodex')" />
+    <meta name="keywords" content="@yield('meta-keywords', 'Estiaque, Web Developer, MESTIAQUE')" />
     <link rel="icon" href="{{ get_image('app_ico') ?? asset('assets/img/favicon/Encodex.ico') }}" type="image/x-icon">
     <!--end::Primary Meta Tags-->
 

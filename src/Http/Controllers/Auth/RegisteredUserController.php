@@ -1,10 +1,10 @@
 <?php
 
-namespace Encodex\Metheme\Http\Controllers\Auth;
+namespace ME\Http\Controllers\Auth;
 
 use Illuminate\View\View;
 use Illuminate\Http\Request;
-use Encodex\Metheme\Models\User;
+use ME\Models\User;
 use Illuminate\Validation\Rules;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;

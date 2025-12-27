@@ -1,10 +1,10 @@
 <?php
 
-namespace Encodex\Metheme\Models;
+namespace ME\Models;
 
-use Encodex\Metheme\Models\Role;
+use ME\Models\Role;
 use Illuminate\Notifications\Notifiable;
-use Encodex\Metheme\Models\RolePermission;
+use ME\Models\RolePermission;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 

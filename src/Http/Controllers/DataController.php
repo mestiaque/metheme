@@ -1,17 +1,17 @@
 <?php
 
-namespace Encodex\Metheme\Http\Controllers;
+namespace ME\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Encodex\Metheme\Http\Controllers\Controller;
+use ME\Http\Controllers\Controller;
 
 class DataController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('authorization:encodex.clearData')->only(['clearData', 'clearDataForm']);
-        $this->middleware('authorization:encodex.dashboard')->only(['index']);
+        $this->middleware('authorization:me.clearData')->only(['clearData', 'clearDataForm']);
+        $this->middleware('authorization:me.dashboard')->only(['index']);
     }
 
     public function index()

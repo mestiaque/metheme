@@ -4,7 +4,7 @@
 
 @push('buttons')
   @component('me::components.btn.add-button', [
-      'route' => route('encodex.roles.index'),
+      'route' => route('me.roles.index'),
       'text' => __('All Roles'),
       'class' => 'btn-encodex-list'
   ])

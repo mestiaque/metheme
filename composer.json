@@ -1,24 +1,24 @@
 {
-    "name": "encodex/metheme",
-    "description": "Metheme module for Laravel (by Encodex)",
+    "name": "mestiaque/metheme",
+    "description": "Metheme module for Laravel (by M. Estiaque)",
     "type": "library",
-    "keywords": ["Laravel", "Metheme", "Encodex"],
+    "keywords": ["Laravel", "Metheme", "Estiaque"],
     "authors": [
         {
-            "name": "Encodex",
-            "email": "info@encodex.com",
-            "homepage": "https://encodex.com"
+            "name": "M. Estiaque",
+            "email": "info@mestiaque.com",
+            "homepage": "https://mestiaque.com"
         }
     ],
     "autoload": {
         "psr-4": {
-            "Encodex\\Metheme\\": "src/"
+            "ME\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Encodex\\Metheme\\MEServiceProvider"
+                "ME\\MEServiceProvider"
             ]
         }
     },

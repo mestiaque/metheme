@@ -1,8 +1,8 @@
 <?php
 
-namespace Encodex\Metheme\Providers;
+namespace ME\Providers;
 
-use Encodex\Metheme\Models\User;
+use ME\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Container\Attributes\Log;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;

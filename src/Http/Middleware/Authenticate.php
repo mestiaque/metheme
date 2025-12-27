@@ -1,6 +1,6 @@
 <?php
 
-namespace Encodex\Metheme\Http\Middleware;
+namespace ME\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Http\Request;

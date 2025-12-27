@@ -6,7 +6,7 @@
 <div class="container-fluids">
     <div class="card shadow mb-4 w-100">
         <div class="card-body">
-            <form method="POST" action="{{ route('encodex.settings.update') }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('me.settings.update') }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 

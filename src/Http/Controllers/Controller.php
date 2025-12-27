@@ -1,6 +1,6 @@
 <?php
 
-namespace Encodex\Metheme\Http\Controllers;
+namespace ME\Http\Controllers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;

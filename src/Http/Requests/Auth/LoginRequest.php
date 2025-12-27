@@ -1,9 +1,9 @@
 <?php
 
-namespace Encodex\Metheme\Http\Requests\Auth;
+namespace ME\Http\Requests\Auth;
 
 use Illuminate\Support\Str;
-use Encodex\Metheme\Models\User;
+use ME\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;

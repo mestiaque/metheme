@@ -1,6 +1,6 @@
 <?php
 
-namespace Encodex\Metheme\Helpers;
+namespace ME\Helpers;
 
 class PermissionHelper
 {

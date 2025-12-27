@@ -1,6 +1,6 @@
 <?php
 
-namespace Encodex\Metheme\Http\Controllers;
+namespace ME\Http\Controllers;
 
 use Illuminate\View\View;
 use Illuminate\Support\Str;
@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
-use Encodex\Metheme\Http\Requests\ProfileUpdateRequest;
+use ME\Http\Requests\ProfileUpdateRequest;
 
 class ProfileController extends Controller
 {
@@ -56,9 +56,9 @@ class ProfileController extends Controller
 
             $request->user()->save();
 
-            return Redirect::route('encodex.profile.edit')->with('success', __('Profile updated'));
+            return Redirect::route('me.profile.edit')->with('success', __('Profile updated'));
         } catch (\Exception $e) {
-            return redirect()->route('encodex.profile.edit')->withErrors($e->getMessage())->withInput();
+            return redirect()->route('me.profile.edit')->withErrors($e->getMessage())->withInput();
         }
     }
 

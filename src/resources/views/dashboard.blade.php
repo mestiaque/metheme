@@ -7,10 +7,10 @@
 
     <div style="max-width:800px; width:100%; text-align:left;">
         <p style="font-size:clamp(14px, 2vw, 20px); margin:0; color:#00cc55;">
-            <span style="color:#888;">encodex@server</span>:<span style="color:#0ff;">~</span>$ echo "ENCODEX"
+            <span style="color:#888;">me@server</span>:<span style="color:#0ff;">~</span>$ echo "M. ESTIAQUE"
         </p>
         <h1 style="font-size:clamp(36px, 8vw, 58px); margin:10px 0 0; color:#00ff66; letter-spacing: 0.5rem; font-weight: bold; word-break: break-word;">
-            ENCODEX<span class="cursor">█</span>
+            M. ESTIAQUE<span class="cursor">█</span>
         </h1>
         <p style="font-size:clamp(14px, 2vw, 18px); margin-top:10px; color:#ccc;">
             <span style="color:#00cc55;">→</span> Software Solution

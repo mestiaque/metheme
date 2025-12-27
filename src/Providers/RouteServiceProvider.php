@@ -1,6 +1,6 @@
 <?php
 
-namespace Encodex\Metheme\Providers;
+namespace ME\Providers;
 
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;

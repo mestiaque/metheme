@@ -1,6 +1,6 @@
 <?php
 
-use Encodex\Metheme\Models\Setting;
+use ME\Models\Setting;
 
 if (!function_exists('get_setting')) {
     /**

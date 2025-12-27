@@ -8,7 +8,7 @@ return [
     'not_enough_stock' => 'Not enough stock for :productName. Available: :currentStock, Requested: :requestedQty',
     "print" => "Print",
     "cash" => "Cash",
-    'mycopyright' => 'Copyright &copy; :year <a href="https://www.mestiaque.com" target="_blank" rel="noopener">ENcodeX</a>. All rights reserved.',
+    'mycopyright' => 'Copyright &copy; :year <a href="https://www.mestiaque.com" target="_blank" rel="noopener">M. ESTIAQUE</a>. All rights reserved.',
     'sales_label'   => 'Sales (TK.)',
     'sales_tooltip' => 'Sales: TK. :value',
 ];

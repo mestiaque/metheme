@@ -1,24 +1,24 @@
 <?php
 
-namespace Encodex\Metheme\Http\Controllers;
+namespace ME\Http\Controllers;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Encodex\Metheme\Models\Role;
+use ME\Models\Role;
 use Illuminate\Support\Collection;
-use Encodex\Metheme\Models\RolePermission;
-use Encodex\Metheme\Http\Controllers\Controller;
-use Encodex\Metheme\Http\Middleware\AuthorizationMiddleware;
+use ME\Models\RolePermission;
+use ME\Http\Controllers\Controller;
+use ME\Http\Middleware\AuthorizationMiddleware;
 
 class RoleController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('authorization:encodex_role.view')->only(['index', 'show']);
-        $this->middleware('authorization:encodex_role.create')->only(['create', 'store']);
-        $this->middleware('authorization:encodex_role.edit')->only(['edit', 'update']);
-        $this->middleware('authorization:encodex_role.delete')->only('destroy');
+        $this->middleware('authorization:me_role.view')->only(['index', 'show']);
+        $this->middleware('authorization:me_role.create')->only(['create', 'store']);
+        $this->middleware('authorization:me_role.edit')->only(['edit', 'update']);
+        $this->middleware('authorization:me_role.delete')->only('destroy');
     }
 
     public function index()
@@ -91,7 +91,7 @@ class RoleController extends Controller
             ]);
         }
 
-        return redirect()->route('encodex.roles.index')
+        return redirect()->route('me.roles.index')
             ->with('success', 'Role created successfully');
     }
 
@@ -150,7 +150,7 @@ class RoleController extends Controller
             ['permissions' => $selectedPermissions]
         );
 
-        return redirect()->route('encodex.roles.index')
+        return redirect()->route('me.roles.index')
             ->with('success', 'Role updated successfully');
     }
 
@@ -158,13 +158,13 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         if ($role->slug === 'super_admin') {
-            return redirect()->route('encodex.roles.index')
+            return redirect()->route('me.roles.index')
                 ->with('error', 'Cannot delete the Admin role');
         }
 
         $role->delete();
 
-        return redirect()->route('encodex.roles.index')
+        return redirect()->route('me.roles.index')
             ->with('success', 'Role deleted successfully');
     }
 }

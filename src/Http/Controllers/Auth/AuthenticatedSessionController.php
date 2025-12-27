@@ -1,14 +1,14 @@
 <?php
 
-namespace Encodex\Metheme\Http\Controllers\Auth;
+namespace ME\Http\Controllers\Auth;
 
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
-use Encodex\Metheme\Providers\RouteServiceProvider;
-use Encodex\Metheme\Http\Requests\Auth\LoginRequest;
+use ME\Providers\RouteServiceProvider;
+use ME\Http\Requests\Auth\LoginRequest;
 
 class AuthenticatedSessionController extends Controller
 {

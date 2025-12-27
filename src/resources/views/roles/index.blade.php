@@ -4,7 +4,7 @@
 
 @push('buttons')
   @component('me::components.btn.add-button', [
-      'route' => route('encodex.roles.create'),
+      'route' => route('me.roles.create'),
       'text' => __('Add Role'),
       'class' => 'btn-encodex-list'
   ])
@@ -39,14 +39,14 @@
                                 </td>
                                 <td class="text-center">
                                     <div class="d-inline-flex align-items-center gap-1">
-                                        <a href="{{ route('encodex.roles.show', $role->id) }}" class="btn btn-sm btn-encodex-show me-1" title="@lang("View")">
+                                        <a href="{{ route('me.roles.show', $role->id) }}" class="btn btn-sm btn-encodex-show me-1" title="@lang("View")">
                                             <i class="fas fa-eye"></i>
                                         </a>
                                         @if($role->slug !== 'super_admin')
-                                        <a href="{{ route('encodex.roles.edit', $role->id) }}" class="btn btn-sm btn-encodex-edit me-1" title="@lang("Edit")">
+                                        <a href="{{ route('me.roles.edit', $role->id) }}" class="btn btn-sm btn-encodex-edit me-1" title="@lang("Edit")">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <form action="{{ route('encodex.roles.destroy', $role->id) }}" method="POST" class="d-inline">
+                                        <form action="{{ route('me.roles.destroy', $role->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-encodex-delete" title="@lang("Delete")"

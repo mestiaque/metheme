@@ -1,18 +1,18 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Encodex\Metheme\Http\Controllers\DataController;
-use Encodex\Metheme\Http\Controllers\RoleController;
-use Encodex\Metheme\Http\Controllers\UserController;
-use Encodex\Metheme\Http\Middleware\LocaleMiddleware;
-use Encodex\Metheme\Http\Controllers\ProfileController;
-use Encodex\Metheme\Http\Controllers\SettingController;
+use ME\Http\Controllers\DataController;
+use ME\Http\Controllers\RoleController;
+use ME\Http\Controllers\UserController;
+use ME\Http\Middleware\LocaleMiddleware;
+use ME\Http\Controllers\ProfileController;
+use ME\Http\Controllers\SettingController;
 
 Route::middleware([LocaleMiddleware::class])->group(function () {
     Route::get('/language/{locale?}', [DataController::class, 'changeLocale'])->name('language.change');
 });
 
-Route::group(['prefix' => 'encodex', 'as' => 'encodex.', 'middleware' => ['web', 'auth', LocaleMiddleware::class]], function () {
+Route::group(['prefix' => 'me', 'as' => 'me.', 'middleware' => ['web', 'auth', LocaleMiddleware::class]], function () {
     Route::get('/', [DataController::class, 'index'])->name('dashboard');
 
     Route::get('/settings', [SettingController::class, 'edit'])->name('settings.edit');

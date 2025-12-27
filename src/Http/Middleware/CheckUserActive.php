@@ -1,6 +1,6 @@
 <?php
 
-namespace Encodex\Metheme\Http\Middleware;
+namespace ME\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;

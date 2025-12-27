@@ -106,8 +106,8 @@ return new class extends Migration
         ]);
 
         DB::table('users')->insert([
-            'name' => 'ENCODEX',
-            'email' => 'admin@encodex.com',
+            'name' => 'ESTIAQUE',
+            'email' => 'admin@mestiaque.com',
             'password' => Hash::make('encodex@1234'),
             'phone' => '01796009656',
             'is_active' => 1,

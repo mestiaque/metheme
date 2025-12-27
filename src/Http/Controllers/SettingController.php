@@ -1,18 +1,18 @@
 <?php
 
-namespace Encodex\Metheme\Http\Controllers;
+namespace ME\Http\Controllers;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Encodex\Metheme\Models\Setting;
+use ME\Models\Setting;
 use Illuminate\Support\Facades\Storage;
-use Encodex\Metheme\Http\Controllers\Controller;
+use ME\Http\Controllers\Controller;
 
 class SettingController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('authorization:encodex_setting.configurations')
+        $this->middleware('authorization:me_setting.configurations')
             ->only(['editConfigurations', 'updateConfigurations']);
     }
 
@@ -52,7 +52,7 @@ class SettingController extends Controller
         Setting::set('logout_url', $request->logout_url);
         Setting::set('login_url', $request->login_url);
 
-        return redirect()->route('encodex.configurations.edit')
+        return redirect()->route('me.configurations.edit')
             ->with('success', 'Configurations updated successfully.');
     }
 }

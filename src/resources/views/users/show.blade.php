@@ -4,7 +4,7 @@
 
 @push('buttons')
   @component('me::components.btn.add-button', [
-      'route' => route('encodex.users.index'),
+      'route' => route('me.users.index'),
       'text' => __('All Users'),
       'class' => 'btn-encodex-list'
   ])
