@@ -53,6 +53,72 @@
                         </div>
                     </div>
 
+                    {{-- Company Logo Settings --}}
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-header bg-light py-2">
+                                <h6 class="mb-0 text-primary fw-semibold">
+                                    <i class="fas fa-cog me-1"></i> @lang('Logo Settings')
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group text-center">
+                                    <label class="font-weight-bold text-primary d-block">@lang('App Logo')</label>
+                                    <div class="logo-preview mb-3" style="height: 10rem">
+                                        @if($settings['app_logo'])
+                                            <img loading="lazy" src="{{ asset('storage/images/app_logo/' . $settings['app_logo']) }}"
+                                                 alt="App Logo" class="img-thumbnail" style="max-height: 150px;">
+                                        @else
+                                            <div class="empty-logo p-4 bg-light text-center border rounded">
+                                                <i class="fas fa-image fa-2x text-gray-400"></i>
+                                                <p class="mt-2 text-gray-500">@lang('No image uploaded')</p>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <input type="file" class="border border-primary custom-file-input @error('app_logo') is-invalid @enderror"
+                                           name="app_logo" accept="image/*">
+                                    @error('app_logo')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                    <small class="form-text text-muted">@lang('Recommended size: 200x200px, Max: 4MB')</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Favicon Settings --}}
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-header bg-light py-2">
+                                <h6 class="mb-0 text-primary fw-semibold">
+                                    <i class="fas fa-cog me-1"></i> @lang('Favicon(Ico) Settings')
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group text-center">
+                                    <label class="font-weight-bold text-primary d-block">@lang('Favicon (ICO)')</label>
+                                    <div class="logo-preview mb-3" style="height: 10rem">
+                                        @if($settings['app_ico'])
+                                            <img loading="lazy" src="{{ get_image('app_ico') }}"
+                                                 alt="Favicon" class="img-thumbnail" style="max-height: 100px;">
+                                        @else
+                                            <div class="empty-logo p-4 bg-light text-center border rounded">
+                                                <i class="fas fa-image fa-2x text-gray-400"></i>
+                                                <p class="mt-2 text-gray-500">@lang('No image uploaded')</p>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <input type="file" class="border border-primary custom-file-input @error('app_ico') is-invalid @enderror"
+                                           name="app_ico" accept="image/*">
+                                    @error('app_ico')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                    <small class="form-text text-muted">@lang('Recommended size: 64x64px, Max: 4MB')</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     {{-- URL Settings --}}
                     <div class="col-12">
                         <div class="card border-0 shadow-sm">
