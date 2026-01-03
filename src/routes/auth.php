@@ -16,6 +16,7 @@ use ME\Http\Controllers\Auth\EmailVerificationNotificationController;
 Route::middleware(['web', 'guest'])->group(function () {
     Route::get('register', [AuthController::class, 'register'])->name('register');
     Route::post('register', [AuthController::class, 'registerStore']);
+    Route::post('send-otp', [AuthController::class, 'sendOtp'])->name('otp.send');
     Route::post('verify-otp', [AuthController::class, 'verifyOtp'])->name('otpVerify');
 
     Route::get('login', [AuthController::class, 'login'])->name('login');

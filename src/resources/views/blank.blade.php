@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ config('app.name', 'ESTIAQUE') }} | @yield('title', 'Dashboard')</title>
 
-        <!--begin::Primary Meta Tags-->
+    <!--begin::Primary Meta Tags-->
     <meta name="title" content="@yield('meta-title', 'M. ESTIAQUE')" />
     <meta name="author" content="@yield('meta-author', config('app.name', 'ESTIAQUE'))" />
     <meta name="description" content="@yield('meta-description', 'M. Estiaque Ahmed Khan is a skilled Software Engineer and Full-Stack Web Developer specializing in PHP, Laravel, and modern web technologies. Based in Dhaka, Bangladesh, he creates high-quality web applications and innovative solutions.')" />
@@ -19,23 +19,26 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <!-- Animate.css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
     <style>
         :root {
-            --primary-color: #0f2d4a;
+            --primary-bg: #0f2d4a;
             --secondary-color: #0f9bd6;
-            --accent-color: #0f9bd6;
-            --light-color: #ffffff;
-            --text-color: #8d1c1c;
-            --light-gray: #f5f5f5;
-            --focus-color: limegreen;
+            --accent-color: #ffffff;
+            --focus-color: #007bff;
+            --border-color: #002472;
+            --text-muted: #ffffff7a;
+            --shadow-color: rgba(0, 0, 0, 0.4);
         }
 
         html, body {
             height: 100%;
             margin: 0;
+            font-family: 'Nunito', sans-serif, cursive;
+            display: flex;
+            flex-direction: column;
             background: #0f172a; /* dark login-style background */
             color: #fff;
-            overflow: hidden;
         }
 
         /* Particles background */
@@ -48,14 +51,21 @@
             left: 0;
         }
 
-        .error-container {
+        /* Main content container */
+        .blank-container {
             position: relative;
             z-index: 1;
+            /* flex: 1 0 auto; grow to fill space for sticky footer */
             text-align: center;
-            max-width: 400px;
+            max-width: 500px;
+            width: 100% !important;
             margin: auto;
-            top: 50%;
-            transform: translateY(-50%);
+            /* display: flex; */
+            /* flex-direction: column; */
+            justify-content: center;
+            top: 0;
+            transform: none; /* no absolute positioning */
+            padding: 10px;
         }
 
         .error-code {
@@ -84,17 +94,15 @@
             font-size: 6rem;
             color: #1d4ed8;
         }
-    </style>
 
-
-    <style>
-
-        html, body {
-
-            font-family: 'Nunito', sans-serif;
-            font-family: cursive;
+        /* Footer styling */
+        .app-footer {
+            flex-shrink: 0; /* do not shrink */
+            background: #0f9ad627;
+            padding: 10px 20px;
+            width: 100%;
+            opacity: 0.9;
         }
-
 
         .btn-blank {
             position: relative;
@@ -106,13 +114,12 @@
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            /* width: 100%; */
             overflow: hidden;
             transition: all 0.35s ease;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            text-transform: uppercase;
         }
 
-        /* subtle shine layer */
         .btn-blank::before {
             content: "";
             position: absolute;
@@ -120,78 +127,45 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(
-                120deg,
-                transparent,
-                rgba(255, 255, 255, 0.25),
-                transparent
-            );
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.25), transparent);
             transition: all 0.6s ease;
         }
 
-        /* Hover magic ✨ */
         .btn-blank:hover {
-            /* background: linear-gradient(135deg, #00e626, #00b81d); */
             background-color: rgba(0, 68, 255, 0.171) !important;
             color: #ffffff;
             transform: translateY(-4px) scale(1.01);
-            box-shadow:
-                0 6px 15px rgba(0, 230, 38, 0.45),
-                0 0 0 2px rgba(0, 230, 38, 0.25);
+            box-shadow: 0 6px 15px rgba(0,230,38,0.45), 0 0 0 2px rgba(0,230,38,0.25);
         }
 
-        /* shine moves */
         .btn-blank:hover::before {
             left: 100%;
         }
 
-        /* Click feel */
         .btn-blank:active {
             transform: translateY(-1px) scale(0.98);
-            box-shadow: 0 6px 14px rgba(0, 230, 38, 0.35);
+            box-shadow: 0 6px 14px rgba(0,230,38,0.35);
         }
 
-
-
-        /* .copyright {
-            text-align: center;
-            margin-top: 30px;
-            font-size: 12px;
-            color: #777;
-        } */
-
-
-
-        .text-shadow{
+        .text-shadow {
             text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
         }
-        .box-shadow{
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+
+        .box-shadow {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
 
-
-        .alert{
+        .alert {
             text-align: center;
             margin-bottom: 20px;
             text-shadow: 0px 3px 4px rgb(255 5 8 / 70%);
-            /* animation: pulseGlow 1.5s infinite; */
             animation: shake 0.5s 1;
-            /* animation: shake 0.5s infinite, pulseGlow 1.5s infinite; */
         }
-        .alert-danger{
+
+        .alert-danger {
             color: #ff0000a1;
         }
-        @keyframes pulseGlow {
-            0% {
-                box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
-            }
-            50% {
-                box-shadow: 0 0 20px rgba(255, 0, 0, 1);
-            }
-            100% {
-                box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
-            }
-        }
+
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             20% { transform: translateX(-5px); }
@@ -200,37 +174,35 @@
             80% { transform: translateX(5px); }
         }
 
-
-        /* Responsive adjustments */
         @media (max-width: 768px) {
-
+            .blank-container {
+                /* max-width: 90%; */
+            }
+            .app-footer{
+                font-size: 11px !important
+            }
+            .app-footer .d-none{
+                display: inline !important;
+            }
         }
-
-        .app-footer {
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            z-index: 1000;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-            opacity: 0.3;
-        }
-
     </style>
     @stack('css')
-
 </head>
 <body>
     <!-- Particles -->
     <div id="particles-js"></div>
-    <div class="error-container animate__animated animate__fadeIn">
+
+    <!-- Main Content -->
+    <div class="blank-container animate__animated animate__fadeIn">
         @yield('content')
     </div>
+
+    <!-- Footer -->
     @include('me::footer')
 
     <!-- Scripts -->
+    <script src="{{ asset('backend/vendor/jquery/jquery.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Particles.js library -->
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script>
         /* Particles.js config */

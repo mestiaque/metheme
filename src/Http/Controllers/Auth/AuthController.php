@@ -2,9 +2,9 @@
 
 namespace ME\Http\Controllers\Auth;
 
+use ME\Models\User;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
-use ME\Models\User;
 use Illuminate\Validation\Rules;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +14,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Auth\Events\Registered;
 use ME\Providers\RouteServiceProvider;
 use ME\Http\Requests\Auth\LoginRequest;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -64,13 +65,13 @@ class AuthController extends Controller
      */
     public function register(): View
     {
-        return view('me::auth.register');
+        return view('me::auth.registration');
     }
 
     /**
      * ধাপ ১: তথ্য যাচাই এবং সেশনে রাখা + OTP পাঠানো
      */
-    public function registerStore(Request $request)
+    public function registerStoreX(Request $request)
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -85,7 +86,7 @@ class AuthController extends Controller
             'reg_data' => [
                 'name' => $request->name,
                 'phone' => $request->phone,
-                'password' => Hash::make($request->password), 
+                'password' => Hash::make($request->password),
                 'otp' => $otp,
             ]
         ]);
@@ -97,6 +98,40 @@ class AuthController extends Controller
             'success' => true,
             'message' => 'OTP sent to your phone. Please verify.',
             'step' => 'otp_verify'
+        ]);
+    }
+
+    public function registerStore(Request $request)
+    {
+        // Ekhane 'password' confirm check hobe.
+        // Jodi confirmed field na thake, tobe request theke 'confirmed' rule shoriye nin.
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'min:8'], // Confirmation chara simple rakhlam
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
+        }
+
+        $otp = rand(100000, 999999);
+
+        session([
+            'reg_data' => [
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'otp' => $otp,
+            ]
+        ]);
+
+        // Send OTP (Mail ba SMS)
+        // $this->sendOtpEmail($request->email, $otp);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'OTP sent successfully!'
         ]);
     }
 
@@ -119,8 +154,8 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $sessionData['name'],
             'phone' => $sessionData['phone'],
-            'password' => $sessionData['password'], 
-            'status' => 1, 
+            'password' => $sessionData['password'],
+            'status' => 1,
             'phone_verified_at' => now(),
         ]);
 
