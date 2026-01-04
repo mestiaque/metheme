@@ -131,7 +131,7 @@ class AuthController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'OTP sent successfully!'
+            'message' => $otp
         ]);
     }
 
@@ -153,10 +153,10 @@ class AuthController extends Controller
         // এবার ডাটাবেসে ইউজার তৈরি করুন
         $user = User::create([
             'name' => $sessionData['name'],
-            'phone' => $sessionData['phone'],
+            'email' => $sessionData['email'],
             'password' => $sessionData['password'],
-            'status' => 1,
-            'phone_verified_at' => now(),
+            'is_active  ' => 1,
+            // 'phone_veri              fied_at' => now(),
         ]);
 
         // ইভেন্ট ফায়ার করা (যদি প্রয়োজন হয়)

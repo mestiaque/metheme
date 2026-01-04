@@ -31,10 +31,30 @@
                 </div>
 
                 <!-- Email Field -->
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label class="text-shadow" for="email">{{ __('EMAIL ADDRESS') }}</label>
                     <input type="email" class="form-control text-shadow box-shadow" id="email" name="email" value="{{ old('email') }}" placeholder="{{ __('EMAIL ADDRESS') }}" required>
+                </div> --}}
+
+                <!-- Tab Labels (Clickable) -->
+                <div class="auth-tabs">
+                    <div class="tab-wrapper">
+                        <label class="auth-tab" data-target="emailInput">{{ __('EMAIL ADDRESS') }}</label>
+                        <label class="auth-tab" data-target="phoneInput">{{ __('PHONE NUMBER') }}</label>
+                    </div>
+                    <span class="tab-indicator"></span>
                 </div>
+
+                <!-- Email Input Group -->
+                <div class="form-group auth-field-group" id="emailInput">
+                    <input type="email" class="form-control text-shadow box-shadow" name="email" id="email" placeholder="example@mail.com">
+                </div>
+
+                <!-- Phone Input Group (Hidden by default) -->
+                <div class="form-group auth-field-group d-none" id="phoneInput">
+                    <input type="text" class="form-control text-shadow box-shadow" name="phone" id="phone" placeholder="01XXXXXXXXX">
+                </div>
+
 
                 <!-- Password Field -->
                 <div class="form-group" style="position: relative;">
@@ -97,144 +117,261 @@
 
     @include("me::auth.login-css")
 
-    @push('js')
+@push('js')
+<script>
+    $(document).ready(function () {
+        let timerInterval;
 
-        <script>
-            $(document).ready(function () {
-                let timerInterval;
+        /* ============================================================
+        1. CENTER SWAPPING TAB LOGIC
+        ============================================================ */
+        function applyCenterTabUI(targetId) {
+            const tabsContainer = $('.auth-tabs');
+            const wrapper = $('.tab-wrapper');
+            const targetLabel = $(`.auth-tab[data-target="${targetId}"]`);
+            const indicator = $('.tab-indicator');
 
-                // ১. পেজ লোড হওয়ার সময় ইনপুট ডাটা এবং টাইমার রিস্টোর করা
-                restoreFormData();
-                checkActiveTimer();
+            if (!targetLabel.length) return;
 
-                // ইনপুট ফিল্ডে কিছু লিখলে তা সাথে সাথে localStorage এ সেভ করা
-                $('#name, #email, #password').on('input', function() {
-                    localStorage.setItem('reg_name', $('#name').val());
-                    localStorage.setItem('reg_email', $('#email').val());
-                    localStorage.setItem('reg_pass', $('#password').val());
-                });
+            // ১. একটিভ ক্লাস সেট করা
+            $('.auth-tab').removeClass('active');
+            targetLabel.addClass('active');
 
-                // ২. পাসওয়ার্ড টগল
-                $('#togglePassword').on('click', function () {
-                    const passwordInput = $('#password');
-                    const icon = $(this).find('i');
-                    const isPassword = passwordInput.attr('type') === 'password';
-                    passwordInput.attr('type', isPassword ? 'text' : 'password');
-                    icon.toggleClass('fa-eye fa-eye-slash');
-                });
+            // ২. নিখুঁত সেন্টারিং ক্যালকুলেশন
+            const containerCenter = tabsContainer.width() / 2;
+            const labelOffsetLeft = targetLabel.position().left;
+            const labelHalfWidth = targetLabel.outerWidth() / 2;
+            const labelCenterInWrapper = labelOffsetLeft + labelHalfWidth;
 
-                // ৩. ওটিপি পাঠানো (Step 1)
-                $('#sendOtpBtn').on('click', function () {
-                    const name = $('#name').val();
-                    const email = $('#email').val();
-                    const password = $('#password').val();
+            // wrapper কে সরিয়ে লেবেলকে মাঝখানে আনা
+            const translateX = containerCenter - labelCenterInWrapper;
+            wrapper.css('transform', `translateX(${translateX}px)`);
 
-                    if (!name || !email || !password) {
-                        console.log("Please fill all fields.");
-                        return;
-                    }
+            // ৩. ইন্ডিকেটর পজিশন (ইন্ডিকেটর সবসময় মাঝখানে থাকবে, শুধু লেবেলের সমান চওড়া হবে)
+            indicator.css({
+                'width': targetLabel.outerWidth() + 'px',
+                'left': (containerCenter - labelHalfWidth) + 'px'
+            });
 
-                    $(this).prop('disabled', true).text('Sending...');
+            // ৪. ইনপুট ফিল্ড শো/হাইড এবং লোকাল স্টোরেজ আপডেট
+            if (targetId === 'emailInput') {
+                $('#emailInput').removeClass('d-none');
+                $('#phoneInput').addClass('d-none');
+                localStorage.setItem('reg_type', 'email');
+            } else {
+                $('#phoneInput').removeClass('d-none');
+                $('#emailInput').addClass('d-none');
+                localStorage.setItem('reg_type', 'phone');
+            }
+        }
 
-                    $.ajax({
-                        url: "{{ url('register') }}",
-                        method: "POST",
-                        data: { _token: "{{ csrf_token() }}", name: name, email: email, password: password },
-                        success: function (response) {
-                            // ২ মিনিটের ফিক্সড এক্সপায়ারি টাইম সেট করা
-                            const expiryTime = new Date().getTime() + 120000;
-                            localStorage.setItem('otp_expiry', expiryTime);
+        // লেবেলে ক্লিক ইভেন্ট
+        $('.auth-tab').on('click', function () {
+            const target = $(this).data('target');
+            applyCenterTabUI(target);
+        });
 
-                            showOtpSection();
-                            startTimer(expiryTime);
-                            console.log(response.message);
-                        },
-                        error: function (xhr) {
-                            $('#sendOtpBtn').prop('disabled', false).text('SEND OTP');
-                            console.log("Error sending OTP");
-                        }
-                    });
-                });
+        /* ============================================================
+        2. DATA PERSISTENCE & RESTORE (Refresh-proof)
+        ============================================================ */
+        function restoreState() {
+            // ১. ট্যাব এবং পজিশন রিস্টোর
+            const savedType = localStorage.getItem('reg_type') || 'email';
+            const targetId = (savedType === 'email') ? 'emailInput' : 'phoneInput';
 
-                // ৪. ওটিপি যাচাই ও রেজিস্ট্রেশন (Step 2)
-                $('#registrationForm').on('submit', function (e) {
-                    e.preventDefault();
-                    const otp = $('#otp').val();
+            // ব্রাউজারকে পজিশন ক্যালকুলেট করার সময় দেওয়ার জন্য সামান্য ডিলে
+            setTimeout(() => applyCenterTabUI(targetId), 250);
 
-                    $.ajax({
-                        url: "{{ route('otpVerify') }}",
-                        method: "POST",
-                        data: { _token: "{{ csrf_token() }}", otp: otp },
-                        success: function (response) {
-                            // রেজিস্ট্রেশন সাকসেস হলে সব ডাটা মুছে ফেলা
-                            localStorage.removeItem('otp_expiry');
-                            localStorage.removeItem('reg_name');
-                            localStorage.removeItem('reg_email');
-                            localStorage.removeItem('reg_pass');
+            // ২. ইনপুট ডাটা রিস্টোর
+            if (localStorage.getItem('reg_name')) $('#name').val(localStorage.getItem('reg_name'));
+            if (localStorage.getItem('reg_email')) $('#email').val(localStorage.getItem('reg_email'));
+            if (localStorage.getItem('reg_phone')) $('#phone').val(localStorage.getItem('reg_phone'));
+            if (localStorage.getItem('reg_password')) $('#password').val(localStorage.getItem('reg_password'));
 
-                            alert('Registration Successful!');
-                            window.location.href = response.redirect;
-                        },
-                        error: function (xhr) {
-                            alert(xhr.responseJSON.message || "Invalid OTP");
-                        }
-                    });
-                });
+            // ৩. ওটিপি টাইমার চেক
+            checkActiveTimer();
+        }
 
-                // ৫. টাইমার ফাংশন (Real-time calculation)
-                function startTimer(expiryTime) {
-                    clearInterval(timerInterval);
-                    timerInterval = setInterval(function () {
-                        const now = new Date().getTime();
-                        const distance = expiryTime - now;
+        // ইনপুট টাইপ করার সাথে সাথে লোকাল স্টোরেজে সেভ
+        $('input').on('input', function () {
+            const id = $(this).attr('id');
+            const val = $(this).val();
+            if (id) localStorage.setItem('reg_' + id, val);
+        });
 
-                        if (distance <= 0) {
-                            clearInterval(timerInterval);
-                            localStorage.removeItem('otp_expiry');
-                            resetToResendView();
-                            return;
-                        }
+        /* ============================================================
+        3. SEND OTP LOGIC
+        ============================================================ */
+        $('#sendOtpBtn').on('click', function () {
+            const type = localStorage.getItem('reg_type') || 'email';
+            const name = $('#name').val();
+            const password = $('#password').val();
+            const identity = (type === 'email') ? $('#email').val() : $('#phone').val();
 
-                        const minutes = Math.floor(distance / (1000 * 60));
-                        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                        $('#countdown').text((minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds);
-                    }, 1000);
-                }
+            if (!name || !password || !identity) {
+                alert('Please fill all fields');
+                return;
+            }
 
-                // ৬. ডাটা রিস্টোর করার ফাংশন
-                function restoreFormData() {
-                    if (localStorage.getItem('reg_name')) $('#name').val(localStorage.getItem('reg_name'));
-                    if (localStorage.getItem('reg_email')) $('#email').val(localStorage.getItem('reg_email'));
-                    if (localStorage.getItem('reg_pass')) $('#password').val(localStorage.getItem('reg_pass'));
-                }
+            const btn = $(this);
+            btn.prop('disabled', true).text('Sending...');
 
-                // ৭. একটিভ টাইমার চেক করা
-                function checkActiveTimer() {
-                    const expiry = localStorage.getItem('otp_expiry');
-                    if (expiry) {
-                        const now = new Date().getTime();
-                        if (expiry - now > 0) {
-                            showOtpSection();
-                            startTimer(parseInt(expiry));
-                        } else {
-                            localStorage.removeItem('otp_expiry');
-                        }
-                    }
-                }
-
-                function showOtpSection() {
-                    $('#send-otp-container').hide();
-                    $('#otp-section').show();
-                    $('#timer-display').show();
-                }
-
-                function resetToResendView() {
-                    $('#otp-section').hide();
-                    $('#timer-display').hide();
-                    $('#send-otp-container').show();
-                    $('#sendOtpBtn').prop('disabled', false).text('RESEND OTP');
+            $.ajax({
+                url: "{{ url('register') }}",
+                method: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    name: name,
+                    password: password,
+                    type: type,
+                    identity: identity
+                },
+                success: function (response) {
+                    const expiryTime = new Date().getTime() + 120000; // 2 min
+                    localStorage.setItem('otp_expiry', expiryTime);
+                    showOtpSection();
+                    startTimer(expiryTime);
+                },
+                error: function (xhr) {
+                    btn.prop('disabled', false).text('SEND OTP');
+                    alert(xhr.responseJSON?.message || 'Error sending OTP');
                 }
             });
-        </script>
-    @endpush
+        });
+
+        /* ============================================================
+        4. VERIFY OTP & REGISTRATION
+        ============================================================ */
+        $('#registrationForm').on('submit', function (e) {
+            e.preventDefault();
+            const otp = $('#otp').val();
+            if (otp.length !== 6) return alert('Enter 6-digit OTP');
+
+            $.ajax({
+                url: "{{ route('otpVerify') }}",
+                method: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    otp: otp
+                },
+                success: function (response) {
+                    // ক্লিনিং লোকাল স্টোরেজ
+                    ['otp_expiry', 'reg_name', 'reg_email', 'reg_phone', 'reg_password', 'reg_type'].forEach(k => localStorage.removeItem(k));
+                    window.location.href = response.redirect;
+                },
+                error: function (xhr) {
+                    alert(xhr.responseJSON?.message || 'Invalid OTP');
+                }
+            });
+        });
+
+        /* ============================================================
+        5. HELPERS (Timer, Toggle, UI)
+        ============================================================ */
+        function startTimer(expiryTime) {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(function () {
+                const distance = expiryTime - Date.now();
+                if (distance <= 0) {
+                    clearInterval(timerInterval);
+                    localStorage.removeItem('otp_expiry');
+                    resetToResendView();
+                    return;
+                }
+                const m = Math.floor(distance / 60000);
+                const s = Math.floor((distance % 60000) / 1000);
+                $('#countdown').text(`${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`);
+            }, 1000);
+        }
+
+        function checkActiveTimer() {
+            const expiry = localStorage.getItem('otp_expiry');
+            if (expiry && expiry - Date.now() > 0) {
+                showOtpSection();
+                startTimer(parseInt(expiry));
+            }
+        }
+
+        function showOtpSection() {
+            $('#send-otp-container').hide();
+            $('#otp-section').slideDown();
+            $('#timer-display').show();
+        }
+
+        function resetToResendView() {
+            $('#otp-section').hide();
+            $('#timer-display').hide();
+            $('#send-otp-container').show();
+            $('#sendOtpBtn').prop('disabled', false).text('RESEND OTP');
+        }
+
+        $('#togglePassword').on('click', function () {
+            const input = $('#password');
+            const icon = $(this).find('i');
+            const isPass = input.attr('type') === 'password';
+            input.attr('type', isPass ? 'text' : 'password');
+            icon.toggleClass('fa-eye fa-eye-slash');
+        });
+
+        // ইনিশিয়ালাইজেশন
+        restoreState();
+
+        // উইন্ডো রিসাইজ করলে পজিশন ঠিক করা
+        $(window).on('resize', function() {
+            const currentType = localStorage.getItem('reg_type') || 'email';
+            applyCenterTabUI(currentType === 'email' ? 'emailInput' : 'phoneInput');
+        });
+    });
+</script>
+@endpush
+
+
+@push('css')
+    <style>
+      .auth-tabs {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            height: 28px;
+            overflow: hidden; /* বাইরের অংশ হাইড রাখবে */
+            margin-bottom: 1rem !important
+        }
+
+        .tab-wrapper {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            left: 0;
+            will-change: transform;
+        }
+
+        .auth-tab {
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.4);
+            white-space: nowrap;
+            text-transform: uppercase;
+            transition: all 0.4s ease;
+        }
+
+        .auth-tab.active {
+            color: var(--accent-color);
+            font-size: 13px;
+        }
+
+        .tab-indicator {
+            position: absolute;
+            bottom: 0;
+            height: 2px;
+            background: #fff;
+            transition: all 0.5s ease;
+            box-shadow: 0 0 10px #fff;
+        }
+
+    </style>
+@endpush
 @endsection
