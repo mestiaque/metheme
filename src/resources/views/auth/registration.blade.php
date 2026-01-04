@@ -27,7 +27,7 @@
                 <!-- Name Field -->
                 <div class="form-group">
                     <label class="text-shadow" for="name">{{ __('FULL NAME') }}</label>
-                    <input type="text" class="form-control text-shadow box-shadow" id="name" name="name" value="{{ old('name') }}" placeholder="{{ __('FULL NAME') }}" required autofocus>
+                    <input type="text" class="form-control text-shadow box-shadow" id="name" name="name" spellcheck="false" value="{{ old('name') }}" placeholder="{{ __('FULL NAME') }}" required autofocus>
                 </div>
 
                 <!-- Email Field -->
@@ -42,24 +42,23 @@
                         <label class="auth-tab" data-target="emailInput">{{ __('EMAIL ADDRESS') }}</label>
                         <label class="auth-tab" data-target="phoneInput">{{ __('PHONE NUMBER') }}</label>
                     </div>
-                    <span class="tab-indicator"></span>
                 </div>
 
                 <!-- Email Input Group -->
                 <div class="form-group auth-field-group" id="emailInput">
-                    <input type="email" class="form-control text-shadow box-shadow" name="email" id="email" placeholder="example@mail.com">
+                    <input type="email" spellcheck="false" class="form-control text-shadow box-shadow" name="email" id="email" placeholder="example@mail.com">
                 </div>
 
                 <!-- Phone Input Group (Hidden by default) -->
                 <div class="form-group auth-field-group d-none" id="phoneInput">
-                    <input type="text" class="form-control text-shadow box-shadow" name="phone" id="phone" placeholder="01XXXXXXXXX">
+                    <input type="tel" spellcheck="false" class="form-control text-shadow box-shadow" name="phone" id="phone" placeholder="0XXXXXXXXXX" pattern="0[0-9]{10}" maxlength="11" inputmode="numeric" title="Phone number must start with 0 and be 11 digits long">
                 </div>
 
 
                 <!-- Password Field -->
                 <div class="form-group" style="position: relative;">
                     <label class="text-shadow" for="password">{{ __('PASSWORD') }}</label>
-                    <input type="password" class="form-control text-shadow box-shadow" id="password" name="password" placeholder="{{ __('PASSWORD') }}" required>
+                    <input type="password" spellcheck="false" class="form-control text-shadow box-shadow" id="password" name="password" placeholder="{{ __('PASSWORD') }}" required>
                     <span class="password-toggle text-shadow" id="togglePassword" style="position: absolute; right: 15px; top: 41px; cursor: pointer;">
                         <i class="fas fa-eye"></i>
                     </span>
@@ -144,7 +143,8 @@
             const labelCenterInWrapper = labelOffsetLeft + labelHalfWidth;
 
             // wrapper কে সরিয়ে লেবেলকে মাঝখানে আনা
-            const translateX = containerCenter - labelCenterInWrapper;
+            const adjustment = 10;
+            const translateX = (containerCenter - labelCenterInWrapper);
             wrapper.css('transform', `translateX(${translateX}px)`);
 
             // ৩. ইন্ডিকেটর পজিশন (ইন্ডিকেটর সবসময় মাঝখানে থাকবে, শুধু লেবেলের সমান চওড়া হবে)
@@ -335,7 +335,7 @@
             justify-content: center;
             height: 28px;
             overflow: hidden; /* বাইরের অংশ হাইড রাখবে */
-            margin-bottom: 1rem !important
+            /* margin-bottom: 1rem !important */
         }
 
         .tab-wrapper {
@@ -343,8 +343,8 @@
             display: flex;
             align-items: center;
             gap: 20px;
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             left: 0;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             will-change: transform;
         }
 

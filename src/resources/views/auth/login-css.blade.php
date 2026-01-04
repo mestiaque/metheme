@@ -118,6 +118,17 @@
         opacity: 1;
     }
 
+
+    /* 3. Autofill fix */
+    .form-control:-webkit-autofill,
+    .form-control:-webkit-autofill:hover,
+    .form-control:-webkit-autofill:focus,
+    .form-control:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 1000px transparent inset !important; /* keeps bg transparent */
+        -webkit-text-fill-color: whitesmoke !important; /* makes text white */
+        transition: background-color 5000s ease-in-out 0s !important;
+    }
+
     /* 4. Password Toggle & Helpers */
     .password-toggle {
         color: #888;
@@ -127,13 +138,6 @@
 
     .password-toggle:hover {
         color: var(--accent-color);
-    }
-
-    /* Autofill fix */
-    input:-webkit-autofill {
-        -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
-        -webkit-text-fill-color: white !important;
-        transition: background-color 5000s ease-in-out 0s;
     }
 
     /* 5. Custom Checkbox */
