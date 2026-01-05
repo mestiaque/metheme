@@ -15,7 +15,7 @@ use ME\Http\Controllers\Auth\EmailVerificationNotificationController;
 
 Route::middleware(['web', 'guest'])->group(function () {
     Route::get('register', [AuthController::class, 'register'])->name('register');
-    Route::post('register', [AuthController::class, 'registerStore']);
+    Route::post('register', [AuthController::class, 'registerStore'])->name('register.store');
     Route::post('send-otp', [AuthController::class, 'sendOtp'])->name('otp.send');
     Route::post('verify-otp', [AuthController::class, 'verifyOtp'])->name('otpVerify');
 
@@ -29,8 +29,8 @@ Route::middleware(['web', 'guest'])->group(function () {
     // Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
     // Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
 
-    Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
-    Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.store');
+    // Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
+    // Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.store');
 });
 
 Route::middleware(['web', 'auth'])->group(function () {

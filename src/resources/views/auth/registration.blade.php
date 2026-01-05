@@ -1,6 +1,6 @@
 @extends('me::blank')
-@section('title', '403 Forbidden')
-@section('meta-title', '403 Forbidden')
+@section('title', 'Register')
+@section('meta-title', 'Register')
 @section('content')
     <div class="login-card">
         <div class="login-form">
@@ -21,7 +21,7 @@
                 </div>
             @endif
 
-            <form id="registrationForm">
+            <form id="registrationForm" class="submitForm">
                 @csrf
 
                 <!-- Name Field -->
@@ -118,3 +118,5 @@
     @include("me::auth.js")
 
 @endsection
+
+

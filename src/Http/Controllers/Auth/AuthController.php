@@ -242,36 +242,55 @@ class AuthController extends Controller
         return view('me::auth.forget');
     }
 
-    /**
-     * ধাপ ১: ফোন নম্বর যাচাই এবং OTP পাঠানো (Forget Password)
-     */
     public function forgetPasswordStore(Request $request)
     {
         $request->validate([
-            'phone' => ['required', 'string', 'exists:users,phone'], // নম্বরটি ডাটাবেসে থাকতে হবে
+            'identity' => ['required'], // phone or email
+            'type' => ['required', 'in:phone,email']
         ]);
 
+        $type = $request->type;
+        $identity = $request->identity;
+
+        // Check user exists
+        $user = null;
+        if ($type === 'phone') {
+            $user = User::where('phone', $identity)->first();
+        } else {
+            $user = User::where('email', $identity)->first();
+        }
+
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => "User not found with this {$type}.",
+            ], 404);
+        }
+
+        // Generate OTP
         $otp = rand(100000, 999999);
 
-        // সেশনে ফোন এবং OTP রাখা
+        // Store OTP and identity in session
         session([
-            'reset_phone' => $request->phone,
+            'reset_type' => $type,
+            'reset_identity' => $identity,
             'reset_otp' => $otp
         ]);
 
-        // SMS পাঠানো
-        $this->sendOtpSms($request->phone, $otp);
+        // Send OTP
+        if ($type === 'phone') {
+            $this->sendOtp('phone', $identity, $otp); // make sure this method exists
+        } else {
+            $this->sendOtp('email', $identity, $otp);
+        }
 
         return response()->json([
             'success' => true,
-            'message' => 'Reset OTP sent to your phone.',
+            'message' => 'Reset OTP sent successfully.',
             'step' => 'reset_otp_verify'
         ]);
     }
 
-    /**
-     * ধাপ ২: OTP ভেরিফাই এবং নতুন পাসওয়ার্ড সেট করা
-     */
     public function resetPasswordStore(Request $request)
     {
         $request->validate([
@@ -279,32 +298,43 @@ class AuthController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $sessionPhone = session('reset_phone');
+        $sessionType = session('reset_type');
+        $sessionIdentity = session('reset_identity');
         $sessionOtp = session('reset_otp');
 
-        // চেক করা সেশনে ডাটা আছে কি না এবং OTP মিলছে কি না
-        if (!$sessionPhone || $sessionOtp != $request->otp) {
-            return response()->json(['success' => false, 'message' => 'Invalid OTP or session expired!'], 422);
-        }
-
-        // পাসওয়ার্ড আপডেট করা
-        $user = User::where('phone', $sessionPhone)->first();
-        if ($user) {
-            $user->update([
-                'password' => Hash::make($request->password)
-            ]);
-
-            // সেশন ক্লিয়ার করা
-            session()->forget(['reset_phone', 'reset_otp']);
-
+        if (!$sessionIdentity || $sessionOtp != $request->otp) {
             return response()->json([
-                'success' => true,
-                'message' => 'Password reset successful! Please login.',
-                'redirect' => route('login')
-            ]);
+                'success' => false,
+                'message' => 'Invalid OTP or session expired!'
+            ], 422);
         }
 
-        return response()->json(['success' => false, 'message' => 'User not found!'], 404);
+        // Find user dynamically
+        $user = null;
+        if ($sessionType === 'phone') {
+            $user = User::where('phone', $sessionIdentity)->first();
+        } else {
+            $user = User::where('email', $sessionIdentity)->first();
+        }
+
+        if (!$user) {
+            return response()->json(['success' => false, 'message' => 'User not found!'], 404);
+        }
+
+        // Update password
+        $user->update([
+            'password' => Hash::make($request->password)
+        ]);
+
+        // Clear session
+        session()->forget(['reset_type', 'reset_identity', 'reset_otp']);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Password reset successful! Please login.',
+            'redirect' => route('login')
+        ]);
     }
+
 
 }
