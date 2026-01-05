@@ -1,6 +1,6 @@
 <?php
 return [
-    "auth_failed" => "Your email or password is incorrect.",
+    "auth_failed" => "Your email/phone or password is incorrect.",
     "auth_throttle" => "Too many login attempts. Please try again in :seconds seconds.",
     "auth_deactivated" => "Your account has been deactivated.",
     "auth_password" => "Please confirm your password.",

@@ -2,8 +2,8 @@
 
 namespace ME\Http\Requests\Auth;
 
-use ME\Models\User;
 use Illuminate\Support\Str;
+use ME\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
@@ -12,54 +12,67 @@ use Illuminate\Validation\ValidationException;
 
 class LoginRequest extends FormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     */
     public function authorize(): bool
     {
         return true;
     }
 
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
+     */
     public function rules(): array
     {
         return [
-            'user_name' => ['required', 'string'],
+            'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
         ];
     }
 
+    /**
+     * Attempt to authenticate the request's credentials.
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function authenticate(): void
     {
         $this->ensureIsNotRateLimited();
 
-        $userName = $this->input('user_name');
-        $fieldType = filter_var($userName, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
+        // Get the user first
+        $user = User::where('email', $this->email)->first();
 
-        $user = User::where($fieldType, $userName)->first();
-
-        // ইউজার না থাকলে বা ইনঅ্যাক্টিভ হলে
-        if (!$user || (method_exists($user, 'isActive') && !$user->isActive())) {
+        // Check if user exists and is active before attempting authentication
+        if (!$user || !$user->isActive()) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'user_name' => ($user && method_exists($user, 'isActive') && !$user->isActive())
-                                ? 'Your account has been deactivated.'
-                                : trans('me::metheme.auth_failed'),
+                'email' => $user ? 'Your account has been deactivated.' : trans('me::metheme.auth_failed'),
             ]);
         }
 
-        // লগইন চেষ্টা
         if (! Auth::attempt(
-            [$fieldType => $userName, 'password' => $this->input('password')], // $this->password এর বদলে input() ব্যবহার করা ভালো
+            $this->only('email', 'password'),
             $this->boolean('remember')
         )) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'user_name' => trans('me::metheme.auth_failed'),
+                'email' => trans('me::metheme.auth_failed'),
             ]);
         }
 
         RateLimiter::clear($this->throttleKey());
     }
 
+    /**
+     * Ensure the login request is not rate limited.
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function ensureIsNotRateLimited(): void
     {
         if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
@@ -67,18 +80,22 @@ class LoginRequest extends FormRequest
         }
 
         event(new Lockout($this));
+
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
         throw ValidationException::withMessages([
-            'user_name' => trans('me::metheme.auth_throttle', [
+            'email' => trans('me::metheme.auth_throttle', [
                 'seconds' => toBanglaPhone($seconds),
                 'minutes' => toBanglaPhone(ceil($seconds / 60)),
             ]),
         ]);
     }
 
+    /**
+     * Get the rate limiting throttle key for the request.
+     */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->input('user_name')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->input('email')).'|'.$this->ip());
     }
 }

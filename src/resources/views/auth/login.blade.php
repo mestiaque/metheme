@@ -4,13 +4,13 @@
 @section('content')
     <div class="login-card">
         <div class="login-form">
-            <div class="login-header">
+            <div class="login-header mb-0">
                 <div class="login-avatar">
                     {{-- <i class="fas fa-user"></i> --}}
                     <img loading="lazy" src="{{ asset('assets/img/favicon/Encodex.ico') }}" class="brand-image opacity-75 shadow " style="width: 100%" alt="mESTIAQUE">
                 </div>
                 <h1 class="login-title text-shadow">{{ __('WELCOME') }}</h1>
-                <p style="text-align: center; color:#ffffff7a" class="text-shadow">{{ __('Enter your username and password to log in.') }}</p>
+                <p style="text-align: center; color:#ffffff7a" class="text-shadow">{{ __('Enter your email/phone and password to log in.') }}</p>
             </div>
 
             @if (session('status'))
@@ -29,15 +29,15 @@
 
             <form method="POST" action="{{ route('login') }}">
                 @csrf
-                <div class="form-group ">
-                    <label class="text-shadow" for="email">{{ __('EMAIL') }}</label>
-                    <input type="email" class="form-control text-shadow box-shadow" id="email" name="email" placeholder="{{ __('EMAIL') }}"
-                        value="{{ old('email') }}" spellcheck="false" required autofocus>
+                <!-- Tab Labels (Clickable) -->
+                <div class="form-group" style="position: relative;">
+                    <label class="text-shadow" for="user_name">{{ __('EMAIL / PHONE') }}</label>
+                    <input type="text" spellcheck="false" class="form-control text-shadow box-shadow @error('user_name') is-invalid @enderror" name="user_name" id="email" placeholder="{{ __('EMAIL OR PHONE') }}" value="{{ old('user_name') }}" required>
                 </div>
 
                 <div class="form-group" style="position: relative;">
                     <label class="text-shadow" for="password">{{ __('PASSWORD') }}</label>
-                    <input type="password" class="form-control text-shadow box-shadow" id="password" name="password" placeholder="{{ __('PASSWORD') }}" required>
+                    <input type="password" class="form-control text-shadow box-shadow @error('password') is-invalid @enderror" id="password" name="password" placeholder="{{ __('PASSWORD') }}" value="{{ old('password') }}"  required>
                     <span class="password-toggle text-shadow" id="togglePassword" style="position: absolute; right: 15px; top: 41px; cursor: pointer;">
                         <i class="fas fa-eye"></i>
                     </span>
@@ -53,40 +53,52 @@
                 </div>
 
                 <div>
-                    <button type="submit" class="btn-login btn btn-blank box-shadow px-3">
+                    <button type="submit" class="btn-login btn btn-blank box-shadow w-100 px-3">
                         {{ __('LOGIN') }}
                     </button>
                 </div>
+
+
+                <div class="mt-3 text-center">
+                    <!-- রেজিস্ট্রেশন লিঙ্ক (যদি নতুন ইউজার হয়) -->
+                    <p style="color: rgba(255, 255, 255, 0.6); font-size: 0.9rem;" class="mb-2">
+                        {{ __("Don't have an account?") }}
+                        <a href="{{ route('register') }}" style="color: #fff; font-weight: 600; text-decoration: none; border-bottom: 1px solid #fff;">
+                            {{ __('Create Account') }}
+                        </a>
+                    </p>
+
+                    <!-- পাসওয়ার্ড ভুলে গেলে -->
+                    <p class="mt-2">
+                        <a href="{{ route('password.forget') }}" style="color: rgba(255, 255, 255, 0.8); font-size: 0.85rem; text-decoration: none; transition: 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255, 255, 255, 0.8)'">
+                            <i class="fas fa-lock me-1"></i> {{ __('Forgot your password?') }}
+                        </a>
+                    </p>
+                </div>
+                <div class="auth-footer mt-4 text-center d-none">
+                    <div class="d-flex justify-content-between align-items-center" style="max-width: 300px; margin: 0 auto; border-top: 1px solid rgba(255,255,255,0.1); pt-3">
+
+                        <!-- Registration/Login Toggle -->
+                        <a href="{{ route('register') }}" class="text-decoration-none" style="color: #ffffffd1; font-size: 13px;">
+                            {{ __('Register') }}
+                        </a>
+
+                        <span style="color: rgba(255,255,255,0.2)">|</span>
+
+                        <!-- Forgot Password -->
+                        <a href="{{ route('password.forget') }}" class="text-decoration-none" style="color: #ffffffd1; font-size: 13px;">
+                            {{ __('Reset Password') }}
+                        </a>
+
+                    </div>
+                </div>
+
+
             </form>
         </div>
     </div>
 
 
-    @include("me::auth.login-css")
-    @push('css')
-    <style>
-        .btn-login{
-            padding-left: 2rem !important;
-            padding-right: 2rem !important;
-        }
-    </style>
-    @endpush
-
-    @push('js')
-        <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const togglePassword = document.querySelector('#togglePassword');
-            const passwordInput = document.querySelector('#password');
-
-            togglePassword.addEventListener('click', function () {
-                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordInput.setAttribute('type', type);
-
-                // Toggle the icon class
-                this.querySelector('i').classList.toggle('fa-eye');
-                this.querySelector('i').classList.toggle('fa-eye-slash');
-            });
-        });
-    </script>
-    @endpush
+    @include("me::auth.css")
+    @include("me::auth.js")
 @endsection

@@ -124,7 +124,7 @@
     .form-control:-webkit-autofill:hover,
     .form-control:-webkit-autofill:focus,
     .form-control:-webkit-autofill:active {
-        -webkit-box-shadow: 0 0 0 1000px transparent inset !important; /* keeps bg transparent */
+        -webkit-box-shadow: 0 0 0 1000px #0f172a inset !important; /* keeps bg transparent */
         -webkit-text-fill-color: whitesmoke !important; /* makes text white */
         transition: background-color 5000s ease-in-out 0s !important;
     }
@@ -184,6 +184,51 @@
     .alert{
         background: none !important;
         border: none !important;
+    }
+
+
+    .auth-tabs {
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        height: 28px;
+        overflow: hidden; /* বাইরের অংশ হাইড রাখবে */
+        /* margin-bottom: 1rem !important */
+    }
+
+    .tab-wrapper {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        left: 0;
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        will-change: transform;
+    }
+
+    .auth-tab {
+        cursor: pointer;
+        font-size: 11px;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.4);
+        white-space: nowrap;
+        text-transform: uppercase;
+        transition: all 0.4s ease;
+    }
+
+    .auth-tab.active {
+        color: var(--accent-color);
+        font-size: 13px;
+    }
+
+    .tab-indicator {
+        position: absolute;
+        bottom: 0;
+        height: 2px;
+        background: #fff;
+        transition: all 0.5s ease;
+        box-shadow: 0 0 10px #fff;
     }
 
     /* 6. Responsive Adjustments */

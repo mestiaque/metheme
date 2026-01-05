@@ -30,7 +30,7 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('password.email') }}">
+            <form method="POST" action="#">
                 @csrf
 
                 <!-- Email Address -->
@@ -54,23 +54,6 @@
     </div>
 
 
-    @include("me::auth.login-css")
+    @include("me::auth.css")
 
-    @push('js')
-        <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const togglePassword = document.querySelector('#togglePassword');
-            const passwordInput = document.querySelector('#password');
-
-            togglePassword.addEventListener('click', function () {
-                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordInput.setAttribute('type', type);
-
-                // Toggle the icon class
-                this.querySelector('i').classList.toggle('fa-eye');
-                this.querySelector('i').classList.toggle('fa-eye-slash');
-            });
-        });
-    </script>
-    @endpush
 @endsection

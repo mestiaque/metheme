@@ -10,25 +10,21 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Auth\Events\Registered;
 use ME\Providers\RouteServiceProvider;
 use ME\Http\Requests\Auth\LoginRequest;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    /**
-     * Display the login view.
-     */
     public function login(): View
     {
         return view('me::auth.login');
     }
 
-    /**
-     * Handle an incoming authentication request.
-     */
     public function loginStore(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
@@ -42,15 +38,12 @@ class AuthController extends Controller
             $request->session()->regenerateToken();
 
             return redirect()->route('login')
-                ->withErrors(['email' => 'Your account has been deactivated. Please contact the administrator.']);
+                ->withErrors(['user_name' => 'Your account has been deactivated. Please contact the administrator.']);
         }
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
-    /**
-     * Destroy an authenticated session.
-     */
     public function logOut(Request $request): RedirectResponse
     {
         Auth::logout();
@@ -60,56 +53,28 @@ class AuthController extends Controller
         return redirect('/');
     }
 
-    /**
-     * Display the registration view.
-     */
+
     public function register(): View
     {
         return view('me::auth.registration');
     }
 
-    /**
-     * ধাপ ১: তথ্য যাচাই এবং সেশনে রাখা + OTP পাঠানো
-     */
-    public function registerStoreX(Request $request)
-    {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'regex:/^(?:\+88|88)?(01[3-9]\d{8})$/', 'unique:users'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
-
-        $otp = rand(100000, 999999);
-
-        // তথ্যগুলো সেশনে সেভ করে রাখা
-        session([
-            'reg_data' => [
-                'name' => $request->name,
-                'phone' => $request->phone,
-                'password' => Hash::make($request->password),
-                'otp' => $otp,
-            ]
-        ]);
-
-        // SMS পাঠানো
-        $this->sendOtpSms($request->phone, $otp);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'OTP sent to your phone. Please verify.',
-            'step' => 'otp_verify'
-        ]);
-    }
-
     public function registerStore(Request $request)
     {
-        // Ekhane 'password' confirm check hobe.
-        // Jodi confirmed field na thake, tobe request theke 'confirmed' rule shoriye nin.
-        $validator = Validator::make($request->all(), [
+        // ১. ভ্যালিডেশন লজিক ঠিক করা
+        $rules = [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'min:8'], // Confirmation chara simple rakhlam
-        ]);
+            'password' => ['required', 'min:8'],
+            'type' => ['required', 'in:phone,email'],
+        ];
+
+        if ($request->type == 'phone') {
+            $rules['identity'] = ['required', 'numeric', 'digits:11', 'unique:users,phone'];
+        } else {
+            $rules['identity'] = ['required', 'email', 'max:255', 'unique:users,email'];
+        }
+
+        $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
             return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
@@ -117,32 +82,30 @@ class AuthController extends Controller
 
         $otp = rand(100000, 999999);
 
+        // ২. সেশনে ডেটা সেভ করা (Password hash করে রাখা ভালো)
         session([
             'reg_data' => [
                 'name' => $request->name,
-                'email' => $request->email,
+                'type' => $request->type,
+                'identity' => $request->identity,
                 'password' => Hash::make($request->password),
                 'otp' => $otp,
             ]
         ]);
 
-        // Send OTP (Mail ba SMS)
-        // $this->sendOtpEmail($request->email, $otp);
+        // ৩. OTP পাঠানো
+        $this->sendOtp($request->type, $request->identity, $otp);
 
         return response()->json([
             'success' => true,
-            'message' => $otp
+            'message' => 'OTP sent successfully!',
+            'otp_debug' => $otp // প্রোডাকশনে এটা বাদ দিবেন
         ]);
     }
 
-    /**
-     * ধাপ ২: OTP চেক করা এবং সেশনের তথ্য দিয়ে ইউজার তৈরি করা
-     */
     public function verifyOtp(Request $request)
     {
-        $request->validate([
-            'otp' => ['required', 'digits:6'],
-        ]);
+        $request->validate(['otp' => ['required', 'digits:6']]);
 
         $sessionData = session('reg_data');
 
@@ -150,22 +113,23 @@ class AuthController extends Controller
             return response()->json(['success' => false, 'message' => 'Invalid OTP or session expired!'], 422);
         }
 
-        // এবার ডাটাবেসে ইউজার তৈরি করুন
-        $user = User::create([
+        // ৪. ইউজার তৈরি (ডাইনামিক কলাম সিলেকশন)
+        $userData = [
             'name' => $sessionData['name'],
-            'email' => $sessionData['email'],
             'password' => $sessionData['password'],
-            'is_active  ' => 1,
-            // 'phone_veri              fied_at' => now(),
-        ]);
+            'is_active' => 1,
+        ];
 
-        // ইভেন্ট ফায়ার করা (যদি প্রয়োজন হয়)
+        if ($sessionData['type'] == 'email') {
+            $userData['email'] = $sessionData['identity'];
+        } else {
+            $userData['phone'] = $sessionData['identity'];
+        }
+
+        $user = User::create($userData);
+
         event(new Registered($user));
-
-        // সেশন ক্লিয়ার করা
         session()->forget('reg_data');
-
-        // লগইন করানো
         Auth::login($user);
 
         return response()->json([
@@ -175,22 +139,30 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * BulkSMSBD API Integration
-     */
-    private function sendOtpSms($phone, $otp)
+    private function sendOtp($type, $identity, $otp)
     {
-        // পূর্ণাঙ্গ API URL ব্যবহার করুন
-        Http::get("https://bulksmsbd.net/api/smsapi", [
-            'api_key' => 'dBG4rYOLWW28f3ip15yW',
-            'type' => 'text',
-            'number' => $phone,
-            'senderid' => '8809617624082',
-            'message' => "Your registration OTP is: {$otp}"
-        ]);
+        if ($type == 'phone') {
+            Http::get("https://bulksmsbd.net/api/smsapi", [
+                'api_key' => 'dBG4rYOLWW28f3ip15yW', // dBG4...
+                'type' => 'text',
+                'number' => $identity,
+                'senderid' => '8809617624082',
+                'message' => "Your registration OTP is: {$otp}"
+            ]);
+        } elseif ($type == 'email') {
+            // লারাভেল মেইল ব্যবহার করে (নিশ্চিত করুন .env ফাইল কনফিগার করা আছে)
+            Mail::raw("Your registration OTP is: {$otp}", function ($message) use ($identity) {
+                $message->to($identity)->subject('Email Verification OTP');
+            });
+        }
     }
 
 
+
+    public function forgetPassword(): View
+    {
+        return view('me::auth.forget');
+    }
 
     /**
      * ধাপ ১: ফোন নম্বর যাচাই এবং OTP পাঠানো (Forget Password)
