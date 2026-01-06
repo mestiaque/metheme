@@ -32,6 +32,16 @@ function mAlert(message, type = 'success') {
         error:   'rgba(255,69,58,0.15)',
         info:    'rgba(0,122,255,0.15)'
     };
+    const icon = {
+        success: 'rgba(52,199,89,1)',
+        error:   'rgba(255,69,58,1)',
+        info:    'rgba(0,122,255,1)'
+    };
+    const iconBg = {
+        success: 'rgba(52,199,89,0.25)',
+        error:   'rgba(255,69,58,0.25)',
+        info:    'rgba(0,122,255,0.25)'
+    };
 
     const padding = 26;
     const iconSize = 42;
@@ -105,12 +115,12 @@ function mAlert(message, type = 'success') {
 
         // ------------------------
         // icon
-        ctx.fillStyle = 'rgba(255,255,255,.35)';
+        ctx.fillStyle = iconBg[type] || iconBg.success;
         ctx.beginPath();
         ctx.arc(width/2,padding+iconSize/2,iconSize/2,0,Math.PI*2);
         ctx.fill();
 
-        ctx.fillStyle = '#fff';
+        ctx.fillStyle = icon[type] || icon.success;
         ctx.font = 'bold 22px system-ui';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
@@ -118,8 +128,9 @@ function mAlert(message, type = 'success') {
 
         // ------------------------
         // text
+        ctx.fillStyle = '#fff';
         ctx.font = `${fontSize}px system-ui`;
-        let y = padding + iconSize + 18;
+        let y = padding + iconSize + 28;
         lines.forEach(l=>{
             ctx.fillText(l,width/2,y);
             y+=lineHeight;
@@ -133,13 +144,13 @@ function mAlert(message, type = 'success') {
         const closeY = closePadding + closeSize/2;
 
         // draw circle
-        ctx.fillStyle = 'rgba(255,255,255,0.2)';
+        ctx.fillStyle = 'rgba(255,255,255,0.05)';
         ctx.beginPath();
         ctx.arc(closeX, closeY, closeSize/2, 0, Math.PI*2);
         ctx.fill();
 
         // draw ✕ symbol
-        ctx.fillStyle = '#fff';
+        ctx.fillStyle = 'rgba(255,255,255,0.7)';
         ctx.font = 'bold 16px system-ui';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
