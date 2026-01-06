@@ -242,6 +242,21 @@ class AuthController extends Controller
         return view('me::auth.forget');
     }
 
+    public function verifyResetOtp(Request $request)
+    {
+        $request->validate(['otp' => 'required|digits:6']);
+
+        if (session('reset_otp') == $request->otp) {
+            // OTP verified - session e flag rakhte paro
+            session(['otp_verified_for_reset' => true]);
+            session()->save();
+
+            return response()->json(['success' => true, 'message' => 'OTP Verified']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Invalid OTP'], 422);
+    }
+
     public function forgetPasswordStore(Request $request)
     {
         $request->validate([
@@ -287,47 +302,52 @@ class AuthController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Reset OTP sent successfully.',
-            'step' => 'reset_otp_verify'
+            'step' => 'reset_otp_verify',
+            'otp' => $otp,
         ]);
     }
 
     public function resetPasswordStore(Request $request)
     {
+        // ১. নিরাপত্তা চেক: OTP ভেরিফাই হয়েছিল কিনা
+        if (!session('otp_verified_for_reset')) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized action!'], 403);
+        }
+
+        // ২. ভ্যালিডেশন (আপনার রিকোয়েস্টের ফিল্ড নামের সাথে মিল রেখে)
         $request->validate([
-            'otp' => ['required', 'digits:6'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'new_password' => [
+                'required',
+                'min:8',
+                \Illuminate\Validation\Rules\Password::defaults()
+            ],
+            'confirm_password' => [
+                'required',
+                'same:new_password' // নিশ্চিত করে যে দুটি পাসওয়ার্ড মিলেছে
+            ],
+        ], [
+            'confirm_password.same' => 'The confirm password does not match with new password.',
         ]);
 
-        $sessionType = session('reset_type');
-        $sessionIdentity = session('reset_identity');
-        $sessionOtp = session('reset_otp');
+        // ৩. ইউজারের পরিচয় বের করা (সেশন থেকে)
+        $type = session('reset_type');
+        $identity = session('reset_identity');
 
-        if (!$sessionIdentity || $sessionOtp != $request->otp) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Invalid OTP or session expired!'
-            ], 422);
-        }
-
-        // Find user dynamically
-        $user = null;
-        if ($sessionType === 'phone') {
-            $user = User::where('phone', $sessionIdentity)->first();
-        } else {
-            $user = User::where('email', $sessionIdentity)->first();
-        }
+        $user = ($type === 'phone')
+                ? User::where('phone', $identity)->first()
+                : User::where('email', $identity)->first();
 
         if (!$user) {
             return response()->json(['success' => false, 'message' => 'User not found!'], 404);
         }
 
-        // Update password
+        // ৪. পাসওয়ার্ড আপডেট (Hash::make ব্যবহার করা হয়েছে)
         $user->update([
-            'password' => Hash::make($request->password)
+            'password' => \Illuminate\Support\Facades\Hash::make($request->new_password)
         ]);
 
-        // Clear session
-        session()->forget(['reset_type', 'reset_identity', 'reset_otp']);
+        // ৫. সব সেশন ক্লিয়ার করি
+        session()->forget(['reset_type', 'reset_identity', 'reset_otp', 'otp_verified_for_reset']);
 
         return response()->json([
             'success' => true,
@@ -335,6 +355,8 @@ class AuthController extends Controller
             'redirect' => route('login')
         ]);
     }
+
+
 
 
 }
