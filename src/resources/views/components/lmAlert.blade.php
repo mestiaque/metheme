@@ -28,9 +28,9 @@ function mAlert(message, type = 'success') {
     const ctx    = canvas.getContext('2d');
 
     const theme = {
-        success: 'rgba(52,199,89,0.35)',
-        error:   'rgba(255,69,58,0.35)',
-        info:    'rgba(0,122,255,0.35)'
+        success: 'rgba(52,199,89,0.15)',
+        error:   'rgba(255,69,58,0.15)',
+        info:    'rgba(0,122,255,0.15)'
     };
 
     const padding = 26;
@@ -89,6 +89,7 @@ function mAlert(message, type = 'success') {
         ctx.scale(scale,scale);
         ctx.translate(-width/2,-height/2);
 
+        // ------------------------
         // glass card
         ctx.fillStyle = theme[type] || theme.success;
         ctx.beginPath();
@@ -97,11 +98,12 @@ function mAlert(message, type = 'success') {
 
         // highlight
         const g = ctx.createLinearGradient(0,0,width,0);
-        g.addColorStop(0,'rgba(255,255,255,.25)');
+        g.addColorStop(0,'rgba(255,255,255,.05)');
         g.addColorStop(1,'rgba(255,255,255,.05)');
         ctx.fillStyle = g;
         ctx.fill();
 
+        // ------------------------
         // icon
         ctx.fillStyle = 'rgba(255,255,255,.35)';
         ctx.beginPath();
@@ -112,9 +114,9 @@ function mAlert(message, type = 'success') {
         ctx.font = 'bold 22px system-ui';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(type==='error'?'✕':type==='info'?'ℹ':'✓',
-            width/2, padding+iconSize/2);
+        ctx.fillText(type==='error'?'✕':type==='info'?'ℹ':'✓', width/2, padding+iconSize/2);
 
+        // ------------------------
         // text
         ctx.font = `${fontSize}px system-ui`;
         let y = padding + iconSize + 18;
@@ -123,8 +125,30 @@ function mAlert(message, type = 'success') {
             y+=lineHeight;
         });
 
+        // ------------------------
+        // top-right close button
+        const closeSize = 24;        // circle size
+        const closePadding = 8;     // padding from top-right
+        const closeX = width - closePadding - closeSize/2;
+        const closeY = closePadding + closeSize/2;
+
+        // draw circle
+        ctx.fillStyle = 'rgba(255,255,255,0.2)';
+        ctx.beginPath();
+        ctx.arc(closeX, closeY, closeSize/2, 0, Math.PI*2);
+        ctx.fill();
+
+        // draw ✕ symbol
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 16px system-ui';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('✕', closeX, closeY);
+
         ctx.restore();
 
+        // ------------------------
+        // animation
         if (!closing) {
             opacity = Math.min(opacity+.1,1);
             scale = Math.min(scale+.02,1);
@@ -138,7 +162,24 @@ function mAlert(message, type = 'success') {
             canvas.style.display='none';
             blur.style.display='none';
         }
+
+        // ------------------------
+        // click handler for top-right ✕
+        canvas.onclick = (e)=>{
+            const rect = canvas.getBoundingClientRect();
+            const mx = e.clientX - rect.left;
+            const my = e.clientY - rect.top;
+
+            const dx = mx - closeX;
+            const dy = my - closeY;
+            const dist = Math.sqrt(dx*dx + dy*dy);
+
+            if(dist <= closeSize/2){
+                closing = true; // ✕ clicked → close alert
+            }
+        };
     }
+
 
     canvas.onclick = ()=> closing=true;
     setTimeout(()=> closing=true,3000);
