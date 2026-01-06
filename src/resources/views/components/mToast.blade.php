@@ -22,7 +22,7 @@
         const theme = {
             success: { bg: 'rgba(33, 150, 83, 0.95)', icon: '✓' },
             error: { bg: 'rgba(235, 87, 87, 0.95)', icon: '✕' },
-            info: { bg: 'rgba(47, 128, 237, 0.95)', icon: 'i' }
+            info: { bg: 'rgba(47,128,237,0.95)', icon: 'ℹ' }
         };
 
         const activeTheme = theme[type] || theme.success;

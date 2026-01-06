@@ -6,26 +6,61 @@ $(document).ready(function () {
     /* ============================================================
     1. TAB UI & DATA RESTORE (ALL FIELDS)
     ============================================================ */
-    function applyCenterTabUI(targetId) {
-        $('.auth-tab').removeClass('active');
-        $(`.auth-tab[data-target="${targetId}"]`).addClass('active');
+        function applyCenterTabUI(targetId) {
+            const tabsContainer = $('.auth-tabs');
+            const wrapper = $('.tab-wrapper');
+            const targetLabel = $(`.auth-tab[data-target="${targetId}"]`);
+            const indicator = $('.tab-indicator');
 
-        if (targetId === 'emailInput') {
-            $('#emailInput').removeClass('d-none');
-            $('#phoneInput').addClass('d-none');
-            localStorage.setItem('fp_type', 'email');
-        } else {
-            $('#phoneInput').removeClass('d-none');
-            $('#emailInput').addClass('d-none');
-            localStorage.setItem('fp_type', 'phone');
+            if (!targetLabel.length) return;
+
+            // ১. একটিভ ক্লাস সেট করা
+            $('.auth-tab').removeClass('active');
+            targetLabel.addClass('active');
+
+            // ২. নিখুঁত সেন্টারিং ক্যালকুলেশন
+            const containerCenter = tabsContainer.width() / 2;
+            const labelOffsetLeft = targetLabel.position().left;
+            const labelHalfWidth = targetLabel.outerWidth() / 2;
+            const labelCenterInWrapper = labelOffsetLeft + labelHalfWidth;
+
+            // wrapper কে সরিয়ে লেবেলকে মাঝখানে আনা
+            const adjustment = 10;
+            const translateX = (containerCenter - labelCenterInWrapper);
+            wrapper.css('transform', `translateX(${translateX}px)`);
+
+            // ৩. ইন্ডিকেটর পজিশন (ইন্ডিকেটর সবসময় মাঝখানে থাকবে, শুধু লেবেলের সমান চওড়া হবে)
+            indicator.css({
+                'width': targetLabel.outerWidth() + 'px',
+                'left': (containerCenter - labelHalfWidth) + 'px'
+            });
+
+            // ৪. ইনপুট ফিল্ড শো/হাইড এবং লোকাল স্টোরেজ আপডেট
+            if (targetId === 'emailInput') {
+                $('#emailInput').removeClass('d-none');
+                $('#phoneInput').addClass('d-none');
+                localStorage.setItem('fp_type', 'email');
+            } else {
+                $('#phoneInput').removeClass('d-none');
+                $('#emailInput').addClass('d-none');
+                localStorage.setItem('fp_type', 'phone');
+            }
         }
-    }
 
     // Input ভ্যালু লোকাল স্টোরেজে সেভ করা
-    $('#email, #phone, #new_password, #confirm_password').on('input', function() {
+    $('#email, #phone, #new_password, #confirm_password').on('input', function () {
         const id = $(this).attr('id');
-        localStorage.setItem('fp_' + id, $(this).val());
-        if(['new_password', 'confirm_password'].includes(id)) checkPasswordMatch();
+        const val = $(this).val().trim();
+
+        if (val === '') {
+            localStorage.removeItem('fp_' + id);   // 🔑 key remove
+        } else {
+            localStorage.setItem('fp_' + id, val);
+        }
+
+        if (['new_password', 'confirm_password'].includes(id)) {
+            checkPasswordMatch();
+        }
     });
 
     // পেজ লোড হলে সব ডাটা রিস্টোর করা
@@ -44,8 +79,10 @@ $(document).ready(function () {
     }
 
     $('.auth-tab').on('click', function () {
+        if (localStorage.getItem('fp_otp_expiry')) return;
         applyCenterTabUI($(this).data('target'));
     });
+
 
     /* ============================================================
     2. STEP 1: SEND OTP
@@ -54,7 +91,7 @@ $(document).ready(function () {
         const type = localStorage.getItem('fp_type') || 'email';
         const identity = (type === 'email') ? $('#email').val() : $('#phone').val();
 
-        if (!identity) return alert('Please enter your ' + type);
+        if (!identity) return mAlert('Please enter your ' + type, "info");
 
         const btn = $(this);
         btn.prop('disabled', true).text('Sending...');
@@ -75,7 +112,7 @@ $(document).ready(function () {
             },
             error: function (xhr) {
                 btn.prop('disabled', false).text('SEND OTP');
-                alert(xhr.responseJSON?.message || 'Error sending OTP');
+                mAlert(xhr.responseJSON?.message || 'Error sending OTP', "error");
             }
         });
     });
@@ -85,7 +122,7 @@ $(document).ready(function () {
     ============================================================ */
     $('#verifyOtpBtn').on('click', function() {
         const otp = $('#otp').val();
-        if (otp.length !== 6) return alert('Enter 6-digit OTP');
+        if (otp.length !== 6) return mAlert('Enter 6-digit OTP', "info");
 
         const btn = $(this);
         btn.prop('disabled', true).text('Verifying...');
@@ -103,7 +140,7 @@ $(document).ready(function () {
             },
             error: function(xhr) {
                 btn.prop('disabled', false).text('VERIFY OTP');
-                alert(xhr.responseJSON?.message || 'Invalid OTP');
+                mAlert(xhr.responseJSON?.message || 'Invalid OTP', "error");
             }
         });
     });
@@ -155,12 +192,12 @@ $(document).ready(function () {
                 const storageKeys = ['fp_type', 'fp_email', 'fp_phone', 'fp_new_password', 'fp_confirm_password', 'fp_otp_expiry'];
                 storageKeys.forEach(key => localStorage.removeItem(key));
 
-                alert(res.message);
+                mAlert(res.message, "success");
                 window.location.href = res.redirect;
             },
             error: function (xhr) {
                 btn.prop('disabled', false).text('RESET PASSWORD');
-                alert(xhr.responseJSON?.message || 'Error resetting password');
+                mAlert(xhr.responseJSON?.message || 'Error resetting password', "error");
             }
         });
     });
@@ -174,11 +211,13 @@ $(document).ready(function () {
             const distance = expiryTime - Date.now();
             if (distance <= 0) {
                 clearInterval(timerInterval);
+
+                localStorage.removeItem('fp_otp_expiry'); // 🔑 MUST
+
                 $('#otp-section').hide();
                 $('#timer-display').hide();
                 $('#send-otp-container').show();
                 $('#sendOtpBtn').prop('disabled', false).text('RESEND OTP');
-                // Inputs enable korte hobe abar
                 $('#email, #phone').prop('disabled', false);
                 return;
             }
