@@ -118,4 +118,5 @@
             text-decoration: none;
         }
     </style>
+
 @endpush

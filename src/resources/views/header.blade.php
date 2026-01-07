@@ -1,21 +1,34 @@
 <!--begin::Header-->
-<nav class="app-header navbar navbar-expand bg-body sticky-top shadow bg-encodex">
+<nav class="app-header navbar navbar-expand header-glass sticky-top shadow">
   <!--begin::Container-->
   <div class="container-fluid">
     <!--begin::Start Navbar Links-->
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link sidebar-toggle-btn" data-lte-toggle="sidebar" href="#" role="button">
-          <i class="bi bi-list"></i>
+    <ul class="navbar-nav d-flex align-items-center flex-row"> <!-- align-items-center এখানে মূল ভূমিকা রাখবে -->
+    <li class="nav-item">
+        <a class="nav-link sidebar-toggle-btn d-flex align-items-center justify-content-center"
+        data-lte-toggle="sidebar"
+        href="#"
+        role="button"
+        style="height: 40px; width: 40px; line-height: 1;"> <!-- হাইট লোগোর সমান রাখা হয়েছে -->
+        <i class="bi bi-list" style="font-size: 1.5rem;"></i>
         </a>
-      </li>
-      <li class="nav-item d-nonex d-md-block">
-        <a href="{{ Route::has('admin.dashboard') ? route('admin.dashboard') : route('me.dashboard') }}" class="nav-link">
-          {{-- <img loading="lazy" src="{{ asset('assets/img/default-img/Encodex_c.png') }}" class="company-logo" alt="Company Logo"> --}}
-          <img loading="lazy" src="{{ get_image('app_logo') ?? asset('assets/img/default-img/Encodex_c.png') }}" class="company-logo" alt="Company Logo">
+    </li>
+
+    <li class="nav-item d-none d-md-block ms-2"> <!-- ms-2 দিয়ে একটু গ্যাপ দেওয়া হয়েছে -->
+        <a href="{{ Route::has('admin.dashboard') ? route('admin.dashboard') : route('me.dashboard') }}"
+            class="nav-link d-flex align-items-center"
+            style="height: 40px; padding: 0;"> <!-- প্যাডিং ০ করে দেওয়া হয়েছে যাতে ইমেজ বড় হলে সমস্যা না হয় -->
+
+            <img loading="lazy"
+                src="{{ get_image('app_logo') ?? asset('assets/img/default-img/Encodex_c.png') }}"
+                class="company-logo"
+                alt="Company Logo"
+                style="max-height: 100%; width: auto; display: block;">
         </a>
-      </li>
+    </li>
     </ul>
+
+
     <!--end::Start Navbar Links-->
 
     <!--begin::End Navbar Links-->
@@ -161,48 +174,153 @@
 <!--end::Header-->
 
 <style>
+/* মেইন হেডার গ্লাস ইফেক্ট */
+.header-glass {
+    background: rgba(255, 255, 255, 0.05) !important; /* হালকা ট্রান্সপারেন্ট */
+    backdrop-filter: blur(15px) saturate(160%); /* ব্লার ইফেক্ট */
+    -webkit-backdrop-filter: blur(15px) saturate(160%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* নেভিগেশন লিঙ্ক এবং আইকন স্টাইল */
+.app-header .navbar-nav .nav-link {
+    color: rgba(16, 7, 70, 0.9) !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+}
+
+.app-header .navbar-nav .nav-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff !important;
+    transform: translateY(-1px);
+}
+.dropdown-menu{
+    background: rgba(255, 255, 255, 0.99) !important;
+    backdrop-filter: blur(15px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(15px) saturate(180%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1) !important;
+    padding: 10px !important;
+    /* overflow: hidden; */
+}
+
+.dropdown ul.dropdown-menu:before {
+    content: "";
+    border-bottom: 10px solid rgba(255, 255, 255, 0.99) !important;
+    border-right: 10px solid transparent;
+    border-left: 10px solid transparent;
+    position: absolute;
+    top: -10px;
+    right: 16px;
+    z-index: 10;
+}
+
+.dropdown ul.dropdown-menu:after {
+    content: "";
+    border-bottom: 12px solid rgba(255, 255, 255, 0.59) !important;
+    border-right: 12px solid transparent;
+    border-left: 12px solid transparent;
+    position: absolute;
+    top: -12px;
+    right: 14px;
+    z-index: 9;
+}
+
+.dropdown-menu .dropdown-item {
+color: #1a1a1a !important;
+font-weight: 500;
+padding: 8px 15px;
+border-radius: 8px;
+}
+
+/* হোভার করলে আইটেমের ব্যাকগ্রাউন্ড */
+.dropdown-menu .dropdown-item:hover {
+background: rgba(18, 26, 148, 0.5) !important;
+color: #000 !important;
+}
+
+/* ডিভাইডার লাইন */
+.dropdown-divider {
+border-top: 1px solid rgba(255, 255, 255, 1) !important;
+margin: 5px 0;
+}
+
+
+/* লোগো এবং ইমেজ ইফেক্ট */
+.company-logo {
+    height: 32px;
+    width: auto;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
+    transition: transform 0.3s ease;
+}
+
+.company-logo:hover {
+    transform: scale(1.05);
+}
+
+.user-image {
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    padding: 1px;
+}
+
+/* ভাষা সিলেক্টর স্টাইল */
+#languageDropdown {
+    background: rgba(255, 255, 255, 0.05);
+    margin: 0 5px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* রেসপন্সিভ ফিক্স */
+
+
+@media (max-width: 767.98px) {
+    /* হেডার কন্টেইনার ফিক্স */
+    .app-header .container-fluid {
+        display: flex;
+        flex-wrap: nowrap; /* আইটেমগুলোকে এক লাইনে রাখবে, নিচে নামতে দেবে না */
+        padding-left: 5px;
+        padding-right: 5px;
+        justify-content: space-between;
+    }
+
+    /* লোগোর সাইজ কমানো */
     .company-logo {
-        height: 34px;
-        width: auto;
-        margin-top: -6.51px !important;
-        filter: drop-shadow(rgb(255, 255, 255) 2px 3px 8px);
+        height: 24px !important; /* ছোট স্ক্রিনে লোগো ছোট করা */
+        margin-top: 0 !important;
     }
-    .fullscreen-toggle i{
-        margin-top: -1.1px !important;
+
+    /* ইউজার ইমেজ এবং টেক্সট ফিক্স */
+    .user-menu .user-name {
+        display: none !important; /* মোবাইলে নাম হাইড রাখা ভালো */
     }
-    .app-header{
-       box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3) !important;
-       border: none !important;
-       color: white !important;
+
+    .user-image {
+        width: 28px !important; /* প্রোফাইল ইমেজ ছোট করা */
+        height: 28px !important;
+        margin-right: 0 !important;
     }
+
+    /* নেভিগেশন আইটেমগুলোর গ্যাপ কমানো */
     .app-header .navbar-nav .nav-link {
-        color: white !important;
-    }
-    .user-name{
-        margin-top: -1px !important;
-    }
-</style>
-
-<style>
-    .company-logo {
-        /* filter:
-            drop-shadow(0 0 8px white)
-            drop-shadow(0 0 12px white)
-            drop-shadow(0 0 16px white); */
-        padding: 2px;
-        border-radius: 6px;
+        padding: 0.5rem 0.4rem !important;
     }
 
-    @media (max-width: 767px) {
-        .hide-mobile {
-            display: none !important;
-        }
-        .container-fluid{
-            padding: 0  ;
-        }
+    /* ড্রপডাউন মেনু যাতে স্ক্রিনের বাইরে না যায় */
+    .dropdown-menu-end {
+        right: 5px !important;
+        left: auto !important;
+        position: absolute !important;
     }
 
-
+    /* ল্যাঙ্গুয়েজ সিলেক্টর মোবাইলে ছোট করা */
+    #languageDropdown span:not(.hide-mobile) {
+        font-size: 16px !important;
+    }
+}
 </style>
 
 

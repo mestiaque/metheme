@@ -303,7 +303,6 @@ class AuthController extends Controller
             'success' => true,
             'message' => 'Reset OTP sent successfully.',
             'step' => 'reset_otp_verify',
-            'otp' => $otp,
         ]);
     }
 

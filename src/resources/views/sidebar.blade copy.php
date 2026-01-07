@@ -1,6 +1,6 @@
 <!--begin::Sidebar-->
 <!--begin::Sidebar-->
-<aside class="app-sidebar sidebar-glass bg-encodexx shadow" data-bs-theme="dark">
+<aside class="app-sidebar bg-encodex shadow" data-bs-theme="dark">
   <div class="sidebar-brand">
     @php $url = get_setting('root_url') ?: '/'; @endphp
     <a href="{{ $url }}" class="brand-link">
@@ -15,15 +15,14 @@
 
   <div class="sidebar-wrapper">
     <nav class="">
-    <ul
-  class="nav sidebar-menu flex-column"
-  data-lte-toggle="treeview"
-  role="navigation"
-  aria-label="Main navigation"
-  data-accordion="false"
-  id="navigation"
->
-
+      <ul
+        class="nav sidebar-menu flex-column"
+        data-lte-toggle="treeview"
+        role="navigation"
+        aria-label="Main navigation"
+        data-accordion="false"
+        id="navigation"
+      >
         <li class="company-text-sidebar">{{ get_setting('shop_name', 'mESTIAQUE') }}</li>
         @foreach(config('sidebar') as $item)
           @if(isset($item['header']))
@@ -113,100 +112,76 @@
   </div>
 </aside>
 
+
 <style>
-/* ============================================== */
-/* ১. গ্লাস থিম (সাইডবার) বেস স্টাইল */
-/* ============================================== */
-.sidebar-glass {
-    background: rgba(255, 255, 255, 0.05) !important; /* হালকা ট্রান্সপারেন্ট BG */
-    backdrop-filter: blur(15px) saturate(150%) !important; /* ব্লার এবং স্যাচুরেশন */
-    -webkit-backdrop-filter: blur(15px) saturate(150%) !important;
-    border-right: 1px solid rgba(255, 255, 255, 0.1) !important; /* সূক্ষ্ম বর্ডার */
-    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.2) !important;
+.nav-item.menu-open > .nav-link {
+  background: rgba(0,123,255,0.15);
+  border-radius: 8px 8px 0 0;
 }
 
-/* সাইডবার র‍্যাপার স্বচ্ছ রাখা */
-.sidebar-wrapper {
-    background: transparent !important;
+.nav-treeview {
+  background: rgba(255,255,255,0.05);
+  margin: 0 8px 8px 16px;
+  border-left: 2px solid #007bff;
+  border-radius: 0 0 8px 8px;
+  padding: 2px 0;
 }
 
-/* ============================================== */
-/* ২. মেনু আইটেম ডিজাইন */
-/* ============================================== */
-/* .nav-item {
-    margin: 4px 12px !important;
-} */
-
-.nav-link {
-    border-radius: 12px !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    color: rgba(160, 16, 16, 0.9) !important;
-    padding: 0.5rem 1rem !important;
-    border: 1px solid transparent !important;
+.nav-treeview .nav-link {
+  padding-left: 0px;
+  font-size: 14px;
+  border-radius: 6px;
+  margin: 2px 8px;
 }
 
-/* হোভার ইফেক্ট */
-.nav-link:hover {
-    background: rgba(33, 27, 121, 0.1) !important;
-    transform: translateX(2px);
+.nav-treeview .nav-link:hover {
+  background-color: rgba(255,255,255,0.08);
 }
 
-/* একটিভ মেনু - Liquid Gradient */
-.nav-link.active {
-    background: linear-gradient(135deg, rgba(15, 155, 214, 0.8), rgba(0, 86, 179, 0.8)) !important;
-    box-shadow: 0 4px 15px rgba(15, 155, 214, 0.4) !important;
-    color: #025e0e !important;
-    border-color: rgba(255, 255, 255, 0.2) !important;
+.nav-treeview .nav-link.active {
+  background: linear-gradient(135deg, #0f9bd6, #0056b3);
+  color: white !important;
+  box-shadow: 0 2px 6px rgba(0,123,255,0.25);
 }
 
 .nav-link.active i {
-    color: rgb(38, 207, 4) !important;
+  color: white !important;
 }
 
-/* সাব-মেনু (Treeview) ডিজাইন */
-.nav-treeview {
-    background: rgba(255, 255, 255, 0.03) !important;
-    margin: 5px 0 5px 0px !important;
-    border-left: 1px solid rgba(255, 255, 255, 0.2) !important;
-    border-radius: 0 0 12px 12px;
-    padding: 5px 0;
+.parentnav{
+    padding-top: 5px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* ড্রপডাউন ওপেন থাকলে প্যারেন্ট স্টাইল */
-.nav-item.menu-open > .nav-link {
-    background: rgba(255, 255, 255, 0.07) !important;
-    font-weight: 600;
+aside .brand-image{
+    /* filter: drop-shadow(rgb(255, 255, 255) 2px 0px 6px); */
+    filter:
+            drop-shadow(0 0 8px white)
+            drop-shadow(0 0 12px white)
+            drop-shadow(0 0 16px white) !important;
+    /* background: #f1efef !important; */
 }
 
-/* ============================================== */
-/* ৩. অন্যান্য স্টাইল ও ফিক্স */
-/* ============================================== */
+.sidebar-menu > .parentnav:first-child {
+    border-top: none;
+}
 
-/* কোম্পানি টেক্সট */
-.company-text-sidebar
- {
-    font-size: 1rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    background: linear-gradient(to right, #ff7979, #ffe26e);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    padding: 0px 0 10px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+.company-text-sidebar{
+    font-size: 1.2rem;
     text-align: center;
+    margin-bottom: 0.5rem;
+    color: #ffffff;
+    white-space: normal !important;
 }
 
-/* ব্র্যান্ড লোগো গ্লো ইফেক্ট */
-aside .brand-image {
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5)) !important;
-}
 
-/* মোবাইল রেসপন্সিভ */
-@media (max-width: 767px) {
-    .hide-mobile {
-        display: none !important;
-    }
-}
+  @media (max-width: 767px) {
+      .hide-mobile {
+          display: none !important;
+      }
+  }
+
 </style>
+<!--end::Sidebar-->
+
 

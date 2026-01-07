@@ -91,7 +91,7 @@
             const identity = (type === 'email') ? $('#email').val() : $('#phone').val();
 
             if (!name || !password || !identity) {
-                alert('Please fill all fields');
+                mAlert('Please fill all fields', "info");
                 return;
             }
 
@@ -116,7 +116,7 @@
                 },
                 error: function (xhr) {
                     btn.prop('disabled', false).text('SEND OTP');
-                    alert(xhr.responseJSON?.message || 'Error sending OTP');
+                    mAlert(xhr.responseJSON?.message || 'Error sending OTP', "error");
                 }
             });
         });
@@ -127,7 +127,7 @@
         $('#registrationForm').on('submit', function (e) {
             e.preventDefault();
             const otp = $('#otp').val();
-            if (otp.length !== 6) return alert('Enter 6-digit OTP');
+            if (otp.length !== 6) return mAlert('Enter 6-digit OTP', "info");
 
             $.ajax({
                 url: "{{ route('otpVerify') }}",
@@ -142,7 +142,7 @@
                     window.location.href = response.redirect;
                 },
                 error: function (xhr) {
-                    alert(xhr.responseJSON?.message || 'Invalid OTP');
+                    mAlert(xhr.responseJSON?.message || 'Invalid OTP', "error");
                 }
             });
         });
