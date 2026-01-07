@@ -602,75 +602,174 @@
      * Class Definition
      * ====================================================
      */
-    class PushMenu {
-        _element;
-        _config;
-        constructor(element, config) {
-            this._element = element;
-            this._config = { ...Defaults, ...config };
-        }
-        menusClose() {
-            const navTreeview = document.querySelectorAll(SELECTOR_NAV_TREEVIEW);
-            navTreeview.forEach(navTree => {
-                navTree.style.removeProperty('display');
-                navTree.style.removeProperty('height');
-            });
-            const navSidebar = document.querySelector(SELECTOR_SIDEBAR_MENU);
-            const navItem = navSidebar?.querySelectorAll(SELECTOR_NAV_ITEM);
-            if (navItem) {
-                navItem.forEach(navI => {
-                    navI.classList.remove(CLASS_NAME_MENU_OPEN);
-                });
-            }
-        }
-        expand() {
-            const event = new Event(EVENT_OPEN);
-            document.body.classList.remove(CLASS_NAME_SIDEBAR_COLLAPSE);
-            document.body.classList.add(CLASS_NAME_SIDEBAR_OPEN);
-            this._element.dispatchEvent(event);
-        }
-        collapse() {
-            const event = new Event(EVENT_COLLAPSE);
-            document.body.classList.remove(CLASS_NAME_SIDEBAR_OPEN);
-            document.body.classList.add(CLASS_NAME_SIDEBAR_COLLAPSE);
-            this._element.dispatchEvent(event);
-        }
-        addSidebarBreakPoint() {
-            const sidebarExpandList = document.querySelector(SELECTOR_SIDEBAR_EXPAND)?.classList ?? [];
-            const sidebarExpand = Array.from(sidebarExpandList).find(className => className.startsWith(CLASS_NAME_SIDEBAR_EXPAND)) ?? '';
-            const sidebar = document.getElementsByClassName(sidebarExpand)[0];
-            const sidebarContent = globalThis.getComputedStyle(sidebar, '::before').getPropertyValue('content');
-            this._config = { ...this._config, sidebarBreakpoint: Number(sidebarContent.replace(/[^\d.-]/g, '')) };
-            // FIXED: Don't auto-collapse on mobile if sidebar is currently open
-            // This prevents resize events (triggered by scrolling) from closing the sidebar
-            const isCurrentlyOpen = document.body.classList.contains(CLASS_NAME_SIDEBAR_OPEN);
-            if (window.innerWidth <= this._config.sidebarBreakpoint) {
-                // Only collapse if not currently open (prevents scroll-triggered closes)
-                if (!isCurrentlyOpen) {
-                    this.collapse();
-                }
-            }
-            else {
-                if (!document.body.classList.contains(CLASS_NAME_SIDEBAR_MINI)) {
-                    this.expand();
-                }
-                if (document.body.classList.contains(CLASS_NAME_SIDEBAR_MINI) && document.body.classList.contains(CLASS_NAME_SIDEBAR_COLLAPSE)) {
-                    this.collapse();
-                }
-            }
-        }
-        toggle() {
-            if (document.body.classList.contains(CLASS_NAME_SIDEBAR_COLLAPSE)) {
-                this.expand();
-            }
-            else {
-                this.collapse();
-            }
-        }
-        init() {
-            this.addSidebarBreakPoint();
+    // class PushMenu {
+    //     _element;
+    //     _config;
+    //     constructor(element, config) {
+    //         this._element = element;
+    //         this._config = { ...Defaults, ...config };
+    //     }
+    //     menusClose() {
+    //         const navTreeview = document.querySelectorAll(SELECTOR_NAV_TREEVIEW);
+    //         navTreeview.forEach(navTree => {
+    //             navTree.style.removeProperty('display');
+    //             navTree.style.removeProperty('height');
+    //         });
+    //         const navSidebar = document.querySelector(SELECTOR_SIDEBAR_MENU);
+    //         const navItem = navSidebar?.querySelectorAll(SELECTOR_NAV_ITEM);
+    //         if (navItem) {
+    //             navItem.forEach(navI => {
+    //                 navI.classList.remove(CLASS_NAME_MENU_OPEN);
+    //             });
+    //         }
+    //     }
+    //     expand() {
+    //         const event = new Event(EVENT_OPEN);
+    //         document.body.classList.remove(CLASS_NAME_SIDEBAR_COLLAPSE);
+    //         document.body.classList.add(CLASS_NAME_SIDEBAR_OPEN);
+    //         this._element.dispatchEvent(event);
+    //     }
+    //     collapse() {
+    //         const event = new Event(EVENT_COLLAPSE);
+    //         document.body.classList.remove(CLASS_NAME_SIDEBAR_OPEN);
+    //         document.body.classList.add(CLASS_NAME_SIDEBAR_COLLAPSE);
+    //         this._element.dispatchEvent(event);
+    //     }
+    //     addSidebarBreakPoint() {
+    //         const sidebarExpandList = document.querySelector(SELECTOR_SIDEBAR_EXPAND)?.classList ?? [];
+    //         const sidebarExpand = Array.from(sidebarExpandList).find(className => className.startsWith(CLASS_NAME_SIDEBAR_EXPAND)) ?? '';
+    //         const sidebar = document.getElementsByClassName(sidebarExpand)[0];
+    //         const sidebarContent = globalThis.getComputedStyle(sidebar, '::before').getPropertyValue('content');
+    //         this._config = { ...this._config, sidebarBreakpoint: Number(sidebarContent.replace(/[^\d.-]/g, '')) };
+    //         // FIXED: Don't auto-collapse on mobile if sidebar is currently open
+    //         // This prevents resize events (triggered by scrolling) from closing the sidebar
+    //         const isCurrentlyOpen = document.body.classList.contains(CLASS_NAME_SIDEBAR_OPEN);
+    //         if (window.innerWidth <= this._config.sidebarBreakpoint) {
+    //             // Only collapse if not currently open (prevents scroll-triggered closes)
+    //             if (!isCurrentlyOpen) {
+    //                 this.collapse();
+    //             }
+    //         }
+    //         else {
+    //             if (!document.body.classList.contains(CLASS_NAME_SIDEBAR_MINI)) {
+    //                 this.expand();
+    //             }
+    //             if (document.body.classList.contains(CLASS_NAME_SIDEBAR_MINI) && document.body.classList.contains(CLASS_NAME_SIDEBAR_COLLAPSE)) {
+    //                 this.collapse();
+    //             }
+    //         }
+    //     }
+    //     toggle() {
+    //         if (document.body.classList.contains(CLASS_NAME_SIDEBAR_COLLAPSE)) {
+    //             this.expand();
+    //         }
+    //         else {
+    //             this.collapse();
+    //         }
+    //     }
+    //     init() {
+    //         this.addSidebarBreakPoint();
+    //     }
+    // }
+class PushMenu {
+    constructor(element, config) {
+        this._element = element;
+        // Defaults যদি ডিফাইন করা না থাকে তবে এরর এড়াতে {} দেয়া হয়েছে
+        const defaults = typeof Defaults !== 'undefined' ? Defaults : {};
+        this._config = { 
+            sidebarBreakpoint: 992, 
+            ...defaults, 
+            ...config 
+        };
+    }
+
+    expand() {
+        document.body.classList.remove('sidebar-collapse');
+        document.body.classList.add('sidebar-open');
+        if (window.innerWidth > this._config.sidebarBreakpoint) {
+            localStorage.setItem('sidebarState', 'expanded');
         }
     }
+
+    collapse() {
+        document.body.classList.remove('sidebar-open');
+        document.body.classList.add('sidebar-collapse');
+        if (window.innerWidth > this._config.sidebarBreakpoint) {
+            localStorage.setItem('sidebarState', 'collapsed');
+        }
+    }
+
+    applySavedState() {
+        const width = window.innerWidth;
+        const savedState = localStorage.getItem('sidebarState');
+        
+
+        if (width > this._config.sidebarBreakpoint) {
+            if (savedState === 'collapsed') {
+                document.body.classList.add('sidebar-collapse');
+            } else {
+                document.body.classList.remove('sidebar-collapse');
+            }
+        } else {
+            document.body.classList.add('sidebar-collapse');
+        }
+    }
+
+    toggle() {
+        if (document.body.classList.contains('sidebar-collapse')) {
+            this.expand();
+        } else {
+            this.collapse();
+        }
+    }
+
+    init() {
+        this.applySavedState();
+        
+        // টগল বাটনে ক্লিক ইভেন্ট অ্যাড করা
+        const toggleBtn = document.querySelector('[data-lte-toggle="sidebar"]');
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.toggle();
+            });
+        }
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth <= this._config.sidebarBreakpoint) {
+                document.body.classList.remove('sidebar-open');
+            }
+        });
+    }
+}
+
+// নিচের এই অংশটি কোডকে রান করাবে
+document.addEventListener('DOMContentLoaded', () => {
+    const sidebarBtn = document.querySelector('[data-lte-toggle="sidebar"]');
+    const pushMenu = new PushMenu(sidebarBtn);
+    pushMenu.init(); 
+});
+
+
+
+// OverlayScrollbars অংশটি আগের মতোই থাকবে
+document.addEventListener('DOMContentLoaded', function () {
+    const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
+    const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
+    const isMobile = window.innerWidth <= 992;
+
+    if (sidebarWrapper && typeof OverlayScrollbarsGlobal !== 'undefined' && !isMobile) {
+        OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
+            scrollbars: {
+                theme: 'os-theme-light',
+                autoHide: 'leave',
+                clickScroll: true,
+            },
+        });
+    }
+});
+
+
     /**
      * ------------------------------------------------------------------------
      * Data Api implementation

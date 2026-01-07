@@ -93,6 +93,17 @@
   <!--end::Head-->
   <!--begin::Body-->
   <body class="layout-fixed sidebar-expand-lg sidebar-mini sidebar-collapsex bg-body-tertiary">
+        <script>
+          (function() {
+              const savedState = localStorage.getItem('sidebarState');
+              const breakpoint = 992;
+              if (window.innerWidth > breakpoint && savedState === 'collapsed') {
+                  document.body.classList.add('sidebar-collapse');
+              } else if (window.innerWidth <= breakpoint) {
+                  document.body.classList.add('sidebar-collapse');
+              }
+          })();
+      </script>
     <!--begin::App Wrapper-->
     <div class="app-wrapper">
 
@@ -158,7 +169,9 @@
     <!--end::Required Plugin(Bootstrap 5)-->
 
     <!--begin::Required Plugin(AdminLTE)-->
-    <script src="{{ asset('js/adminlte.js') }}"></script>
+    {{-- <script src="{{ asset('js/adminlte.js') }}"></script> --}}
+    <script src="{{ asset('js/adminlte.js') }}?v={{ time() }}"></script>
+
     <!--end::Required Plugin(AdminLTE)-->
 
     <!-- jQuery -->
@@ -194,37 +207,6 @@
       integrity="sha256-XPpPaZlU8S/HWf7FZLAncLg2SAkP8ScUTII89x9D3lY="
       crossorigin="anonymous"
     ></script>
-
-    <!--begin::OverlayScrollbars Configure-->
-    <script>
-      const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
-      const Default = {
-        scrollbarTheme: 'os-theme-light',
-        scrollbarAutoHide: 'leave',
-        scrollbarClickScroll: true,
-      };
-      document.addEventListener('DOMContentLoaded', function () {
-        const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
-
-        // Disable OverlayScrollbars on mobile devices to prevent touch interference
-        const isMobile = window.innerWidth <= 992;
-
-        if (
-          sidebarWrapper &&
-          OverlayScrollbarsGlobal?.OverlayScrollbars !== undefined &&
-          !isMobile
-        ) {
-          OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
-            scrollbars: {
-              theme: Default.scrollbarTheme,
-              autoHide: Default.scrollbarAutoHide,
-              clickScroll: Default.scrollbarClickScroll,
-            },
-          });
-        }
-      });
-    </script>
-    <!--end::OverlayScrollbars Configure-->
 
     <script>
         $(document).ready(function() {
@@ -343,73 +325,6 @@
         });
     </script>
 
-    <!-- Sidebar Toggle Script -->
-    {{-- <script>
-        $(document).ready(function() {
-            if (localStorage.getItem('isSidebarOpen') === 'false') {
-                $('body').addClass('sidebar-mini');
-                $('body').addClass('sidebar-collapse');
-                console.log('Sidebar is minimized hide');
-            } else {
-                $('body').removeClass('sidebar-mini');
-                $('body').removeClass('sidebar-collapse');
-            }
-
-            $('.sidebar-toggle-btn').on('click', function() {
-
-                if (localStorage.getItem('isSidebarOpen') === 'true') {
-                    localStorage.setItem('isSidebarOpen', 'false');
-                    $('body').addClass('sidebar-mini');
-                    $('body').addClass('sidebar-collapse');
-                } else {
-                    localStorage.setItem('isSidebarOpen', 'true');
-                    $('body').removeClass('sidebar-mini');
-                    $('body').removeClass('sidebar-collapse');
-                }
-            });
-        });
-    </script> --}}
-
-    <script>
-        $(document).ready(function() {
-
-            function isMobile() {
-                return window.innerWidth <= 768;
-            }
-
-            // Initialize sidebar only on desktop
-            if (!isMobile()) {
-                // Apply saved sidebar state
-                if (localStorage.getItem('isSidebarOpen') === 'false') {
-                    $('body').addClass('sidebar-mini sidebar-collapse');
-                } else {
-                    $('body').removeClass('sidebar-mini sidebar-collapse');
-                }
-
-                // Toggle button
-                $('.sidebar-toggle-btn').off('click').on('click', function() {
-                    if (localStorage.getItem('isSidebarOpen') === 'true') {
-                        localStorage.setItem('isSidebarOpen', 'false');
-                        $('body').addClass('sidebar-mini sidebar-collapse');
-                    } else {
-                        localStorage.setItem('isSidebarOpen', 'true');
-                        $('body').removeClass('sidebar-mini sidebar-collapse');
-                    }
-                });
-            } else {
-                // Mobile: remove classes and ignore toggle
-                $('body').removeClass('sidebar-mini sidebar-collapse');
-            }
-
-            // Optional: update on resize
-            $(window).resize(function() {
-                if (isMobile()) {
-                    $('body').removeClass('sidebar-mini sidebar-collapse');
-                }
-            });
-
-        });
-    </script>
 
 
 
