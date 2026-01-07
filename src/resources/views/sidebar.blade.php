@@ -13,104 +13,102 @@
     </a>
   </div>
 
-  <div class="sidebar-wrapper">
-    <nav class="">
-    <ul
-  class="nav sidebar-menu flex-column"
-  data-lte-toggle="treeview"
-  role="navigation"
-  aria-label="Main navigation"
-  data-accordion="false"
-  id="navigation"
->
+    <div class="sidebar-wrapper">
+        <nav class="">
+            <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation" aria-label="Main navigation" data-accordion="false" id="navigation">
 
-        <li class="company-text-sidebar">{{ get_setting('shop_name', 'mESTIAQUE') }}</li>
-        @foreach(config('sidebar') as $item)
-          @if(isset($item['header']))
-            <li class="nav-header">
-              <i class="{{ $item['icon'] ?? 'bi bi-grid-3x3-gap-fill' }} me-2"></i>
-              {{ strtoupper(__($item['header'])) }}
-            </li>
-          @elseif(isset($item['children']))
-            @php
-              $visibleChildren = collect($item['children'])->filter(function($child) {
-                if (isset($child['permit']) && !auth()->user()->can($child['permit'])) {
-                  return false;
-                }
-                try {
-                  route($child['route']);
-                  return true;
-                } catch (\Exception $e) {
-                  return false;
-                }
-              });
+                <li class="company-text-sidebar">{{ get_setting('shop_name', 'mESTIAQUE') }}</li>
 
-              $isParentActive = $visibleChildren->contains(function($child) {
-                try {
-                  return request()->routeIs($child['route'] . '*');
-                } catch (\Exception $e) {
-                  return false;
-                }
-              });
-            @endphp
+                @foreach(config('sidebar') as $item)
+                    @if(isset($item['header']))
+                        <li class="nav-header">
+                            <i class="{{ $item['icon'] ?? 'bi bi-grid-3x3-gap-fill' }} me-2"></i>
+                            {{ strtoupper(__($item['header'])) }}
+                        </li>
+                    @elseif(isset($item['children']))
+                        @php
+                            $visibleChildren = collect($item['children'])->filter(function($child) {
+                                if (isset($child['permit']) && !auth()->user()->can($child['permit'])) {
+                                    return false;
+                                }
+                                try {
+                                    route($child['route']);
+                                    return true;
+                                } catch (\Exception $e) {
+                                    return false;
+                                }
+                            });
 
-            @if($visibleChildren->isNotEmpty())
-              <li class="parentnav nav-item {{ $isParentActive ? 'menu-open' : '' }} {{ (isset($item['active']) && $item['active'] === true) ? 'menu-open' : '' }}">
-                <a href="#" class="nav-link {{ $isParentActive ? 'active' : '' }}">
-                  <i class="nav-icon {{ $item['icon'] }} {{ $item['icon_color'] ?? 'text-primary' }}"></i>
-                  <p>
-                    {{ __($item['title']) }}
-                    <i class="nav-arrow bi bi-chevron-right"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  @foreach($visibleChildren as $child)
-                    @php
-                      $isChildActive = false;
-                      try {
-                        $isChildActive = request()->routeIs($child['route'] . '*');
-                      } catch (\Exception $e) {}
-                    @endphp
-                    <li class="nav-item p-1">
-                      <a href="{{ route($child['route']) }}" class="nav-link {{ $isChildActive ? 'active' : '' }} m-1">
-                        <i class="nav-icon {{ $child['icon'] }} {{ $child['icon_color'] ?? 'text-muted' }}"></i>
-                        <p>{{ __($child['title']) }}</p>
-                      </a>
-                    </li>
-                  @endforeach
-                </ul>
-              </li>
-            @endif
-          @else
-            @php
-              $canAccess = !isset($item['permit']) || auth()->user()->can($item['permit']);
-              $routeExists = false;
-              try {
-                route($item['route']);
-                $routeExists = true;
-              } catch (\Exception $e) {}
+                            $isParentActive = $visibleChildren->contains(function($child) {
+                                try {
+                                    // for_active thakle sheta check korbe, na thakle route*
+                                    $pattern = isset($child['for_active']) ? $child['for_active'] . '*' : $child['route'] . '*';
+                                    return request()->routeIs($pattern);
+                                } catch (\Exception $e) {
+                                    return false;
+                                }
+                            });
+                        @endphp
 
-              $isActive = false;
-              if ($routeExists) {
-                try {
-                  $isActive = request()->routeIs($item['route'] . '*');
-                } catch (\Exception $e) {}
-              }
-            @endphp
+                        @if($visibleChildren->isNotEmpty())
+                            <li class="parentnav nav-item {{ $isParentActive ? 'menu-open' : '' }} {{ (isset($item['active']) && $item['active'] === true) ? 'menu-open' : '' }}">
+                                <a href="#" class="nav-link {{ $isParentActive ? 'active' : '' }}">
+                                    <i class="nav-icon {{ $item['icon'] }} {{ $item['icon_color'] ?? 'text-primary' }}"></i>
+                                    <p>
+                                        {{ __($item['title']) }}
+                                        <i class="nav-arrow bi bi-chevron-right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    @foreach($visibleChildren as $child)
+                                        @php
+                                            $isChildActive = false;
+                                            try {
+                                                $childPattern = isset($child['for_active']) ? $child['for_active'] . '*' : $child['route'] . '*';
+                                                $isChildActive = request()->routeIs($childPattern);
+                                            } catch (\Exception $e) {}
+                                        @endphp
+                                        <li class="nav-item">
+                                            <a href="{{ route($child['route']) }}" class="nav-link {{ $isChildActive ? 'active' : '' }} m-1">
+                                                <i class="nav-icon {{ $child['icon'] }} {{ $child['icon_color'] ?? 'text-muted' }}"></i>
+                                                <p>{{ __($child['title']) }}</p>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </li>
+                        @endif
+                    @else
+                        @php
+                            $canAccess = !isset($item['permit']) || auth()->user()->can($item['permit']);
+                            $routeExists = false;
+                            try {
+                                route($item['route']);
+                                $routeExists = true;
+                            } catch (\Exception $e) {}
 
-            @if($canAccess && $routeExists)
-                <li class="parentnav nav-item {{ $isActive ? 'menu-open' : '' }}">
-                  <a href="{{ route($item['route']) }}" class="nav-link {{ $isActive ? 'active' : '' }}">
-                    <i class="nav-icon {{ $item['icon'] }} {{ $item['icon_color'] ?? 'text-primary' }}"></i>
-                    <p>{{ __($item['title']) }}</p>
-                  </a>
-                </li>
-            @endif
-          @endif
-        @endforeach
-      </ul>
-    </nav>
-  </div>
+                            $isActive = false;
+                            if ($routeExists) {
+                                try {
+                                    $parentPattern = isset($item['for_active']) ? $item['for_active'] . '*' : $item['route'] . '*';
+                                    $isActive = request()->routeIs($parentPattern);
+                                } catch (\Exception $e) {}
+                            }
+                        @endphp
+
+                        @if($canAccess && $routeExists)
+                            <li class="parentnav nav-item {{ $isActive ? 'menu-open' : '' }}">
+                                <a href="{{ route($item['route']) }}" class="nav-link {{ $isActive ? 'active' : '' }}">
+                                    <i class="nav-icon {{ $item['icon'] }} {{ $item['icon_color'] ?? 'text-primary' }}"></i>
+                                    <p>{{ __($item['title']) }}</p>
+                                </a>
+                            </li>
+                        @endif
+                    @endif
+                @endforeach
+            </ul>
+        </nav>
+    </div>
 </aside>
 
 <style>

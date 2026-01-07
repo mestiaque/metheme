@@ -87,6 +87,12 @@
     <link href="{{ asset('css/encodex.css') }}" rel="stylesheet">
     <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
 
+    <style>
+        @media (max-width: 767.98px) {
+            .hide-mobile{ display: none !important}
+        }
+    </style>
+
     @stack('css')
 
   </head>

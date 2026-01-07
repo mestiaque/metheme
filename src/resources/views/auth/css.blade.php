@@ -1,7 +1,7 @@
 @push('css')
 <style>
     /* 1. Base Layout & Card */
-    .login-card {
+    .login-cardX {
         display: flex;
         width: 100%;
         max-width: 1000px;

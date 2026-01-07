@@ -18,7 +18,9 @@ Route::middleware(['web', 'guest'])->group(function () {
     Route::post('/reset-password', [AuthController::class, 'resetPasswordStore'])->name('password.reset.store');
     Route::post('/verify-reset-otp', [AuthController::class, 'verifyResetOtp'])->name('password.verify.otp');
 
-    Route::post('logout', [AuthController::class, 'destroy'])->name('logout');
+});
 
+Route::middleware(['web', 'auth'])->group(function () {
+    Route::post('logout', [AuthController::class, 'logOut'])->name('logout');
 });
 

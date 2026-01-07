@@ -2,7 +2,7 @@
 @section('title', 'Login')
 @section('meta-title', 'Login - ' . config('app.name'))
 @section('content')
-    <div class="login-card">
+    <div class="login-card glass-card">
         <div class="login-form">
             <div class="login-header mb-0">
                 <div class="login-avatar">
@@ -99,6 +99,7 @@
     </div>
 
 
+    @include("me::auth.glass")
     @include("me::auth.css")
     @include("me::auth.js")
 @endsection
