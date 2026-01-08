@@ -17,7 +17,21 @@
         <nav class="">
             <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation" aria-label="Main navigation" data-accordion="false" id="navigation">
 
-                <li class="company-text-sidebar">{{ get_setting('shop_name', 'mESTIAQUE') }}</li>
+                {{-- <li class="company-text-sidebar">{{ get_setting('shop_name', 'mESTIAQUE') }}</li> --}}
+                @php
+                    $fullName = get_setting('shop_name', 'mESTIAQUE');
+                    // প্রতিটি শব্দের প্রথম অক্ষর নেওয়ার লজিক (যেমন: Kazi Traders Limited -> KTL)
+                    $words = explode(" ", $fullName);
+                    $shortName = "";
+                    foreach ($words as $w) {
+                        $shortName .= mb_substr($w, 0, 1);
+                    }
+                @endphp
+
+                <li class="company-text-sidebar">
+                    <span class="full-text">{{ $fullName }}</span>
+                    <span class="short-text">{{ strtoupper($shortName) }}</span>
+                </li>
 
                 @foreach(config('sidebar') as $item)
                     @if(isset($item['header']))
@@ -198,6 +212,58 @@
 /* ব্র্যান্ড লোগো গ্লো ইফেক্ট */
 aside .brand-image {
     filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5)) !important;
+}
+.sidebar-brand .brand-link .brand-image {
+    max-height: 33px; /* এক্সপ্যান্ড থাকা অবস্থায় হাইট */
+    transition: max-height 0.3s ease-in-out; /* হাইট পরিবর্তনের সময়কাল */
+    display: inline-block;
+}
+
+/* যখন সাইডবার কোল্যাপস থাকবে */
+.sidebar-collapse .sidebar-brand .brand-link .brand-image {
+    max-height: 20px; /* কোল্যাপস থাকা অবস্থায় হাইট */
+}
+.sidebar-collapse .app-sidebar:hover .sidebar-brand .brand-link .brand-image {
+    max-height: 33px !important;
+}
+
+
+/* ডিফল্ট অবস্থা */
+.company-text-sidebar {
+    list-style: none;
+    /* padding: 10px; */
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.short-text {
+    display: none; /* শুরুতে ছোট নাম হাইড থাকবে */
+}
+
+/* যখন সাইডবার কোল্যাপস (Collapse) থাকবে */
+.sidebar-collapse .app-sidebar .full-text {
+    display: none;
+}
+
+.sidebar-collapse .app-sidebar .short-text {
+    display: block;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+/* যখন কোল্যাপস অবস্থায় মাউস হোভার (Hover) করবেন */
+.sidebar-collapse .app-sidebar:hover .full-text {
+    display: block;
+}
+
+.sidebar-collapse .app-sidebar:hover .short-text {
+    display: none;
+}
+
+/* টেক্সট অ্যানিমেশন স্মুথ করার জন্য */
+.full-text, .short-text {
+    transition: opacity 0.3s ease-in-out;
 }
 
 /* মোবাইল রেসপন্সিভ */

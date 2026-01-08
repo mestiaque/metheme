@@ -91,6 +91,132 @@
         @media (max-width: 767.98px) {
             .hide-mobile{ display: none !important}
         }
+
+        /* ২. ম্যাট গ্লাস ফিনিশ দেওয়ার জন্য ওভারলে */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* লিকুইড গ্লাস আভা দেওয়ার জন্য ডার্ক ব্লু এর খুব হালকা একটি লেয়ার */
+            background: rgba(44, 62, 80, 0.05);
+            backdrop-filter: blur(50px); /* ঝাপসা ম্যাট ইফেক্ট */
+            z-index: -1;
+        }
+
+        /* ৩. ব্যাকগ্রাউন্ডে একটি লিকুইড গ্লাস শেপ (ঐচ্ছিক, প্রিমিয়াম লুকের জন্য) */
+        body::after {
+            content: "";
+            position: fixed;
+            top: -10%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -2;
+        }
+
+        .card{
+            background: rgba(255, 255, 255, 0.12) ;
+            backdrop-filter: blur(16px) saturate(160%) ;
+            -webkit-backdrop-filter: blur(16px) saturate(160%);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 16px;
+        }
+
+        .table thead tr:first-child th:first-child {
+            border-top-left-radius: 8px;
+        }
+        .table thead tr:first-child th:last-child {
+            border-top-right-radius: 8px;
+        }
+        .table tbody tr:last-child td:first-child {
+            border-bottom-left-radius: 8px;
+        }
+        .table tbody tr:last-child td:last-child {
+            border-bottom-right-radius: 8px;
+        }
+
+
+        .table-encodex thead th::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                120deg,
+                transparent 20%,
+                rgba(255,255,255,.12),
+                transparent 80%
+            );
+            pointer-events: none;
+        }
+        .table-encodex thead th {
+            position: relative;
+        }
+
+
+
+        .glass-breadcrumb {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(16px) saturate(160%);
+            -webkit-backdrop-filter: blur(16px) saturate(160%);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 12px;
+            padding: 3px 3px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+            position: relative;
+            color: #0f9bd6 !important;
+        }
+
+        /* Bottom Accent Line */
+        /* .glass-breadcrumb::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 20px;
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, #4f46e5, #22d3ee);
+            border-radius: 10px;
+        } */
+
+        /* Title Styling */
+        .breadcrumb-title {
+            font-size: 1.3rem;
+            margin: 0;
+            text-shadow: 0 1px 2px rgba(255,255,255,.4);
+        }
+
+        /* Actions container */
+        .breadcrumb-actions > * {
+            background: rgba(255,255,255,.15);
+            border: 1px solid rgba(255,255,255,.25);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            /* padding: 6px 10px; */
+            transition: all .25s ease;
+        }
+
+        .glass-breadcrumb {
+            animation: fadeSlide .4s ease;
+        }
+
+        @keyframes fadeSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
     </style>
 
     @stack('css')
@@ -130,14 +256,25 @@
           <!--begin::Container-->
           <div class="container-fluid">
 
-            <div class="d-flex flex-nowrap align-items-center justify-content-between overflow-auto mb-0 bg-white py-1 px-1 shadow-lg mb-3 mt-1" id="breadcrumb">
+            {{-- <div class="d-flex flex-nowrap align-items-center justify-content-between overflow-auto mb-0 bg-white py-1 px-1 shadow-lg mb-3 mt-1" id="breadcrumb">
                 <h1 class="h5 mb-0 text-encodex-secondary">
                     <b>@yield('title')</b>
                 </h1>
                 <div class="d-flex gap-2 justify-content-end">
                     @stack('buttons')
                 </div>
+            </div> --}}
+
+            <div class="glass-breadcrumb d-flex flex-nowrap align-items-center justify-content-between overflow-auto mb-2 mt-1">
+                <h1 class="breadcrumb-title">
+                    <b>@yield('title')</b>
+                </h1>
+
+                <div class="breadcrumb-actions d-flex gap-2 justify-content-end">
+                    @stack('buttons')
+                </div>
             </div>
+
 
             @yield('content')
           </div>

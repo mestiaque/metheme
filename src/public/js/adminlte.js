@@ -676,10 +676,10 @@ class PushMenu {
         this._element = element;
         // Defaults যদি ডিফাইন করা না থাকে তবে এরর এড়াতে {} দেয়া হয়েছে
         const defaults = typeof Defaults !== 'undefined' ? Defaults : {};
-        this._config = { 
-            sidebarBreakpoint: 992, 
-            ...defaults, 
-            ...config 
+        this._config = {
+            sidebarBreakpoint: 992,
+            ...defaults,
+            ...config
         };
     }
 
@@ -702,7 +702,7 @@ class PushMenu {
     applySavedState() {
         const width = window.innerWidth;
         const savedState = localStorage.getItem('sidebarState');
-        
+
 
         if (width > this._config.sidebarBreakpoint) {
             if (savedState === 'collapsed') {
@@ -725,7 +725,7 @@ class PushMenu {
 
     init() {
         this.applySavedState();
-        
+
         // টগল বাটনে ক্লিক ইভেন্ট অ্যাড করা
         const toggleBtn = document.querySelector('[data-lte-toggle="sidebar"]');
         if (toggleBtn) {
@@ -747,7 +747,7 @@ class PushMenu {
 document.addEventListener('DOMContentLoaded', () => {
     const sidebarBtn = document.querySelector('[data-lte-toggle="sidebar"]');
     const pushMenu = new PushMenu(sidebarBtn);
-    pushMenu.init(); 
+    pushMenu.init();
 });
 
 
