@@ -90,5 +90,16 @@
     color: #fff;
     backdrop-filter: blur(6px);
 }
+
+.stock-bg{
+    background: radial-gradient(
+    circle at center,
+    rgba(15, 23, 42, 0.25) 0%,
+    rgba(15, 23, 42, 0.60) 40%,
+    #000 100%
+    );
+    backdrop-filter: blur(30px);
+
+}
 </style>
 @endpush

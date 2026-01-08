@@ -31,14 +31,45 @@
             --shadow-color: rgba(0, 0, 0, 0.4);
         }
 
-        html, body {
-            height: 100%;
+        /* html, body {
+            height: 100vh;
             margin: 0;
             font-family: 'Nunito', sans-serif, cursive;
             display: flex;
             flex-direction: column;
-            background: #0f172a; /* dark login-style background */
+            background: #0f172a;
             color: #fff;
+
+                background: radial-gradient(
+                circle at center,
+                rgba(15, 23, 42, 0.25) 0%,
+                rgba(15, 23, 42, 0.60) 40%,
+                #000 100%
+                );
+                backdrop-filter: blur(30px);
+        } */
+
+
+        html, body {
+            /* height: 100vh; <- eta muche felun */
+            min-height: 100vh; /* content beshi holeo background niche parbe */
+            margin: 0;
+            font-family: 'Nunito', sans-serif, cursive;
+            display: flex;
+            flex-direction: column;
+            color: #fff;
+
+            /* Background Properties */
+            background: radial-gradient(
+                circle at center,
+                rgba(15, 23, 42, 0.25) 0%,
+                rgba(15, 23, 42, 0.60) 40%,
+                #000 100%
+            );
+            background-color: #0f172a; /* Fallback color */
+            background-attachment: fixed; /* Scroll korle gradient-ti fixed thakbe */
+
+            backdrop-filter: blur(30px);
         }
 
         /* Particles background */
@@ -188,7 +219,8 @@
     </style>
     @stack('css')
 </head>
-<body>
+<body class="">
+
     <!-- Particles -->
     <div id="particles-js"></div>
 
@@ -196,6 +228,7 @@
     <div class="blank-container animate__animated animate__fadeIn">
         @yield('content')
     </div>
+
 
     <!-- Footer -->
     @include('me::footer')

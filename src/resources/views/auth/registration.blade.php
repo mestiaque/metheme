@@ -2,7 +2,7 @@
 @section('title', 'Register')
 @section('meta-title', 'Register')
 @section('content')
-    <div class="login-card">
+    <div class="login-card glass-card">
         <div class="login-form">
             <div class="login-header mb-0">
                 <div class="login-avatar">
@@ -115,6 +115,7 @@
 
 
     @include("me::auth.css")
+    @include("me::auth.glass")
     @include("me::auth.js")
 
 @endsection
