@@ -120,12 +120,13 @@
             z-index: -2;
         }
 
-        .card{
+        .glass-card{
             background: rgba(255, 255, 255, 0.12) ;
             backdrop-filter: blur(16px) saturate(160%) ;
             -webkit-backdrop-filter: blur(16px) saturate(160%);
             border: 1px solid rgba(255, 255, 255, 0.25);
             border-radius: 16px;
+            padding: 10px;
         }
 
         .table thead tr:first-child th:first-child {
@@ -155,6 +156,23 @@
             pointer-events: none;
         }
         .table-encodex thead th {
+            position: relative;
+            white-space: nowrap ;
+        }
+
+        .glass-bar::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                120deg,
+                transparent 20%,
+                rgba(255,255,255,.12),
+                transparent 80%
+            );
+            pointer-events: none;
+        }
+        .glass-bar {
             position: relative;
         }
 

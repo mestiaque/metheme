@@ -80,7 +80,7 @@
                                                     <small class="text-muted">{{ $role->description }}</small>
 
                                                     @php
-                                                        $rolePermissions = App\Models\RolePermission::where('role_id', $role->id)->first();
+                                                        $rolePermissions = ME\Models\RolePermission::where('role_id', $role->id)->first();
                                                         $permissions = $rolePermissions ? $rolePermissions->permissions : [];
                                                     @endphp
 
