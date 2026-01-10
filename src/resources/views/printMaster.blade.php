@@ -106,14 +106,19 @@
                 align-items: center;
                 justify-content: center;
                 opacity: 0.06;
+                pointer-events: none; /* মাউস ইভেন্ট আটকাবে না */
             }
+
             .watermark-bg img {
                 max-width: 60%;
                 max-height: 60%;
                 transform: rotate(-45deg);
+                /* ইমেজকে DIV-এর মাঝখানে রাখতে নিচের প্রপার্টিগুলো ব্যবহার করা হয়েছে */
+                object-fit: contain;
+                margin: auto;
             }
 
-            .footer {
+            .pfooter {
                 margin-top: 15px;
                 text-align: center;
                 font-size: 10px;
@@ -163,6 +168,30 @@
                 .shawdow{
                     box-shadow:none !important;
                 }
+
+                .watermark-bg {
+                    /* fixed পজিশন দিলে এটি প্রতিটি প্রিন্টেড পেজে অটোমেটিক চলে যাবে */
+                    position: fixed !important;
+                    top: 0;
+                    left: 0;
+                    width: 100vw;
+                    height: 100vh;
+                    z-index: -1000; /* কন্টেন্টের নিচে রাখার জন্য */
+                    display: flex !important;
+                    align-items: center;
+                    justify-content: center;
+                    pointer-events: none;
+                    opacity: 0.08 !important; /* প্রিন্টে হালকা দেখানোর জন্য */
+                    -webkit-print-color-adjust: exact; /* কালার এবং অপাসিটি ঠিক রাখতে */
+                }
+
+                .watermark-bg img {
+                    width: 60%; /* পেজের সাইজ অনুযায়ী অ্যাডজাস্ট হবে */
+                    max-width: 500px;
+                    transform: rotate(-45deg);
+                }
+
+
             }
 
 
@@ -174,13 +203,13 @@
     <body class="pbody">
         <div class="print-container shadow">
             <!-- Watermark -->
-            {{-- <div class="watermark-bg">
+            <div class="watermark-bg">
                 @if(get_setting('shop_logo'))
                     <img src="{{ route('shop_logo.show', get_setting('shop_logo')) }}">
                 @else
                     <img src="{{ asset('assets/img/default-img/Encodex_c.png') }}">
                 @endif
-            </div> --}}
+            </div>
 
             <!-- Header -->
             @if(isset($printType) && $printType == 'invoice')
@@ -237,9 +266,8 @@
                 @yield('printCont')
 
 
-
             <!-- Footer -->
-            <div class="footer">
+            <div class="pfooter">
                 @lang('This is a computer-generated invoice.') | @lang('Developed by: ENcodeX')
             </div>
         </div>
