@@ -36,12 +36,7 @@
                 --p-height: 297mm;
                 --p-margin: 10mm;
             } */
-            body {
-                font-family: 'Arial', sans-serif;
-                margin: 0;
-                padding: 0;
-                color: #333;
-            }
+
 
             .invoice-header-flex {
                 display: flex;
@@ -212,7 +207,6 @@
                             @endif
                         </h5>
                     </div>
-{{-- @dd($printQr) --}}
                     <div class="header-qrcode">
                         @if(isset($printQr))
                             <div id="qrcode" data-printQr="{{$printQr}}"></div>

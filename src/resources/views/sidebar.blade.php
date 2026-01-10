@@ -227,6 +227,10 @@ aside .brand-image {
     transition: max-height 0.3s ease-in-out; /* হাইট পরিবর্তনের সময়কাল */
     display: inline-block;
 }
+.sidebar-brand{
+    border-bottom: 1px solid #a0d0ff !important;
+    height: 3.56rem !important;
+}
 
 /* যখন সাইডবার কোল্যাপস থাকবে */
 .sidebar-collapse .sidebar-brand .brand-link .brand-image {

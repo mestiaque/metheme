@@ -188,7 +188,8 @@
             padding: 3px 3px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
             position: relative;
-            color: #0f9bd6 !important;
+            min-height: 2.9rem !important
+            /* color: #0f9bd6 !important; */
         }
 
         /* Bottom Accent Line */
@@ -205,9 +206,16 @@
 
         /* Title Styling */
         .breadcrumb-title {
-            font-size: 1.3rem;
+            font-size: 1.05rem;
             margin: 0;
-            text-shadow: 0 1px 2px rgba(255,255,255,.4);
+            font-weight: 600;
+            background: linear-gradient(90deg, #05266b, #5a65ff);
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: 0.5px;
+            /* text-shadow: 0 1px 3px rgba(0,229,255,0.35); */
+            margin-left: 5px !important;
+            /* min-height: 1.3rem !important; */
         }
 
         /* Actions container */
