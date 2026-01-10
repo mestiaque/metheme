@@ -193,8 +193,8 @@
 }
 
 .app-header .navbar-nav .nav-link:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff !important;
+    /* background: rgba(255, 255, 255, 0.1); */
+    color: #0f2d4a !important;
     transform: translateY(-1px);
 }
 .dropdown-menu{

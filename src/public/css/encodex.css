@@ -1,22 +1,15 @@
-/*
-.btn-encodex-list
-.btn-encodex-search
-.btn-encodex-clear/reset  [search clear]
-.btn-encodex-create
-.btn-encodex-edit [btn outline]
-.btn-encodex-delete  [btn outline]
-.btn-encodex-show  [btn outline]
-.btn-encodex-print  [btn outline]
-.btn-encodex-print2
-*/
-td{
+/* ============================================================
+   ENC0DEX FULL STYLESHEET - 2026 REVISION
+   Neon Outline to Solid Fill + Liquid Glass Effect
+============================================================ */
+
+/* 1. BASIC TABLE & DROPDOWN FIXES */
+td, th {
     vertical-align: middle !important;
 }
-th{
-    vertical-align: middle !important;
-}
-.dropdown-menu>li>a {
-    color:#428bca;
+
+.dropdown-menu > li > a {
+    color: #428bca;
 }
 
 .dropdown ul.dropdown-menu:before {
@@ -27,43 +20,36 @@ th{
     position: absolute;
     top: -10px;
     right: 16px;
-    z-index: 10;
 }
-.dropdown ul.dropdown-menu:after {
-    content: "";
-    border-bottom: 12px solid #ccc;
-    border-right: 12px solid transparent;
-    border-left: 12px solid transparent;
-    position: absolute;
-    top: -12px;
-    right: 14px;
-    z-index: 9;
-}
-.bg-encodex{
-    background: #0f2d4a !important
-}
-.text-encodex{
-    color: #0f2d4a !important
-}
-.table-encodex{
-    margin: 0!important;
-}
-.table-encodex thead th{
+
+/* 2. CORE UTILITIES */
+.bg-encodex { background: #0f2d4a !important; }
+.text-encodex { color: #0f2d4a !important; }
+.bg-encodex-secondary { background: #0f9bd6 !important; }
+
+.table-encodex { margin: 0 !important; }
+.table-encodex thead th {
     background: #0f2d4a !important;
     color: white !important;
-}
-.bg-encodex-secondary{
-    background: #0f9bd6 !important;
-}
-.text-encodex-secondary{
-    color: #0f9bd6 !important;
-}
-.bg-encodex-light{
-    background: #1a5387 !important;
+    border: none;
 }
 
+/* 3. INPUTS & SELECT2 FIXES */
+.select2-container--default .select2-selection--single {
+    padding: 0.25rem 0.5rem !important;
+    font-size: 0.875rem !important;
+    border-radius: 6px;
+    height: 35px !important;
+}
 
-.sidebar-shop-logo {
+.select2 { width: 100% !important; }
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1) grayscale(1) brightness(0.5);
+    cursor: pointer;
+}
+
+/* .sidebar-shop-logo {
     position: relative;
     width: 80px;
     height: 80px;
@@ -74,15 +60,9 @@ th{
     justify-content: center;
     margin-bottom: 20px;
     box-shadow: inset 6px 6px 8px rgba(0, 0, 0, 0.15), inset -6px -6px 8px rgba(255, 255, 255, 0.9), 5px 5px 15px rgba(0, 0, 0, 0.2);
-}
-/* .btn-encodex{
-    background: #0f2d4a !important;
-    color: white !important;
-}
-.btn-encodex:hover {
-    background: #0f9bd6 !important;
-    color: white !important;
 } */
+
+
 
 .btn-encodex {
     background: linear-gradient(135deg, #0f2d4a, #1565c0) !important;
@@ -129,70 +109,57 @@ th{
     100% { left: 125%; }
 }
 
-.btn-encodex-cancel {
-    background: linear-gradient(135deg, #b71c1c, #e53935) !important;
-    color: white !important;
-    border-radius: 8px;
-    border: none;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    position: relative;
-    overflow: hidden;
-    transition:
-        background 0.4s ease,
-        color 0.3s ease,
-        transform 0.3s ease,
-        box-shadow 0.3s ease;
-}
 
-.btn-encodex-cancel:hover {
-    background: linear-gradient(135deg, #ef5350, #ff867c) !important;
-    color: #fff !important;
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
-}
+/* SELECT2 - PREMIUM ENC0DEX THEME */
 
-/* Shine effect */
-.btn-encodex-cancel::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -75%;
-    width: 50%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.3);
-    transform: skewX(-25deg);
-}
-
-.btn-encodex-cancel:hover::after {
-    animation: shine 0.8s forwards;
-}
-
-@keyframes shine {
-    0% { left: -75%; }
-    100% { left: 125%; }
-}
-
-
-
-
-.select2-container--default .select2-selection--single{
+.select2-container--default .select2-selection--single {
     padding-top: 0.25rem !important;
     padding-bottom: 0.25rem !important;
     padding-left: 0.5rem !important;
     font-size: 0.875rem !important;
-    border-radius: var(--bs-border-radius-sm);
+    border-radius: 6px; /* বুটস্ট্র্যাপ ভ্যারিয়েবল বাদ দিয়ে ফিক্সড ভ্যালু */
+    height: 36px; /* হাইট ফিক্সড করলে সব ইনপুট একই সাইজের দেখাবে */
+    border: 1px solid #ced4da; /* হালকা মার্জিত বর্ডার */
+    background-color: #ffffff; /* সাদা ব্যাকগ্রাউন্ড */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* হালকা শ্যাডো */
+    color: #000;
 }
+
 .select2-container--default .select2-results__option {
-    padding: 5px 10px;
+    padding: 6px 10px;
     font-size: 0.875rem !important;
+    color: #333;
+    transition: background-color 0.2s;
 }
+
+/* ড্রপডাউন অপশন হোভার বা সিলেক্ট হলে */
+.select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+    background-color: #0f9bd6 !important; /* প্রাইমারি নীল ব্যাকগ্রাউন্ড */
+    color: white !important;
+}
+
+/* সিলেক্ট করা অপশন */
+.select2-container--default .select2-results__option[aria-selected=true] {
+    background-color: #ffffff;
+    color:#000000
+}
+.select2-selection__rendered{
+    color: #222121 !important;
+}
+
+
+/* সার্চ ফিল্ড (সবুজ থেকে ডার্ক থিম) */
 .select2-container--default .select2-search--dropdown .select2-search__field {
-    background: #b0debe8a !important;
-    border:1px solid #55c04b !important;
-    color: #000 !important;
+    background: #eefbff !important; /* খুব হালকা নীল ব্যাকগ্রাউন্ড */
+    border: 1px solid #0f9bd6 !important; /* নীল বর্ডার */
+    color: #000 !important; /* কালো টেক্সট */
+    padding: 6px 10px;
+    outline: 2px solid #2ecc70c9 !important;
+    box-shadow: none !important;
+    border-radius: 5px !important;
 }
-.select2{
+
+.select2 {
     width: 100% !important;
 }
 
@@ -201,147 +168,152 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     filter: invert(1) grayscale(1) brightness(0.5);
     cursor: pointer;
 }
+/* ============================================================
+   4. THE NEON LIQUID BUTTON SYSTEM (The Master Class)
+============================================================ */
 
-
-/* Common Button Base */
-[class^="btn-encodex"], [class*=" btn-encodex"] {
-
-    border-radius: 8px;
-    font-weight: 500;
-    letter-spacing: 0.4px;
-    border: none;
-    cursor: pointer;
+[class^="btn-encodex-"],
+[class*=" btn-encodex-"] {
     position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
     overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    background: transparent !important; /* ডিফল্ট আউটলাইন স্টাইল */
+    border: 1px solid currentColor; /* অটো কালার বর্ডার */
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    gap: 8px;
+    z-index: 1;
+    box-sizing: border-box; /* বাটন ছোট হওয়া রোধ করবে */
+    backface-visibility: hidden;
+    text-decoration: none;
+}
+
+/* আইকন এবং টেক্সট কন্ট্রোল */
+[class^="btn-encodex-"] i,
+[class^="btn-encodex-"] span {
+    transition: transform 0.3s ease, color 0.3s ease;
+    position: relative;
+    z-index: 5;
+}
+
+/* --- LIQUID GLASS EFFECT --- */
+[class^="btn-encodex-"]::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -110%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.5),
+        transparent
+    );
+    transition: all 0.5s ease;
+    z-index: 4;
+}
+
+/* HOVER GLOBAL ACTION */
+[class^="btn-encodex-"]:hover {
+    transform: translateY(-3px);
+    color: #ffffff !important; /* হোভারে টেক্সট সাদা হবে */
+}
+
+[class^="btn-encodex-"]:hover::before {
+    left: 110%; /* শাইন ইফেক্ট মুভমেন্ট */
+}
+
+[class^="btn-encodex-"]:hover i {
+    transform: scale(1.15);
+}
+
+/* ============================================================
+   5. COLOR VARIATIONS (Neon Outline to Fill)
+============================================================ */
+
+/* List - Deep Navy */
+/* .btn-encodex-list { color: #0f2d4a; border-color: #0f2d4a; }
+.btn-encodex-list:hover { background: #0f2d4a !important; box-shadow: 0 6px 15px rgba(15, 45, 74, 0.3); } */
+
+/* 1. List - New Indigo Look */
+.btn-encodex-list { color: #000000 !important; border-color: #000000 !important; }
+.btn-encodex-list:hover { color: #ffffff !important; background: #000000 !important; box-shadow: 0 6px 15px rgba(75, 57, 181, 0.4); }
+
+/* Search - Electric Blue */
+.btn-encodex-search { color: #007bff; border-color: #007bff; }
+.btn-encodex-search:hover { background: #007bff !important; box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3); }
+
+/* Create - Emerald Green */
+.btn-encodex-create { color: #2850a7 !important; border-color: #1e418d !important; }
+.btn-encodex-create:hover { color: #fff !important; background: #1e418d !important; box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3) !important; }
+
+/* Cancel & Delete - Neon Red */
+.btn-encodex-cancel, .btn-encodex-delete { color: #dc3545; border-color: #dc3545; }
+.btn-encodex-cancel:hover, .btn-encodex-delete:hover { color: #fff !important; background: #dc3545 !important; box-shadow: 0 6px 15px rgba(220, 53, 69, 0.3); }
+
+/* Print - Vibrant Orange */
+.btn-encodex-print, .btn-encodex-print2 { color: #fd7e14; border-color: #fd7e14 !important; }
+.btn-encodex-print:hover, .btn-encodex-print2:hover { color: #fff !important; background: #fd7e14 !important; box-shadow: 0 6px 15px rgba(253, 126, 20, 0.3); }
+
+/* Edit & Payment - Royal Purple */
+.btn-encodex-edit, .btn-encodex-payment { color: #6f42c1; border-color: #6f42c1; }
+.btn-encodex-edit:hover, .btn-encodex-payment:hover { color: #fff !important; background: #6f42c1 !important; box-shadow: 0 6px 15px rgba(111, 66, 193, 0.3); }
+
+/* Show - Bright Teal */
+.btn-encodex-show { color: #17a2b8; border-color: #17a2b8; }
+.btn-encodex-show:hover { color: #fff !important; background: #17a2b8 !important; box-shadow: 0 6px 15px rgba(23, 162, 184, 0.3); }
+
+/* Clear - Neutral Gray */
+.btn-encodex-clear { color: #6c757d; border-color: #6c757d; }
+.btn-encodex-clear:hover { color: #fff !important; background: #6c757d !important; box-shadow: 0 6px 15px rgba(108, 117, 125, 0.3); }
+
+/* Status: Active */
+.btn-encodex-active { color: #28a745; border-color: #28a745; }
+.btn-encodex-active:hover { color: #fff !important; background: #28a745 !important; }
+
+/* Status: Deactive */
+.btn-encodex-deactive { color: #e83e8c; border-color: #e83e8c; }
+.btn-encodex-deactive:hover { color: #fff !important; background: #e83e8c !important; }
+
+
+
+.btn-encodex-save {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 24px;
+    border-radius: 12px;
+    border: 1px solid #0f2d4a;
+    background: #0f2d4a !important;
+    color: #ffff !important;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 229, 255, 0.3);
 }
 
-/* Solid Buttons Hover Animation */
-[class^="btn-encodex"]:hover, [class*=" btn-encodex"]:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-}
-
-/* List */
-.btn-encodex-list {
-    background: linear-gradient(135deg, #0f2d4a, #13466e) !important;
-    color: white !important;
-}
-.btn-encodex-list:hover {
-    background: linear-gradient(135deg, #13466e, #0f9bd6) !important;
-}
-
-/* Search */
-.btn-encodex-search {
-    background: linear-gradient(135deg, #1565c0, #1e88e5) !important;
-    color: white !important;
-}
-.btn-encodex-search:hover {
-    background: linear-gradient(135deg, #1e88e5, #42a5f5) !important;
-}
-
-/* Clear / Reset */
-.btn-encodex-clear {
-    background: linear-gradient(135deg, #757575, #9e9e9e) !important;
-    color: white !important;
-}
-.btn-encodex-clear:hover {
-    background: linear-gradient(135deg, #9e9e9e, #bdbdbd) !important;
-}
-
-/* Create */
-.btn-encodex-create {
-    background: linear-gradient(135deg, #2e7d32, #43a047) !important;
-    color: white !important;
-}
-.btn-encodex-create:hover {
-    background: linear-gradient(135deg, #43a047, #66bb6a) !important;
-}
-
-/* Outline Buttons (Edit, Delete, Show, Print) */
-.btn-encodex-edit, .btn-encodex-delete, .btn-encodex-show, .btn-encodex-print, .btn-encodex-print2, .btn-encodex-payment {
-    background: transparent !important;
-    border: 1px solid currentColor !important;
-}
-
-/* Edit */
-.btn-encodex-edit {
-    color: #1e88e5 !important;
-}
-.btn-encodex-edit:hover {
-    background: #1e88e5 !important;
-    color: white !important;
-}
-
-/* Delete */
-.btn-encodex-delete {
-    color: #e53935 !important;
-}
-.btn-encodex-delete:hover {
-    background: #e53935 !important;
-    color: white !important;
-}
-
-/* Show */
-.btn-encodex-show {
-    color: #6a1b9a !important;
-}
-.btn-encodex-show:hover {
-    background: #6a1b9a !important;
-    color: white !important;
-}
-
-/* Print */
-.btn-encodex-print {
-    color: #ff9800 !important;
-}
-.btn-encodex-print:hover {
-    background: #ff9800 !important;
-    color: white !important;
-}
-
-/* Print 2 */
-.btn-encodex-print2 {
-    background: linear-gradient(135deg, #f57c00, #ff9800) !important;
-    color: white !important;
-}
-.btn-encodex-print2:hover {
-    background: linear-gradient(135deg, #ff9800, #ffb74d) !important;
-}
-
-/* Active (Outline Green) */
-.btn-encodex-active {
-    background-color: transparent;
-    color: #28a745;
-    border: 1px solid #28a745;
-    transition: all 0.2s ease-in-out;
-}
-
-.btn-encodex-active:hover {
-    background-color: #28a745;
-    color: #fff;
+.btn-encodex-save:hover {
+    color: #1b7a0f !important;
+    background: rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 0 25px rgba(0, 255, 64, 0.6), 0 0 50px rgba(0, 255, 76, 0.3);
+    border: 1px solid #1b7a0f;
     transform: scale(1.05);
 }
 
-/* Deactive (Outline Red) */
-.btn-encodex-deactive {
-    background-color: transparent;
-    color: #dc35dc;
-    border: 1px solid #c035dc;
-    transition: all 0.2s ease-in-out;
-}
-
-.btn-encodex-deactive:hover {
-    background-color: #bb35dc;
-    color: #fff;
-    transform: scale(1.05);
-}
-
-/* payment */
-.btn-encodex-payment {
-    color: #ac14b1 !important;
-}
-.btn-encodex-payment:hover {
-    background: #9a1b8f !important;
-    color: white !important;
+.btn-encodex-save:active {
+    transform: scale(0.95);
+    box-shadow: inset 0 0 10px rgba(255, 217, 0, 0.5);
 }

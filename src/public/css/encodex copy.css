@@ -1,0 +1,347 @@
+/*
+.btn-encodex-list
+.btn-encodex-search
+.btn-encodex-clear/reset  [search clear]
+.btn-encodex-create
+.btn-encodex-edit [btn outline]
+.btn-encodex-delete  [btn outline]
+.btn-encodex-show  [btn outline]
+.btn-encodex-print  [btn outline]
+.btn-encodex-print2
+*/
+td{
+    vertical-align: middle !important;
+}
+th{
+    vertical-align: middle !important;
+}
+.dropdown-menu>li>a {
+    color:#428bca;
+}
+
+.dropdown ul.dropdown-menu:before {
+    content: "";
+    border-bottom: 10px solid #fff;
+    border-right: 10px solid transparent;
+    border-left: 10px solid transparent;
+    position: absolute;
+    top: -10px;
+    right: 16px;
+    z-index: 10;
+}
+.dropdown ul.dropdown-menu:after {
+    content: "";
+    border-bottom: 12px solid #ccc;
+    border-right: 12px solid transparent;
+    border-left: 12px solid transparent;
+    position: absolute;
+    top: -12px;
+    right: 14px;
+    z-index: 9;
+}
+.bg-encodex{
+    background: #0f2d4a !important
+}
+.text-encodex{
+    color: #0f2d4a !important
+}
+.table-encodex{
+    margin: 0!important;
+}
+.table-encodex thead th{
+    background: #0f2d4a !important;
+    color: white !important;
+}
+.bg-encodex-secondary{
+    background: #0f9bd6 !important;
+}
+.text-encodex-secondary{
+    color: #0f9bd6 !important;
+}
+.bg-encodex-light{
+    background: #1a5387 !important;
+}
+
+
+.sidebar-shop-logo {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    box-shadow: inset 6px 6px 8px rgba(0, 0, 0, 0.15), inset -6px -6px 8px rgba(255, 255, 255, 0.9), 5px 5px 15px rgba(0, 0, 0, 0.2);
+}
+/* .btn-encodex{
+    background: #0f2d4a !important;
+    color: white !important;
+}
+.btn-encodex:hover {
+    background: #0f9bd6 !important;
+    color: white !important;
+} */
+
+.btn-encodex {
+    background: linear-gradient(135deg, #0f2d4a, #1565c0) !important;
+    color: white !important;
+    /* padding: 10px 20px; */
+    border-radius: 8px;
+    border: none;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+    transition:
+        background 0.4s ease,
+        color 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.btn-encodex:hover {
+    background: linear-gradient(135deg, #0f9bd6, #42a5f5) !important;
+    color: #fff !important;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+}
+
+/* Gradient Shine Animation */
+.btn-encodex::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: skewX(-25deg);
+}
+
+.btn-encodex:hover::after {
+    animation: shine 0.8s forwards;
+}
+
+@keyframes shine {
+    0% { left: -75%; }
+    100% { left: 125%; }
+}
+
+.btn-encodex-cancel {
+    background: linear-gradient(135deg, #b71c1c, #e53935) !important;
+    color: white !important;
+    border-radius: 8px;
+    border: none;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+    transition:
+        background 0.4s ease,
+        color 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.btn-encodex-cancel:hover {
+    background: linear-gradient(135deg, #ef5350, #ff867c) !important;
+    color: #fff !important;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+}
+
+/* Shine effect */
+.btn-encodex-cancel::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: skewX(-25deg);
+}
+
+.btn-encodex-cancel:hover::after {
+    animation: shine 0.8s forwards;
+}
+
+@keyframes shine {
+    0% { left: -75%; }
+    100% { left: 125%; }
+}
+
+
+
+
+.select2-container--default .select2-selection--single{
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
+    padding-left: 0.5rem !important;
+    font-size: 0.875rem !important;
+    border-radius: var(--bs-border-radius-sm);
+}
+.select2-container--default .select2-results__option {
+    padding: 5px 10px;
+    font-size: 0.875rem !important;
+}
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    background: #b0debe8a !important;
+    border:1px solid #55c04b !important;
+    color: #000 !important;
+}
+.select2{
+    width: 100% !important;
+}
+
+/* date input এর ক্যালেন্ডার আইকন টার্গেট করা */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1) grayscale(1) brightness(0.5);
+    cursor: pointer;
+}
+
+
+/* Common Button Base */
+[class^="btn-encodex"], [class*=" btn-encodex"] {
+
+    border-radius: 8px;
+    font-weight: 500;
+    letter-spacing: 0.4px;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Solid Buttons Hover Animation */
+[class^="btn-encodex"]:hover, [class*=" btn-encodex"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+/* List */
+.btn-encodex-list {
+    background: linear-gradient(135deg, #0f2d4a, #13466e) !important;
+    color: white !important;
+}
+.btn-encodex-list:hover {
+    background: linear-gradient(135deg, #13466e, #0f9bd6) !important;
+}
+
+/* Search */
+.btn-encodex-search {
+    background: linear-gradient(135deg, #1565c0, #1e88e5) !important;
+    color: white !important;
+}
+.btn-encodex-search:hover {
+    background: linear-gradient(135deg, #1e88e5, #42a5f5) !important;
+}
+
+/* Clear / Reset */
+.btn-encodex-clear {
+    background: linear-gradient(135deg, #757575, #9e9e9e) !important;
+    color: white !important;
+}
+.btn-encodex-clear:hover {
+    background: linear-gradient(135deg, #9e9e9e, #bdbdbd) !important;
+}
+
+/* Create */
+.btn-encodex-create {
+    background: linear-gradient(135deg, #2e7d32, #43a047) !important;
+    color: white !important;
+}
+.btn-encodex-create:hover {
+    background: linear-gradient(135deg, #43a047, #66bb6a) !important;
+}
+
+/* Outline Buttons (Edit, Delete, Show, Print) */
+.btn-encodex-edit, .btn-encodex-delete, .btn-encodex-show, .btn-encodex-print, .btn-encodex-print2, .btn-encodex-payment {
+    background: transparent !important;
+    border: 1px solid currentColor !important;
+}
+
+/* Edit */
+.btn-encodex-edit {
+    color: #1e88e5 !important;
+}
+.btn-encodex-edit:hover {
+    background: #1e88e5 !important;
+    color: white !important;
+}
+
+/* Delete */
+.btn-encodex-delete {
+    color: #e53935 !important;
+}
+.btn-encodex-delete:hover {
+    background: #e53935 !important;
+    color: white !important;
+}
+
+/* Show */
+.btn-encodex-show {
+    color: #6a1b9a !important;
+}
+.btn-encodex-show:hover {
+    background: #6a1b9a !important;
+    color: white !important;
+}
+
+/* Print */
+.btn-encodex-print {
+    color: #ff9800 !important;
+}
+.btn-encodex-print:hover {
+    background: #ff9800 !important;
+    color: white !important;
+}
+
+/* Print 2 */
+.btn-encodex-print2 {
+    background: linear-gradient(135deg, #f57c00, #ff9800) !important;
+    color: white !important;
+}
+.btn-encodex-print2:hover {
+    background: linear-gradient(135deg, #ff9800, #ffb74d) !important;
+}
+
+/* Active (Outline Green) */
+.btn-encodex-active {
+    background-color: transparent;
+    color: #28a745;
+    border: 1px solid #28a745;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-encodex-active:hover {
+    background-color: #28a745;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+/* Deactive (Outline Red) */
+.btn-encodex-deactive {
+    background-color: transparent;
+    color: #dc35dc;
+    border: 1px solid #c035dc;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-encodex-deactive:hover {
+    background-color: #bb35dc;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+/* payment */
+.btn-encodex-payment {
+    color: #ac14b1 !important;
+}
+.btn-encodex-payment:hover {
+    background: #9a1b8f !important;
+    color: white !important;
+}

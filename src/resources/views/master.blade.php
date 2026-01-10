@@ -84,7 +84,8 @@
     <!-- Custom CSS -->
     <link rel="icon" href="{{ get_image('app_ico') ?? asset('assets/img/favicon/Encodex.ico') }}" type="image/x-icon">
     <link href="{{ asset('css/form-styles.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/encodex.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/encodex.css') }}?v={{ time() }}" rel="stylesheet">
+
     <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
 
     <style>
@@ -211,12 +212,8 @@
 
         /* Actions container */
         .breadcrumb-actions > * {
-            background: rgba(255,255,255,.15);
-            border: 1px solid rgba(255,255,255,.25);
-            backdrop-filter: blur(10px);
-            border-radius: 10px;
-            /* padding: 6px 10px; */
-            transition: all .25s ease;
+            backdrop-filter: blur(10px) !important;
+            border-radius: 10px !important;
         }
 
         .glass-breadcrumb {
