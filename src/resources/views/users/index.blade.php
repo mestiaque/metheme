@@ -18,7 +18,7 @@
             <thead class="text-center">
                 <tr>
                     <th>#</th>
-                    <th>@lang('Avatar')</th>
+                    <th>@lang('me::bn.Avatar')</th>
                     <th>@lang('Name')</th>
                     <th>@lang('Email')</th>
                     <th>@lang('Roles')</th>

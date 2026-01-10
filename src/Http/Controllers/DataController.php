@@ -33,8 +33,8 @@ class DataController extends Controller
         try {
             // Preserve these tables (won’t be deleted)
             $preserveTables = [
-                'users', 
-                'roles', 
+                'users',
+                'roles',
                 'role_user',
                 'migrations', // optional, can be removed if needed
             ];

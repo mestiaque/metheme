@@ -11,4 +11,5 @@ return [
     'mycopyright' => 'Copyright &copy; :year <a href="https://www.mestiaque.com" target="_blank" rel="noopener">M. ESTIAQUE</a>. All rights reserved.',
     'sales_label'   => 'Sales (TK.)',
     'sales_tooltip' => 'Sales: TK. :value',
+    "Avatar" => "AVATAR",
 ];

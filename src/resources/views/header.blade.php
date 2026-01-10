@@ -85,6 +85,7 @@
       @if(get_setting('enable_translation'))
             @php
                 $language = app()->getLocale() ?? 'en';
+                // dd($language);
             @endphp
 
             <li class="nav-item dropdown">

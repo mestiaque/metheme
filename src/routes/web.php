@@ -8,7 +8,7 @@ use ME\Http\Middleware\LocaleMiddleware;
 use ME\Http\Controllers\ProfileController;
 use ME\Http\Controllers\SettingController;
 
-Route::middleware([LocaleMiddleware::class])->group(function () {
+Route::middleware(['web', LocaleMiddleware::class])->group(function () {
     Route::get('/language/{locale?}', [DataController::class, 'changeLocale'])->name('language.change');
 });
 
