@@ -17,7 +17,7 @@
     <li class="nav-item d-none d-md-block ms-2"> <!-- ms-2 দিয়ে একটু গ্যাপ দেওয়া হয়েছে -->
         <a href="{{ Route::has('admin.dashboard') ? route('admin.dashboard') : route('me.dashboard') }}"
             class="nav-link d-flex align-items-center"
-            style="height: 40px; padding: 0;"> <!-- প্যাডিং ০ করে দেওয়া হয়েছে যাতে ইমেজ বড় হলে সমস্যা না হয় -->
+            style="height: 40px; padding:0px !important;"> <!-- প্যাডিং ০ করে দেওয়া হয়েছে যাতে ইমেজ বড় হলে সমস্যা না হয় -->
 
             <img loading="lazy"
                 src="{{ get_image('app_logo') ?? asset('assets/img/default-img/Encodex_c.png') }}"
