@@ -67,7 +67,7 @@
                         @if($visibleChildren->isNotEmpty())
                             <li class="parentnav nav-item {{ $isParentActive ? 'menu-open' : '' }} {{ (isset($item['active']) && $item['active'] === true) ? 'menu-open' : '' }}">
                                 <a href="#" class="nav-link {{ $isParentActive ? 'active' : '' }}">
-                                    <i class="nav-icon {{ $item['icon'] }} {{ $item['icon_color'] ?? 'text-primary' }}"></i>
+                                    <i class="nav-icon {{ $item['icon'] }} {{ $item['icon_color'] ?? 'default-sidebar-icon' }}"></i>
                                     <p>
                                         {{ __($item['title']) }}
                                         <i class="nav-arrow bi bi-chevron-right"></i>
@@ -141,6 +141,9 @@
 .sidebar-wrapper {
     background: transparent !important;
 }
+.default-sidebar-icon{
+    color: #0f9bd6 !important;
+}
 
 /* ============================================== */
 /* ২. মেনু আইটেম ডিজাইন */
@@ -152,27 +155,33 @@
 .nav-link {
     border-radius: 12px !important;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    color: rgba(160, 16, 16, 0.9) !important;
+    color: #0f9bd6 !important;
     padding: 0.5rem 1rem !important;
     border: 1px solid transparent !important;
 }
 
 /* হোভার ইফেক্ট */
 .nav-link:hover {
-    background: rgba(33, 27, 121, 0.1) !important;
+    background: rgba(0, 123, 255, 0.08) !important;
+    /* background: rgba(33, 27, 121, 0.1) !important; */
     transform: translateX(2px);
+    color: #1a237e !important;
+    /* color: #0d47a1 !important; */
+}
+.nav-link:hover i {
+    color: #1a237e !important;
 }
 
 /* একটিভ মেনু - Liquid Gradient */
 .nav-link.active {
-    background: linear-gradient(135deg, rgba(15, 155, 214, 0.8), rgba(0, 86, 179, 0.8)) !important;
+    /* background: linear-gradient(135deg, rgba(15, 155, 214, 0.8), rgba(0, 86, 179, 0.8)) !important; */
     box-shadow: 0 4px 15px rgba(15, 155, 214, 0.4) !important;
-    color: #025e0e !important;
+    color: #0f2d4a !important;
     border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
 .nav-link.active i {
-    color: rgb(38, 207, 4) !important;
+    color: #0f2d4a !important;
 }
 
 /* সাব-মেনু (Treeview) ডিজাইন */
@@ -201,7 +210,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 2px;
-    background: linear-gradient(to right, #ff7979, #ffe26e);
+    background: linear-gradient(to right, #0f2d4a, #0f9bd6);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     padding: 0px 0 10px 0;
@@ -274,3 +283,124 @@ aside .brand-image {
 }
 </style>
 
+<style>
+    .icc-1  { color: #2c3e50; }
+    .icc-2  { color: #34495e; }
+    .icc-3  { color: #7f8c8d; }
+    .icc-4  { color: #95a5a6; }
+    .icc-5  { color: #bdc3c7; }
+
+    .icc-6  { color: #0d6efd; }
+    .icc-7  { color: #1a73e8; }
+    .icc-8  { color: #2962ff; }
+    .icc-9  { color: #3f51b5; }
+    .icc-10 { color: #5c6bc0; }
+
+    .icc-11 { color: #4b4dfc; }
+    .icc-12 { color: #536dfe; }
+    .icc-13 { color: #7986cb; }
+    .icc-14 { color: #3d5afe; }
+    .icc-15 { color: #1e40af; }
+
+    .icc-16 { color: #20c997; }
+    .icc-17 { color: #10b981; }
+    .icc-18 { color: #2ecc71; }
+    .icc-19 { color: #27ae60; }
+    .icc-20 { color: #1abc9c; }
+
+    .icc-21 { color: #0fb9b1; }
+    .icc-22 { color: #26de81; }
+    .icc-23 { color: #2ed573; }
+    .icc-24 { color: #55efc4; }
+    .icc-25 { color: #00b894; }
+
+    .icc-26 { color: #f39c12; }
+    .icc-27 { color: #f1c40f; }
+    .icc-28 { color: #e67e22; }
+    .icc-29 { color: #e74c3c; }
+    .icc-30 { color: #d35400; }
+
+    .icc-31 { color: #ff7675; }
+    .icc-32 { color: #fab1a0; }
+    .icc-33 { color: #e17055; }
+    .icc-34 { color: #d63031; }
+    .icc-35 { color: #ff6b6b; }
+
+    .icc-36 { color: #6c5ce7; }
+    .icc-37 { color: #a29bfe; }
+    .icc-38 { color: #8e44ad; }
+    .icc-39 { color: #9b59b6; }
+    .icc-40 { color: #be2edd; }
+
+    .icc-41 { color: #0984e3; }
+    .icc-42 { color: #74b9ff; }
+    .icc-43 { color: #81ecec; }
+    .icc-44 { color: #00cec9; }
+    .icc-45 { color: #00a8ff; }
+
+    .icc-46 { color: #6ab04c; }
+    .icc-47 { color: #badc58; }
+    .icc-48 { color: #7bed9f; }
+    .icc-49 { color: #55efc4; }
+    .icc-50 { color: #1dd1a1; }
+
+    .icc-51 { color: #d980fa; }
+    .icc-52 { color: #e056fd; }
+    .icc-53 { color: #b33771; }
+    .icc-54 { color: #8b53ff; }
+    .icc-55 { color: #9f6bff; }
+
+    .icc-56 { color: #3d3d3d; }
+    .icc-57 { color: #4f4f4f; }
+    .icc-58 { color: #5f6368; }
+    .icc-59 { color: #757575; }
+    .icc-60 { color: #8e8e8e; }
+
+    .icc-61 { color: #ff9f1a; }
+    .icc-62 { color: #ffa502; }
+    .icc-63 { color: #ffb142; }
+    .icc-64 { color: #ff7f50; }
+    .icc-65 { color: #ff6348; }
+
+    .icc-66 { color: #341f97; }
+    .icc-67 { color: #2e86de; }
+    .icc-68 { color: #1b9cfc; }
+    .icc-69 { color: #3742fa; }
+    .icc-70 { color: #5352ed; }
+
+    .icc-71 { color: #2d3436; }
+    .icc-72 { color: #636e72; }
+    .icc-73 { color: #b2bec3; }
+    .icc-74 { color: #dfe6e9; }
+    .icc-75 { color: #a4b0be; }
+
+    .icc-76 { color: #0a3d62; }
+    .icc-77 { color: #3c6382; }
+    .icc-78 { color: #60a3bc; }
+    .icc-79 { color: #82ccdd; }
+    .icc-80 { color: #0abde3; }
+
+    .icc-81 { color: #30336b; }
+    .icc-82 { color: #130f40; }
+    .icc-83 { color: #535c68; }
+    .icc-84 { color: #95afc0; }
+    .icc-85 { color: #7ed6df; }
+
+    .icc-86 { color: #eb4d4b; }
+    .icc-87 { color: #ff4757; }
+    .icc-88 { color: #ff6b81; }
+    .icc-89 { color: #ff4d4d; }
+    .icc-90 { color: #ff3838; }
+
+    .icc-91 { color: #374151; }
+    .icc-92 { color: #4b5563; }
+    .icc-93 { color: #6b7280; }
+    .icc-94 { color: #9ca3af; }
+    .icc-95 { color: #d1d5db; }
+
+    .icc-96 { color: #2563eb; }
+    .icc-97 { color: #1d4ed8; }
+    .icc-98 { color: #1e3a8a; }
+    .icc-99 { color: #60a5fa; }
+    .icc-100{ color: #93c5fd; }
+</style>
