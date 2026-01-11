@@ -56,7 +56,11 @@ class AuthController extends Controller
 
     public function register(): View
     {
-        return view('me::auth.registration');
+        if(get_setting('enable_registration')){
+            return view('me::auth.registration');
+        }else{
+            return view('me::auth.login');
+        }
     }
 
     public function registerStore(Request $request)
@@ -239,7 +243,11 @@ class AuthController extends Controller
 
     public function forgetPassword(): View
     {
-        return view('me::auth.forget');
+        if(get_setting('enable_forget_password')){
+            return view('me::auth.forget');
+        }else{
+            return view('me::auth.login');
+        }
     }
 
     public function verifyResetOtp(Request $request)

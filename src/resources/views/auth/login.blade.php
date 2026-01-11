@@ -60,6 +60,7 @@
 
 
                 <div class="mt-3 text-center">
+                    @if(get_setting('enable_registration'))
                     <!-- রেজিস্ট্রেশন লিঙ্ক (যদি নতুন ইউজার হয়) -->
                     <p style="color: rgba(255, 255, 255, 0.6); font-size: 0.9rem;" class="mb-2">
                         {{ __("Don't have an account?") }}
@@ -67,13 +68,16 @@
                             {{ __('Create Account') }}
                         </a>
                     </p>
+                    @endif
 
+                    @if(get_setting('enable_forget_password'))
                     <!-- পাসওয়ার্ড ভুলে গেলে -->
                     <p class="mt-2">
                         <a href="{{ route('password.forget') }}" style="color: rgba(255, 255, 255, 0.8); font-size: 0.85rem; text-decoration: none; transition: 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255, 255, 255, 0.8)'">
                             <i class="fas fa-lock me-1"></i> {{ __('Forgot your password?') }}
                         </a>
                     </p>
+                    @endif
                 </div>
                 <div class="auth-footer mt-4 text-center d-none">
                     <div class="d-flex justify-content-between align-items-center" style="max-width: 300px; margin: 0 auto; border-top: 1px solid rgba(255,255,255,0.1); pt-3">
@@ -85,10 +89,12 @@
 
                         <span style="color: rgba(255,255,255,0.2)">|</span>
 
+
                         <!-- Forgot Password -->
                         <a href="{{ route('password.forget') }}" class="text-decoration-none" style="color: #ffffffd1; font-size: 13px;">
                             {{ __('Reset Password') }}
                         </a>
+
 
                     </div>
                 </div>

@@ -20,15 +20,18 @@ class SettingController extends Controller
     {
         // Get all settings
         $settings = [
-            'pagination'         => (int) Setting::get('pagination', 10),
-            'enable_translation' => (bool) Setting::get('enable_translation', false),
-            'root_url'           => Setting::get('root_url', url('/')),
-            'profile_url'        => Setting::get('profile_url', url('/profile')),
-            'setting_url'        => Setting::get('setting_url', url('/settings')),
-            'logout_url'         => Setting::get('logout_url', url('/logout')),
-            'login_url'          => Setting::get('login_url', url('/login')),
-            'app_logo'           => Setting::get('app_logo'),
-            'app_ico'            => Setting::get('app_ico'),
+            'pagination'             => (int) Setting::get('pagination', 10),
+            'enable_translation'     => (bool) Setting::get('enable_translation', false),
+            'enable_registration'    => (bool) Setting::get('enable_registration', false),
+            'enable_forget_password' => (bool) Setting::get('enable_forget_password', false),
+            'root_url'               => Setting::get('root_url', url('/')),
+            'profile_url'            => Setting::get('profile_url', url('/profile')),
+            'setting_url'            => Setting::get('setting_url', url('/settings')),
+            'logout_url'             => Setting::get('logout_url', url('/logout')),
+            'login_url'              => Setting::get('login_url', url('/login')),
+            'dev_url'                => Setting::get('dev_url', url('mestiaque.com')),
+            'app_logo'               => Setting::get('app_logo'),
+            'app_ico'                => Setting::get('app_ico'),
         ];
 
         return view('me::settings.configurations', compact('settings'));
@@ -50,11 +53,14 @@ class SettingController extends Controller
         // Store values properly
         Setting::set('pagination', (int) $request->pagination);
         Setting::set('enable_translation', $request->has('enable_translation'));
+        Setting::set('enable_registration', $request->has('enable_registration'));
+        Setting::set('enable_forget_password', $request->has('enable_forget_password'));
         Setting::set('root_url', $request->root_url);
         Setting::set('profile_url', $request->profile_url);
         Setting::set('setting_url', $request->setting_url);
         Setting::set('logout_url', $request->logout_url);
         Setting::set('login_url', $request->login_url);
+        Setting::set('dev_url', $request->login_url);
 
         foreach (['app_logo', 'app_ico'] as $imgField) {
             if ($request->hasFile($imgField)) {

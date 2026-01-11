@@ -7,14 +7,14 @@
     <li class="nav-item">
         <a class="nav-link sidebar-toggle-btn d-flex align-items-center justify-content-center"
         data-lte-toggle="sidebar"
-        href="#"
+        href="javascript:void(0)"
         role="button"
         style="height: 40px; width: 40px; line-height: 1;"> <!-- হাইট লোগোর সমান রাখা হয়েছে -->
         <i class="bi bi-list" style="font-size: 1.5rem;"></i>
         </a>
     </li>
 
-    <li class="nav-item d-none d-md-block ms-2"> <!-- ms-2 দিয়ে একটু গ্যাপ দেওয়া হয়েছে -->
+    <li class="nav-item d-nonex d-md-block ms-2"> <!-- ms-2 দিয়ে একটু গ্যাপ দেওয়া হয়েছে -->
         <a href="{{ Route::has('admin.dashboard') ? route('admin.dashboard') : route('me.dashboard') }}"
             class="nav-link d-flex align-items-center"
             style="height: 40px; padding:0px !important;"> <!-- প্যাডিং ০ করে দেওয়া হয়েছে যাতে ইমেজ বড় হলে সমস্যা না হয় -->

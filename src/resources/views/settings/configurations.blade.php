@@ -47,6 +47,20 @@
                                     @lang('Enable Translation')
                                 </label>
                             </div>
+                            <div class="form-check form-switch mb-3">
+                                <input type="checkbox" class="form-check-input" id="enable_registration"
+                                        name="enable_registration" {{ $settings['enable_registration'] ? 'checked' : '' }}>
+                                <label class="form-check-label" for="enable_registration">
+                                    @lang('Enable Registration')
+                                </label>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input type="checkbox" class="form-check-input" id="enable_forget_password"
+                                        name="enable_forget_password" {{ $settings['enable_forget_password'] ? 'checked' : '' }}>
+                                <label class="form-check-label" for="enable_forget_password">
+                                    @lang('Enable Forget Password')
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -132,7 +146,6 @@
                                     <input type="url" class="form-control form-control-sm" id="root_url"
                                             name="root_url" value="{{ old('root_url', $settings['root_url']) }}"
                                             placeholder="https://example.com">
-                                    <small class="text-muted">@lang('Main website root link')</small>
                                 </div>
 
                                 <div class="col-md-6">
@@ -140,7 +153,6 @@
                                     <input type="url" class="form-control form-control-sm" id="profile_url"
                                             name="profile_url" value="{{ old('profile_url', $settings['profile_url']) }}"
                                             placeholder="https://example.com/profile">
-                                    <small class="text-muted">@lang('User profile page link')</small>
                                 </div>
 
                                 <div class="col-md-6">
@@ -148,7 +160,6 @@
                                     <input type="url" class="form-control form-control-sm" id="setting_url"
                                             name="setting_url" value="{{ old('setting_url', $settings['setting_url']) }}"
                                             placeholder="https://example.com/settings">
-                                    <small class="text-muted">@lang('System settings page link')</small>
                                 </div>
 
                                 <div class="col-md-6">
@@ -156,7 +167,6 @@
                                     <input type="url" class="form-control form-control-sm" id="logout_url"
                                             name="logout_url" value="{{ old('logout_url', $settings['logout_url']) }}"
                                             placeholder="https://example.com/logout">
-                                    <small class="text-muted">@lang('Logout route link')</small>
                                 </div>
 
                                 <div class="col-md-6">
@@ -164,7 +174,12 @@
                                     <input type="url" class="form-control form-control-sm" id="login_url"
                                             name="login_url" value="{{ old('login_url', $settings['login_url']) }}"
                                             placeholder="https://example.com/login">
-                                    <small class="text-muted">@lang('Login page link')</small>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="dev_url" class="form-label fw-semibold">@lang('Dev URL')</label>
+                                    <input type="url" class="form-control form-control-sm" id="dev_url"
+                                            name="dev_url" value="{{ old('dev_url', $settings['dev_url']) }}"
+                                            placeholder="https://example.com/">
                                 </div>
                             </div>
                         </div>

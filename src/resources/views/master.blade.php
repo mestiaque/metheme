@@ -250,7 +250,7 @@
   <!--end::Head-->
   <!--begin::Body-->
   <body class="layout-fixed sidebar-expand-lg sidebar-mini sidebar-collapsex bg-body-tertiary">
-        <script>
+        {{-- <script>
           (function() {
               const savedState = localStorage.getItem('sidebarState');
               const breakpoint = 992;
@@ -260,6 +260,26 @@
                   document.body.classList.add('sidebar-collapse');
               }
           })();
+      </script> --}}
+      <script>
+        (function() {
+            const savedState = localStorage.getItem('sidebarState');
+            const breakpoint = 992;
+
+            if (window.innerWidth > breakpoint) {
+                if (savedState === 'collapsed') {
+                    document.body.classList.add('sidebar-collapse');
+                    document.body.classList.remove('sidebar-open');
+                } else {
+                    document.body.classList.remove('sidebar-collapse');
+                    document.body.classList.add('sidebar-open');
+                }
+            } else {
+                document.body.classList.add('sidebar-collapse');
+                document.body.classList.remove('sidebar-open');
+            }
+        })();
+
       </script>
     <!--begin::App Wrapper-->
     <div class="app-wrapper">
