@@ -18,12 +18,12 @@
         <a href="{{ Route::has('admin.dashboard') ? route('admin.dashboard') : route('me.dashboard') }}"
             class="nav-link d-flex align-items-center"
             style="height: 40px; padding:0px !important;"> <!-- প্যাডিং ০ করে দেওয়া হয়েছে যাতে ইমেজ বড় হলে সমস্যা না হয় -->
-
-            <img loading="lazy"
+            @include('me::svg')
+            {{-- <img loading="lazy"
                 src="{{ get_image('app_logo') ?? asset('assets/img/default-img/Encodex_c.png') }}"
                 class="company-logo"
                 alt="Company Logo"
-                style="max-height: 100%; width: auto; display: block;">
+                style="max-height: 100%; width: auto; display: block;"> --}}
         </a>
     </li>
     </ul>

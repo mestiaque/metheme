@@ -83,6 +83,8 @@
 
     <!-- Custom CSS -->
     <link rel="icon" href="{{ get_image('app_ico') ?? asset('assets/img/favicon/Encodex.ico') }}" type="image/x-icon">
+    {{-- <link rel="icon" type="image/svg+xml" href="{{ route('favicon.svg') }}"> --}}
+
     <link href="{{ asset('css/form-styles.css') }}" rel="stylesheet">
     <link href="{{ asset('css/encodex.css') }}?v={{ time() }}" rel="stylesheet">
 
