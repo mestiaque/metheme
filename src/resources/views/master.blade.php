@@ -249,7 +249,11 @@
   </head>
   <!--end::Head-->
   <!--begin::Body-->
-  <body class="layout-fixed sidebar-expand-lg sidebar-mini sidebar-collapsex bg-body-tertiary">
+  {{-- <body class="layout-fixed sidebar-expand-lg sidebar-mini sidebar-collapse bg-body-tertiary"> --}}
+    {{-- <body class="layout-fixed sidebar-expand-lg sidebar-mini sidebar-collapse bg-body-tertiary app-loaded sidebar-open"> --}}
+        <body class="layout-fixed sidebar-expand-lg sidebar-mini bg-body-tertiary app-loaded">
+
+
         {{-- <script>
           (function() {
               const savedState = localStorage.getItem('sidebarState');
@@ -264,7 +268,7 @@
       <script>
         (function() {
             const savedState = localStorage.getItem('sidebarState');
-            const breakpoint = 992;
+            const breakpoint = 768;
 
             if (window.innerWidth > breakpoint) {
                 if (savedState === 'collapsed') {

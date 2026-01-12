@@ -12,4 +12,5 @@ return [
     'sales_label'   => 'Sales (TK.)',
     'sales_tooltip' => 'Sales: TK. :value',
     "Avatar" => "AVATAR",
+    'Dashboard-ME' => 'Dashboard-ME'
 ];

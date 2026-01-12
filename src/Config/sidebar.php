@@ -2,7 +2,7 @@
 
 return [
     [
-        'title' => 'Dashboard-ME',
+        'title' => 'me::me.Dashboard-ME',
         'icon'  => 'fas fa-tachometer-alt',
         'route' => 'me.dashboard',
         'for_active' => 'me.dashboard',

@@ -672,15 +672,15 @@
     //     }
     // }
 class PushMenu {
-    constructor(element, config) {
+    constructor(element, config = {}) {
+        if (!element) throw new Error("PushMenu: sidebar element is required");
+
         this._element = element;
-        // Defaults যদি ডিফাইন করা না থাকে তবে এরর এড়াতে {} দেয়া হয়েছে
-        const defaults = typeof Defaults !== 'undefined' ? Defaults : {};
         this._config = {
-            sidebarBreakpoint: 992,
-            ...defaults,
+            sidebarBreakpoint: 768,
             ...config
         };
+        this._toggleBtn = document.querySelector('[data-lte-toggle="sidebar"]');
     }
 
     expand() {
@@ -699,22 +699,6 @@ class PushMenu {
         }
     }
 
-    applySavedState() {
-        const width = window.innerWidth;
-        const savedState = localStorage.getItem('sidebarState');
-
-
-        if (width > this._config.sidebarBreakpoint) {
-            if (savedState === 'collapsed') {
-                document.body.classList.add('sidebar-collapse');
-            } else {
-                document.body.classList.remove('sidebar-collapse');
-            }
-        } else {
-            document.body.classList.add('sidebar-collapse');
-        }
-    }
-
     toggle() {
         if (document.body.classList.contains('sidebar-collapse')) {
             this.expand();
@@ -723,30 +707,68 @@ class PushMenu {
         }
     }
 
+    applySavedState() {
+        const width = window.innerWidth;
+        const savedState = localStorage.getItem('sidebarState');
+
+        if (width > this._config.sidebarBreakpoint) {
+            if (savedState === 'collapsed') {
+                document.body.classList.add('sidebar-collapse');
+                document.body.classList.remove('sidebar-open');
+            } else {
+                document.body.classList.remove('sidebar-collapse');
+                document.body.classList.add('sidebar-open');
+            }
+        } else {
+            document.body.classList.add('sidebar-collapse');
+            document.body.classList.remove('sidebar-open');
+        }
+    }
+
     init() {
+        // Apply state on load
         this.applySavedState();
 
-        // টগল বাটনে ক্লিক ইভেন্ট অ্যাড করা
-        const toggleBtn = document.querySelector('[data-lte-toggle="sidebar"]');
-        if (toggleBtn) {
-            toggleBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.toggle();
-            });
+        if (!this._toggleBtn) {
+            console.warn("PushMenu: toggle button not found");
+            return;
         }
 
+        // Ensure multiple click events are not attached
+        this._toggleBtn.removeEventListener('click', this._clickHandler);
+        this._clickHandler = (e) => {
+            e.preventDefault();
+            this.toggle();
+        };
+        this._toggleBtn.addEventListener('click', this._clickHandler);
+
+        // Handle window resize
         window.addEventListener('resize', () => {
-            if (window.innerWidth <= this._config.sidebarBreakpoint) {
+            const width = window.innerWidth;
+            if (width <= this._config.sidebarBreakpoint) {
+                document.body.classList.add('sidebar-collapse');
                 document.body.classList.remove('sidebar-open');
+            } else {
+                // restore saved state for large screens
+                const savedState = localStorage.getItem('sidebarState');
+                if (savedState === 'collapsed') {
+                    document.body.classList.add('sidebar-collapse');
+                    document.body.classList.remove('sidebar-open');
+                } else {
+                    document.body.classList.remove('sidebar-collapse');
+                    document.body.classList.add('sidebar-open');
+                }
             }
         });
     }
 }
 
-// নিচের এই অংশটি কোডকে রান করাবে
+// Initialize on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
-    const sidebarBtn = document.querySelector('[data-lte-toggle="sidebar"]');
-    const pushMenu = new PushMenu(sidebarBtn);
+    const sidebar = document.querySelector('aside.app-sidebar');
+    if (!sidebar) return;
+
+    const pushMenu = new PushMenu(sidebar);
     pushMenu.init();
 });
 
