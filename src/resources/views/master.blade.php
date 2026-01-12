@@ -124,15 +124,16 @@
                 padding: 3px 3px;
                 box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
                 position: relative;
-                min-height: 2.9rem !important
+                min-height: 2.2rem !important
             }
             .breadcrumb-title {
                 font-size: 1.05rem;
                 margin: 0;
                 font-weight: 600;
-                background: linear-gradient(90deg, #05266b, #5a65ff);
+                /* background: linear-gradient(90deg, #05266b, #5a65ff); */
+                color: #0f9bd6;
                 -webkit-background-clip: text;
-                color: transparent;
+                /* color: transparent; */
                 letter-spacing: 0.5px;
                 margin-left: 5px !important;
             }
@@ -144,6 +145,9 @@
             .glass-breadcrumb {
                 animation: fadeSlide .4s ease;
             }
+            .glass-breadcrumb .btn{
+                padding: 0.25rem 0.5rem;
+            }
             @keyframes fadeSlide {
                 from {
                     opacity: 0;
@@ -153,6 +157,9 @@
                     opacity: 1;
                     transform: translateY(0);
                 }
+            }
+            .breadcrumb-title .dev-svg{
+                height: 2rem !important;
             }
         </style>
 
@@ -191,7 +198,7 @@
                     <div class="container-fluid">
                         <div class="glass-breadcrumb d-flex flex-nowrap align-items-center justify-content-between overflow-auto mb-2 mt-1">
                             <h1 class="breadcrumb-title">
-                                <b>@yield('title')</b>
+                                @include('me::svg') <b>@yield('title')</b>
                             </h1>
 
                             <div class="breadcrumb-actions d-flex gap-2 justify-content-end">

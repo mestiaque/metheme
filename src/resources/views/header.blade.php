@@ -275,6 +275,10 @@ margin: 5px 0;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.app-header .dev-svg{
+  max-height: 2.5rem;
+}
+
 /* রেসপন্সিভ ফিক্স */
 
 
