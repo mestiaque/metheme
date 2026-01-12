@@ -2,18 +2,20 @@
 
 return [
     [
-        'title' => 'me::me.Dashboard-ME',
-        'icon'  => 'fas fa-tachometer-alt',
-        'route' => 'me.dashboard',
+        'title'      => 'me::me.Dashboard-ME',
+        'icon'       => 'fas fa-tachometer-alt',
+        'route'      => 'me.dashboard',
         'for_active' => 'me.dashboard',
         'icon_color' => 'text-encodex-secondary',
-        'permit' => 'me.dashboard'
+        'permit'     => 'me.dashboard',
+        'sl'         => 1,
     ],
 
     [
-        'title'    => 'DEVELOPER-ME',
-        'icon'     => 'fas fa-users-cog',
+        'title'      => 'DEVELOPER-ME',
+        'icon'       => 'fas fa-users-cog',
         'icon_color' => 'text-success',
+        'sl'         => 2,
         'children' => [
             [
                 'icon'       => 'fas fa-users',

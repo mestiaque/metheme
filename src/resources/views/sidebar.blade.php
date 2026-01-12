@@ -33,7 +33,12 @@
                     <span class="short-text">{{ strtoupper($shortName) }}</span>
                 </li>
 
-                @foreach(config('sidebar') as $item)
+                @php
+                    // sidebar config টি সংগ্রহ করে sl অনুযায়ী সর্ট করা হচ্ছে
+                    $sidebarMenu = collect(config('sidebar'))->sortBy('sl')->toArray();
+                @endphp
+
+                @foreach($sidebarMenu as $item)
                     @if(isset($item['header']))
                         <li class="nav-header">
                             <i class="{{ $item['icon'] ?? 'bi bi-grid-3x3-gap-fill' }} me-2"></i>
