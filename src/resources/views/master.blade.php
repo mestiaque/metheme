@@ -159,7 +159,7 @@
                 }
             }
             .breadcrumb-title .dev-svg{
-                height: 2rem !important;
+
             }
         </style>
 
@@ -198,7 +198,7 @@
                     <div class="container-fluid">
                         <div class="glass-breadcrumb d-flex flex-nowrap align-items-center justify-content-between overflow-auto mb-2 mt-1">
                             <h1 class="breadcrumb-title">
-                                @include('me::svg') <b>@yield('title')</b>
+                                @include('me::svg2') <b>@yield('title')</b>
                             </h1>
 
                             <div class="breadcrumb-actions d-flex gap-2 justify-content-end">

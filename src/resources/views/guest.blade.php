@@ -95,7 +95,7 @@
     <div class="app-wrapper">
 
       <!-- Include Header Component -->
-      @include('components.lte.guest-header')
+      @include('me::guest-header')
 
       <!-- Include Sidebar Component -->
 
@@ -129,7 +129,7 @@
       <!--end::App Main-->
 
       <!-- Include Footer Component -->
-      @include('components.lte.footer')
+      @include('me::footer')
     </div>
     <!--end::App Wrapper-->
 

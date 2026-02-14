@@ -26,6 +26,7 @@ td, th {
 .bg-encodex { background: #0f2d4a !important; }
 .text-encodex { color: #0f2d4a !important; }
 .bg-encodex-secondary { background: #0f9bd6 !important; }
+.bg-encodex-light{ background: #1a5387 !important; }
 
 .table-encodex { margin: 0 !important; }
 .table-encodex thead th {
@@ -39,7 +40,7 @@ td, th {
     padding: 0.25rem 0.5rem !important;
     font-size: 0.875rem !important;
     border-radius: 6px;
-    height: 35px !important;
+    /* height: 35px !important; */
 }
 
 .select2 { width: 100% !important; }
@@ -118,7 +119,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     padding-left: 0.5rem !important;
     font-size: 0.875rem !important;
     border-radius: 6px; /* বুটস্ট্র্যাপ ভ্যারিয়েবল বাদ দিয়ে ফিক্সড ভ্যালু */
-    height: 36px; /* হাইট ফিক্সড করলে সব ইনপুট একই সাইজের দেখাবে */
     border: 1px solid #ced4da; /* হালকা মার্জিত বর্ডার */
     background-color: #ffffff; /* সাদা ব্যাকগ্রাউন্ড */
     box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* হালকা শ্যাডো */
@@ -316,4 +316,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .btn-encodex-save:active {
     transform: scale(0.95);
     box-shadow: inset 0 0 10px rgba(255, 217, 0, 0.5);
+}
+
+.pagination{
+    margin-top: 0.6rem !important;
+}
+.btn-close:hover{
+    transform: translateY(-2px);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.25);
+}
+.btn-close:focus{
+    outline: none !important;
 }

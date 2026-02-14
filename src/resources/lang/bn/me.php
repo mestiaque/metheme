@@ -358,7 +358,7 @@ return [
     "PASSWORD" => "পাসওয়ার্ড",
     "Remember Me" => "আমাকে মনে রাখুন",
     "LOGIN" => "লগ ইন",
-    "mycopyright" => 'কপিরাইট © :year <a href="https://www.mestiaque.com" target="_blank" rel="noopener">ENcodeX</a>। সকল অধিকার সংরক্ষিত। অনুমোদিত :company-এর জন্য।',
+    "mycopyright" => 'কপিরাইট © :year <a href="https://www.mestiaque.com" target="_blank" rel="noopener">M. ESTIAQUE</a>। সকল অধিকার সংরক্ষিত। অনুমোদিত :company-এর জন্য।',
     "Version" => "সংস্করণ",
     'sales_label'   => 'বিক্রয় (টাকা)',
     'sales_tooltip' => 'বিক্রয়: টাকা :value',
