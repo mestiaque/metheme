@@ -47,7 +47,7 @@ class SettingController extends Controller
             'logout_url'  => 'nullable|url',
             'login_url'   => 'nullable|url',
             'app_logo'    => 'nullable|image|max:4096',
-            'app_ico'     => 'nullable|image|max:4096',
+            'app_ico'     => 'nullable|image|mimes:svg,ico,png,jpg|max:1024',
         ]);
 
         // Store values properly
@@ -60,7 +60,7 @@ class SettingController extends Controller
         Setting::set('setting_url', $request->setting_url);
         Setting::set('logout_url', $request->logout_url);
         Setting::set('login_url', $request->login_url);
-        Setting::set('dev_url', $request->login_url);
+        Setting::set('dev_url', $request->dev_url);
 
         foreach (['app_logo', 'app_ico'] as $imgField) {
             if ($request->hasFile($imgField)) {
