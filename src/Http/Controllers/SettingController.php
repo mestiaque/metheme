@@ -47,7 +47,7 @@ class SettingController extends Controller
             'logout_url'  => 'nullable|url',
             'login_url'   => 'nullable|url',
             'app_logo'    => 'nullable|image|max:4096',
-            'app_ico'     => 'nullable|image|mimes:svg,ico,png,jpg|max:1024',
+            'app_ico'     => 'nullable|file|mimes:svg,ico,png,jpg|max:1024',
         ]);
 
         // Store values properly
