@@ -48,8 +48,8 @@ php artisan storage:link --force
 #### Local Environment (.env)
 
 ```env
-APP_URL=http://estiaque.test
-BACKEND_URL=http://admin.estaque.test
+APP_URL=http://xyz.test
+BACKEND_URL=http://admin.xyz.test
 ```
 
 #### Production Environment (.env)
@@ -107,12 +107,12 @@ class BackendServiceProvider extends ServiceProvider
 
 ```env
 MAIL_MAILER=smtp
-MAIL_HOST=mail.dordambd.com
+MAIL_HOST=mail.xyz.com
 MAIL_PORT=465
-MAIL_USERNAME=info@dordambd.com
+MAIL_USERNAME=info@xyz.com
 MAIL_PASSWORD=your_password
 MAIL_ENCRYPTION=ssl
-MAIL_FROM_ADDRESS="info@dordambd.com"
+MAIL_FROM_ADDRESS="info@xyz.com"
 MAIL_FROM_NAME="${APP_NAME}"
 ```
 
@@ -125,6 +125,24 @@ ME_META_DESCRIPTION="Software Engineer from Dhaka, Bangladesh"
 ME_META_KEYWORDS="laravel, php, developer"
 ```
 
+## .env
+```env
+QUEUE_CONNECTION=database
+```
+
+## SMS Configuration (.env)
+```env
+SMS_API_URL=https://bulksmsbd.net/api/smsapi
+SMS_API_KEY=dBG4rYOLWW28f3ip15yW
+SMS_SENDER_ID=8809617624082
+```
+
+## Telegram Bot Configuration (.env)
+```env
+TELEGRAM_BOT_TOKEN=8355877001:AAHziYneb6prU4rrU7VK_LtMMspySGTha14
+TELEGRAM_CHAT_ID=5543526664
+TELEGRAM_WEBHOOK_SECRET=encodex__123
+```
 ## Usage
 
 After installation, the package will automatically:
@@ -135,3 +153,18 @@ After installation, the package will automatically:
 ## License
 
 MIT License
+
+
+## Cron Job
+```
+/usr/local/bin/php /home/xyz/public_html/artisan queue:work --stop-when-empty --sleep=3 --tries=3 --timeout=90 >> /home/xyz/public_html/storage/logs/worker.log 2>&1
+```
+
+## Telegram Webhook 
+```
+POST : https://xyz.com/telegram/webhook/{secrect_key} //set secrect key
+
+POST: https://api.telegram.org/bot{api_token}/setWebhook?url=https://xyz.com/telegram/webhook/{secrect_key} // set api
+ 
+GET : https://api.telegram.org/bot{api_token}/getWebhookInfo // get info
+```
