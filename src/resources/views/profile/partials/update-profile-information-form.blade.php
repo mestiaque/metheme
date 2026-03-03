@@ -1,7 +1,7 @@
 <section>
-    <form id="send-verification" method="post" action="{{ route('verification.send') }}">
+    {{-- <form id="send-verification" method="post" action="{{ route('verification.send') }}">
         @csrf
-    </form>
+    </form> --}}
 
     <form method="post" action="{{ route('me.profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
         @csrf

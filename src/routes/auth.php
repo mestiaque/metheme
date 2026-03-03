@@ -22,5 +22,6 @@ Route::middleware(['web', 'guest'])->group(function () {
 
 Route::middleware(['web', 'auth'])->group(function () {
     Route::post('logout', [AuthController::class, 'logOut'])->name('logout');
+    Route::put('password', [AuthController::class, 'updatePassword'])->name('password.update');
 });
 
