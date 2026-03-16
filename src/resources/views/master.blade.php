@@ -34,6 +34,16 @@
                 .hide-mobile{ display: none !important}
             }
 
+            /* Date, Time, Week, Month সবগুলোর আইকন একসাথে পরিবর্তন করার জন্য */
+            input[type="date"]::-webkit-calendar-picker-indicator,
+            input[type="time"]::-webkit-calendar-picker-indicator,
+            input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+            input[type="month"]::-webkit-calendar-picker-indicator,
+            input[type="week"]::-webkit-calendar-picker-indicator {
+                filter: invert(0.5); /* আপনার পছন্দমতো ভ্যালু পরিবর্তন করুন */
+                cursor: pointer;
+            }
+
             body::before {
                 content: "";
                 position: fixed;
@@ -146,7 +156,7 @@
                 animation: fadeSlide .4s ease;
             }
             .glass-breadcrumb .btn{
-                padding: 0.25rem 0.5rem;
+                padding: 0.25rem 0.5rem !important;
             }
             @keyframes fadeSlide {
                 from {
@@ -169,7 +179,7 @@
     </head>
 
     <body class="layout-fixed sidebar-expand-lg sidebar-mini bg-body-tertiary app-loaded">
-
+    {{-- @include('me::loader') --}}
         <script>
             (function() {
                 const savedState = localStorage.getItem('sidebarState');
@@ -341,5 +351,6 @@
 
         @stack('js')
         @stack('scripts')
+        {{-- @include('me::loader') --}}
     </body>
 </html>
