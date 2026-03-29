@@ -8,14 +8,14 @@ return [
         'for_active' => 'me.dashboard',
         'icon_color' => 'text-encodex-secondary',
         'permit'     => 'me.dashboard',
-        'sl'         => 1,
+        'sl'         => 999,
     ],
 
     [
         'title'      => 'DEVELOPER-ME',
         'icon'       => 'fas fa-users-cog',
         'icon_color' => 'text-success',
-        'sl'         => 2,
+        'sl'         => 1000,
         'children' => [
             [
                 'icon'       => 'fas fa-users',

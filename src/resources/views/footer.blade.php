@@ -4,7 +4,7 @@
   <div class="float-end d-none d-sm-inline">
     @lang("Version") {{ toBanglaPhone(get_setting('app_version', '2.0.0')) }}
   </div>
-    @lang('me::metheme.mycopyright', [
+    @lang('me::me.mycopyright', [
         'year' => banglaYear(date('Y')),
         'company' => get_setting('shop_name', 'Your Company')
     ])
