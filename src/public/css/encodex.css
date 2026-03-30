@@ -269,8 +269,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .btn-encodex-print:hover, .btn-encodex-print2:hover { color: #fff !important; background: #fd7e14 !important; box-shadow: 0 6px 15px rgba(253, 126, 20, 0.3); }
 
 /* Edit & Payment - Royal Purple */
-.btn-encodex-edit, .btn-encodex-payment { color: #6f42c1; border-color: #6f42c1; }
-.btn-encodex-edit:hover, .btn-encodex-payment:hover { color: #fff !important; background: #6f42c1 !important; box-shadow: 0 6px 15px rgba(111, 66, 193, 0.3); }
+.btn-encodex-edit { color: #6f42c1; border-color: #6f42c1; }
+.btn-encodex-edit:hover { color: #fff !important; background: #6f42c1 !important; box-shadow: 0 6px 15px rgba(111, 66, 193, 0.3); }
+
+/* Edit & Payment - Royal Purple */
+.btn-encodex-payment { color: #a97142; border-color: #a97142; }
+.btn-encodex-payment:hover { color: #fff !important; background: #a97142 !important; box-shadow: 0 6px 15px rgba(210, 125, 45, 0.3); }
 
 /* Show - Bright Teal */
 .btn-encodex-show { color: #17a2b8; border-color: #17a2b8; }

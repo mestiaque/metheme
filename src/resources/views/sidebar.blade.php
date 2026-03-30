@@ -4,11 +4,8 @@
   <div class="sidebar-brand">
     @php $url = get_setting('root_url') ?: '/'; @endphp
     <a href="{{ $url }}" class="brand-link">
-      @if(get_setting('shop_logo'))
-        <img src="{{ route('shop_logo.show', get_setting('shop_logo')) }}" class="brand-image opacity-75 " alt="mESTIAQUE">
-      @else
-        <img src="{{ asset('assets/img/default-img/Encodex_c.png') }}" class="brand-image opacity-75" alt="mESTIAQUE">
-      @endif
+    @php $logo = (get_setting('app_logo')) ? get_image('app_logo') : asset('assets/img/favicon/Encodex.ico'); @endphp
+      <img src="{{ $logo }}" class="brand-image opacity-75" alt="mESTIAQUE">
       {{-- <span class="brand-text hide-mobile fw-light">{{ get_setting('shop_name', 'ENCODEX') }}</span> --}}
     </a>
   </div>
