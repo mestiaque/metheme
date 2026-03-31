@@ -12,7 +12,7 @@
   @endcomponent --}}
   <button class="btn btn-sm btn-encodex-print2" onclick="window.print()">@lang('Print Invoice')</button>
   @if(isset($backUrl) && $backUrl !== '')
-    <a href="#" class="btn btn-sm btn-encodex-create">@lang('Back')</a>
+    <a href="{{ $backUrl }}" class="btn btn-sm btn-encodex-create">@lang('Back')</a>
   @endif
 @endpush
 
@@ -27,7 +27,7 @@
     <!DOCTYPE html>
     <html lang="en">
     <head>
-        @stack('pcss')
+        @stack('pcss') {{-- যদি তোমার invoice এর সাথে আলাদা CSS দরকার হয় তাহলে এখানে পুশ করে দিতে পারো --}}
         {{-- তোমার invoice এর CSS 그대로 --}}
         <style>
 
@@ -191,6 +191,10 @@
                     transform: rotate(-45deg);
                 }
 
+                .print-container{
+                    box-shadow: none !important;
+                }
+
 
             }
 
@@ -204,8 +208,8 @@
         <div class="print-container shadow">
             <!-- Watermark -->
             <div class="watermark-bg">
-                @if(get_setting('shop_logo'))
-                    <img src="{{ route('shop_logo.show', get_setting('shop_logo')) }}">
+                @if(get_image('app_logo'))
+                    <img src="{{ get_image('app_logo') }}">
                 @else
                     <img src="{{ asset('assets/img/default-img/Encodex_c.png') }}">
                 @endif
@@ -215,8 +219,8 @@
             @if(isset($printType) && $printType == 'invoice')
                 <div class="invoice-header-flex">
                     <div>
-                        @if(get_setting('shop_logo'))
-                            <img src="{{ route('shop_logo.show', get_setting('shop_logo')) }}" class="header-logo">
+                        @if(get_image('app_logo'))
+                            <img src="{{ get_image('app_logo') }}" class="header-logo">
                         @else
                             <img src="{{ asset('assets/img/default-img/Encodex_c.png') }}" class="header-logo">
                         @endif
@@ -224,10 +228,10 @@
 
                     <div class="header-info">
                         <h1 style="margin:0; margin-bottom:1px; font-size:2rem;">
-                            {{ get_setting('shop_name', config('app.name')) }}
+                            {{ get_setting('app_name', config('app.name')) }}
                         </h1>
-                        <p>{{ get_setting('shop_address') }}</p>
-                        <p>@lang('Phone'): {{ get_setting('shop_phone') }} | @lang('Email'): {{ get_setting('shop_email') }}</p>
+                        <p>{{ get_setting('app_address', config('app.address')) }}</p>
+                        <p>@lang('Phone'): {{ get_setting('app_phone', config('app.phone')) }} | @lang('Email'): {{ get_setting('app_email', config('app.email')) }}</p>
                         <h5 style="margin:0; margin-top:2px;">
                             @if(isset($printTitle))
                                 @lang($printTitle)
@@ -243,23 +247,20 @@
                     </div>
                 </div>
             @else
-
-
                 <div class="report-header text-center mb-2" style="border-bottom: 1px solid #33333357;">
                     <div class="report-header-top d-inline-flex align-items-center mb-0">
-                        @if(get_setting('shop_logo'))
-                            <img src="{{ route('shop_logo.show', get_setting('shop_logo')) }}" class="report-logo" style="height: 2rem; margin-right: 0.5rem;">
+                        @if(get_image('app_logo'))
+                            <img src="{{ get_image('app_logo') }}" class="report-logo" style="height: 2rem; margin-right: 0.5rem;">
                         @else
                             <img src="{{ asset('assets/img/default-img/Encodex_c.png') }}" class="report-logo" style="height: 2rem; margin-right: 0.5rem;">
                         @endif
-                        <span class="report-shopname" style="font-size: 2rem;">
-                            {{ get_setting('shop_name', config('app.name')) }}
+                        <span class="report-appname" style="font-size: 2rem;">
+                            {{ get_setting('app_name', config('app.name')) }}
                         </span>
                     </div>
 
                     <h5 class="report-title m-0">{{ $printTitle ?? 'REPORT' }}</h5>
                 </div>
-
             @endif
 
             <!-- Table -->
@@ -268,7 +269,7 @@
 
             <!-- Footer -->
             <div class="pfooter">
-                @lang('This is a computer-generated invoice.') | @lang('Developed by: ENcodeX')
+                @lang('This is a computer-generated invoice.') | @lang('Developed by: ENcodeX') | @lang('Print Date'): {{ formatDate(now()) }}
             </div>
         </div>
         @stack('pjs')
