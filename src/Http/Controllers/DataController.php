@@ -12,6 +12,7 @@ class DataController extends Controller
     {
         $this->middleware('authorization:me.clearData')->only(['clearData', 'clearDataForm']);
         $this->middleware('authorization:me.dashboard')->only(['index']);
+        $this->middleware('authorization:me.theme')->only(['theme']);
     }
 
     public function index()
@@ -78,5 +79,10 @@ class DataController extends Controller
         session(['locale' => $locale]);
         app()->setLocale($locale);
         return redirect()->back();
+    }
+
+    public function theme()
+    {
+        return view('me::theme');
     }
 }

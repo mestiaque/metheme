@@ -4,7 +4,7 @@ return [
     [
         'title'      => 'DEVELOPER-ME',
         'icon'       => 'fas fa-users-cog',
-        'icon_color' => 'text-success',
+        'icon_color' => 'icc-28',
         'sl'         => 1000,
         'children' => [
             [
@@ -21,7 +21,7 @@ return [
                 'route'      => 'me.users.index',
                 'for_active' => 'me.users',
                 'permit'     => 'me_user.view',
-                'icon_color' => 'text-success',
+                'icon_color' => 'icc-81',
             ],
             [
                 'icon'   => 'fas fa-user-shield',
@@ -29,7 +29,7 @@ return [
                 'route'  => 'me.roles.index',
                 'for_active' => 'me.roles',
                 'permit' => 'me_role.view',
-                'icon_color' => 'text-success',
+                'icon_color' => 'icc-38',
             ],
             [
                 'permit' => 'me_setting.configurations',
@@ -37,7 +37,7 @@ return [
                 'icon'   => 'fas fa-wrench',
                 'route'  => 'me.configurations.edit',
                 'for_active' => 'me.configurations.edit',
-                'icon_color' => 'text-danger',
+                'icon_color' => 'icc-67',
             ],
             [
                 'icon'   => 'fas fa-trash-alt',
@@ -46,6 +46,14 @@ return [
                 'for_active'  => 'me.data.clear.form',
                 'permit' => 'me_clearData',
                 'icon_color' => 'text-danger',
+            ],
+            [
+                'icon'   => 'fas fa-paint-brush',
+                'title'  => 'Theme Info',
+                'route'  => 'me.theme',
+                'for_active'  => 'me.theme',
+                'permit' => 'me.theme',
+                'icon_color' => 'icc-51',
             ],
         ]
     ],

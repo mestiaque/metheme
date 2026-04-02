@@ -29,6 +29,8 @@ Route::group(['prefix' => 'me', 'as' => 'me.', 'middleware' => ['web', 'auth', L
     Route::resource('users', UserController::class);
     Route::patch('/users/{user}/toggle-active', [UserController::class, 'toggleActive'])->name('users.toggle-active');
     Route::resource('roles', RoleController::class);
+
+    Route::get('/theme', [DataController::class, 'theme'])->name('theme');
 });
 include 'file.php';
 
