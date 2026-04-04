@@ -13,7 +13,7 @@
         <meta name="keywords" content="@yield('meta-keywords', config('me_settings.meta_keywords'))" />
         <meta name="supported-color-schemes" content="light dark" />
         <link rel="preload" href="{{ asset('css/adminlte.css') }}" as="style" />
-        <title>{{ config('app.name', 'ESTIAQUE') }}  | @yield('title', 'Dashboard')</title>
+        <title> @yield('title', 'Dashboard') | {{ config('app.name', 'ESTIAQUE') }}</title>
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css" integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q=" crossorigin="anonymous" media="print" onload="this.media='all'" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css" crossorigin="anonymous" />
@@ -347,6 +347,43 @@
                     });
                 });
             });
+        </script>
+
+        <!-- Input Focus Script -->
+        <script>
+            document.addEventListener('focus', function(e) {
+                const target = e.target;
+                // Only act on number inputs that are not disabled or readonly
+                if (
+                    target.tagName === 'INPUT' &&
+                    target.type === 'number' &&
+                    !target.disabled &&
+                    !target.readOnly
+                ) {
+                    // Clear if the current value is exactly 0
+                    if (parseFloat(target.value) === 0) {
+                        target.value = '';
+                    }
+                }
+            }, true); // capture phase so it works on dynamically added inputs
+
+
+            document.addEventListener('blur', function(e) {
+                const target = e.target;
+
+                // Only act on number inputs that are not disabled or readonly
+                if (
+                    target.tagName === 'INPUT' &&
+                    target.type === 'number' &&
+                    !target.disabled &&
+                    !target.readOnly
+                ) {
+                    // Restore 0 if the input is empty
+                    if (target.value === '') {
+                        target.value = 0;
+                    }
+                }
+            }, true); // use capture so it works on dynamically added inputs
         </script>
 
         @stack('js')
