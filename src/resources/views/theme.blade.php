@@ -47,6 +47,7 @@
                     'btn-encodex-active',
                     'btn-encodex-deactive',
                     'btn-encodex-delete',
+                    'btn-encodex-pink',
                     'btn-encodex-save',
                     'btn-close',
                 ];

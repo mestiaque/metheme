@@ -2,13 +2,13 @@
 
 return [
     [
-        'title'      => 'DEVELOPER-ME',
+        'title'      => 'DEV-ME',
         'icon'       => 'fas fa-users-cog',
         'icon_color' => 'icc-28',
         'sl'         => 1000,
         'children' => [
             [
-                'title'      => 'me::me.Dashboard-ME',
+                'title'      => 'Dashboard',
                 'icon'       => 'fas fa-tachometer-alt',
                 'route'      => 'me.dashboard',
                 'for_active' => 'me.dashboard',

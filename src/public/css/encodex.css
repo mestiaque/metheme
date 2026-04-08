@@ -289,8 +289,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .btn-encodex-active:hover { color: #fff !important; background: #28a745 !important; }
 
 /* Status: Deactive */
-.btn-encodex-deactive { color: #e83e8c; border-color: #e83e8c; }
-.btn-encodex-deactive:hover { color: #fff !important; background: #e83e8c !important; }
+.btn-encodex-deactive { color: #495057; border-color: #495057; }
+.btn-encodex-deactive:hover { color: #fff !important; background: #495057 !important; }
+
+.btn-encodex-pink { color: #e83e8c; border-color: #e83e8c; }
+.btn-encodex-pink:hover { color: #fff !important; background: #e83e8c !important; }
 
 
 
