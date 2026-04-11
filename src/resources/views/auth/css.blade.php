@@ -63,8 +63,8 @@
                     5px 5px 15px rgba(0, 0, 0, 0.2); */
         border: 2px solid #002472;
         background: #0f2d4a6e;
-        backdrop-filter: blur(30px);
-        -webkit-backdrop-filter: blur(30px);
+        backdrop-filter: blur(15px) saturate(160%);
+        -webkit-backdrop-filter: blur(15px) saturate(160%);
     }
 
     .login-avatar::before {
