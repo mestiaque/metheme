@@ -286,8 +286,37 @@ aside .brand-image {
     .hide-mobile {
         display: none !important;
     }
+    .nav-link{
+        color: #ffffff !important;
+    }
+    .nav .nav-link.active{
+        color: #4ba5fb !important;
+    }
 }
 </style>
+
+<script> // পেজ লোড হওয়ার পর, সাইডবারের অ্যাক্টিভ মেনু আইটেমকে ভিউতে আনতে এই স্ক্রিপ্টটি ব্যবহার করা হয়েছে।
+document.addEventListener('DOMContentLoaded', function () {
+    var sidebarWrapper = document.querySelector('.app-sidebar .sidebar-wrapper');
+    if (!sidebarWrapper) {
+        return;
+    }
+
+    // Keep the current active menu item in view after a hard reload.
+    var activeLink = sidebarWrapper.querySelector('.nav-link.active');
+    if (!activeLink) {
+        return;
+    }
+
+    window.requestAnimationFrame(function () {
+        activeLink.scrollIntoView({
+            behavior: 'auto',
+            block: 'center',
+            inline: 'nearest'
+        });
+    });
+});
+</script>
 
 <style>
     .icc-1  { color: #2c3e50; }
