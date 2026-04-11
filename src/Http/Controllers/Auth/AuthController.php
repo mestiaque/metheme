@@ -41,7 +41,8 @@ class AuthController extends Controller
                 ->withErrors(['user_name' => 'Your account has been deactivated. Please contact the administrator.']);
         }
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        // return redirect()->intended(RouteServiceProvider::HOME);
+        return redirect()->intended(get_setting('login_redirect_url', url('/admin/dashboard'))); // সেটিং থেকে রিডাইরেক্ট ইউআরএল নেওয়া হচ্ছে
     }
 
     public function logOut(Request $request): RedirectResponse

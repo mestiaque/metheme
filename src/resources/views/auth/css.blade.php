@@ -52,22 +52,26 @@
         position: relative;
         width: 80px;
         height: 80px;
-        background-color: white;
+        /* background-color: white; */
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         margin-bottom: 15px;
-        box-shadow: inset 6px 6px 8px rgba(0, 0, 0, 0.15),
+        /* box-shadow: inset 6px 6px 8px rgba(0, 0, 0, 0.15),
                     inset -6px -6px 8px rgba(255, 255, 255, 0.9),
-                    5px 5px 15px rgba(0, 0, 0, 0.2);
+                    5px 5px 15px rgba(0, 0, 0, 0.2); */
+        border: 2px solid #002472;
+        background: #0f2d4a6e;
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
     }
 
     .login-avatar::before {
         content: "";
         position: absolute;
         top: 12%; left: 12%; width: 40%; height: 30%;
-        background: rgba(255, 255, 255, 0.85);
+        /* background: rgba(255, 255, 255, 0.85); */
         filter: blur(6px);
         border-radius: 50%;
     }

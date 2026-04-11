@@ -29,7 +29,8 @@ class SettingController extends Controller
             'setting_url'            => Setting::get('setting_url', url('/settings')),
             'logout_url'             => Setting::get('logout_url', url('/logout')),
             'login_url'              => Setting::get('login_url', url('/login')),
-            'dev_url'                => Setting::get('dev_url', url('mestiaque.com')),
+            'dev_url'                => Setting::get('dev_url', ('mestiaque.com')),
+            'login_redirect_url'      => Setting::get('login_redirect_url', url('/admin/dashboard')),
             'app_logo'               => Setting::get('app_logo'),
             'app_ico'                => Setting::get('app_ico'),
         ];
@@ -61,6 +62,7 @@ class SettingController extends Controller
         Setting::set('logout_url', $request->logout_url);
         Setting::set('login_url', $request->login_url);
         Setting::set('dev_url', $request->dev_url);
+        Setting::set('login_redirect_url', $request->login_redirect_url);
 
         foreach (['app_logo', 'app_ico'] as $imgField) {
             if ($request->hasFile($imgField)) {

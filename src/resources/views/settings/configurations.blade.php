@@ -176,11 +176,18 @@
                                             placeholder="https://example.com/login">
                                 </div>
                                 <div class="col-md-6">
+                                    <label for="login_redirect_url" class="form-label fw-semibold">@lang('Login Redirect URL')</label>
+                                    <input type="url" class="form-control form-control-sm" id="login_redirect_url"
+                                            name="login_redirect_url" value="{{ old('login_redirect_url', $settings['login_redirect_url']) }}"
+                                            placeholder="https://example.com/admin/dashboard">
+                                </div>
+                                <div class="col-md-6">
                                     <label for="dev_url" class="form-label fw-semibold">@lang('Dev URL')</label>
                                     <input type="url" class="form-control form-control-sm" id="dev_url"
                                             name="dev_url" value="{{ old('dev_url', $settings['dev_url']) }}"
                                             placeholder="https://example.com/">
                                 </div>
+
                             </div>
                         </div>
                     </div>
