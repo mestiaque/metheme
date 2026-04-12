@@ -85,4 +85,9 @@ class DataController extends Controller
     {
         return view('me::theme');
     }
+
+    public function guestDemo()
+    {
+        return view('me::guest-demo');
+    }
 }

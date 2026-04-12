@@ -10,6 +10,7 @@ use ME\Http\Controllers\SettingController;
 
 Route::middleware(['web', LocaleMiddleware::class])->group(function () {
     Route::get('/language/{locale?}', [DataController::class, 'changeLocale'])->name('language.change');
+    Route::get('/guest-demo', [DataController::class, 'guestDemo'])->name('guest.demo');
 });
 
 Route::group(['prefix' => 'me', 'as' => 'me.', 'middleware' => ['web', 'auth', LocaleMiddleware::class]], function () {
