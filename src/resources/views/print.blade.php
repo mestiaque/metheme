@@ -180,7 +180,7 @@
         }
 
         .report-header {
-            border-bottom: 2px solid #000;
+            border-bottom: 1px solid #000;
             margin-bottom: 8px;
         }
 
@@ -285,19 +285,31 @@
             <div class="report-header mb-2">
                 <div class="report-header-top mb-0">
                     <div class="report-header-side">
-                        @if(get_image('app_logo'))
-                            <img src="{{ get_image('app_logo') }}" class="report-logo">
+                        @if(isset($logo) && $logo == false)
+                            <!-- No logo -->
                         @else
-                            <img src="{{ asset('assets/img/default-img/Encodex_c.png') }}" class="report-logo">
+                            @if(get_image('app_logo'))
+                                <img src="{{ get_image('app_logo') }}" class="report-logo">
+                            @else
+                                <img src="{{ asset('assets/img/default-img/Encodex_c.png') }}" class="report-logo">
+                            @endif
                         @endif
 
                     </div>
                     <span class="report-shopname">
-                        {{ get_setting('shop_name', config('app.name')) }}
+                        @if(isset($headerName) && $headerName)
+                            {{ $headerName }}
+                            @else
+                            {{ get_setting('shop_name', config('app.name')) }}
+                        @endif
                         <h5 class="report-title m-0"><span>{{ $printTitle ?? 'REPORT' }}</span></h5>
                     </span>
                     <div class="report-header-side text-end">
-                        <small class="print-time">Print: {{ formatDateTime(now()) }}</small>
+                        @if(isset($printTimeType) && $printTimeType == 'date')
+                            <small class="print-time">Print: {{ formatDate(now()) }}</small>
+                        @else
+                            <small class="print-time">Print: {{ formatDateTime(now()) }}</small>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -344,3 +356,13 @@
     </script>
 </body>
 </html>
+
+{{-- printTitle ,
+    @yield('contents'),
+    printQr,
+    printType,
+    header(true/false)
+    footer(true/false)
+    signature(true/false)
+    printTimeType(date/datetime)
+--}}

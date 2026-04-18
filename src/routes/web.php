@@ -41,3 +41,4 @@ require __DIR__.'/auth.php';
 
 Route::get('/favicon.svg', function () { return response(view('me::svg')) ->header('Content-Type', 'image/svg+xml'); })->name('favicon.svg');
 
+
