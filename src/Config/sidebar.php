@@ -53,7 +53,13 @@ return [
                 'route'  => 'me.theme',
                 'for_active'  => 'me.theme',
                 'permit' => 'me.theme',
-                'icon_color' => 'icc-51',
+                'icon_color' => 'icc-55',
+            ],
+                        [
+                'icon'   => 'fas fa-envelope',
+                'title'  => 'Email Templates',
+                'route'  => 'me.mail-layout-preview',
+                'icon_color' => 'text-secondary',
             ],
         ]
     ],

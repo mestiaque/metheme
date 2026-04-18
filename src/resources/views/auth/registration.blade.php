@@ -7,7 +7,7 @@
             <div class="login-header mb-0">
                 <div class="login-avatar">
                     @php $logo = (get_setting('app_logo')) ? get_image('app_logo') : asset('assets/img/favicon/Encodex.ico'); @endphp
-                    <img loading="lazy" src="{{ $logo }}" class="brand-image opacity-75 shadow " style="width: 100%" alt="mESTIAQUE">
+                    <img loading="lazy" src="{{ $logo }}" class="brand-image opacity-75 shadow " style="width: 100%" alt="M. ESTIAQUE">
                 </div>
                 <h1 class="login-title text-shadow">{{ __('REGISTER') }}</h1>
                 <p style="text-align: center; color:#ffffff7a" class="text-shadow">{{ __('Create your account to get started.') }}</p>

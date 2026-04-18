@@ -140,7 +140,7 @@
                 <img class="user-image rounded-circle shadow"
                     src="{{ asset('backend/img/undraw_profile.svg') }}">
             @endif
-          <span class="d-none d-md-inline user-name">{{ Auth::user()->name ?? 'mESTIAQUE' }}</span>
+          <span class="d-none d-md-inline user-name">{{ Auth::user()->name ?? 'M. ESTIAQUE' }}</span>
         </a>
         <ul class="dropdown-menu dropdown-menu-end">
           <li class="py-1">

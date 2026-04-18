@@ -5,7 +5,7 @@
     @php $url = get_setting('root_url') ?: '/'; @endphp
     <a href="{{ $url }}" class="brand-link">
     @php $logo = (get_setting('app_logo')) ? get_image('app_logo') : asset('assets/img/favicon/Encodex.ico'); @endphp
-      <img src="{{ $logo }}" class="brand-image opacity-75" alt="mESTIAQUE">
+      <img src="{{ $logo }}" class="brand-image opacity-75" alt="M. ESTIAQUE">
       {{-- <span class="brand-text hide-mobile fw-light">{{ get_setting('shop_name', 'ENCODEX') }}</span> --}}
     </a>
   </div>
@@ -14,9 +14,9 @@
         <nav class="">
             <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation" aria-label="Main navigation" data-accordion="false" id="navigation">
 
-                {{-- <li class="company-text-sidebar">{{ get_setting('shop_name', 'mESTIAQUE') }}</li> --}}
+                {{-- <li class="company-text-sidebar">{{ get_setting('shop_name', 'M. ESTIAQUE') }}</li> --}}
                 @php
-                    $fullName = get_setting('shop_name', 'mESTIAQUE');
+                    $fullName = get_setting('shop_name', 'M. ESTIAQUE');
                     // প্রতিটি শব্দের প্রথম অক্ষর নেওয়ার লজিক (যেমন: Kazi Traders Limited -> KTL)
                     $words = explode(" ", $fullName);
                     $shortName = "";

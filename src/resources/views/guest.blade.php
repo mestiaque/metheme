@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'mESTIAQUE') }} | @yield('title', 'GUEST')</title>
+    <title>{{ config('app.name', 'M. ESTIAQUE') }} | @yield('title', 'GUEST')</title>
 
     <!--begin::Accessibility Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
@@ -14,10 +14,10 @@
     <!--end::Accessibility Meta Tags-->
 
     <!--begin::Primary Meta Tags-->
-    <meta name="title" content="@yield('meta-title', 'mESTIAQUE | GUEST')" />
-    <meta name="author" content="@yield('meta-author', 'Your Company')" />
-    <meta name="description" content="@yield('meta-description', 'AdminLTE is a Free Bootstrap 5 Admin Dashboard')" />
-    <meta name="keywords" content="@yield('meta-keywords', 'bootstrap 5, admin dashboard, laravel')" />
+      <meta name="title" content="@yield('meta-title', config('me_settings.meta_title'))" />
+      <meta name="author" content="@yield('meta-author', config('me_settings.meta_author'))" />
+      <meta name="description" content="@yield('meta-description', config('me_settings.meta_description'))" />
+      <meta name="keywords" content="@yield('meta-keywords', config('me_settings.meta_keywords'))" />
     <!--end::Primary Meta Tags-->
 
     <!--begin::Accessibility Features-->
