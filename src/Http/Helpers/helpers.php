@@ -214,4 +214,9 @@ if (!function_exists('formatDateTime')) {
 }
 
 
-
+if(!function_exists('can')){
+    function can($permission)
+    {
+        return Auth::user()->hasPermission($permission);
+    }
+}

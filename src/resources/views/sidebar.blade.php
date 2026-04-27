@@ -17,7 +17,6 @@
                 {{-- <li class="company-text-sidebar">{{ get_setting('shop_name', 'M. ESTIAQUE') }}</li> --}}
                 @php
                     $fullName = get_setting('shop_name', 'M. ESTIAQUE');
-                    // প্রতিটি শব্দের প্রথম অক্ষর নেওয়ার লজিক (যেমন: Kazi Traders Limited -> KTL)
                     $words = explode(" ", $fullName);
                     $shortName = "";
                     foreach ($words as $w) {

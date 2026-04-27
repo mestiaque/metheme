@@ -44,7 +44,7 @@ return [
                 'title'  => 'Clear Data',
                 'route'  => 'me.data.clear.form',
                 'for_active'  => 'me.data.clear.form',
-                'permit' => 'me_clearData',
+                'permit' => 'me.clearData',
                 'icon_color' => 'text-danger',
             ],
             [
@@ -59,6 +59,8 @@ return [
                 'icon'   => 'fas fa-envelope',
                 'title'  => 'Email Templates',
                 'route'  => 'me.mail-layout-preview',
+                'for_active'  => 'me.mail-layout-preview',
+                'permit' => 'me.mailLayoutPreview',
                 'icon_color' => 'text-secondary',
             ],
         ]

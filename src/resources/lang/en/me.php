@@ -168,7 +168,7 @@ return [
     "Avg. Purchase Price" => "Avg. Purchase Price",
     "Current Stock" => "Current Stock",
     "Stock Value" => "Stock Value",
-    "auth_failed" => "Your email or password is incorrect.",
+    "auth_failed" => "Your email/phone or password is incorrect.",
     "auth_throttle" => "Too many attempts. Please try again in :seconds seconds.",
     "auth_deactivated" => "Your account has been deactivated.",
     "auth_password" => "Confirm password.",

@@ -25,11 +25,7 @@ class AuthorizationMiddleware
         // dd($user->hasPermission($permission));
         // 🔑 Permission check
         if (! $user->hasPermission($permission)) {
-            if (view()->exists('me::auth.unauthorize1')) {
-                return response()->view('me::auth.unauthorize1', ['permission' => $permission], 403);
-            }
-
-            return response("Unauthorized Action: {$permission}", 403);
+            abort(403, 'Unauthorized action.');
         }
 
         return $next($request);
