@@ -121,7 +121,7 @@
         position: relative;
         z-index: 1;
         padding-bottom: 5.2rem;
-        min-height: 99.8vh;        }
+        }
 
         .glass {
         background: var(--card);
@@ -466,34 +466,10 @@
         color: #345ec8;
         }
 
-        .toast-glass.toast-glass-info {
-        background: rgba(195, 236, 255, 0.37) !important;
-        color: #14798a;
-        border: 1.2px solid rgba(43, 181, 222, 0.1);
-        }
-
-        .toast-glass.toast-glass-success {
-        background: rgba(213, 255, 217, 0.42) !important;
-        color: #25ad64;
-        border: 1.2px solid rgba(43, 230, 84, 0.12);
-        }
-
-        .toast-glass.toast-glass-danger {
-        background: rgba(255, 230, 232, 0.38) !important;
-        color: #cc2857;
-        border: 1.2px solid rgba(245, 43, 70, 0.13);
-        }
-
-        .toast-glass.toast-glass-warning {
-        background: rgba(255, 244, 220, 0.42) !important;
-        color: #b27512;
-        border: 1.2px solid rgba(232, 173, 54, 0.16);
-        }
-
         .floating-menu-wrap {
         position: fixed;
         right: 0.9rem;
-        bottom: calc(1rem + env(safe-area-inset-bottom));
+        bottom: calc(3.2rem + env(safe-area-inset-bottom));
         z-index: 1200;
         }
 
@@ -522,7 +498,7 @@
         .radial-menu {
         position: absolute;
         right: 30px;
-        bottom: 95px;
+        bottom: 30px;
         width: 1px;
         height: 1px;
         pointer-events: none;
@@ -549,8 +525,8 @@
 
         .radial-action {
         position: absolute;
-        top: 50%;
-        left: 50%;
+        top: 0;
+        left: 0;
         width: 46px;
         height: 46px;
         opacity: 0;
@@ -563,14 +539,14 @@
         justify-content: center;
         pointer-events: none;
         box-shadow: 0 10px 24px rgba(47, 101, 190, 0.28);
-        transform: translate(calc(-50%), calc(-50%)) scale(0.5);
+        transform: translate(0, 0) scale(0.5);
         transition: transform 0.32s cubic-bezier(0.2, 0.9, 0.25, 1.04), opacity 0.22s ease;
         }
 
         .radial-menu.open .radial-action {
         opacity: 1;
         pointer-events: auto;
-        transform: translate(calc(-50% + var(--tx, 0)), calc(-50% + var(--ty, 0))) scale(1);
+        transform: translate(var(--tx, 0), var(--ty, 0)) scale(1);
         transition-delay: var(--d, 0ms);
         }
 
@@ -604,7 +580,7 @@
         }
 
         .footer-glass {
-        /* position: fixed; */
+        position: fixed;
         left: 0;
         right: 0;
         bottom: 0;
@@ -658,7 +634,7 @@
 
         .floating-menu-wrap {
             right: 0.55rem;
-            bottom: calc(1rem + env(safe-area-inset-bottom));
+            bottom: calc(5.35rem + env(safe-area-inset-bottom));
         }
 
         .fab-logo-btn {
@@ -669,7 +645,7 @@
 
         .radial-menu {
             right: 27px;
-            bottom: 90px;
+            bottom: 27px;
         }
 
         .radial-action {
@@ -698,19 +674,7 @@
             scroll-behavior: auto;
         }
         }
-        .btn-section{
-            text-align: end;
-        }
-        [class^="btn-encodex"],
-        [class*=" btn-encodex"] {
-            border-radius: 5px;
-            padding: 5px 10px;
-            border:1px solid whitesmoke
-        }
-
-        .controls{width: 100%;}
     </style>
-    @stack('css')
 </head>
 <body>
     <div class="ambient" aria-hidden="true">
@@ -720,23 +684,238 @@
     </div>
 
   <main class="app-wrap">
-    <div class="btn-section">
-        @stack('buttons')
-    </div>
+    <div class="container py-3 py-md-4">
+      <section class="hero glass fade-in-up" aria-label="Hero section">
+        <div>
+          <h1>guestMaster UI Playground</h1>
+          <p>Cleaner style, smoother interactions, and fixed glitches for a more premium demo experience.</p>
+          <div class="metric-grid">
+            <div class="metric">
+              <div class="n" id="metricCards">3</div>
+              <div class="t">Cards</div>
+            </div>
+            <div class="metric">
+              <div class="n" id="metricRows">3</div>
+              <div class="t">Rows</div>
+            </div>
+            <div class="metric">
+              <div class="n" id="metricMode">Day</div>
+              <div class="t">Theme</div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-meta">
+          <span id="liveClock" class="clock">--:--:--</span>
+          <span id="liveDate" class="date">Loading date...</span>
+          <button id="themeToggle" class="btn btn-glass theme-btn mt-2" type="button" aria-label="Toggle color theme">
+            <i class="bi bi-moon-stars me-1"></i> Night Mode
+          </button>
+        </div>
+      </section>
 
-    @yield('content')
+      <section class="section fade-in-up fade-delay-1" id="section-buttons">
+        <div class="section-title"><i class="bi bi-sliders"></i>Buttons and States</div>
+        <div class="section-bar"></div>
+        <div class="d-flex flex-wrap gap-2">
+          <button class="btn btn-glass" type="button">Primary</button>
+          <button class="btn btn-glass" type="button">Success</button>
+          <button class="btn btn-glass" type="button">Warning</button>
+          <button class="btn btn-glass" type="button">Danger</button>
+          <button class="btn btn-glass" type="button">Info</button>
+          <button class="btn btn-glass" type="button" disabled>Disabled</button>
+        </div>
+      </section>
+
+      <section class="section fade-in-up fade-delay-1" id="section-js-tools">
+        <div class="section-title"><i class="bi bi-cpu"></i>JS Actions Panel</div>
+        <div class="section-bar"></div>
+        <div class="glass js-panel">
+          <div class="js-actions">
+            <button type="button" class="btn btn-glass btn-sm" data-js-action="toggle-theme">Toggle Theme</button>
+            <button type="button" class="btn btn-glass btn-sm" data-js-action="open-modal">Open Modal</button>
+            <button type="button" class="btn btn-glass btn-sm" data-js-action="show-toast">Show Toast</button>
+            <button type="button" class="btn btn-glass btn-sm" data-js-action="filter-pending">Filter Pending</button>
+            <button type="button" class="btn btn-glass btn-sm" data-js-action="clear-filter">Clear Filter</button>
+            <button type="button" class="btn btn-glass btn-sm" data-js-action="toggle-menu">Toggle Menu</button>
+          </div>
+
+          <div class="js-status">
+            <span class="js-chip">Theme: <strong id="jsThemeState">Day</strong></span>
+            <span class="js-chip">Rows: <strong id="jsRowsState">3</strong></span>
+            <span class="js-chip">Menu: <strong id="jsMenuState">Closed</strong></span>
+            <span class="js-chip">Last: <strong id="jsLastAction">Ready</strong></span>
+          </div>
+
+          <ul id="jsActionLog" class="js-log">
+            <li>JS panel initialized.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section fade-in-up fade-delay-1" id="section-form">
+        <div class="section-title"><i class="bi bi-ui-checks-grid"></i>Interactive Form</div>
+        <div class="section-bar"></div>
+        <form id="demoForm" class="row gy-2 gx-3 align-items-end p-3 glass" autocomplete="off">
+          <div class="col-lg-4 col-12">
+            <label for="demoInput" class="form-label">Name</label>
+            <input id="demoInput" type="text" class="form-control" placeholder="John Doe" required>
+          </div>
+          <div class="col-lg-4 col-12">
+            <label for="demoSelect" class="form-label">Department</label>
+            <select id="demoSelect" class="form-select" required>
+              <option value="">Choose...</option>
+              <option>IT</option>
+              <option>Design</option>
+              <option>Marketing</option>
+            </select>
+          </div>
+          <div class="col-lg-4 col-12">
+            <label for="demoTextarea" class="form-label">Comments</label>
+            <textarea id="demoTextarea" class="form-control" rows="1" placeholder="Your notes"></textarea>
+          </div>
+          <div class="col-12 d-flex gap-2 pt-1">
+            <button type="submit" class="btn btn-glass">Submit</button>
+            <button type="reset" class="btn btn-glass">Reset</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="section fade-in-up fade-delay-2" id="section-cards">
+        <div class="section-title"><i class="bi bi-collection"></i>Feature Cards</div>
+        <div class="section-bar"></div>
+        <div class="row g-3">
+          <div class="col-lg-4 col-md-6 col-12">
+            <article class="card glass h-100">
+              <div class="card-body">
+                <h5 class="card-title">Welcome Guest</h5>
+                <p class="card-text">A polished glassmorphism base ready for your dashboard pages.</p>
+                <a href="#section-buttons" class="btn btn-glass btn-sm">Try Buttons</a>
+              </div>
+            </article>
+          </div>
+          <div class="col-lg-4 col-md-6 col-12">
+            <article class="card glass h-100">
+              <div class="card-body">
+                <h5 class="card-title">Smooth Responsive</h5>
+                <p class="card-text">Optimized spacing and stronger contrast for mobile and desktop.</p>
+                <a href="#section-form" class="btn btn-glass btn-sm">Form Demo</a>
+              </div>
+            </article>
+          </div>
+          <div class="col-lg-4 col-md-6 col-12">
+            <article class="card glass h-100">
+              <div class="card-body">
+                <h5 class="card-title">Action Menu</h5>
+                <p class="card-text">Use the floating action button to jump across all sections instantly.</p>
+                <a href="#footer" class="btn btn-glass btn-sm">View Footer</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section fade-in-up fade-delay-2" id="section-tables">
+        <div class="section-title"><i class="bi bi-table"></i>Table with Live Filter</div>
+        <div class="section-bar"></div>
+        <div class="glass table-wrap">
+          <div class="d-flex flex-wrap gap-2 justify-content-between align-items-center mb-2">
+            <label for="tableFilter" class="mb-0 small text-muted">Search by name or status</label>
+            <input id="tableFilter" class="form-control form-control-sm" style="max-width: 240px;" type="text" placeholder="Type to filter...">
+          </div>
+          <table class="table glass-table table-striped table-hover align-middle">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Score</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="scoreTableBody">
+              <tr>
+                <td>1</td>
+                <td>Jane</td>
+                <td><span class="status-pill active">Active</span></td>
+                <td>91</td>
+                <td><button class="btn btn-glass btn-sm" type="button">Message</button></td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Alex</td>
+                <td><span class="status-pill pending">Pending</span></td>
+                <td>63</td>
+                <td><button class="btn btn-glass btn-sm" type="button">Notify</button></td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>Chris</td>
+                <td><span class="status-pill blocked">Blocked</span></td>
+                <td>39</td>
+                <td><button class="btn btn-glass btn-sm" type="button">Remove</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section fade-in-up fade-delay-3" id="section-modal">
+        <div class="section-title"><i class="bi bi-window-sidebar"></i>Modal Demo</div>
+        <div class="section-bar"></div>
+        <button id="openModalBtn" type="button" class="btn btn-glass" data-bs-toggle="modal" data-bs-target="#glassModalDemo">
+          Open Modal
+        </button>
+      </section>
+
+      <section class="section fade-in-up fade-delay-3" id="section-alerts">
+        <div class="section-title"><i class="bi bi-exclamation-octagon"></i>Alerts and Toastr</div>
+        <div class="section-bar"></div>
+        <div class="alert alert-glass-info d-flex align-items-center mb-2" role="alert">
+          <i class="bi bi-info-circle me-2"></i>
+          This is a glass info alert - UI is modern and attractive.
+        </div>
+        <div class="alert alert-glass-success d-flex align-items-center mb-2" role="alert">
+          <i class="bi bi-check2-all me-2"></i>
+          Glassmorphism looks great for notification states.
+        </div>
+        <div class="alert alert-glass-danger d-flex align-items-center" role="alert">
+          <i class="bi bi-x-circle me-2"></i>
+          Even error messages feel user-friendly.
+        </div>
+        <button class="btn btn-glass mt-2" type="button" onclick="showToastr('Welcome to guestMaster!', 'Explore responsive glass UI :)')">Show Toastr</button>
+      </section>
+    </div>
   </main>
+
+  <div class="modal fade" id="glassModalDemo" tabindex="-1" aria-labelledby="glassModalDemoLabel" aria-hidden="true" data-bs-backdrop="false">
+    <div class="modal-dialog modal-dialog-top">
+      <div class="modal-content glass">
+        <div class="modal-header">
+          <h5 class="modal-title" id="glassModalDemoLabel"><i class="bi bi-stars"></i> Glassmorphism Modal</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>This modal uses a blurred glass background with Bootstrap 5 and vanilla CSS.</p>
+          <p style="font-size: .96rem; color: #748dee;">You can style any modal this way by overriding the <code>.modal-content</code> class.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-glass" data-bs-dismiss="modal">Okay</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastr-root" class="toastr" aria-live="polite" aria-atomic="true"></div>
 
   <div class="floating-menu-wrap" id="floatingMenuRoot">
     <div class="radial-menu" id="radialMenu"></div>
     <button class="fab-logo-btn" id="fabLogoBtn" title="Open Menu" aria-label="Open Floating Menu">
-      {{-- <i class="bi bi-lightning-charge"></i> --}}
-      @include('me::svg3')
+      <i class="bi bi-lightning-charge"></i>
     </button>
   </div>
 
   <footer class="footer-glass" id="footer">
-    M. ESTIAQUE &copy; @php echo date('Y'); @endphp
+    guestMaster &copy; 2026 | Refined glass UI with Bootstrap 5
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -800,19 +979,11 @@
       setTheme(saved === "night");
     }
 
-    function showToastr(head, msg, ms, type) {
+    function showToastr(head, msg, ms) {
       const root = document.getElementById("toastr-root");
       const ttl = typeof ms === "number" ? ms : 1900;
-      const tone = String(type || "info").toLowerCase();
-      const toneClass = {
-        info: "toast-glass-info",
-        success: "toast-glass-success",
-        error: "toast-glass-danger",
-        danger: "toast-glass-danger",
-        warning: "toast-glass-warning"
-      }[tone];
       const item = document.createElement("div");
-      item.className = "toast-glass" + (toneClass ? " " + toneClass : "");
+      item.className = "toast-glass";
       item.innerHTML = '<strong>' + head + '</strong>' + (msg ? '<div class="small mt-1">' + msg + "</div>" : "");
       root.appendChild(item);
       root.classList.add("show");
@@ -867,14 +1038,26 @@
     function buildRadialMenu() {
       radialMenu.innerHTML = "";
       const isMobile = window.innerWidth < 600;
-      const btnSize = isMobile ? 40 : 46;
-      const spacing = isMobile ? 12 : 14;
+      const start = 100;
+      const end = 182;
       const itemCount = menuConfig.length;
+      const step = itemCount > 1 ? (end - start) / (itemCount - 1) : 0;
+
+      // Keep enough chord distance between adjacent buttons so icons do not overlap.
+      const btnSize = isMobile ? 40 : 46;
+      const minGap = btnSize + (isMobile ? 6 : 8);
+      const spanRad = (end - start) * Math.PI / 180;
+      const perStepRad = itemCount > 1 ? spanRad / (itemCount - 1) : 0.6;
+      const safeDenominator = Math.max(0.15, Math.sin(perStepRad / 2));
+      const minRadius = minGap / (2 * safeDenominator);
+      const baseRadius = isMobile ? 94 : 110;
+      const radius = Math.max(baseRadius, Math.ceil(minRadius));
 
       menuConfig.forEach(function (item, idx) {
-        // Vertical positioning: items appear from bottom going upward
-        const x = 0;
-        const y = -(idx * (btnSize + spacing));
+        const angleDeg = start + (idx * step);
+        const angle = angleDeg * Math.PI / 180;
+        const x = Math.cos(angle) * radius;
+        const y = -Math.sin(angle) * radius;
 
         const el = document.createElement("a");
         el.className = "radial-action";
@@ -906,7 +1089,7 @@
       buildRadialMenu();
       document.addEventListener("mousedown", closeMenuOnDocumentClick);
       clearTimeout(closeMenuTimer);
-      // closeMenuTimer = setTimeout(closeMenu, 4500);
+      closeMenuTimer = setTimeout(closeMenu, 4500);
       syncJsStatus();
       setLastAction("Floating menu opened");
     }
@@ -958,7 +1141,7 @@
       }
 
       if (action === "show-toast") {
-        showToastr("JS Action", "Toastr triggered from JS panel.", 1900, "info");
+        showToastr("JS Action", "Toastr triggered from JS panel.");
         return;
       }
 
@@ -1000,7 +1183,7 @@
 
     themeToggle.addEventListener("click", function () {
       setTheme(!body.classList.contains("theme-night"));
-      showToastr("Theme updated", "Switched to " + metricMode.textContent + " mode", 1900, "info");
+      showToastr("Theme updated", "Switched to " + metricMode.textContent + " mode");
     });
 
     fabLogoBtn.addEventListener("click", function (e) {
@@ -1033,7 +1216,7 @@
 
     document.getElementById("demoForm").addEventListener("submit", function (e) {
       e.preventDefault();
-      showToastr("Form submitted", "Input captured and reset complete.", 1900, "success");
+      showToastr("Form submitted", "Input captured and reset complete.");
       e.target.reset();
     });
 
@@ -1046,79 +1229,5 @@
       }
     });
   </script>
-  @php
-    $flashToasts = [];
-    $flashKeys = session()->get('_flash.new', []);
-    $commonViewToastKeys = ['success', 'error', 'info', 'warning', 'message'];
-
-    foreach ($flashKeys as $flashKey) {
-      if ($flashKey === '_old_input') {
-        continue;
-      }
-
-      $flashValue = session($flashKey);
-
-      if (is_string($flashValue) && trim($flashValue) !== '') {
-        $flashToasts[] = [
-          'type' => $flashKey,
-          'message' => $flashValue,
-        ];
-      }
-    }
-
-    foreach ($commonViewToastKeys as $viewToastKey) {
-      $viewToastValue = ${$viewToastKey} ?? null;
-
-      if (is_string($viewToastValue) && trim($viewToastValue) !== '') {
-        $alreadyExists = collect($flashToasts)->contains(function ($toast) use ($viewToastKey, $viewToastValue) {
-          return $toast['type'] === $viewToastKey && $toast['message'] === $viewToastValue;
-        });
-
-        if (!$alreadyExists) {
-          $flashToasts[] = [
-            'type' => $viewToastKey,
-            'message' => $viewToastValue,
-          ];
-        }
-      }
-    }
-
-    if ($errors->any()) {
-      $flashToasts[] = [
-        'type' => 'error',
-        'message' => $errors->first(),
-      ];
-    }
-  @endphp
-  <script>
-    (function () {
-      const flashToasts = @json($flashToasts);
-      const titleMap = {
-        success: "Success",
-        error: "Error",
-        info: "Info",
-        warning: "Warning"
-      };
-
-      if (!Array.isArray(flashToasts) || flashToasts.length === 0 || typeof showToastr !== "function") {
-        return;
-      }
-
-      flashToasts.forEach(function (toast, index) {
-        const type = String(toast.type || "info").toLowerCase();
-        const message = String(toast.message || "").trim();
-
-        if (!message) {
-          return;
-        }
-
-        const title = titleMap[type] || type.charAt(0).toUpperCase() + type.slice(1);
-        setTimeout(function () {
-          showToastr(title, message, 2600, type);
-        }, index * 220);
-      });
-    })();
-  </script>
-  @stack('js')
 </body>
 </html>

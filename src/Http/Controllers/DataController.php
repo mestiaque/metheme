@@ -89,6 +89,7 @@ class DataController extends Controller
 
     public function guestDemo()
     {
+        session()->flash('success', 'Welcome to the guest demo page!');
         return view('me::guest-demo');
     }
 
