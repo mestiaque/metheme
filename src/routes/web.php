@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use ME\Http\Controllers\DataController;
 use ME\Http\Controllers\RoleController;
 use ME\Http\Controllers\UserController;
+use ME\Http\Controllers\ActivityController;
 use ME\Http\Middleware\LocaleMiddleware;
 use ME\Http\Controllers\ProfileController;
 use ME\Http\Controllers\SettingController;
@@ -30,6 +31,12 @@ Route::group(['prefix' => 'me', 'as' => 'me.', 'middleware' => ['web', 'auth', L
     Route::resource('users', UserController::class);
     Route::patch('/users/{user}/toggle-active', [UserController::class, 'toggleActive'])->name('users.toggle-active');
     Route::resource('roles', RoleController::class);
+
+    Route::get('/activities', [ActivityController::class, 'index'])->name('activity.index');
+    Route::get('/activities/export', [ActivityController::class, 'export'])->name('activity.export');
+    Route::get('/activities/statistics', [ActivityController::class, 'statistics'])->name('activity.statistics');
+    Route::post('/activities/{activity}/logout-device', [ActivityController::class, 'logoutDevice'])->name('activity.logout-device');
+    Route::get('/activities/{activity}', [ActivityController::class, 'show'])->name('activity.show');
 
     Route::get('/theme', [DataController::class, 'theme'])->name('theme');
     Route::get('/mail-layout-preview', [DataController::class, 'mailLayoutPreview'])->name('mail-layout-preview');

@@ -17,6 +17,7 @@ use ME\Providers\RouteServiceProvider;
 use ME\Http\Requests\Auth\LoginRequest;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
+use ME\Services\ActivityLoggerService;
 
 class AuthController extends Controller
 {
@@ -37,9 +38,17 @@ class AuthController extends Controller
             $request->session()->invalidate();
             $request->session()->regenerateToken();
 
+            // Log failed login attempt
+            $activityLogger = new ActivityLoggerService($request);
+            $activityLogger->logActivity(null, 'login', 'failed', 'Account is deactivated');
+
             return redirect()->route('login')
                 ->withErrors(['user_name' => 'Your account has been deactivated. Please contact the administrator.']);
         }
+
+        // Log successful login
+        $activityLogger = new ActivityLoggerService($request);
+        $activityLogger->logActivity(Auth::id(), 'login', 'success');
 
         // return redirect()->intended(RouteServiceProvider::HOME);
         return redirect()->intended(get_setting('login_redirect_url', url('/admin/dashboard'))); // সেটিং থেকে রিডাইরেক্ট ইউআরএল নেওয়া হচ্ছে
@@ -47,6 +56,12 @@ class AuthController extends Controller
 
     public function logOut(Request $request): RedirectResponse
     {
+        // Log logout activity before logging out
+        if (Auth::check()) {
+            $activityLogger = new ActivityLoggerService($request);
+            $activityLogger->logActivity(Auth::id(), 'logout', 'success');
+        }
+
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
@@ -134,6 +149,11 @@ class AuthController extends Controller
         $user = User::create($userData);
 
         event(new Registered($user));
+
+        // Log registration activity
+        $activityLogger = new ActivityLoggerService($request);
+        $activityLogger->logActivity($user->id, 'registration', 'success');
+
         session()->forget('reg_data');
         Auth::login($user);
 
@@ -222,6 +242,10 @@ class AuthController extends Controller
             'reset_otp' => $otp
         ]);
 
+        // Log password reset request activity
+        $activityLogger = new ActivityLoggerService($request);
+        $activityLogger->logActivity($user->id, 'forgot_password', 'success');
+
         // Send OTP
         if ($type === 'phone') {
             $this->sendOtp('phone', $identity, $otp); // make sure this method exists
@@ -274,7 +298,9 @@ class AuthController extends Controller
         $user->update([
             'password' => \Illuminate\Support\Facades\Hash::make($request->new_password)
         ]);
-
+        // Log successful password reset activity
+        $activityLogger = new ActivityLoggerService($request);
+        $activityLogger->logActivity($user->id, 'password_reset', 'success');
         // ৫. সব সেশন ক্লিয়ার করি
         session()->forget(['reset_type', 'reset_identity', 'reset_otp', 'otp_verified_for_reset']);
 

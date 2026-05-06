@@ -32,6 +32,14 @@ return [
                 'icon_color' => 'icc-38',
             ],
             [
+                'icon'   => 'fas fa-history',
+                'title'  => 'Activity Log',
+                'route'  => 'me.activity.index',
+                'for_active' => 'me.activity',
+                'permit' => 'me_activity.view',
+                'icon_color' => 'icc-40',
+            ],
+            [
                 'permit' => 'me_setting.configurations',
                 'title'  => 'Configurations',
                 'icon'   => 'fas fa-wrench',

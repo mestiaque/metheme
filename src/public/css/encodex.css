@@ -339,3 +339,41 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .btn-close:focus{
     outline: none !important;
 }
+
+
+    .badge-encodex {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 12px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: rgba(25, 46, 235, 0.95); /* টেক্সট কালার */
+        border-radius: 50px; /* পিল শেপ */
+        
+        /* ব্যাকগ্রাউন্ড ব্লার এবং ট্রান্সপারেন্সি */
+        background: rgba(255, 255, 255, 0.15); 
+        backdrop-filter: blur(15px) saturate(160%); 
+        -webkit-backdrop-filter: blur(15px) saturate(160%);
+        
+        /* ইনার শ্যাডো এবং হাইলাইট (Liquid লুকের জন্য) */
+        box-shadow: 
+            0 4px 15px rgba(0, 0, 0, 0.1), 
+            inset 0 1px 1px rgba(255, 255, 255, 0.5), 
+            inset 0 -1px 5px rgba(255, 255, 255, 0.1);
+            
+        transition: all 0.3s ease;
+        cursor: context-menu;
+    }
+
+    /* হোভার ইফেক্ট */
+    .badge-encodex:hover {
+        background: rgba(255, 255, 255, 0.25);
+        transform: scale(1.05); /* হালকা স্কেলিং */
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+
+    .card {
+        background: rgba(255, 255, 255, 0.44) !important;
+        backdrop-filter: blur(16px) saturate(160%) !important;
+    }

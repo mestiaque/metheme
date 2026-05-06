@@ -1,0 +1,327 @@
+@extends('me::master')
+
+@section('title', 'User Activities')
+@section('meta-title', 'User Activities')
+
+
+@push('buttons')
+    <a href="{{ route('me.activity.export', request()->query()) }}" class="btn btn-encodex-print btn-sm">
+        <i class="fas fa-download"></i> {{ __('Export CSV') }}
+    </a>
+@endpush
+
+@section('content')
+<div class="">
+
+    <!-- Activities Table -->
+    <div class="card">
+        <div class="card-body">
+            <form method="GET" action="{{ route('me.activity.index') }}" class="row g-3 mb-4">
+                <div class="col-md-2 mt-2">
+                    <label for="search" class="form-label mb-0">{{ __('Search User') }}</label>
+                    <input type="text" class="form-control form-control-sm" id="search" name="search" 
+                           placeholder="{{ __('Name, Email, Phone') }}" value="{{ request('search') }}">
+                </div>
+
+                <div class="col-md-2 mt-2">
+                    <label for="activity_type" class="form-label mb-0">{{ __('Activity Type') }}</label>
+                    <select class="form-control form-control-sm" id="activity_type" name="activity_type">
+                        <option value="">{{ __('All Activities') }}</option>
+                        @foreach($activityTypes as $key => $label)
+                            <option value="{{ $key }}" {{ request('activity_type') === $key ? 'selected' : '' }}>
+                                {{ $label }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="col-md-2 mt-2">
+                    <label for="status" class="form-label mb-0">{{ __('Status') }}</label>
+                    <select class="form-control form-control-sm" id="status" name="status">
+                        <option value="">{{ __('All Status') }}</option>
+                        @foreach($statuses as $key => $label)
+                            <option value="{{ $key }}" {{ request('status') === $key ? 'selected' : '' }}>
+                                {{ $label }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="col-md-2 mt-2">
+                    <label for="device_type" class="form-label mb-0">{{ __('Device Type') }}</label>
+                    <select class="form-control form-control-sm" id="device_type" name="device_type">
+                        <option value="">{{ __('All Devices') }}</option>
+                        @foreach($deviceTypes as $key => $label)
+                            <option value="{{ $key }}" {{ request('device_type') === $key ? 'selected' : '' }}>
+                                {{ $label }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="col-md-2 mt-2">
+                    <label for="date_from" class="form-label mb-0">{{ __('Date From') }}</label>
+                    <input type="date" class="form-control form-control-sm" id="date_from" name="date_from" 
+                           value="{{ request('date_from') }}">
+                </div>
+
+                <div class="col-md-2 mt-2">
+                    <label for="date_to" class="form-label mb-0">{{ __('Date To') }}</label>
+                    <input type="date" class="form-control form-control-sm" id="date_to" name="date_to" 
+                           value="{{ request('date_to') }}">
+                </div>
+
+                <div class="col-md-2 mt-2">
+                    <label for="ip_address" class="form-label mb-0">{{ __('IP Address') }}</label>
+                    <input type="text" class="form-control form-control-sm" id="ip_address" name="ip_address" 
+                           placeholder="{{ __('e.g., 192.168') }}" value="{{ request('ip_address') }}">
+                </div>
+
+                <div class="col-md-2 mt-2">
+                    <label for="browser_name" class="form-label mb-0">{{ __('Browser') }}</label>
+                    <input type="text" class="form-control form-control-sm" id="browser_name" name="browser_name" 
+                           placeholder="{{ __('Chrome, Firefox, Safari') }}" value="{{ request('browser_name') }}">
+                </div>
+
+                <div class="col-md-4 d-flex align-items-end">
+                    <button type="submit" class="btn btn-encodex-search btn-sm me-2">
+                        <i class="fas fa-search"></i> {{ __('Search') }}
+                    </button>
+                    <a href="{{ route('me.activity.index') }}" class="btn btn-encodex-clear btn-sm">
+                         <i class="fas fa-redo"></i> {{ __('Reset') }}
+                    </a>
+                </div>
+            </form>
+            <div class="table-responsive">
+                <table class="table table-encodex table-sm table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 5%">#</th>
+                            <th style="width: 15%">{{ __('User') }}</th>
+                            <th style="width: 12%">{{ __('Activity') }}</th>
+                            <th style="width: 10%">{{ __('Device') }}</th>
+                            <th style="width: 15%">{{ __('Browser') }}</th>
+                            <th style="width: 12%">{{ __('IP Address') }}</th>
+                            <th style="width: 8%">{{ __('Status') }}</th>
+                            <th style="width: 15%">{{ __('Date/Time') }}</th>
+                            <th style="width: 8%">{{ __('Action') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($activities as $activity)
+                            <tr>
+                                <td>{{ $activity->id }}</td>
+                                <td>
+                                    @if($activity->user)
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <strong>{{ $activity->user->name }}</strong><br>
+                                                <small class="text-muted">
+                                                    {{ $activity->user->email ?? $activity->user->phone }}
+                                                </small>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <span class="badge badge-encodex bg-secondary">Guest</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <span class="badge badge-encodex bg-info text-white">
+                                        {{ $activity->getActivityTypeLabel() }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div>
+                                        <small class="d-block">
+                                            <i class="fas fa-desktop"></i> 
+                                            {{ ucfirst($activity->device_type) }}
+                                        </small>
+                                        <small class="text-muted">{{ $activity->device_name ?? 'N/A' }}</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <small class="d-block">
+                                            {{ $activity->browser_name }} {{ $activity->browser_version }}
+                                        </small>
+                                        <small class="text-muted">
+                                            {{ $activity->os_name }} {{ $activity->os_version }}
+                                        </small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <code class="text-primary">{{ $activity->ip_address }}</code>
+                                </td>
+                                <td>
+                                    @if($activity->status === 'success')
+                                        <span class="badge badge-encodex bg-success text-white">{{ __('Success') }}</span>
+                                    @elseif($activity->status === 'failed')
+                                        <span class="badge badge-encodex bg-danger text-white">{{ __('Failed') }}</span>
+                                    @else
+                                        <span class="badge badge-encodex bg-warning text-white">{{ __('Pending') }}</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <div>
+                                        <small class="d-block">
+                                            {{ $activity->activity_at->format('Y-m-d') }}
+                                        </small>
+                                        <small class="text-muted">
+                                            {{ $activity->activity_at->format('H:i:s') }}
+                                        </small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex" style="gap: 6px;">
+                                        <button type="button" class="btn btn-sm btn-encodex-show" 
+                                                data-bs-toggle="modal" data-bs-target="#detailModal{{ $activity->id }}"
+                                                title="{{ __('Show Details') }}">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+
+                                        @php
+                                            $isOwnLoginActivity =
+                                                (int) $activity->user_id === (int) auth()->id()
+                                                && $activity->activity_type === 'login'
+                                                && $activity->status === 'success';
+                                        @endphp
+
+                                        @if($isOwnLoginActivity)
+                                            <form method="POST" action="{{ route('me.activity.logout-device', $activity->id) }}"
+                                                  onsubmit="return confirm('{{ __('Are you sure you want to logout this device?') }}');">
+                                                @csrf
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-encodex-delete"
+                                                        title="{{ __('Logout Device') }}">
+                                                    <i class="fas fa-sign-out-alt"></i>
+                                                </button>
+                                            </form>
+                                        @endif
+                                    </div>
+
+                                    <!-- Detail Modal -->
+                                    <div class="modal fade" id="detailModal{{ $activity->id }}" tabindex="-1">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">{{ __('Activity Details') }}</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <p><strong>{{ __('Activity Type:') }}</strong> 
+                                                                {{ $activity->getActivityTypeLabel() }}</p>
+                                                            <p><strong>{{ __('Status:') }}</strong> 
+                                                                <span class="badge bg-{{ $activity->getStatusColor() }}">
+                                                                    {{ ucfirst($activity->status) }}
+                                                                </span>
+                                                            </p>
+                                                            <p><strong>{{ __('User:') }}</strong> 
+                                                                {{ $activity->user?->name ?? 'N/A' }}</p>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <p><strong>{{ __('Date:') }}</strong> 
+                                                                {{ $activity->activity_at->format('Y-m-d H:i:s') }}</p>
+                                                            <p><strong>{{ __('IP Address:') }}</strong> 
+                                                                <code>{{ $activity->ip_address }}</code></p>
+                                                        </div>
+                                                    </div>
+
+                                                    <hr>
+
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <p><strong>{{ __('Browser:') }}</strong> 
+                                                                {{ $activity->browser_name }} {{ $activity->browser_version }}</p>
+                                                            <p><strong>{{ __('Device:') }}</strong> 
+                                                                {{ ucfirst($activity->device_type) }} - {{ $activity->device_name ?? 'N/A' }}</p>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <p><strong>{{ __('Operating System:') }}</strong> 
+                                                                {{ $activity->os_name }} {{ $activity->os_version }}</p>
+                                                        </div>
+                                                    </div>
+
+                                                    @if($activity->description)
+                                                        <hr>
+                                                        <p><strong>{{ __('Description:') }}</strong><br>
+                                                            {{ $activity->description }}</p>
+                                                    @endif
+
+                                                    <hr>
+                                                    <p><strong>{{ __('User Agent:') }}</strong><br>
+                                                        <small class="text-muted" style="word-break: break-all;">
+                                                            {{ $activity->user_agent }}
+                                                        </small>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="9" class="text-center py-4">
+                                    <i class="fas fa-inbox" style="font-size: 2rem; color: #ccc;"></i>
+                                    <p class="text-muted mt-3">{{ __('No activities found') }}</p>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+            @if($activities->hasPages())
+                <div class="mt-3">
+                    {{ $activities->links('pagination::bootstrap-5') }}
+                </div>
+            @endif
+        </div>
+    </div>
+
+</div>
+
+<style>
+    .modal-body .row > div {
+        margin-bottom: 1rem;
+    }
+
+    .modal-body p {
+        margin-bottom: 0.5rem;
+    }
+
+    .badge-encodex {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 12px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: rgba(25, 46, 235, 0.95); /* টেক্সট কালার */
+        border-radius: 50px; /* পিল শেপ */
+        
+        /* ব্যাকগ্রাউন্ড ব্লার এবং ট্রান্সপারেন্সি */
+        background: rgba(255, 255, 255, 0.15); 
+        backdrop-filter: blur(15px) saturate(160%); 
+        -webkit-backdrop-filter: blur(15px) saturate(160%);
+        
+        /* ইনার শ্যাডো এবং হাইলাইট (Liquid লুকের জন্য) */
+        box-shadow: 
+            0 4px 15px rgba(0, 0, 0, 0.1), 
+            inset 0 1px 1px rgba(255, 255, 255, 0.5), 
+            inset 0 -1px 5px rgba(255, 255, 255, 0.1);
+            
+        transition: all 0.3s ease;
+        cursor: context-menu;
+    }
+
+    /* হোভার ইফেক্ট */
+    .badge-encodex:hover {
+        background: rgba(255, 255, 255, 0.25);
+        transform: scale(1.05); /* হালকা স্কেলিং */
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+</style>
+
+@endsection
