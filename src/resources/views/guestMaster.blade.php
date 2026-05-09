@@ -1083,7 +1083,7 @@
       }
     }
 
-    if ($errors->any()) {
+    if (isset($errors) && $errors->any()) {
       $flashToasts[] = [
         'type' => 'error',
         'message' => $errors->first(),
