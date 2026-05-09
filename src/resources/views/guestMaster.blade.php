@@ -2,8 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>guestMaster - Dynamic Glass UI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>@yield('title', 'Dashboard') | {{ config('app.name', 'ESTIAQUE') }}</title>
+    <meta name="title" content="@yield('meta-title', config('me_settings.meta_title'))" />
+    <meta name="author" content="@yield('meta-author', config('me_settings.meta_author'))" />
+    <meta name="description" content="@yield('meta-description', config('me_settings.meta_description'))" />
+    <meta name="keywords" content="@yield('meta-keywords', config('me_settings.meta_keywords'))" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
@@ -332,6 +336,7 @@
         border: 1px solid var(--line);
         border-radius: 0.8rem;
         color: var(--ink);
+        font-size: 16px;
         }
 
         .form-control:focus,
