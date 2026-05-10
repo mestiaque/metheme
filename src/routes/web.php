@@ -42,8 +42,7 @@ Route::group(['prefix' => 'me', 'as' => 'me.', 'middleware' => ['web', 'auth', L
     Route::get('/mail-layout-preview', [DataController::class, 'mailLayoutPreview'])->name('mail-layout-preview');
 });
 
-include 'file.php';
-
+require __DIR__.'/file.php';
 require __DIR__.'/auth.php';
 
 Route::get('/favicon.svg', function () { return response(view('me::svg')) ->header('Content-Type', 'image/svg+xml'); })->name('favicon.svg');
