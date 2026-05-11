@@ -171,6 +171,62 @@
             .breadcrumb-title .dev-svg{
 
             }
+
+            /* মোবাইল ভিউর জন্য ড্রপডাউন ম্যাজিক */
+            @media (max-width: 767px) {
+
+                .glass-search-form {
+                    background: rgba(255, 255, 255, 0.15); /* হালকা সাদা স্বচ্ছতা */
+                    backdrop-filter: blur(12px); /* ব্যাকগ্রাউন্ড ব্লার */
+                    -webkit-backdrop-filter: blur(12px);
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                    border-radius: 15px;
+                    padding: 0px;
+                    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+                }
+
+                .glass-search-form .form-control {
+                    background: rgba(255, 255, 255, 0.1);
+                    border: 1px solid rgba(255, 255, 255, 0.3);
+                    color: #333; /* আপনার থিমের সাথে সামঞ্জস্য রেখে পরিবর্তন করুন */
+                    backdrop-filter: blur(4px);
+                }
+                .glass-search-form .row {
+                    display: none; /* শুরুতে লুকানো থাকবে */
+                    transition: all 0.4s ease-in-out;
+                }
+
+                .glass-search-form.active .row {
+                    display: flex;
+                    margin-top: 15px;
+                }
+
+                /* মোবাইল ট্রিগার বাটন (Glass Button style) */
+                .glass-search-form::before {
+                    content: "\f002  Tap to Filter Options";
+                    font-family: "Font Awesome 5 Free", "Font Awesome 6 Free"; /* ভার্সন অনুযায়ী */
+                    font-weight: 900; /* আইকন দেখানোর জন্য এটি জরুরি */
+                    display: block;
+                    text-align: center;
+                    padding: 5px;
+                    background: #e2e7eb;
+                    color: #000;
+                    border-radius: 10px;
+                    cursor: pointer;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    font-size: 13px;
+                    letter-spacing: 1px;
+                }
+                .glass-search-form .btn{
+                    float: inline-end;
+                }
+
+                .hide-mobile {
+                    display: none !important;
+                }
+
+            }
         </style>
 
         @stack('css')
@@ -384,6 +440,31 @@
                     }
                 }
             }, true); // use capture so it works on dynamically added inputs
+        </script>
+        <script>
+            $(document).ready(function() {
+                // ফর্মের ছদ্ম-বাটনে ক্লিক করলে ড্রপডাউন কাজ করবে
+                $('.glass-search-form').on('click', function(e) {
+                    console.log( e.target === this);
+                    // শুধুমাত্র মোবাইল ভিউতে এবং ফর্মের ভেতর ক্লিক না হলে (যাতে ইনপুট ফিল্ডে ক্লিক করলে বন্ধ না হয়)
+                    if (window.innerWidth < 768 && e.target === this) {
+                        $(this).toggleClass('active');
+                        $(this).attr('class');
+                        console.log($(this).attr('class'));
+                    }
+                });
+
+                // অথবা সহজভাবে: ড্রপডাউন বাটনের মতো কাজ করার জন্য
+                // $(document).on('click', '.glass-search-form', function(e){
+                //     if(window.innerWidth < 768){
+                //         // এই অংশটি ফর্মের বাইরের অংশে ক্লিক চেক করে কাজ করবে
+                //         console.log('Clicked on .glass-search-form');
+                //         if (!$(e.target).closest('.row').length) {
+                //             $(this).toggleClass('active');
+                //         }
+                //     }
+                // });
+            });
         </script>
 
         @stack('js')
