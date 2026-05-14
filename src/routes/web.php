@@ -14,7 +14,7 @@ Route::middleware(['web', LocaleMiddleware::class])->group(function () {
     Route::get('/guest-demo', [DataController::class, 'guestDemo'])->name('guest.demo');
 });
 
-Route::group(['prefix' => 'me', 'as' => 'me.', 'middleware' => ['web', 'auth', LocaleMiddleware::class]], function () {
+Route::group(['prefix' => 'me', 'as' => 'me.', 'middleware' => ['web', 'auth', LocaleMiddleware::class, 'activityLog']], function () {
     Route::get('/', [DataController::class, 'index'])->name('dashboard');
 
     Route::get('/settings', [SettingController::class, 'edit'])->name('settings.edit');

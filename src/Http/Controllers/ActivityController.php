@@ -74,15 +74,17 @@ class ActivityController extends Controller
         // Paginate results
         $activities = $query->paginate(20)->withQueryString();
 
-        // Get filter options
-        $activityTypes = [
-            'login' => __('Login'),
-            'logout' => __('Logout'),
-            'registration' => __('Registration'),
-            'forgot_password' => __('Password Reset Request'),
-            'password_reset' => __('Password Reset'),
-            'profile_update' => __('Profile Update'),
-        ];
+        // Get unique activity types from stored activity logs
+        $activityTypes = UserActivity::query()
+            ->whereNotNull('activity_type')
+            ->where('activity_type', '!=', '')
+            ->distinct()
+            ->orderBy('activity_type')
+            ->pluck('activity_type')
+            ->mapWithKeys(function (string $type) {
+                return [$type => ucfirst(str_replace('_', ' ', $type))];
+            })
+            ->toArray();
 
         $statuses = [
             'success' => __('Success'),

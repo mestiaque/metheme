@@ -20,13 +20,13 @@
                 <div class="row g-3 p-2">
                     <div class="col-md-2 mt-2">
                         <label for="search" class="form-label mb-0">{{ __('Search User') }}</label>
-                        <input type="text" class="form-control form-control-sm" id="search" name="search" 
+                        <input type="text" class="form-control form-control-sm" id="search" name="search"
                                placeholder="{{ __('Name, Email, Phone') }}" value="{{ request('search') }}">
                     </div>
-    
+
                     <div class="col-md-2 mt-2">
                         <label for="activity_type" class="form-label mb-0">{{ __('Activity Type') }}</label>
-                        <select class="form-control form-control-sm" id="activity_type" name="activity_type">
+                        <select class="form-control form-control-sm" id="activity_type" name="activity_type" data-control="select2" data-placeholder="{{ __('Select Activity Type') }}">
                             <option value="">{{ __('All Activities') }}</option>
                             @foreach($activityTypes as $key => $label)
                                 <option value="{{ $key }}" {{ request('activity_type') === $key ? 'selected' : '' }}>
@@ -35,7 +35,7 @@
                             @endforeach
                         </select>
                     </div>
-    
+
                     <div class="col-md-2 mt-2">
                         <label for="status" class="form-label mb-0">{{ __('Status') }}</label>
                         <select class="form-control form-control-sm" id="status" name="status">
@@ -47,7 +47,7 @@
                             @endforeach
                         </select>
                     </div>
-    
+
                     <div class="col-md-2 mt-2">
                         <label for="device_type" class="form-label mb-0">{{ __('Device Type') }}</label>
                         <select class="form-control form-control-sm" id="device_type" name="device_type">
@@ -59,31 +59,31 @@
                             @endforeach
                         </select>
                     </div>
-    
+
                     <div class="col-md-2 mt-2">
                         <label for="date_from" class="form-label mb-0">{{ __('Date From') }}</label>
-                        <input type="date" class="form-control form-control-sm" id="date_from" name="date_from" 
+                        <input type="date" class="form-control form-control-sm" id="date_from" name="date_from"
                                value="{{ request('date_from') }}">
                     </div>
-    
+
                     <div class="col-md-2 mt-2">
                         <label for="date_to" class="form-label mb-0">{{ __('Date To') }}</label>
-                        <input type="date" class="form-control form-control-sm" id="date_to" name="date_to" 
+                        <input type="date" class="form-control form-control-sm" id="date_to" name="date_to"
                                value="{{ request('date_to') }}">
                     </div>
-    
+
                     <div class="col-md-2 mt-2">
                         <label for="ip_address" class="form-label mb-0">{{ __('IP Address') }}</label>
-                        <input type="text" class="form-control form-control-sm" id="ip_address" name="ip_address" 
+                        <input type="text" class="form-control form-control-sm" id="ip_address" name="ip_address"
                                placeholder="{{ __('e.g., 192.168') }}" value="{{ request('ip_address') }}">
                     </div>
-    
+
                     <div class="col-md-2 mt-2">
                         <label for="browser_name" class="form-label mb-0">{{ __('Browser') }}</label>
-                        <input type="text" class="form-control form-control-sm" id="browser_name" name="browser_name" 
+                        <input type="text" class="form-control form-control-sm" id="browser_name" name="browser_name"
                                placeholder="{{ __('Chrome, Firefox, Safari') }}" value="{{ request('browser_name') }}">
                     </div>
-    
+
                     <div class="col-md-4 d-flex align-items-end">
                         <button type="submit" class="btn btn-encodex-search btn-sm me-2">
                             <i class="fas fa-search"></i> {{ __('Search') }}
@@ -124,15 +124,15 @@
                                             </div>
                                         </div>
                                     @else
-                                        <span class="badge badge-encodex bg-secondary">Guest</span>
+                                        <span class="badge badge-encodex text-white" style="background-color: #6c757d;">Anonymous User</span>
                                     @endif
                                 </td>
                                 <td>
                                     <span class="badge badge-encodex bg-info text-white">
-                                        {{ $activity->getActivityTypeLabel() }}
+                                        {{ ucwords($activity->getActivityTypeLabel()) }}
                                     </span>
                                 </td>
-                                <td> 
+                                <td>
                                     <div>
                                         <small class="d-block">
                                             @if($activity->device_type === 'mobile')
@@ -144,7 +144,7 @@
                                             @elseif($activity->device_type === 'tablet')
                                                 <i class="fas fa-tablet-alt"></i>
                                             @else
-                                                <i class="fas fa-desktop"></i> 
+                                                <i class="fas fa-desktop"></i>
                                             @endif
                                             {{ ucfirst($activity->device_type) }}
                                         </small>
@@ -209,7 +209,7 @@
                                 </td>
                                 <td>
                                     <div class="d-flex" style="gap: 6px;">
-                                        <button type="button" class="btn btn-sm btn-encodex-show" 
+                                        <button type="button" class="btn btn-sm btn-encodex-show"
                                                 data-bs-toggle="modal" data-bs-target="#detailModal{{ $activity->id }}"
                                                 title="{{ __('Show Details') }}">
                                             <i class="fas fa-eye"></i>
@@ -353,7 +353,7 @@
                                                                             @else
                                                                                 <i class="fas fa-desktop"></i>
                                                                             @endif
-                                                                        {{ ucfirst($activity->device_type) }} 
+                                                                        {{ ucfirst($activity->device_type) }}
                                                                     </span>
                                                                 </div>
                                                             </div>
@@ -437,18 +437,18 @@
         font-weight: 500;
         color: rgba(25, 46, 235, 0.95); /* টেক্সট কালার */
         border-radius: 50px; /* পিল শেপ */
-        
+
         /* ব্যাকগ্রাউন্ড ব্লার এবং ট্রান্সপারেন্সি */
-        background: rgba(255, 255, 255, 0.15); 
-        backdrop-filter: blur(15px) saturate(160%); 
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(15px) saturate(160%);
         -webkit-backdrop-filter: blur(15px) saturate(160%);
-        
+
         /* ইনার শ্যাডো এবং হাইলাইট (Liquid লুকের জন্য) */
-        box-shadow: 
-            0 4px 15px rgba(0, 0, 0, 0.1), 
-            inset 0 1px 1px rgba(255, 255, 255, 0.5), 
+        box-shadow:
+            0 4px 15px rgba(0, 0, 0, 0.1),
+            inset 0 1px 1px rgba(255, 255, 255, 0.5),
             inset 0 -1px 5px rgba(255, 255, 255, 0.1);
-            
+
         transition: all 0.3s ease;
         cursor: context-menu;
     }

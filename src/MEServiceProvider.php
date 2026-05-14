@@ -5,6 +5,7 @@ namespace ME;
 use Illuminate\Routing\Router;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
+use ME\Http\Middleware\ActivityLogger;
 use ME\Http\Middleware\AuthorizationMiddleware;
 
 class MEServiceProvider extends ServiceProvider
@@ -127,6 +128,8 @@ class MEServiceProvider extends ServiceProvider
     {
         $router = $this->app->make(Router::class);
         $router->aliasMiddleware('authorization', AuthorizationMiddleware::class);
+        $router->aliasMiddleware('activityLog', ActivityLogger::class);
+        $router->aliasMiddleware('activity.logger', ActivityLogger::class);
     }
 
     private function registerAuthProvider()
