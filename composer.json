@@ -1,0 +1,28 @@
+{
+    "name": "mestiaque/metheme",
+    "description": "Metheme module for Laravel (by M. Estiaque)",
+    "type": "library",
+    "keywords": ["Laravel", "Metheme", "Estiaque"],
+    "authors": [
+        {
+            "name": "M. Estiaque",
+            "email": "info@mestiaque.com",
+            "homepage": "https://mestiaque.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "ME\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ME\\MEServiceProvider"
+            ]
+        }
+    },
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
