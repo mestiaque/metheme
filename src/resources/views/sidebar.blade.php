@@ -10,6 +10,8 @@
     </a>
   </div>
 
+
+
     <div class="sidebar-wrapper">
         <nav class="">
             <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation" aria-label="Main navigation" data-accordion="false" id="navigation">
@@ -126,7 +128,33 @@
     </div>
 </aside>
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var sidebarWrapper = document.querySelector('.app-sidebar .sidebar-wrapper');
+    if (!sidebarWrapper) return;
+
+    var activeLink = sidebarWrapper.querySelector('.nav-link.active');
+
+    if (activeLink) {
+        var activeLinkTop = activeLink.offsetTop;
+        var sidebarHeight = sidebarWrapper.clientHeight;
+        var activeLinkHeight = activeLink.clientHeight;
+
+        sidebarWrapper.scrollTop = activeLinkTop - (sidebarHeight / 2) + (activeLinkHeight / 2);
+    }
+
+    sidebarWrapper.classList.add('sidebar-ready');
+});
+</script>
+
 <style>
+.app-sidebar .sidebar-wrapper {
+    visibility: hidden;
+    overscroll-behavior: contain;
+}
+.app-sidebar .sidebar-wrapper.sidebar-ready {
+    visibility: visible;
+}
 /* ============================================== */
 /* ১. গ্লাস থিম (সাইডবার) বেস স্টাইল */
 /* ============================================== */
@@ -294,28 +322,9 @@ aside .brand-image {
 }
 </style>
 
-<script> // পেজ লোড হওয়ার পর, সাইডবারের অ্যাক্টিভ মেনু আইটেমকে ভিউতে আনতে এই স্ক্রিপ্টটি ব্যবহার করা হয়েছে।
-document.addEventListener('DOMContentLoaded', function () {
-    var sidebarWrapper = document.querySelector('.app-sidebar .sidebar-wrapper');
-    if (!sidebarWrapper) {
-        return;
-    }
 
-    // Keep the current active menu item in view after a hard reload.
-    var activeLink = sidebarWrapper.querySelector('.nav-link.active');
-    if (!activeLink) {
-        return;
-    }
 
-    window.requestAnimationFrame(function () {
-        activeLink.scrollIntoView({
-            behavior: 'auto',
-            block: 'center',
-            inline: 'nearest'
-        });
-    });
-});
-</script>
+
 
 <style>
     .icc-1  { color: #2c3e50; }

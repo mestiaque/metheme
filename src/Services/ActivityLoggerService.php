@@ -39,6 +39,7 @@ class ActivityLoggerService
             'user_agent' => $this->request->userAgent(),
             'status' => $status,
             'description' => $description,
+            'url' => $this->request->fullUrl(),
             'activity_at' => now(),
         ];
 

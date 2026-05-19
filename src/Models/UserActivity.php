@@ -27,6 +27,7 @@ class UserActivity extends Model
         'status',
         'description',
         'activity_at',
+        'url',
     ];
 
     protected $casts = [

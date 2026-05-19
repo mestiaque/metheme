@@ -498,7 +498,7 @@
         .floating-menu-wrap {
         position: fixed;
         right: 0.9rem;
-        bottom: calc(1rem + env(safe-area-inset-bottom));
+        bottom: calc(0.7rem + env(safe-area-inset-bottom));
         z-index: 1200;
         }
 
@@ -663,7 +663,7 @@
 
         .floating-menu-wrap {
             right: 0.55rem;
-            bottom: calc(1rem + env(safe-area-inset-bottom));
+            bottom: calc(0.7rem + env(safe-area-inset-bottom));
         }
 
         .fab-logo-btn {
@@ -744,16 +744,13 @@
     M. ESTIAQUE &copy; @php echo date('Y'); @endphp
   </footer>
 
+  @php
+    $menuConfig = config('guestSidebar.menu', []);
+  @endphp
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    const menuConfig = [
-      { icon: "bi-house", href: "#section-cards", label: "Cards" },
-      { icon: "bi-ui-checks", href: "#section-buttons", label: "Buttons" },
-      { icon: "bi-person", href: "#section-form", label: "Form" },
-      { icon: "bi-table", href: "#section-tables", label: "Table" },
-      { icon: "bi-star", href: "#section-modal", label: "Modal" },
-      { icon: "bi-bell", href: "#section-alerts", label: "Alerts" }
-    ];
+    const menuConfig = @json($menuConfig);
 
     const body = document.body;
     const liveClock = document.getElementById("liveClock");
@@ -781,21 +778,29 @@
 
     function updateClock() {
       const now = new Date();
-      liveClock.textContent = now.toLocaleTimeString();
-      liveDate.textContent = now.toLocaleDateString(undefined, {
-        weekday: "short",
-        month: "short",
-        day: "numeric",
-        year: "numeric"
-      });
+      if (liveClock) {
+        liveClock.textContent = now.toLocaleTimeString();
+      }
+      if (liveDate) {
+        liveDate.textContent = now.toLocaleDateString(undefined, {
+          weekday: "short",
+          month: "short",
+          day: "numeric",
+          year: "numeric"
+        });
+      }
     }
 
     function setTheme(isNight) {
       body.classList.toggle("theme-night", isNight);
-      metricMode.textContent = isNight ? "Night" : "Day";
-      themeToggle.innerHTML = isNight
-        ? '<i class="bi bi-sun me-1"></i> Day Mode'
-        : '<i class="bi bi-moon-stars me-1"></i> Night Mode';
+      if (metricMode) {
+        metricMode.textContent = isNight ? "Night" : "Day";
+      }
+      if (themeToggle) {
+        themeToggle.innerHTML = isNight
+          ? '<i class="bi bi-sun me-1"></i> Day Mode'
+          : '<i class="bi bi-moon-stars me-1"></i> Night Mode';
+      }
       localStorage.setItem("guest-theme", isNight ? "night" : "day");
       syncJsStatus();
     }
@@ -858,10 +863,10 @@
     }
 
     function syncJsStatus() {
-      if (jsThemeState) {
+      if (jsThemeState && metricMode) {
         jsThemeState.textContent = metricMode.textContent;
       }
-      if (jsRowsState) {
+      if (jsRowsState && metricRows) {
         jsRowsState.textContent = metricRows.textContent;
       }
       if (jsMenuState) {
@@ -925,6 +930,10 @@
     }
 
     function filterTableRows(keyword) {
+      if (!tableBody || !metricRows) {
+        return;
+      }
+
       const term = keyword.trim().toLowerCase();
       let visibleCount = 0;
 
@@ -942,6 +951,10 @@
     }
 
     function updateMetrics() {
+      if (!metricCards || !metricRows || !tableBody) {
+        return;
+      }
+
       metricCards.textContent = String(document.querySelectorAll("#section-cards .card").length);
       metricRows.textContent = String(tableBody.querySelectorAll("tr").length);
       syncJsStatus();
@@ -992,7 +1005,9 @@
     }
 
     updateClock();
-    setInterval(updateClock, 1000);
+    if (liveClock || liveDate) {
+      setInterval(updateClock, 1000);
+    }
 
     initTheme();
     updateMetrics();
@@ -1003,14 +1018,18 @@
       glassModalInstance = new window.bootstrap.Modal(modalEl);
     }
 
-    themeToggle.addEventListener("click", function () {
-      setTheme(!body.classList.contains("theme-night"));
-      showToastr("Theme updated", "Switched to " + metricMode.textContent + " mode", 1900, "info");
-    });
+    if (themeToggle) {
+      themeToggle.addEventListener("click", function () {
+        setTheme(!body.classList.contains("theme-night"));
+        const modeLabel = metricMode ? metricMode.textContent : (body.classList.contains("theme-night") ? "Night" : "Day");
+        showToastr("Theme updated", "Switched to " + modeLabel + " mode", 1900, "info");
+      });
+    }
 
     fabLogoBtn.addEventListener("click", function (e) {
       e.preventDefault();
       if (menuOpen) {
+        console.log("Closing menu from FAB click");
         closeMenu();
       } else {
         openMenu();
@@ -1032,15 +1051,20 @@
       });
     }
 
-    tableFilter.addEventListener("input", function (e) {
-      filterTableRows(e.target.value);
-    });
+    if (tableFilter) {
+      tableFilter.addEventListener("input", function (e) {
+        filterTableRows(e.target.value);
+      });
+    }
 
-    document.getElementById("demoForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      showToastr("Form submitted", "Input captured and reset complete.", 1900, "success");
-      e.target.reset();
-    });
+    const demoForm = document.getElementById("demoForm");
+    if (demoForm) {
+      demoForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        showToastr("Form submitted", "Input captured and reset complete.", 1900, "success");
+        e.target.reset();
+      });
+    }
 
     document.addEventListener("shown.bs.modal", function (event) {
       const firstInput = event.target.querySelector("input,textarea,select");

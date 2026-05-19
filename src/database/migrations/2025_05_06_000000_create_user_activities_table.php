@@ -14,14 +14,7 @@ return new class extends Migration
         Schema::create('user_activities', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
-            $table->enum('activity_type', [
-                'login',
-                'logout',
-                'registration',
-                'forgot_password',
-                'password_reset',
-                'profile_update'
-            ])->default('login');
+            $table->string('activity_type')->nullable();
             $table->string('ip_address', 45)->nullable();
             $table->string('browser_name')->nullable();
             $table->string('browser_version')->nullable();
@@ -36,9 +29,10 @@ return new class extends Migration
             $table->decimal('longitude', 11, 8)->nullable();
             $table->string('status', 50)->default('success'); // success, failed, pending
             $table->text('description')->nullable();
+            $table->text('url')->nullable();
             $table->timestamp('activity_at')->nullable();
             $table->timestamps();
-            
+
             // Indexes for better query performance
             $table->index('user_id');
             $table->index('activity_type');

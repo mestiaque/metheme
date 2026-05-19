@@ -42,9 +42,7 @@ class MEServiceProvider extends ServiceProvider
         | Publish Public Assets
         |--------------------------------------------------------------------------
         */
-        $this->publishes([
-            __DIR__ . '/public' => public_path('/'),
-        ], 'metheme-assets');
+        $this->publishes([ __DIR__ . '/public' => public_path('/'), ], 'metheme-assets');
 
         /*
         |--------------------------------------------------------------------------
