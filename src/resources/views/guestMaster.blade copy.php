@@ -328,7 +328,7 @@
         .form-control,
         .form-select,
         textarea {
-        background: var(--card-strong);
+        background: var(--card-strong) !important;
         border: 1px solid var(--line);
         border-radius: 0.8rem;
         color: var(--ink);

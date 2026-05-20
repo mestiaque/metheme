@@ -71,6 +71,14 @@ return [
                 'permit' => 'me.mailLayoutPreview',
                 'icon_color' => 'text-secondary',
             ],
+            [
+                'icon'   => 'fas fa-bars',
+                'title'  => 'Menus',
+                'route'  => 'me.menus.index',
+                'for_active'  => 'me.menus',
+                'permit' => 'me_menus.view',
+                'icon_color' => 'text-primary',
+            ],
         ]
     ],
 

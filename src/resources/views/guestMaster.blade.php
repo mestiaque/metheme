@@ -13,6 +13,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cloudflare.com" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="{{ asset('backend/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <style>
         :root {
         --bg-1: #ecf7f4;
@@ -745,7 +747,10 @@
   </footer>
 
   @php
-    $menuConfig = config('guestSidebar.menu', []);
+    $menus = \ME\Models\Menu::where('is_active', 1)->select('name', 'icon', 'order', 'url')
+    ->get()
+    ->toArray();
+    $menuConfig = $menus;
   @endphp
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -888,11 +893,11 @@
 
         const el = document.createElement("a");
         el.className = "radial-action";
-        el.href = item.href;
-        el.title = item.label;
-        el.dataset.label = item.label;
-        el.setAttribute("aria-label", item.label);
-        el.innerHTML = '<i class="bi ' + item.icon + '"></i><span class="radial-label">' + item.label + "</span>";
+        el.href = item.url || "#";
+        el.title = item.name;
+        el.dataset.label = item.name;
+        el.setAttribute("aria-label", item.name);
+        el.innerHTML = '<i class="' + item.icon + '"></i><span class="radial-label">' + item.name + "</span>";
         el.style.setProperty("--tx", x + "px");
         el.style.setProperty("--ty", y + "px");
         el.style.setProperty("--d", (idx * 20) + "ms");
