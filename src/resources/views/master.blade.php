@@ -231,6 +231,8 @@
 
         @stack('css')
         @stack('style')
+        @include('me::components.loader.foot-print')
+
 
     </head>
 
@@ -469,6 +471,5 @@
 
         @stack('js')
         @stack('scripts')
-        {{-- @include('me::loader') --}}
     </body>
 </html>
