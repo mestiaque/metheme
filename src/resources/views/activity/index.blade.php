@@ -199,7 +199,7 @@
                                             {{ formatDate($activity->activity_at) }}
                                         </small>
                                         <small class="text-muted">
-                                            {{ $activity->activity_at->format('H:i:s A') }}
+                                            {{ $activity->activity_at->format('h:i:s A') }}
                                         </small>
                                     </div>
                                 </td>
