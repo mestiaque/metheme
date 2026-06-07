@@ -377,3 +377,267 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     background: rgba(255, 255, 255, 0.44) !important;
     backdrop-filter: blur(16px) saturate(160%) !important;
 }
+
+
+
+
+/* 1. Purple & Blue Cyberpunk */
+.shadow-x1 {
+  box-shadow: 0 15px 30px -5px rgba(0, 242, 254, 0.4), 0 10px 20px -5px rgba(79, 172, 254, 0.3), 0 20px 35px -10px rgba(157, 23, 248, 0.4) !important;
+}
+
+/* 2. Hot Pink & Cyan Neon */
+.shadow-x2 {
+  box-shadow: 0 15px 30px -5px rgba(255, 0, 128, 0.4), 0 10px 20px -5px rgba(0, 255, 255, 0.3) !important;
+}
+
+/* 3. Sunset Orange & Violet */
+.shadow-x3 {
+  box-shadow: 0 15px 30px -5px rgba(255, 94, 98, 0.4), 0 12px 20px -5px rgba(255, 153, 102, 0.3), 0 20px 35px -10px rgba(111, 41, 185, 0.3) !important;
+}
+
+/* 4. Lime Green & Electric Blue */
+.shadow-x4 {
+  box-shadow: 0 15px 30px -5px rgba(0, 255, 135, 0.4), 0 10px 20px -5px rgba(96, 239, 255, 0.3) !important;
+}
+
+/* 5. Acid Yellow & Hot Magenta */
+.shadow-x5 {
+  box-shadow: 0 15px 30px -5px rgba(241, 39, 17, 0.3), 0 12px 25px -5px rgba(245, 175, 25, 0.4) !important;
+}
+
+/* 6. Electric Indigo & Pink Aurora */
+.shadow-x6 {
+  box-shadow: 0 15px 30px -5px rgba(46, 213, 115, 0.3), 0 15px 35px -10px rgba(130, 88, 159, 0.4) !important;
+}
+
+/* 7. Toxic Green & Purple Matrix */
+.shadow-x7 {
+  box-shadow: 0 15px 30px -5px rgba(59, 12, 192, 0.4), 0 10px 20px -5px rgba(4, 219, 142, 0.3) !important;
+}
+
+/* 8. Vibrant Orange & Yellow Gold */
+.shadow-x8 {
+  box-shadow: 0 15px 30px -5px rgba(255, 65, 108, 0.4), 0 12px 20px -5px rgba(255, 75, 43, 0.3) !important;
+}
+
+/* 9. Deep Blue & Neon Turquoise */
+.shadow-x9 {
+  box-shadow: 0 15px 30px -5px rgba(10, 191, 182, 0.4), 0 10px 20px -5px rgba(26, 115, 232, 0.3) !important;
+}
+
+/* 10. Cosmic Violet & Coral Red */
+.shadow-x10 {
+  box-shadow: 0 15px 30px -5px rgba(142, 45, 226, 0.4), 0 12px 20px -5px rgba(74, 0, 224, 0.3), 0 20px 35px -10px rgba(255, 75, 75, 0.3) !important ;
+}
+
+/* 11. Mint Green & Royal Purple */
+.shadow-x11 {
+  box-shadow: 0 15px 30px -5px rgba(17, 240, 188, 0.4), 0 15px 35px -10px rgba(212, 22, 237, 0.3) !important;
+}
+
+/* 12. Magma Red & Dark Orange */
+.shadow-x12 {
+  box-shadow: 0 15px 30px -5px rgba(248, 8, 8, 0.4), 0 10px 20px -5px rgba(248, 110, 8, 0.3) !important;
+}
+
+/* 13. Synthwave Purple & Sky Cyan */
+.shadow-x13 {
+  box-shadow: 0 15px 30px -5px rgba(195, 20, 50, 0.3), 0 15px 35px -10px rgba(36, 11, 54, 0.5) !important;
+}
+
+/* 14. Neon Gold & Fire Orange */
+.shadow-x14 {
+  box-shadow: 0 15px 30px -5px rgba(247, 151, 30, 0.4), 0 10px 20px -5px rgba(255, 210, 0, 0.3) !important;
+}
+
+/* 15. Ice Cyan & Pastel Lavender */
+.shadow-x15 {
+  box-shadow: 0 15px 30px -5px rgba(221, 94, 137, 0.4), 0 15px 35px -10px rgba(247, 187, 151, 0.3) !important;
+}
+
+/* 16. Electric Violet & Rose Gold */
+.shadow-x16 {
+  box-shadow: 0 15px 30px -5px rgba(115, 63, 210, 0.4), 0 10px 20px -5px rgba(250, 42, 140, 0.3) !important;
+}
+
+/* 17. Deep Ocean Blue & Emerald */
+.shadow-x17 {
+  box-shadow: 0 15px 30px -5px rgba(0, 92, 151, 0.4), 0 12px 20px -5px rgba(54, 245, 141, 0.3) !important;
+}
+
+/* 18. Rainbow Neon (Multi) */
+.shadow-x18 {
+  box-shadow: 0 15px 25px -5px rgba(255, 0, 0, 0.2), 0 15px 30px -5px rgba(0, 255, 0, 0.2), 0 15px 35px -5px rgba(0, 0, 255, 0.2) !important;
+}
+
+/* 19. Cyber Green & Bright Yellow */
+.shadow-x19 {
+  box-shadow: 0 15px 30px -5px rgba(52, 255, 0, 0.4), 0 10px 20px -5px rgba(255, 234, 0, 0.3) !important;
+}
+
+/* 20. Dark Neon Purple Berry */
+.shadow-x20 {
+  box-shadow: 0 15px 35px -5px rgba(206, 0, 185, 0.45), 0 12px 25px -5px rgba(115, 0, 206, 0.35) !important;
+}
+
+
+/* 1. Cyberpunk Vibe (Cyan -> Purple -> Pink) */
+.shadow-x21 {
+  box-shadow:
+    0 15px 30px -7px rgba(0, 242, 254, 0.35),
+    0 20px 35px -5px rgba(157, 23, 248, 0.35),
+    0 25px 40px -3px rgba(255, 0, 128, 0.3) !important;
+}
+
+/* 2. Sunset Glow (Yellow -> Orange -> Red) */
+.shadow-x22 {
+  box-shadow:
+    0 15px 30px -7px rgba(255, 234, 0, 0.35),
+    0 20px 35px -5px rgba(255, 94, 98, 0.35),
+    0 25px 40px -3px rgba(239, 68, 68, 0.3) !important;
+}
+
+/* 3. Electric Forest (Lime -> Emerald -> Teal) */
+.shadow-x23 {
+  box-shadow:
+    0 15px 30px -7px rgba(0, 255, 135, 0.35),
+    0 20px 35px -5px rgba(4, 219, 142, 0.35),
+    0 25px 40px -3px rgba(10, 191, 182, 0.3) !important;
+}
+
+/* 4. Cosmic Berry (Blue -> Violet -> Magenta) */
+.shadow-x24 {
+  box-shadow:
+    0 15px 30px -7px rgba(79, 172, 254, 0.35),
+    0 20px 35px -5px rgba(142, 45, 226, 0.35),
+    0 25px 40px -3px rgba(206, 0, 185, 0.3) !important;
+}
+
+/* 5. Acid Lava (Gold -> Fire -> Dark Red) */
+.shadow-x25 {
+  box-shadow:
+    0 15px 30px -7px rgba(245, 175, 25, 0.35),
+    0 20px 35px -5px rgba(255, 75, 43, 0.35),
+    0 25px 40px -3px rgba(195, 20, 50, 0.3) !important;
+}
+
+/* 6. Aurora Borealis (Mint -> Aqua -> Purple) */
+.shadow-x26 {
+  box-shadow:
+    0 15px 30px -7px rgba(17, 240, 188, 0.35),
+    0 20px 35px -5px rgba(0, 255, 255, 0.35),
+    0 25px 40px -3px rgba(115, 63, 210, 0.3) !important;
+}
+
+/* 7. Bubblegum Pop (Sky Blue -> Lavender -> Pink) */
+.shadow-x27 {
+  box-shadow:
+    0 15px 30px -7px rgba(96, 239, 255, 0.35),
+    0 20px 35px -5px rgba(230, 190, 255, 0.35),
+    0 25px 40px -3px rgba(250, 42, 140, 0.3) !important;
+}
+
+/* 8. Toxic Matrix (Yellow -> Green -> Navy Blue) */
+.shadow-x28 {
+  box-shadow:
+    0 15px 30px -7px rgba(212, 255, 0, 0.35),
+    0 20px 35px -5px rgba(52, 255, 0, 0.35),
+    0 25px 40px -3px rgba(0, 92, 151, 0.3) !important;
+}
+
+/* 9. Cotton Candy (Light Cyan -> Soft Pink -> Violet) */
+.shadow-x29 {
+  box-shadow:
+    0 15px 30px -7px rgba(221, 94, 137, 0.35),
+    0 20px 35px -5px rgba(247, 187, 151, 0.35),
+    0 25px 40px -3px rgba(130, 88, 159, 0.3) !important;
+}
+
+/* 10. Deep Magma (Yellow -> Orange -> Plum) */
+.shadow-x30 {
+  box-shadow:
+    0 15px 30px -7px rgba(247, 151, 30, 0.35),
+    0 20px 35px -5px rgba(248, 110, 8, 0.35),
+    0 25px 40px -3px rgba(36, 11, 54, 0.35) !important;
+}
+
+/* 11. Retro Neon (Orange -> Magenta -> Dark Violet) */
+.shadow-x31 {
+  box-shadow:
+    0 15px 30px -7px rgba(255, 153, 102, 0.35),
+    0 20px 35px -5px rgba(212, 22, 237, 0.35),
+    0 25px 40px -3px rgba(59, 12, 192, 0.3) !important;
+}
+
+/* 12. Ocean Depth (Teal -> Deep Blue -> Indigo) */
+.shadow-x32 {
+  box-shadow:
+    0 15px 30px -7px rgba(0, 242, 254, 0.35),
+    0 20px 35px -5px rgba(26, 115, 232, 0.35),
+    0 25px 40px -3px rgba(74, 0, 224, 0.3) !important;
+}
+
+/* 13. Electric Lemonade (Yellow -> Lime -> Cyan) */
+.shadow-x33 {
+  box-shadow:
+    0 15px 30px -7px rgba(255, 255, 0, 0.35),
+    0 20px 35px -5px rgba(0, 255, 135, 0.35),
+    0 25px 40px -3px rgba(0, 255, 255, 0.3) !important;
+}
+
+/* 14. Vampire Glow (Rose -> Red -> Maroon) */
+.shadow-x34 {
+  box-shadow:
+    0 15px 30px -7px rgba(255, 65, 108, 0.35),
+    0 20px 35px -5px rgba(248, 8, 8, 0.35),
+    0 25px 40px -3px rgba(100, 0, 0, 0.3) !important;
+}
+
+/* 15. Royalty (Pink -> Magenta -> Royal Blue) */
+.shadow-x35 {
+  box-shadow:
+    0 15px 30px -7px rgba(255, 0, 128, 0.35),
+    0 20px 35px -5px rgba(206, 0, 185, 0.35),
+    0 25px 40px -3px rgba(26, 115, 232, 0.3) !important;
+}
+
+/* 16. Poison Ivy (Neon Green -> Olive -> Dark Teal) */
+.shadow-x36 {
+  box-shadow:
+    0 15px 30px -7px rgba(46, 213, 115, 0.35),
+    0 20px 35px -5px rgba(54, 245, 141, 0.35),
+    0 25px 40px -3px rgba(0, 92, 151, 0.3) !important;
+}
+
+/* 17. Hyperdrive (White-Blue -> Electric Indigo -> Purple) */
+.shadow-x37 {
+  box-shadow:
+    0 15px 30px -7px rgba(200, 240, 255, 0.4),
+    0 20px 35px -5px rgba(115, 63, 210, 0.35),
+    0 25px 40px -3px rgba(59, 12, 192, 0.3) !important;
+}
+
+/* 18. Rainbow Linear (Red -> Green -> Blue) */
+.shadow-x38 {
+  box-shadow:
+    0 15px 25px -7px rgba(255, 0, 0, 0.25),
+    0 20px 32px -5px rgba(0, 255, 0, 0.25),
+    0 25px 40px -3px rgba(0, 0, 255, 0.25) !important;
+}
+
+/* 19. Cyber Gold (Peach -> Yellow -> Lime) */
+.shadow-x39 {
+  box-shadow:
+    0 15px 30px -7px rgba(247, 187, 151, 0.35),
+    0 20px 35px -5px rgba(255, 234, 0, 0.35),
+    0 25px 40px -3px rgba(52, 255, 0, 0.3) !important;
+}
+
+/* 20. Dark Nebula (Deep Violet -> Bright Pink -> Sky Cyan) */
+.shadow-x40 {
+  box-shadow:
+    0 15px 30px -7px rgba(36, 11, 54, 0.4),
+    0 20px 35px -5px rgba(255, 0, 128, 0.35),
+    0 25px 40px -3px rgba(0, 242, 254, 0.3) !important;
+}
