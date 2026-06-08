@@ -16,7 +16,7 @@
         position: fixed;
         bottom: 24px;
         right: 24px;
-        z-index: 1050;
+        z-index: 1055;
         width: 56px;
         height: 56px;
         border-radius: 50%;
@@ -38,7 +38,7 @@
         position: fixed;
         bottom: 90px;
         right: 24px;
-        z-index: 1050;
+        z-index: 1055;
         width: min(320px, 92vw);
         background:
             radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.24), transparent 55%),
