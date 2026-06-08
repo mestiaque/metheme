@@ -140,6 +140,24 @@
         border-bottom: 1px solid rgba(255, 255, 255, 0.12);
     }
 
+    .calc-header-actions {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .calc-header-btn {
+        min-width: 34px;
+        height: 28px;
+        padding: 0 8px;
+        font-size: 12px;
+        font-weight: 700;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #e5edf7;
+        line-height: 1;
+    }
+
     @media (max-width: 576px) {
         #calc-toggle-btn {
             bottom: 16px;
@@ -167,7 +185,11 @@
     <!-- হেডার -->
     <div class="bg-dark px-3 py-2 d-flex justify-content-between align-items-center border-b border-secondary">
         <small class="fw-bold text-muted text-uppercase tracking-wider">CALCULATOR</small>
-        <button id="calc-close-btn" class="btn-close btn-close-white btn-sm" aria-label="Close"></button>
+        <div class="calc-header-actions">
+            <button class="btn btn-encodex-delete calc-btn calc-header-btn" data-val="C">C</button>
+            {{-- <button class="btn btn-secondary calc-btn calc-header-btn" data-val="BS">BS</button> --}}
+            <button id="calc-close-btn" class="btn-close btn-close-white btn-sm" aria-label="Close"></button>
+        </div>
     </div>
 
     <!-- ডিসপ্লে -->
@@ -180,7 +202,7 @@
     <div class="calc-buttons">
         <!-- Row 1 -->
         <div class="row g-1 mb-1">
-            <div class="col-3"><button class="btn btn-danger w-100 calc-btn" data-val="C">C</button></div>
+            <div class="col-3"><button class="btn btn-secondary w-100 calc-btn" data-val="BS">⌫</button></div>
             <div class="col-3"><button class="btn btn-secondary w-100 calc-btn" data-val="(">(</button></div>
             <div class="col-3"><button class="btn btn-secondary w-100 calc-btn" data-val=")">)</button></div>
             <div class="col-3"><button class="btn btn-warning w-100 calc-btn fw-bold" data-val="/">/</button></div>
@@ -247,6 +269,10 @@
                     currentInput = '';
                     history.textContent = '';
                     display.textContent = '0';
+                } else if (val === 'BS') {
+                    // শেষের একটি ক্যারেক্টার মুছে ফেলা
+                    currentInput = currentInput.slice(0, -1);
+                    display.textContent = currentInput || '0';
                 } else if (val === '=') {
                     // হিসাব করা
                     if (currentInput) {
