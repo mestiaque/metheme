@@ -166,7 +166,7 @@
 <div id="popup-calculator" class="text-white">
     <!-- হেডার -->
     <div class="bg-dark px-3 py-2 d-flex justify-content-between align-items-center border-b border-secondary">
-        <small class="fw-bold text-muted text-uppercase tracking-wider">ক্যালকুলেটর</small>
+        <small class="fw-bold text-muted text-uppercase tracking-wider">CALCULATOR</small>
         <button id="calc-close-btn" class="btn-close btn-close-white btn-sm" aria-label="Close"></button>
     </div>
 
