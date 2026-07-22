@@ -4,30 +4,33 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-        <meta name="color-scheme" content="light dark" />
         <meta name="theme-color" content="#007bff" media="(prefers-color-scheme: light)" />
         <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)" />
         <meta name="title" content="@yield('meta-title', config('me_settings.meta_title'))" />
         <meta name="author" content="@yield('meta-author', config('me_settings.meta_author'))" />
         <meta name="description" content="@yield('meta-description', config('me_settings.meta_description'))" />
         <meta name="keywords" content="@yield('meta-keywords', config('me_settings.meta_keywords'))" />
-        <meta name="supported-color-schemes" content="light dark" />
-        <link rel="preload" href="{{ asset('css/adminlte.css') }}" as="style" />
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+        <link rel="preload" href="{{ asset('css/adminlte.min.css') }}" as="style" />
         <title> @yield('title', 'Dashboard') | {{ config('app.name', 'ESTIAQUE') }}</title>
 
+        <style>html,body{background:#fff;}</style>
+
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css" integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q=" crossorigin="anonymous" media="print" onload="this.media='all'" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css" crossorigin="anonymous" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" crossorigin="anonymous" />
-        <link rel="stylesheet" href="{{ asset('css/adminlte.css') }}" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css" integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0=" crossorigin="anonymous" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/css/jsvectormap.min.css" integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4=" crossorigin="anonymous" />
+        <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}" />
         <link href="{{ asset('backend/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
         <link rel="icon" href="{{ get_image('app_ico') ?? asset('assets/img/favicon/Encodex.ico') }}" type="image/x-icon">
         <link href="{{ asset('css/form-styles.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/encodex.css') }}?v={{ time() }}" rel="stylesheet">
+        <link href="{{ asset('css/encodex.css') }}?v={{ filemtime(public_path('css/encodex.css')) }}" rel="stylesheet">
         <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css" crossorigin="anonymous" media="print" onload="this.media='all'" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" crossorigin="anonymous" media="print" onload="this.media='all'" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css" integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0=" crossorigin="anonymous" media="print" onload="this.media='all'" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/css/jsvectormap.min.css" integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4=" crossorigin="anonymous" media="print" onload="this.media='all'" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" media="print" onload="this.media='all'">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" media="print" onload="this.media='all'">
 
         <style>
             @media (max-width: 767.98px) {
@@ -231,7 +234,12 @@
 
         @stack('css')
         @stack('style')
-        @include('me::components.loader.foot-print')
+        @include('me::components.loader.premium-svg-draw')
+        {{-- @include('me::components.loader.premium-skeleton') --}}
+        {{-- @include('me::components.loader.premium-dot-wave') --}}
+        {{-- @include('me::components.loader.premium-logo-pulse') --}}
+        {{-- @include('me::components.loader.premium-neon-ring') --}}
+        {{-- @include('me::components.loader.premium-blur-focus') --}}
 
 
     </head>
@@ -282,7 +290,7 @@
         <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js" crossorigin="anonymous" ></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" crossorigin="anonymous" ></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js" crossorigin="anonymous" ></script>
-        <script src="{{ asset('js/adminlte.js') }}?v={{ time() }}"></script>
+        <script src="{{ asset('js/adminlte.min.js') }}?v={{ filemtime(public_path('js/adminlte.min.js')) }}"></script>
         <script src="{{ asset('backend/vendor/jquery/jquery.min.js') }}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
