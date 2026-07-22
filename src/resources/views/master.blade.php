@@ -24,6 +24,7 @@
         <link href="{{ asset('css/form-styles.css') }}" rel="stylesheet">
         <link href="{{ asset('css/encodex.css') }}?v={{ filemtime(public_path('css/encodex.css')) }}" rel="stylesheet">
         <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
+        @include('me::components.scrollbar-theme')
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css" crossorigin="anonymous" media="print" onload="this.media='all'" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" crossorigin="anonymous" media="print" onload="this.media='all'" />
