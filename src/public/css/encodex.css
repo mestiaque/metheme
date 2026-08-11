@@ -153,12 +153,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     background: #eefbff !important; /* খুব হালকা নীল ব্যাকগ্রাউন্ড */
     border: 1px solid #0f9bd6 !important; /* নীল বর্ডার */
     color: #000 !important; /* কালো টেক্সট */
-    padding: 6px 10px;
+    padding: 3px 3px;
     outline: 2px solid #2ecc70c9 !important;
     box-shadow: none !important;
     border-radius: 5px !important;
 }
-
+.select2-search--dropdown{
+    padding: 0px !important;
+    margin-bottom: 3px !important;
+}
 .select2 {
     width: 100% !important;
 }
