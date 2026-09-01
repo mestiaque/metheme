@@ -212,6 +212,8 @@
     document.addEventListener('submit', function (e) {
         var form = e.target;
         if (!form || form.classList.contains('no-loader') || form.classList.contains('ajax-form')) return;
+        var targetAttr = form.getAttribute('target');
+        if (targetAttr && targetAttr !== '_self') return;
         showInstant();
     });
 

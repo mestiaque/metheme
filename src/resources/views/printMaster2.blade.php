@@ -71,16 +71,6 @@
         .company-name { font-size: 30px; font-weight: bold; text-transform: uppercase; color: #0047ab;}
         .company-address, .company-contact { font-size: 12px; color: #555; }
 
-        /* Report title */
-        .report-title { font-size: 14px; font-weight: bold; margin: -20px 0 0px; text-transform: uppercase; }
-        .report-title span {
-            display: inline-block;
-            padding: 5px 15px;
-            background: #333333b5;
-            color: #fff;
-            border-radius: 4px;
-        }
-
         /* Tables */
         table {
             width: 100%;
