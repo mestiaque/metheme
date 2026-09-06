@@ -1,5 +1,5 @@
 <!--begin::Footer-->
-<footer class="app-footer">
+<footer class="app-footer text-center">
   <!--begin::To the end-->
   <div class="float-end d-none d-sm-inline">
     @lang("Version") {{ toBanglaPhone(get_setting('app_version', '2.0.0')) }}
