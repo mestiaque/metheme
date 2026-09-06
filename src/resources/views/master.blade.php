@@ -32,6 +32,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/css/jsvectormap.min.css" integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4=" crossorigin="anonymous" media="print" onload="this.media='all'" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" media="print" onload="this.media='all'">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" media="print" onload="this.media='all'">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.9.0/summernote-bs5.min.css" rel="stylesheet">
 
         <style>
             @media (max-width: 767.98px) {
@@ -293,6 +294,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js" crossorigin="anonymous" ></script>
         <script src="{{ asset('js/adminlte.min.js') }}?v={{ filemtime(public_path('js/adminlte.min.js')) }}"></script>
         <script src="{{ asset('backend/vendor/jquery/jquery.min.js') }}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.9.0/summernote-bs5.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js" crossorigin="anonymous" ></script>
@@ -415,6 +417,87 @@
                 });
             });
         </script>
+
+        <!-- Summernote Init Script -->
+        <script>
+            $(function () {
+                function initSummernote($el) {
+                    if ($el.data('summernote-init')) return;
+                    $el.data('summernote-init', true);
+                    $el.summernote({
+                        height: 120,
+                        toolbar: [
+                            ['style', ['bold', 'italic', 'underline', 'strikethrough']],
+                            ['para', ['ul', 'ol']],
+                            ['insert', ['picture', 'link']],
+                            ['misc', ['undo', 'redo']]
+                        ]
+                    });
+                }
+
+                // Textareas already visible on page load.
+                $('.summernote').not('.modal .summernote').each(function () {
+                    initSummernote($(this));
+                });
+
+                // Textareas inside a Bootstrap modal: init only once the modal
+                // is actually shown. Summernote measures toolbar/editor widths
+                // at init time, so initializing inside a display:none modal
+                // produces a collapsed, broken layout.
+                $(document).on('shown.bs.modal', '.modal', function () {
+                    $(this).find('.summernote').each(function () {
+                        initSummernote($(this));
+                    });
+                });
+            });
+        </script>
+
+        <!-- Summernote Content Lightbox: click an image inside rendered
+             summernote HTML (e.g. a table cell showing a saved description)
+             to view it full-size, since such images are usually shown
+             thumbnail-sized. -->
+        <script>
+            $(document).on('click', '.summernote-content img', function () {
+                var overlay = $(
+                    '<div class="summernote-lightbox-overlay">' +
+                        '<img src="' + $(this).attr('src') + '">' +
+                    '</div>'
+                );
+                $('body').append(overlay);
+                requestAnimationFrame(function () { overlay.addClass('show'); });
+                overlay.on('click', function () {
+                    overlay.removeClass('show');
+                    setTimeout(function () { overlay.remove(); }, 200);
+                });
+            });
+        </script>
+        <style>
+            .summernote-content img {
+                cursor: zoom-in;
+            }
+            .summernote-lightbox-overlay {
+                position: fixed;
+                inset: 0;
+                z-index: 999998;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: rgba(0, 0, 0, 0);
+                opacity: 0;
+                transition: opacity .2s ease, background .2s ease;
+                cursor: zoom-out;
+            }
+            .summernote-lightbox-overlay.show {
+                background: rgba(0, 0, 0, 0.85);
+                opacity: 1;
+            }
+            .summernote-lightbox-overlay img {
+                max-width: 90vw;
+                max-height: 90vh;
+                border-radius: 8px;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            }
+        </style>
 
         <!-- Input Focus Script -->
         <script>
