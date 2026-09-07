@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use ME\Http\Controllers\ActivityController;
 use ME\Http\Controllers\DataController;
 use ME\Http\Controllers\MenuController;
+use ME\Http\Controllers\MenuSearchController;
 use ME\Http\Controllers\ProfileController;
 use ME\Http\Controllers\RoleController;
 use ME\Http\Controllers\SettingController;
@@ -13,6 +14,8 @@ use ME\Http\Middleware\LocaleMiddleware;
 Route::middleware(['web', LocaleMiddleware::class])->group(function () {
     Route::get('/language/{locale?}', [DataController::class, 'changeLocale'])->name('language.change');
     Route::get('/guest-demo', [DataController::class, 'guestDemo'])->name('guest.demo');
+    Route::get('/menu-search', [MenuSearchController::class, 'search'])->name('nav.menuSearch');
+
 });
 
 Route::group(['prefix' => 'me', 'as' => 'me.', 'middleware' => ['web', 'auth', LocaleMiddleware::class, 'activityLog']], function () {
