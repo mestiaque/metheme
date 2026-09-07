@@ -140,7 +140,7 @@
 
       <!--begin::User Menu Dropdown-->
       <li class="nav-item dropdown user-menu">
-        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+        <a href="#" class="nav-link dropdown-toggle" id="userMenuToggle" aria-expanded="false">
             @if(Auth::check())
                 @if(Auth::user()->profile_image)
                     <img class="user-image rounded-circle shadow"
@@ -155,7 +155,7 @@
             @endif
           <span class="d-none d-md-inline user-name">{{ Auth::user()->name ?? 'M. ESTIAQUE' }}</span>
         </a>
-        <ul class="dropdown-menu dropdown-menu-end">
+        <ul class="dropdown-menu" id="userMenuDropdown" style="display:none;">
           <li class="py-1">
             <a class="dropdown-item" href="{{ Route::has('admin.profile.edit') ? route('admin.profile.edit') : route('me.profile.edit') }}">
               <i class="bi bi-person me-2"></i> @lang("Profile")
@@ -261,6 +261,50 @@ color: #000 !important;
 .dropdown-divider {
 border-top: 1px solid rgba(255, 255, 255, 1) !important;
 margin: 5px 0;
+}
+
+/* প্রোফাইল ড্রপডাউন - সার্চ রেজাল্টের মতো লিকুইড গ্লাসমরফিজম, একই fixed পজিশনিং কৌশলে
+   (body তে পোর্টাল করা হয় জেএস দিয়ে - #userMenuDropdown এখন .user-menu এর ভেতরে থাকবে না,
+   তাই নেস্টেড সিলেক্টরের বদলে আইডি সিলেক্টর ব্যবহার হচ্ছে) */
+#userMenuDropdown.dropdown-menu {
+    position: fixed;
+    width: 220px;
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(15px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(15px) saturate(160%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 32px rgba(15, 45, 74, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.7) !important;
+    z-index: 2000;
+    margin: 0 !important;
+}
+
+#userMenuDropdown:before {
+    content: "";
+    position: absolute;
+    top: -7px;
+    right: 26px;
+    width: 12px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.6);
+    border-left: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 3px 0 0 0;
+    transform: rotate(45deg);
+    backdrop-filter: blur(15px) saturate(160%);
+    -webkit-backdrop-filter: blur(15px) saturate(160%);
+}
+
+#userMenuDropdown .dropdown-item {
+    color: #0f2d4a !important;
+    border-radius: 10px;
+    transition: background 0.15s ease, transform 0.15s ease;
+}
+
+#userMenuDropdown .dropdown-item:hover {
+    background: rgba(15, 155, 214, 0.18) !important;
+    color: #0f2d4a !important;
+    transform: translateX(2px);
 }
 
 
@@ -397,7 +441,7 @@ margin: 5px 0;
     content: "";
     position: absolute;
     top: -7px;
-    right: 14px;
+    right: 26px;
     width: 12px;
     height: 12px;
     background: rgba(255, 255, 255, 0.05);
@@ -470,7 +514,8 @@ margin: 5px 0;
 }
 
 @media (max-width: 767.98px) {
-    .menu-search-results {
+    .menu-search-results,
+    #userMenuDropdown.dropdown-menu {
         width: 160px;
     }
 }
@@ -544,7 +589,7 @@ margin: 5px 0;
     function positionResults() {
         var rect = wrapper.getBoundingClientRect();
         results.style.top = (rect.bottom + 10) + 'px';
-        results.style.right = (window.innerWidth - rect.right) + 'px';
+        results.style.right = (window.innerWidth - rect.right - 12) + 'px';
     }
 
     window.addEventListener('resize', function () {
@@ -680,6 +725,56 @@ margin: 5px 0;
             var target = activeIndex >= 0 ? items[activeIndex] : items[0];
             window.location.href = target.getAttribute('href');
         }
+    });
+})();
+</script>
+
+<script>
+(function () {
+    var toggle = document.getElementById('userMenuToggle');
+    var menu = document.getElementById('userMenuDropdown');
+    if (!toggle || !menu) return;
+
+    // সার্চ রেজাল্টের মতোই - হেডারের backdrop-filter একটি নতুন backdrop root
+    // তৈরি করে, তাই এই ড্রপডাউনও body তে পোর্টাল করে fixed পজিশনে বসানো হচ্ছে
+    document.body.appendChild(menu);
+
+    function positionMenu() {
+        var rect = toggle.getBoundingClientRect();
+        menu.style.top = (rect.bottom + 10) + 'px';
+        menu.style.right = (window.innerWidth - rect.right - 12) + 'px';
+    }
+
+    function openMenu() {
+        positionMenu();
+        menu.style.display = 'block';
+        toggle.setAttribute('aria-expanded', 'true');
+    }
+
+    function closeMenu() {
+        menu.style.display = 'none';
+        toggle.setAttribute('aria-expanded', 'false');
+    }
+
+    toggle.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (menu.style.display === 'block') {
+            closeMenu();
+        } else {
+            openMenu();
+        }
+    });
+
+    document.addEventListener('click', function (e) {
+        if (!toggle.contains(e.target) && !menu.contains(e.target)) closeMenu();
+    });
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && menu.style.display === 'block') closeMenu();
+    });
+
+    window.addEventListener('resize', function () {
+        if (menu.style.display === 'block') positionMenu();
     });
 })();
 </script>
