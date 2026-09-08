@@ -441,7 +441,7 @@ margin: 5px 0;
     content: "";
     position: absolute;
     top: -7px;
-    right: 26px;
+    right: 14px;
     width: 12px;
     height: 12px;
     background: rgba(255, 255, 255, 0.05);
@@ -588,10 +588,8 @@ margin: 5px 0;
 
     function positionResults() {
         var rect = wrapper.getBoundingClientRect();
-        var isMobile = window.innerWidth <= 767.98;
-        var shift = isMobile ? -20 : 12;
         results.style.top = (rect.bottom + 10) + 'px';
-        results.style.right = (window.innerWidth - rect.right - shift) + 'px';
+        results.style.right = (window.innerWidth - rect.right) + 'px';
     }
 
     window.addEventListener('resize', function () {
