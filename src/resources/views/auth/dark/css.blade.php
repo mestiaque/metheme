@@ -1,8 +1,5 @@
 @push('css')
 <style>
-    /* লাইট থিম এখন blank.blade.php নিজেই (:root ভ্যারিয়েবল, body background, .btn-blank সহ)
-       ডিফল্ট হিসেবে সেট করে, তাই এখানে আলাদা করে ওভাররাইড করার দরকার নেই */
-
     /* 1. Base Layout & Card */
     .login-cardX {
         display: flex;
@@ -64,8 +61,8 @@
         /* box-shadow: inset 6px 6px 8px rgba(0, 0, 0, 0.15),
                     inset -6px -6px 8px rgba(255, 255, 255, 0.9),
                     5px 5px 15px rgba(0, 0, 0, 0.2); */
-        border: 2px solid #0f9bd6;
-        background: rgba(15, 155, 214, 0.1);
+        border: 2px solid #002472;
+        background: #0f2d4a6e;
         backdrop-filter: blur(15px) saturate(160%);
         -webkit-backdrop-filter: blur(15px) saturate(160%);
     }
@@ -108,8 +105,8 @@
         border: 1px solid var(--border-color);
         border-radius: 8px;
         font-size: 16px;
-        background: rgba(255, 255, 255, 0.7) !important;
-        color: #0f2d4a !important;
+        background: transparent !important;
+        color: whitesmoke !important;
         transition: all 0.3s ease;
     }
 
@@ -131,8 +128,8 @@
     .form-control:-webkit-autofill:hover,
     .form-control:-webkit-autofill:focus,
     .form-control:-webkit-autofill:active {
-        -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important; /* keeps bg light */
-        -webkit-text-fill-color: #0f2d4a !important; /* makes text dark navy */
+        -webkit-box-shadow: 0 0 0 1000px #0f172a inset !important; /* keeps bg transparent */
+        -webkit-text-fill-color: whitesmoke !important; /* makes text white */
         transition: background-color 5000s ease-in-out 0s !important;
     }
 
@@ -218,7 +215,7 @@
         cursor: pointer;
         font-size: 11px;
         font-weight: 700;
-        color: rgba(15, 45, 74, 0.4);
+        color: rgba(255, 255, 255, 0.4);
         white-space: nowrap;
         text-transform: uppercase;
         transition: all 0.4s ease;
@@ -233,9 +230,9 @@
         position: absolute;
         bottom: 0;
         height: 2px;
-        background: #0f9bd6;
+        background: #fff;
         transition: all 0.5s ease;
-        box-shadow: 0 0 10px rgba(15, 155, 214, 0.6);
+        box-shadow: 0 0 10px #fff;
     }
 
     /* 6. Responsive Adjustments */

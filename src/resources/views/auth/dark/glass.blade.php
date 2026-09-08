@@ -48,19 +48,20 @@
     padding: 40px;
     border-radius: 24px;
 
-    /* হেডারের সার্চ রেজাল্ট/প্রোফাইল ড্রপডাউন ও .blur-card এর মতোই আসল
-       লিকুইড গ্লাসমরফিজম - আগের 0.65 opacity তে কার্ডটা প্রায় সলিড সাদা
-       দেখাচ্ছিল, ব্যাকগ্রাউন্ড দেখা যাচ্ছিল না */
-    background: rgba(255, 255, 255, 0.05);
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.06),
+        rgba(255,255,255,0.01)
+    );
 
-    backdrop-filter: blur(15px) saturate(160%);
-    -webkit-backdrop-filter: blur(15px) saturate(160%);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
 
-    border: 1px solid rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(255,255,255,0.12);
 
     box-shadow:
-        0 8px 32px rgba(15, 45, 74, 0.18),
-        inset 0 1px 0 rgba(255, 255, 255, 0.7);
+        0 8px 32px rgba(0,0,0,0.8),
+        inset 0 0 0.5px rgba(255,255,255,0.4);
 
     overflow: hidden;
     z-index: 1;
@@ -77,10 +78,10 @@
     background: linear-gradient(
         90deg,
         transparent,
-        #0f9bd6,
+        #00ff66,
         transparent
     );
-    box-shadow: 0 0 12px rgba(15, 155, 214, 0.5);
+    box-shadow: 0 0 12px #00ff66;
 }
 
 .glass-form-control {

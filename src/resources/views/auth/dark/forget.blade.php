@@ -10,7 +10,7 @@
                     <img loading="lazy" src="{{ $logo }}" class="brand-image opacity-75 shadow " style="width: 100%" alt="M. ESTIAQUE">
                 </div>
                 <h1 class="login-title text-shadow">{{ __('FORGOT PASSWORD') }}</h1>
-                <p style="text-align: center; color:#6b7280" class="text-shadow">{{ __('Reset your password by verifying your account.') }}</p>
+                <p style="text-align: center; color:#ffffff7a" class="text-shadow">{{ __('Reset your password by verifying your account.') }}</p>
             </div>
 
             <!-- Error/Status Messages -->
@@ -94,8 +94,8 @@
                 </div>
 
                 <div class="text-center mt-3">
-                    <p style="color:#6b7280" class="text-shadow">
-                        {{ __('Remembered your password?') }} <a href="{{ route('login') }}" style="color: #0f2d4a; text-decoration: underline;">{{ __('Login') }}</a>
+                    <p style="color:#ffffff7a" class="text-shadow">
+                        {{ __('Remembered your password?') }} <a href="{{ route('login') }}" style="color: #fff; text-decoration: underline;">{{ __('Login') }}</a>
                     </p>
                 </div>
             </form>
@@ -104,7 +104,6 @@
 
     @include("me::auth.css")
     @include("me::auth.glass")
-    @include("me::auth.shared")
     @include("me::auth.forgetJs")
 
 @endsection

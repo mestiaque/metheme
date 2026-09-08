@@ -81,6 +81,17 @@
                 padding: 10px;
             }
 
+            /* হেডারের সার্চ রেজাল্ট/ইউজার মেনুতে ব্যবহৃত লিকুইড গ্লাসমরফিজম -
+               যেকোনো div এ .blur-card ক্লাস বসালেই একই ইফেক্ট পাওয়া যাবে */
+            .blur-card {
+                background: rgba(255, 255, 255, 0.05);
+                backdrop-filter: blur(15px) saturate(160%);
+                -webkit-backdrop-filter: blur(15px) saturate(160%);
+                border: 1px solid rgba(255, 255, 255, 0.6);
+                border-radius: 16px;
+                box-shadow: 0 8px 32px rgba(15, 45, 74, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+            }
+
             .table thead tr:first-child th:first-child {
                 border-top-left-radius: 8px;
             }

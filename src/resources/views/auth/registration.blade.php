@@ -10,7 +10,7 @@
                     <img loading="lazy" src="{{ $logo }}" class="brand-image opacity-75 shadow " style="width: 100%" alt="M. ESTIAQUE">
                 </div>
                 <h1 class="login-title text-shadow">{{ __('REGISTER') }}</h1>
-                <p style="text-align: center; color:#ffffff7a" class="text-shadow">{{ __('Create your account to get started.') }}</p>
+                <p style="text-align: center; color:#6b7280" class="text-shadow">{{ __('Create your account to get started.') }}</p>
             </div>
 
             <!-- Error/Status Messages -->
@@ -93,9 +93,9 @@
                 </div>
 
                 <!-- Divider -->
-                <div class="text-center my-4 d-none" style="color: #ffffff7a; position: relative;">
-                    <hr style="border-color: #ffffff26;">
-                    <span style="position: absolute; top: -12px; background: #222; padding: 0 15px; left: 50%; transform: translateX(-50%);">{{ __('OR') }}</span>
+                <div class="text-center my-4 d-none" style="color: #6b7280; position: relative;">
+                    <hr style="border-color: #0f2d4a26;">
+                    <span style="position: absolute; top: -12px; background: #fff; padding: 0 15px; left: 50%; transform: translateX(-50%);">{{ __('OR') }}</span>
                 </div>
 
                 <!-- Google Login -->
@@ -104,8 +104,8 @@
                 </a>
 
                 <div class="text-center mt-3">
-                    <p style="color:#ffffff7a" class="text-shadow">
-                        {{ __('Already have an account?') }} <a href="{{ route('login') }}" style="color: #fff; text-decoration: underline;">{{ __('Login') }}</a>
+                    <p style="color:#6b7280" class="text-shadow">
+                        {{ __('Already have an account?') }} <a href="{{ route('login') }}" style="color: #0f2d4a; text-decoration: underline;">{{ __('Login') }}</a>
                     </p>
                 </div>
             </form>
@@ -117,6 +117,7 @@
 
     @include("me::auth.css")
     @include("me::auth.glass")
+    @include("me::auth.shared")
     @include("me::auth.js")
 
 @endsection

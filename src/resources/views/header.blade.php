@@ -588,8 +588,10 @@ margin: 5px 0;
 
     function positionResults() {
         var rect = wrapper.getBoundingClientRect();
+        var isMobile = window.innerWidth <= 767.98;
+        var shift = isMobile ? -20 : 12;
         results.style.top = (rect.bottom + 10) + 'px';
-        results.style.right = (window.innerWidth - rect.right - 12) + 'px';
+        results.style.right = (window.innerWidth - rect.right - shift) + 'px';
     }
 
     window.addEventListener('resize', function () {
@@ -668,7 +670,12 @@ margin: 5px 0;
         var isActive = wrapper.classList.toggle('active');
         toggleBtn.setAttribute('aria-expanded', isActive ? 'true' : 'false');
         if (isActive) {
-            input.focus();
+            // মোবাইলে ক্লাস যোগ করার সাথে সাথেই focus() কল করলে অনেক সময় কিবোর্ড
+            // ওঠে না (ট্রানজিশন/রিফ্লো শেষ হওয়ার আগেই ফোকাস করার চেষ্টা করা হয়) -
+            // এক ফ্রেম পর ফোকাস করা হচ্ছে যাতে এক্সপ্যান্ড অ্যানিমেশন প্রয়োগ হয়ে যায়
+            requestAnimationFrame(function () {
+                input.focus();
+            });
         } else {
             hideResults();
         }
@@ -689,7 +696,7 @@ margin: 5px 0;
         var term = input.value.trim();
         clearTimeout(debounceTimer);
 
-        if (term.length < 2) {
+        if (term.length < 1) {
             hideResults();
             return;
         }

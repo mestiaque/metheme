@@ -22,32 +22,15 @@
 
     <style>
         :root {
-            --primary-bg: #0f2d4a;
+            --primary-bg: #ffffff;
             --secondary-color: #0f9bd6;
-            --accent-color: #ffffff;
-            --focus-color: #007bff;
-            --border-color: #002472;
-            --text-muted: #ffffff7a;
-            --shadow-color: rgba(0, 0, 0, 0.4);
+            --accent-color: #0f2d4a;
+            --focus-color: #0f9bd6;
+            --border-color: #cfd8e3;
+            --text-muted: #6b7280;
+            --shadow-color: rgba(15, 45, 74, 0.15);
         }
 
-        /* html, body {
-            height: 100vh;
-            margin: 0;
-            font-family: 'Nunito', sans-serif, cursive;
-            display: flex;
-            flex-direction: column;
-            background: #0f172a;
-            color: #fff;
-
-                background: radial-gradient(
-                circle at center,
-                rgba(15, 23, 42, 0.25) 0%,
-                rgba(15, 23, 42, 0.60) 40%,
-                #000 100%
-                );
-                backdrop-filter: blur(30px);
-        } */
 
 
         html, body {
@@ -57,19 +40,58 @@
             font-family: 'Nunito', sans-serif, cursive;
             display: flex;
             flex-direction: column;
-            color: #fff;
+            color: #0f2d4a;
 
             /* Background Properties */
-            background: radial-gradient(
+            /* background: radial-gradient(
                 circle at center,
-                rgba(15, 23, 42, 0.25) 0%,
-                rgba(15, 23, 42, 0.60) 40%,
-                #000 100%
-            );
-            background-color: #0f172a; /* Fallback color */
+                rgba(15, 155, 214, 0.1) 0%,
+                rgba(255, 255, 255, 0.7) 45%,
+                #eef3f8 100%
+            ); */
+            background-color: #eef3f8; /* Fallback color */
             background-attachment: fixed; /* Scroll korle gradient-ti fixed thakbe */
+        }
 
-            backdrop-filter: blur(30px);
+        /* মাউস প্যারালাক্স ব্যাকগ্রাউন্ড শেপ - মাউস যেদিকে নড়বে, শেপগুলো উল্টো দিকে
+           সামান্য নড়ে depth এর অনুভূতি তৈরি করবে (নিজে থেকে অ্যানিমেট হবে না) */
+        .parallax-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .parallax-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            will-change: transform;
+        }
+
+        .parallax-shape.shape-1 {
+            width: 260px;
+            height: 260px;
+            top: 8%;
+            left: 8%;
+            background: rgba(15, 155, 214, 0.3);
+        }
+
+        .parallax-shape.shape-2 {
+            width: 220px;
+            height: 220px;
+            bottom: 10%;
+            right: 10%;
+            background: rgba(15, 45, 74, 0.18);
+        }
+
+        .parallax-shape.shape-3 {
+            width: 160px;
+            height: 160px;
+            top: 55%;
+            left: 72%;
+            background: rgba(15, 155, 214, 0.2);
         }
 
         /* Particles background */
@@ -80,6 +102,20 @@
             z-index: 0;
             top: 0;
             left: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .click-particle {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #1d4ed8;
+            pointer-events: none;
+            will-change: transform, opacity;
         }
 
         /* Main content container */
@@ -107,7 +143,7 @@
 
         .error-message {
             font-size: 1.25rem;
-            color: #cbd5e1;
+            color: #4b5a6b;
         }
 
         .btn-encodex {
@@ -129,7 +165,7 @@
         /* Footer styling */
         .app-footer {
             flex-shrink: 0; /* do not shrink */
-            background: #0f9ad627;
+            background: #eff7fa;
             padding: 10px 20px;
             width: 100%;
             opacity: 0.9;
@@ -137,9 +173,9 @@
 
         .btn-blank {
             position: relative;
-            background-color: #0f2d4a6e;
-            color: var(--accent-color);
-            border: 1px solid #002472;
+            background-color: #0f9bd6;
+            color: #ffffff;
+            border: 1px solid #0f9bd6;
             padding: 12px;
             border-radius: 8px;
             font-size: 16px;
@@ -147,7 +183,7 @@
             cursor: pointer;
             overflow: hidden;
             transition: all 0.35s ease;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 8px 20px rgba(15, 155, 214, 0.35);
             text-transform: uppercase;
         }
 
@@ -163,10 +199,10 @@
         }
 
         .btn-blank:hover {
-            background-color: rgba(0, 68, 255, 0.171) !important;
+            background-color: #0d8ac0 !important;
             color: #ffffff;
             transform: translateY(-4px) scale(1.01);
-            box-shadow: 0 6px 15px rgba(0,230,38,0.45), 0 0 0 2px rgba(0,230,38,0.25);
+            box-shadow: 0 6px 15px rgba(15, 155, 214, 0.4), 0 0 0 2px rgba(15, 155, 214, 0.25);
         }
 
         .btn-blank:hover::before {
@@ -175,26 +211,25 @@
 
         .btn-blank:active {
             transform: translateY(-1px) scale(0.98);
-            box-shadow: 0 6px 14px rgba(0,230,38,0.35);
+            box-shadow: 0 6px 14px rgba(15, 155, 214, 0.3);
         }
 
         .text-shadow {
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+            text-shadow: none;
         }
 
         .box-shadow {
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 4px rgba(15, 45, 74, 0.15);
         }
 
         .alert {
             text-align: center;
             margin-bottom: 20px;
-            text-shadow: 0px 3px 4px rgb(255 5 8 / 70%);
             animation: shake 0.5s 1;
         }
 
         .alert-danger {
-            color: #ff0000a1;
+            color: #dc3545;
         }
 
         @keyframes shake {
@@ -221,6 +256,13 @@
 </head>
 <body class="">
 
+    <!-- Parallax background shapes -->
+    <div class="parallax-bg" aria-hidden="true">
+        <span class="parallax-shape shape-1"></span>
+        <span class="parallax-shape shape-2"></span>
+        <span class="parallax-shape shape-3"></span>
+    </div>
+
     <!-- Particles -->
     <div id="particles-js"></div>
 
@@ -236,28 +278,138 @@
     <!-- Scripts -->
     <script src="{{ asset('backend/vendor/jquery/jquery.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> --}}
 
     <script>
-        /* Particles.js config */
-        particlesJS("particles-js", {
-            "particles": {
-                "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
-                "color": { "value": "#1d4ed8" },
-                "shape": { "type": "circle" },
-                "opacity": { "value": 0.5, "random": true },
-                "size": { "value": 3, "random": true },
-                "line_linked": { "enable": true, "distance": 150, "color": "#1d4ed8", "opacity": 0.4, "width": 1 },
-                "move": { "enable": true, "speed": 2, "direction": "none", "random": true, "straight": false, "out_mode": "out" }
-            },
-            "interactivity": {
-                "detect_on": "canvas",
-                "events": { "onhover": { "enable": true, "mode": "repulse" }, "onclick": { "enable": true, "mode": "push" } },
-                "modes": { "repulse": { "distance": 100 }, "push": { "particles_nb": 4 } }
-            },
-            "retina_detect": true
-        });
+        /* ডিফল্টে কোনো পার্টিকেল থাকবে না - শুধু ক্লিক করলে একঝাঁক ডট আঁকা হবে
+           যেগুলো ছড়িয়ে গিয়ে ফেইড হয়ে শেষ হয়ে যাবে (একবারের জন্য, লুপ করবে না),
+           আর যতক্ষণ কোনো ডট বেঁচে আছে ততক্ষণ মাউস কাছে গেলে সেগুলো সরে যাবে */
+        (function () {
+            var container = document.getElementById('particles-js');
+            if (!container) return;
+
+            var particles = [];
+
+            function spawnBurst(x, y) {
+                var count = 8 + Math.floor(Math.random() * 4);
+                for (var i = 0; i < count; i++) {
+                    var angle = (Math.PI * 2 * i) / count + Math.random() * 0.5;
+                    var speed = 0.5 + Math.random() * 1;
+                    var el = document.createElement('div');
+                    el.className = 'click-particle';
+                    container.appendChild(el);
+                    particles.push({
+                        el: el,
+                        x: x,
+                        y: y,
+                        vx: Math.cos(angle) * speed,
+                        vy: Math.sin(angle) * speed,
+                        life: 0,
+                        maxLife: 700 + Math.random() * 400
+                    });
+                }
+            }
+
+            var lastTime = performance.now();
+            function tick(now) {
+                var dt = Math.min(now - lastTime, 50);
+                lastTime = now;
+
+                for (var i = particles.length - 1; i >= 0; i--) {
+                    var p = particles[i];
+                    p.life += dt;
+                    p.x += p.vx * (dt / 16);
+                    p.y += p.vy * (dt / 16);
+
+                    var progress = p.life / p.maxLife;
+                    if (progress >= 1) {
+                        p.el.remove();
+                        particles.splice(i, 1);
+                        continue;
+                    }
+
+                    var scale = 1 - progress * 0.6;
+                    p.el.style.transform = 'translate(' + p.x + 'px,' + p.y + 'px) scale(' + scale + ')';
+                    p.el.style.opacity = 1 - progress;
+                }
+
+                requestAnimationFrame(tick);
+            }
+            requestAnimationFrame(tick);
+
+            document.addEventListener('click', function (e) {
+                if (e.target.closest('a, button, input, textarea, select, .btn-blank, .password-toggle, .custom-checkbox')) return;
+                spawnBurst(e.clientX, e.clientY);
+            });
+
+            // এখনো বেঁচে থাকা ডটগুলো মাউস কাছে গেলে সরে যাবে (repulse)
+            document.addEventListener('mousemove', function (e) {
+                var mx = e.clientX, my = e.clientY;
+                particles.forEach(function (p) {
+                    var dx = p.x - mx, dy = p.y - my;
+                    var dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 80 && dist > 0) {
+                        var force = (80 - dist) / 80;
+                        p.vx += (dx / dist) * force * 0.8;
+                        p.vy += (dy / dist) * force * 0.8;
+                    }
+                });
+            });
+        })();
+
+        /* ইন্টারেক্টিভ মাউস মুভমেন্ট - নিজে থেকে কিছু অ্যানিমেট হবে না, শুধু মাউস
+           নড়লে (১) ব্যাকগ্রাউন্ড শেপ প্যারালাক্স এ উল্টো দিকে সরবে (depth অনুভূতি)
+           এবং (২) বাটন কাছে আসলে ম্যাগনেটিক পুল ইফেক্ট দেখাবে */
+        (function () {
+            var parallaxShapes = document.querySelectorAll('.parallax-shape');
+            var magneticEls = document.querySelectorAll('.btn-blank');
+            var magnetRadius = 70;
+            var magnetStrength = 0.35;
+
+            var rafId = null;
+            var lastEvent = null;
+
+            function onMouseMove(e) {
+                lastEvent = e;
+                if (rafId) return;
+                rafId = requestAnimationFrame(update);
+            }
+
+            function update() {
+                rafId = null;
+                var e = lastEvent;
+                if (!e) return;
+
+                // প্যারালাক্স: কেন্দ্র থেকে মাউসের দূরত্ব অনুযায়ী শেপগুলো উল্টো দিকে সরবে
+                var cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+                var dx = (e.clientX - cx) / cx;
+                var dy = (e.clientY - cy) / cy;
+                parallaxShapes.forEach(function (shape, i) {
+                    var depth = (i + 1) * 10;
+                    shape.style.transform = 'translate(' + (-dx * depth) + 'px, ' + (-dy * depth) + 'px)';
+                });
+
+                // ম্যাগনেটিক বাটন: কার্সার কাছাকাছি এলে বাটন হালকা সেদিকে টানবে
+                magneticEls.forEach(function (el) {
+                    var rect = el.getBoundingClientRect();
+                    var ex = rect.left + rect.width / 2;
+                    var ey = rect.top + rect.height / 2;
+                    var ddx = e.clientX - ex;
+                    var ddy = e.clientY - ey;
+                    var dist = Math.sqrt(ddx * ddx + ddy * ddy);
+
+                    if (dist < magnetRadius + rect.width / 2) {
+                        // ইনলাইন style CSS :hover এর lift কে ওভাররাইড করে দেয়, তাই সেই
+                        // অনুভূতিটা ধরে রাখতে scale যোগ করা হচ্ছে ম্যাগনেটিক ট্রান্সফর্মেই
+                        el.style.transform = 'translate(' + (ddx * magnetStrength) + 'px, ' + (ddy * magnetStrength) + 'px) scale(1.03)';
+                    } else {
+                        el.style.transform = '';
+                    }
+                });
+            }
+
+            document.addEventListener('mousemove', onMouseMove);
+        })();
     </script>
     @stack('js')
     @include('me::components.lmAlert')

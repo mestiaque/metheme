@@ -1,11 +1,56 @@
 @push('js')
 <script>
     $(document).ready(function () {
+        let timerInterval;
+
         /* ============================================================
-        1. TAB ক্লিক বাইন্ডিং (UI লজিক auth/shared.blade.php এ শেয়ার করা)
+        1. CENTER SWAPPING TAB LOGIC
         ============================================================ */
+        function applyCenterTabUI(targetId) {
+            const tabsContainer = $('.auth-tabs');
+            const wrapper = $('.tab-wrapper');
+            const targetLabel = $(`.auth-tab[data-target="${targetId}"]`);
+            const indicator = $('.tab-indicator');
+
+            if (!targetLabel.length) return;
+
+            // ১. একটিভ ক্লাস সেট করা
+            $('.auth-tab').removeClass('active');
+            targetLabel.addClass('active');
+
+            // ২. নিখুঁত সেন্টারিং ক্যালকুলেশন
+            const containerCenter = tabsContainer.width() / 2;
+            const labelOffsetLeft = targetLabel.position().left;
+            const labelHalfWidth = targetLabel.outerWidth() / 2;
+            const labelCenterInWrapper = labelOffsetLeft + labelHalfWidth;
+
+            // wrapper কে সরিয়ে লেবেলকে মাঝখানে আনা
+            const adjustment = 10;
+            const translateX = (containerCenter - labelCenterInWrapper);
+            wrapper.css('transform', `translateX(${translateX}px)`);
+
+            // ৩. ইন্ডিকেটর পজিশন (ইন্ডিকেটর সবসময় মাঝখানে থাকবে, শুধু লেবেলের সমান চওড়া হবে)
+            indicator.css({
+                'width': targetLabel.outerWidth() + 'px',
+                'left': (containerCenter - labelHalfWidth) + 'px'
+            });
+
+            // ৪. ইনপুট ফিল্ড শো/হাইড এবং লোকাল স্টোরেজ আপডেট
+            if (targetId === 'emailInput') {
+                $('#emailInput').removeClass('d-none');
+                $('#phoneInput').addClass('d-none');
+                localStorage.setItem('reg_type', 'email');
+            } else {
+                $('#phoneInput').removeClass('d-none');
+                $('#emailInput').addClass('d-none');
+                localStorage.setItem('reg_type', 'phone');
+            }
+        }
+
+        // লেবেলে ক্লিক ইভেন্ট
         $('.auth-tab').on('click', function () {
-            applyCenterTabUI($(this).data('target'), 'reg_type');
+            const target = $(this).data('target');
+            applyCenterTabUI(target);
         });
 
         /* ============================================================
@@ -16,8 +61,8 @@
             const savedType = localStorage.getItem('reg_type') || 'email';
             const targetId = (savedType === 'email') ? 'emailInput' : 'phoneInput';
 
-            // ব্রাউজারকে পজিশন ক্যালকুলেট করার সময় দেওয়ার জন্য সামান্য ডিলে
-            setTimeout(() => applyCenterTabUI(targetId, 'reg_type'), 250);
+            // ব্রাউজারকে পজিশন ক্যালকুলেট করার সময় দেওয়ার জন্য সামান্য ডিলে
+            setTimeout(() => applyCenterTabUI(targetId), 250);
 
             // ২. ইনপুট ডাটা রিস্টোর
             if (localStorage.getItem('reg_name')) $('#name').val(localStorage.getItem('reg_name'));
@@ -30,7 +75,7 @@
         }
 
         // ইনপুট টাইপ করার সাথে সাথে লোকাল স্টোরেজে সেভ
-        $('#name, #email, #phone, #password').on('input', function () {
+        $('input').on('input', function () {
             const id = $(this).attr('id');
             const val = $(this).val();
             if (id) localStorage.setItem('reg_' + id, val);
@@ -67,10 +112,7 @@
                     const expiryTime = new Date().getTime() + 120000; // 2 min
                     localStorage.setItem('otp_expiry', expiryTime);
                     showOtpSection();
-                    startAuthCountdown(expiryTime, function () {
-                        localStorage.removeItem('otp_expiry');
-                        resetToResendView();
-                    });
+                    startTimer(expiryTime);
                 },
                 error: function (xhr) {
                     btn.prop('disabled', false).text('SEND OTP');
@@ -106,16 +148,29 @@
         });
 
         /* ============================================================
-        5. HELPERS (Timer restore, section toggling)
+        5. HELPERS (Timer, Toggle, UI)
         ============================================================ */
+        function startTimer(expiryTime) {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(function () {
+                const distance = expiryTime - Date.now();
+                if (distance <= 0) {
+                    clearInterval(timerInterval);
+                    localStorage.removeItem('otp_expiry');
+                    resetToResendView();
+                    return;
+                }
+                const m = Math.floor(distance / 60000);
+                const s = Math.floor((distance % 60000) / 1000);
+                $('#countdown').text(`${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`);
+            }, 1000);
+        }
+
         function checkActiveTimer() {
             const expiry = localStorage.getItem('otp_expiry');
             if (expiry && expiry - Date.now() > 0) {
                 showOtpSection();
-                startAuthCountdown(parseInt(expiry), function () {
-                    localStorage.removeItem('otp_expiry');
-                    resetToResendView();
-                });
+                startTimer(parseInt(expiry));
             }
         }
 
@@ -132,13 +187,21 @@
             $('#sendOtpBtn').prop('disabled', false).text('RESEND OTP');
         }
 
-        // ইনিশিয়ালাইজেশন
+        $('#togglePassword').on('click', function () {
+            const input = $('#password');
+            const icon = $(this).find('i');
+            const isPass = input.attr('type') === 'password';
+            input.attr('type', isPass ? 'text' : 'password');
+            icon.toggleClass('fa-eye fa-eye-slash');
+        });
+
+        // ইনিশিয়ালাইজেশন
         restoreState();
 
         // উইন্ডো রিসাইজ করলে পজিশন ঠিক করা
         $(window).on('resize', function() {
             const currentType = localStorage.getItem('reg_type') || 'email';
-            applyCenterTabUI(currentType === 'email' ? 'emailInput' : 'phoneInput', 'reg_type');
+            applyCenterTabUI(currentType === 'email' ? 'emailInput' : 'phoneInput');
         });
     });
 </script>
