@@ -168,7 +168,15 @@
             background: #eff7fa;
             padding: 10px 20px;
             width: 100%;
-            opacity: 0.9;
+            opacity: 0.6;
+            backdrop-filter: blur(15px) saturate(160%);
+            -webkit-backdrop-filter: blur(15px) saturate(160%);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+            z-index: 1034;
+            grid-area: lte-app-header;
+            max-width: 100vw;
+            border-bottom: 1px solid var(--bs-border-color);
+            transition: .3s ease-in-out;
         }
 
         .btn-blank {

@@ -53,8 +53,8 @@
 
     .login-avatar {
         position: relative;
-        width: 80px;
-        height: 80px;
+        width: 100px;
+        height: 100px;
         /* background-color: white; */
         border-radius: 50%;
         display: flex;
@@ -64,8 +64,8 @@
         /* box-shadow: inset 6px 6px 8px rgba(0, 0, 0, 0.15),
                     inset -6px -6px 8px rgba(255, 255, 255, 0.9),
                     5px 5px 15px rgba(0, 0, 0, 0.2); */
-        border: 2px solid #0f9bd6;
-        background: rgba(15, 155, 214, 0.1);
+        border: 2px solid #cbefff77;
+        background: rgba(15, 154, 214, 0);
         backdrop-filter: blur(15px) saturate(160%);
         -webkit-backdrop-filter: blur(15px) saturate(160%);
     }
