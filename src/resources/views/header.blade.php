@@ -56,7 +56,7 @@
       <!--end::search Dropdown Menu-->
       <li class="nav-item search-box">
           <div class="search-wrapper" id="navSearchWrapper">
-              <button type="button" class="nav-link search-icon-btn" id="navSearchToggle" aria-label="Search" aria-expanded="false">
+              <button type="button" class="nav-linkx search-icon-btn" id="navSearchToggle" aria-label="Search" aria-expanded="false">
                   <i class="bi bi-search"></i>
               </button>
               <input type="text" class="search-input" id="navSearchInput" placeholder="Search..." aria-label="Search">
@@ -334,6 +334,10 @@ margin: 5px 0;
 
 .app-header .dev-svg{
   max-height: 2.5rem;
+}
+
+.search-box{
+  margin-right: 10px;
 }
 
 /* এক্সপ্যান্ডেবল সার্চ বক্স */
@@ -668,9 +672,11 @@ margin: 5px 0;
         var isActive = wrapper.classList.toggle('active');
         toggleBtn.setAttribute('aria-expanded', isActive ? 'true' : 'false');
         if (isActive) {
-            // মোবাইলে ক্লাস যোগ করার সাথে সাথেই focus() কল করলে অনেক সময় কিবোর্ড
-            // ওঠে না (ট্রানজিশন/রিফ্লো শেষ হওয়ার আগেই ফোকাস করার চেষ্টা করা হয়) -
-            // এক ফ্রেম পর ফোকাস করা হচ্ছে যাতে এক্সপ্যান্ড অ্যানিমেশন প্রয়োগ হয়ে যায়
+            // iOS Safari-এর মতো ব্রাউজার শুধু তখনই কিবোর্ড তোলে যখন focus() ক্লিক
+            // হ্যান্ডলারের ভেতরেই সিঙ্ক্রোনাসলি কল হয় - rAF/setTimeout দিয়ে দেরি
+            // করলে সেটা আর "ইউজার জেসচার" হিসেবে গণ্য হয় না, তাই আগে সিঙ্ক্রোনাস
+            // কল, তারপর ট্রানজিশন-টাইমিং সেফটির জন্য এক ফ্রেম পর আবার ফোকাস
+            input.focus();
             requestAnimationFrame(function () {
                 input.focus();
             });
