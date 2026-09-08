@@ -9,5 +9,5 @@
     <p class="error-message animate__animated animate__fadeInUp mb-4">
         Sorry, you don't have permission to access this page.
     </p>
-    <a href="{{ url('/') }}" class="btn btn-blank mt-4">Go to Homepage</a>
+    <a href="{{ url()->previous() }}" class="btn btn-blank mt-4">Go Back</a>
 @endsection

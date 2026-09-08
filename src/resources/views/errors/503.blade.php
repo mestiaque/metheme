@@ -9,5 +9,5 @@
     <p class="error-message animate__animated animate__fadeInUp mb-4">
         We'll be back soon! The server is under maintenance.
     </p>
-    <a href="{{ url('/') }}" class="btn btn-blank mt-4">Try Again</a>
+    <button type="button" onclick="window.location.reload()" class="btn btn-blank mt-4">Try Again</button>
 @endsection

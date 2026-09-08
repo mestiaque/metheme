@@ -9,5 +9,5 @@
     <p class="error-message animate__animated animate__fadeInUp mb-4">
         Too many requests. Please slow down and wait a moment.
     </p>
-    <a href="{{ url('/') }}" class="btn btn-blank mt-4">Go to Homepage</a>
+    <button type="button" onclick="window.location.reload()" class="btn btn-blank mt-4">Try Again</button>
 @endsection

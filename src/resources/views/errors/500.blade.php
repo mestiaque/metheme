@@ -9,5 +9,5 @@
     <p class="error-message animate__animated animate__fadeInUp mb-4">
         Something went wrong on our end. We are fixing it!
     </p>
-    <a href="{{ url('/') }}" class="btn btn-blank mt-4">Go to Homepage</a>
+    <button type="button" onclick="window.location.reload()" class="btn btn-blank mt-4">Try Again</button>
 @endsection
