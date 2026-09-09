@@ -1,170 +1,54 @@
 # MeTheme
 
-A Laravel package that supports two domains in a single package - one for frontend and one for backend.
-
-## Overview
-
-This package allows you to use two separate domains (e.g., `xyz.com` for frontend and `admin.xyz.com` for backend) within a single Laravel application.
+A Laravel admin package by [M. Estiaque](https://mestiaque.com) — ships an authentication flow (login, registration, forgot-password with OTP), role/permission-based sidebar navigation, activity logging, a searchable admin header, settings management, and a glassmorphism-styled UI theme, ready to drop into a standard Laravel application.
 
 ## Requirements
 
-- Laravel 8.x or higher
-- PHP 7.4 or higher
+- PHP ^8.2
+- Laravel ^12.0
+- The `zip` PHP extension
 
 ## Installation
 
-### 1. Add Repository to composer.json
-
-```json
-"repositories": {
-    "metheme": {
-        "type": "vcs",
-        "url": "https://github.com/mestiaque/metheme.git"
-    }
-}
+```bash
+composer require mestiaque/metheme
 ```
 
-### 2. Install the Package
+The service provider (`ME\MEServiceProvider`) is auto-discovered by Laravel — no manual registration needed. On install it automatically:
+
+- Registers the package's routes (`web`, `api`, `auth`, `file`)
+- Loads its migrations
+- Loads its views under the `me::` namespace
+- Loads its translations
+- Registers the `authorization`, `activityLog` / `activity.logger` middleware aliases
+- Merges its default config (`sidebar`, `permissions`, `auth`, `me_settings`) so the package works even before you publish anything
+
+## Publishing assets
+
+Publish whichever pieces you need to customize:
 
 ```bash
-composer require mestisque/metheme:dev-master
+# Public assets (JS/CSS/images used by the theme)
+php artisan vendor:publish --tag=metheme-assets
+
+# Auth config overrides
+php artisan vendor:publish --tag=metheme-auth-config
+
+# Error pages (403/404/419/429/500/503) so you can customize them
+php artisan vendor:publish --tag=metheme-errors
 ```
 
-### 3. Publish Package Assets
+Add `--force` to re-publish and overwrite existing files.
+
+## Post-install steps
 
 ```bash
-php artisan vendor:publish --provider="Packages\Frontend\FrontendServiceProvider"
-php artisan vendor:publish --provider="Packages\Backend\BackendServiceProvider"
+php artisan migrate
+php artisan storage:link
 ```
 
-### 4. Create Storage Link
-
-```bash
-php artisan storage:link --force
-```
-
-### 5. Configuration
-
-#### Local Environment (.env)
-
-```env
-APP_URL=http://xyz.test
-BACKEND_URL=http://admin.xyz.test
-```
-
-#### Production Environment (.env)
-
-```env
-APP_URL=https://estiaque.com
-BACKEND_URL=https://admin.estiaque.com
-```
-
-## Service Providers
-
-### FrontendServiceProvider
-
-```php
-<?php
-
-namespace Packages\Frontend;
-
-use Illuminate\Support\ServiceProvider;
-
-class FrontendServiceProvider extends ServiceProvider
-{
-    public function boot()
-    {
-        if (request()->getHost() == parse_url(config('app.url'), PHP_URL_HOST)) {
-            $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
-            $this->loadViewsFrom(__DIR__.'/../views', 'frontend');
-        }
-    }
-}
-```
-
-### BackendServiceProvider
-
-```php
-<?php
-
-namespace Packages\Backend;
-
-use Illuminate\Support\ServiceProvider;
-
-class BackendServiceProvider extends ServiceProvider
-{
-    public function boot()
-    {
-        if (request()->getHost() == parse_url(config('backend.url'), PHP_URL_HOST)) {
-            $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
-            $this->loadViewsFrom(__DIR__.'/../views', 'backend');
-        }
-    }
-}
-```
-
-## Mail Configuration (.env)
-
-```env
-MAIL_MAILER=smtp
-MAIL_HOST=mail.xyz.com
-MAIL_PORT=465
-MAIL_USERNAME=info@xyz.com
-MAIL_PASSWORD=your_password
-MAIL_ENCRYPTION=ssl
-MAIL_FROM_ADDRESS="info@xyz.com"
-MAIL_FROM_NAME="${APP_NAME}"
-```
-
-## Meta Configuration (.env)
-
-```env
-ME_META_TITLE="M. ESTIAQUE AHMED KHAN"
-ME_META_AUTHOR="Estiaque"
-ME_META_DESCRIPTION="Software Engineer from Dhaka, Bangladesh"
-ME_META_KEYWORDS="laravel, php, developer"
-```
-
-## .env
-```env
-QUEUE_CONNECTION=database
-```
-
-## SMS Configuration (.env)
-```env
-SMS_API_URL=https://bulksmsbd.net/api/smsapi
-SMS_API_KEY=xxxxxxxxxxxxxxxxx
-SMS_SENDER_ID=000000000000000000
-```
-
-## Telegram Bot Configuration (.env)
-```env
-TELEGRAM_BOT_TOKEN=8000111001:AAHdasfasfefewf3qf3qeewfwfa14
-TELEGRAM_CHAT_ID=00000000000000000
-TELEGRAM_WEBHOOK_SECRET=sssssssssssssssss
-```
-## Usage
-
-After installation, the package will automatically:
-- Load frontend routes when访问 the main APP_URL domain
-- Load backend routes when访问 the BACKEND_URL domain
-- Provide separate view namespaces for frontend and backend
+Your app's base `App\Http\Controllers\Controller` class is expected to exist (the default in any standard Laravel install) — several of the package's controllers extend it.
 
 ## License
 
-MIT License
-
-
-## Cron Job
-```
-/usr/local/bin/php /home/xyz/public_html/artisan queue:work --stop-when-empty --sleep=3 --tries=3 --timeout=90 >> /home/xyz/public_html/storage/logs/worker.log 2>&1
-```
-
-## Telegram Webhook 
-```
-POST : https://xyz.com/telegram/webhook/{secrect_key} //set secrect key
-
-POST: https://api.telegram.org/bot{api_token}/setWebhook?url=https://xyz.com/telegram/webhook/{secrect_key} // set api
- 
-GET : https://api.telegram.org/bot{api_token}/getWebhookInfo // get info
-```
+MIT
