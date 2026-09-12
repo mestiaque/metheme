@@ -14,6 +14,7 @@ return [
                 'for_active' => 'me.dashboard',
                 'icon_color' => 'text-encodex-secondary',
                 'permit'     => 'me.dashboard',
+                'meta'       => 'Encodex Estiaque Ahmed Khan',
             ],
             [
                 'icon'       => 'fas fa-users',

@@ -29,7 +29,13 @@ class MenuSearchController extends Controller
 
         $matches = [];
         foreach ($items as $item) {
-            if (stripos($item['title'], $term) === false) {
+            $title = $item['title'] ?? '';
+            $meta = $item['meta'] ?? '';
+
+            $titleMatch = stripos((string) $title, $term) !== false;
+            $metaMatch  = stripos((string) $meta, $term) !== false;
+
+            if (! $titleMatch && ! $metaMatch) {
                 continue;
             }
 
@@ -55,13 +61,6 @@ class MenuSearchController extends Controller
         return response()->json($matches);
     }
 
-    /**
-     * Walks every group's items (recursing through 'children' to any
-     * depth) and returns only the navigable leaves — nodes with a 'route'
-     * and no 'children' of their own, since parent/group nodes are purely
-     * expandable containers in this sidebar (see sidebar.blade.php's
-     * renderMenu(), which only ever checks 'permit' on leaves).
-     */
     private function flatten(array $groups): array
     {
         $items = [];
@@ -86,6 +85,7 @@ class MenuSearchController extends Controller
                         'icon'       => $node['icon'] ?? 'fa-solid fa-circle',
                         'breadcrumb' => implode(' / ', $trail),
                         'permit'     => $node['permit'] ?? '',
+                        'meta'       => $node['meta'] ?? '',
                     ];
                 }
             }
