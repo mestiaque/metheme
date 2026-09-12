@@ -5,7 +5,7 @@ A Laravel admin package by [M. Estiaque](https://mestiaque.com) — ships an aut
 ## Requirements
 
 - PHP ^8.2
-- Laravel ^12.0
+- Laravel ^12.0 or ^13.0
 - The `zip` PHP extension
 
 ## Installation
