@@ -30,7 +30,8 @@ td, th {
 
 .table-encodex { margin: 0 !important; }
 .table-encodex thead th {
-    background: #0f2d4a !important;
+    /* background: #0f2d4a !important; */
+    background: #0c85b7 !important;
     color: white !important;
     border: none;
 }
