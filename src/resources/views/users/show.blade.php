@@ -1,11 +1,13 @@
+
+@php $prefix = request()->segment(1); @endphp
 @extends('me::master')
 
-@section('title', trans('User Details'))
+@section('title', trans('me::me.User Details'))
 
 @push('buttons')
   @component('me::components.btn.add-button', [
-      'route' => route('me.users.index'),
-      'text' => __('All Users'),
+      'route' => route("{$prefix}.users.index"),
+      'text' => __('me::me.All Users'),
       'class' => 'btn-encodex-list'
   ])
   @endcomponent
@@ -17,7 +19,7 @@
         <div class="col-md-4">
             <div class="card shadow mb-4">
                 <div class="card-header py-2 bg-encodex">
-                    <h6 class="m-0 font-weight-bold text-white">@lang('User Information')</h6>
+                    <h6 class="m-0 font-weight-bold text-white">@lang('me::me.User Information')</h6>
                 </div>
                 <div class="card-body">
                     <div class="text-center mb-4">
@@ -35,9 +37,9 @@
                         <p class="text-muted">{{ $user->email }}</p>
                         <div class="mt-2">
                             @if($user->is_active)
-                                <span class="badge bg-success badge-pill">@lang('Active')</span>
+                                <span class="badge bg-success badge-pill">@lang('me::me.Active')</span>
                             @else
-                                <span class="badge bg-danger badge-pill">@lang('Inactive')</span>
+                                <span class="badge bg-danger badge-pill">@lang('me::me.Inactive')</span>
                             @endif
                         </div>
                     </div>
@@ -45,11 +47,11 @@
                     <hr>
 
                     <dl>
-                        <dt>@lang('Created At')</dt>
-                        <dd>{{ optional($user->created_at)->format('d M Y H:i:s') ?? __('N/A') }}</dd>
+                        <dt>@lang('me::me.Created At')</dt>
+                        <dd>{{ optional($user->created_at)->format('d M Y H:i:s') ?? __('me::me.N/A') }}</dd>
 
-                        <dt>@lang('Last Modified')</dt>
-                        <dd>{{ optional($user->updated_at)->format('d M Y H:i:s') ?? __('N/A') }}</dd>
+                        <dt>@lang('me::me.Last Modified')</dt>
+                        <dd>{{ optional($user->updated_at)->format('d M Y H:i:s') ?? __('me::me.N/A') }}</dd>
                     </dl>
                 </div>
             </div>
@@ -58,12 +60,12 @@
         <div class="col-md-8">
             <div class="card shadow mb-4">
                 <div class="card-header py-2 bg-encodex">
-                    <h6 class="m-0 font-weight-bold text-white">@lang('Roles and Permissions')</h6>
+                    <h6 class="m-0 font-weight-bold text-white">@lang('me::me.Roles and Permissions')</h6>
                 </div>
                 <div class="card-body">
                     @if($user->roles->isEmpty())
                         <div class="alert alert-warning">
-                            @lang('This user has no assigned roles.')
+                            @lang('me::me.This user has no assigned roles.')
                         </div>
                     @else
                         <div class="row">
@@ -74,7 +76,7 @@
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col mr-2">
                                                     <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                                        @lang('Role')
+                                                        @lang('me::me.Role')
                                                     </div>
                                                     <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $role->name }}</div>
                                                     <small class="text-muted">{{ $role->description }}</small>
@@ -87,7 +89,7 @@
                                                     @if(!empty($permissions))
                                                         <hr>
                                                         <div class="mt-2">
-                                                            <strong>@lang('Permissions'):</strong>
+                                                            <strong>@lang('me::me.Permissions'):</strong>
                                                             <div class="mt-2">
                                                                 @foreach($permissions as $permission)
                                                                     @php

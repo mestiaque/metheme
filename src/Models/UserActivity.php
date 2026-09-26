@@ -50,12 +50,12 @@ class UserActivity extends Model
     public function getActivityTypeLabel(): string
     {
         return match ($this->activity_type) {
-            'login' => __('Login'),
-            'logout' => __('Logout'),
-            'registration' => __('Registration'),
-            'forgot_password' => __('Password Reset Request'),
-            'password_reset' => __('Password Reset'),
-            'profile_update' => __('Profile Update'),
+            'login' => __('me::me.Login'),
+            'logout' => __('me::me.Logout'),
+            'registration' => __('me::me.Registration'),
+            'forgot_password' => __('me::me.Password Reset Request'),
+            'password_reset' => __('me::me.Password Reset'),
+            'profile_update' => __('me::me.Profile Update'),
             default => ucfirst(str_replace('_', ' ', $this->activity_type)),
         };
     }

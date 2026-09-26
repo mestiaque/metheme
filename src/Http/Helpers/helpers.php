@@ -16,6 +16,32 @@ if (!function_exists('get_setting')) {
     }
 }
 
+if (!function_exists('menu_trans')) {
+    /**
+     * Translate a sidebar/menu title. Menu titles are plain English ("Sales Report"),
+     * but the translations live in the packages' own lang files, which follow the
+     * "<namespace>::<namespace>.<text>" convention (me::me, kazitds::kazitds, ...).
+     * The first package that translates the text for the current locale wins;
+     * otherwise the app's own translation (or the text itself) is used.
+     */
+    function menu_trans(?string $text): string
+    {
+        if ($text === null || $text === '') {
+            return '';
+        }
+
+        $translator = app('translator');
+        foreach (array_keys($translator->getLoader()->namespaces()) as $namespace) {
+            $key = "{$namespace}::{$namespace}.{$text}";
+            if ($translator->hasForLocale($key)) {
+                return $translator->get($key);
+            }
+        }
+
+        return __($text);
+    }
+}
+
 if (!function_exists('get_image')) {
     /**
      * Get the full URL of a stored image by key

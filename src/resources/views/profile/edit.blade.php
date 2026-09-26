@@ -1,6 +1,6 @@
 @extends('me::.master')
 
-@section('title', __('Profile'))
+@section('title', __('me::me.Profile'))
 
 @section('content')
 <div class="container-fluids">
@@ -8,7 +8,7 @@
         <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-4">
             <div class="card shadow h-100">
                 <div class="card-header bg-encodex text-white p-2">
-                    <h6 class="mb-0">@lang('Update Profile Information')</h6>
+                    <h6 class="mb-0">@lang('me::me.Update Profile Information')</h6>
                 </div>
                 <div class="card-body">
                     @include('me::profile.partials.update-profile-information-form')
@@ -19,7 +19,7 @@
         <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-4">
             <div class="card shadow h-100">
                 <div class="card-header bg-encodex-light text-white p-2">
-                    <h6 class="mb-0">@lang('Update Password')</h6>
+                    <h6 class="mb-0">@lang('me::me.Update Password')</h6>
                 </div>
                 <div class="card-body">
                     @include('me::profile.partials.update-password-form')

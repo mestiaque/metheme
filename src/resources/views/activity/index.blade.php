@@ -5,7 +5,7 @@
 
 @push('buttons')
     <a href="{{ route('me.activity.export', request()->query()) }}" class="btn btn-encodex-print btn-sm">
-        <i class="fas fa-download"></i> {{ __('Export CSV') }}
+        <i class="fas fa-download"></i> {{ __('me::me.Export CSV') }}
     </a>
 @endpush
 
@@ -15,15 +15,15 @@
             <form method="GET" action="{{ route('me.activity.index') }}" class="mb-4 glass-search-form">
                 <div class="row g-3 p-2">
                     <div class="col-md-2 mt-2">
-                        <label for="search" class="form-label mb-0">{{ __('Search User') }}</label>
+                        <label for="search" class="form-label mb-0">{{ __('me::me.Search User') }}</label>
                         <input type="text" class="form-control form-control-sm" id="search" name="search"
-                               placeholder="{{ __('Name, Email, Phone') }}" value="{{ request('search') }}">
+                               placeholder="{{ __('me::me.Name, Email, Phone') }}" value="{{ request('search') }}">
                     </div>
 
                     <div class="col-md-2 mt-2">
-                        <label for="activity_type" class="form-label mb-0">{{ __('Activity Type') }}</label>
-                        <select class="form-control form-control-sm" id="activity_type" name="activity_type" data-control="select2" data-placeholder="{{ __('Select Activity Type') }}">
-                            <option value="">{{ __('All Activities') }}</option>
+                        <label for="activity_type" class="form-label mb-0">{{ __('me::me.Activity Type') }}</label>
+                        <select class="form-control form-control-sm" id="activity_type" name="activity_type" data-control="select2" data-placeholder="{{ __('me::me.Select Activity Type') }}">
+                            <option value="">{{ __('me::me.All Activities') }}</option>
                             @foreach($activityTypes as $key => $label)
                                 <option value="{{ $key }}" {{ request('activity_type') === $key ? 'selected' : '' }}>
                                     {{ $label }}
@@ -33,9 +33,9 @@
                     </div>
 
                     <div class="col-md-2 mt-2">
-                        <label for="status" class="form-label mb-0">{{ __('Status') }}</label>
+                        <label for="status" class="form-label mb-0">{{ __('me::me.Status') }}</label>
                         <select class="form-control form-control-sm" id="status" name="status">
-                            <option value="">{{ __('All Status') }}</option>
+                            <option value="">{{ __('me::me.All Status') }}</option>
                             @foreach($statuses as $key => $label)
                                 <option value="{{ $key }}" {{ request('status') === $key ? 'selected' : '' }}>
                                     {{ $label }}
@@ -45,9 +45,9 @@
                     </div>
 
                     <div class="col-md-2 mt-2">
-                        <label for="device_type" class="form-label mb-0">{{ __('Device Type') }}</label>
+                        <label for="device_type" class="form-label mb-0">{{ __('me::me.Device Type') }}</label>
                         <select class="form-control form-control-sm" id="device_type" name="device_type">
-                            <option value="">{{ __('All Devices') }}</option>
+                            <option value="">{{ __('me::me.All Devices') }}</option>
                             @foreach($deviceTypes as $key => $label)
                                 <option value="{{ $key }}" {{ request('device_type') === $key ? 'selected' : '' }}>
                                     {{ $label }}
@@ -57,35 +57,35 @@
                     </div>
 
                     <div class="col-md-2 mt-2">
-                        <label for="date_from" class="form-label mb-0">{{ __('Date From') }}</label>
+                        <label for="date_from" class="form-label mb-0">{{ __('me::me.Date From') }}</label>
                         <input type="date" class="form-control form-control-sm" id="date_from" name="date_from"
                                value="{{ request('date_from') }}">
                     </div>
 
                     <div class="col-md-2 mt-2">
-                        <label for="date_to" class="form-label mb-0">{{ __('Date To') }}</label>
+                        <label for="date_to" class="form-label mb-0">{{ __('me::me.Date To') }}</label>
                         <input type="date" class="form-control form-control-sm" id="date_to" name="date_to"
                                value="{{ request('date_to') }}">
                     </div>
 
                     <div class="col-md-2 mt-2">
-                        <label for="ip_address" class="form-label mb-0">{{ __('IP Address') }}</label>
+                        <label for="ip_address" class="form-label mb-0">{{ __('me::me.IP Address') }}</label>
                         <input type="text" class="form-control form-control-sm" id="ip_address" name="ip_address"
-                               placeholder="{{ __('e.g., 192.168') }}" value="{{ request('ip_address') }}">
+                               placeholder="{{ __('me::me.e.g., 192.168') }}" value="{{ request('ip_address') }}">
                     </div>
 
                     <div class="col-md-2 mt-2">
-                        <label for="browser_name" class="form-label mb-0">{{ __('Browser') }}</label>
+                        <label for="browser_name" class="form-label mb-0">{{ __('me::me.Browser') }}</label>
                         <input type="text" class="form-control form-control-sm" id="browser_name" name="browser_name"
-                               placeholder="{{ __('Chrome, Firefox, Safari') }}" value="{{ request('browser_name') }}">
+                               placeholder="{{ __('me::me.Chrome, Firefox, Safari') }}" value="{{ request('browser_name') }}">
                     </div>
 
                     <div class="col-md-4 d-flex align-items-end">
                         <button type="submit" class="btn btn-encodex-search btn-sm me-2">
-                            <i class="fas fa-search"></i> {{ __('Search') }}
+                            <i class="fas fa-search"></i> {{ __('me::me.Search') }}
                         </button>
                         <a href="{{ route('me.activity.index') }}" class="btn btn-encodex-clear btn-sm">
-                             <i class="fas fa-redo"></i> {{ __('Reset') }}
+                             <i class="fas fa-redo"></i> {{ __('me::me.Reset') }}
                         </a>
                     </div>
                 </div>
@@ -95,14 +95,14 @@
                     <thead class="table-light">
                         <tr>
                             <th style="width: 5%">#</th>
-                            <th style="width: 15%">{{ __('User') }}</th>
-                            <th style="width: 12%">{{ __('Activity') }}</th>
-                            <th style="width: 10%">{{ __('Device') }}</th>
-                            <th style="width: 15%">{{ __('Browser') }}</th>
-                            <th style="width: 12%">{{ __('IP Address') }}</th>
-                            <th style="width: 8%">{{ __('Status') }}</th>
-                            <th style="width: 15%">{{ __('Date/Time') }}</th>
-                            <th style="width: 8%">{{ __('Action') }}</th>
+                            <th style="width: 15%">{{ __('me::me.User') }}</th>
+                            <th style="width: 12%">{{ __('me::me.Activity') }}</th>
+                            <th style="width: 10%">{{ __('me::me.Device') }}</th>
+                            <th style="width: 15%">{{ __('me::me.Browser') }}</th>
+                            <th style="width: 12%">{{ __('me::me.IP Address') }}</th>
+                            <th style="width: 8%">{{ __('me::me.Status') }}</th>
+                            <th style="width: 15%">{{ __('me::me.Date/Time') }}</th>
+                            <th style="width: 8%">{{ __('me::me.Action') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -186,11 +186,11 @@
                                 </td>
                                 <td>
                                     @if($activity->status === 'success')
-                                        <span class="badge badge-encodex bg-success text-white">{{ __('Success') }}</span>
+                                        <span class="badge badge-encodex bg-success text-white">{{ __('me::me.Success') }}</span>
                                     @elseif($activity->status === 'failed')
-                                        <span class="badge badge-encodex bg-danger text-white">{{ __('Failed') }}</span>
+                                        <span class="badge badge-encodex bg-danger text-white">{{ __('me::me.Failed') }}</span>
                                     @else
-                                        <span class="badge badge-encodex bg-warning text-white">{{ __('Pending') }}</span>
+                                        <span class="badge badge-encodex bg-warning text-white">{{ __('me::me.Pending') }}</span>
                                     @endif
                                 </td>
                                 <td>
@@ -207,7 +207,7 @@
                                     <div class="d-flex" style="gap: 6px;">
                                         <button type="button" class="btn btn-sm btn-encodex-show"
                                                 data-bs-toggle="modal" data-bs-target="#detailModal{{ $activity->id }}"
-                                                title="{{ __('Show Details') }}">
+                                                title="{{ __('me::me.Show Details') }}">
                                             <i class="fas fa-eye"></i>
                                         </button>
 
@@ -220,11 +220,11 @@
 
                                         @if($isOwnLoginActivity)
                                             <form method="POST" action="{{ route('me.activity.logout-device', $activity->id) }}"
-                                                  onsubmit="return confirm('{{ __('Are you sure you want to logout this device?') }}');">
+                                                  onsubmit="return confirm('{{ __('me::me.Are you sure you want to logout this device?') }}');">
                                                 @csrf
                                                 <button type="submit"
                                                         class="btn btn-sm btn-encodex-delete"
-                                                        title="{{ __('Logout Device') }}">
+                                                        title="{{ __('me::me.Logout Device') }}">
                                                     <i class="fas fa-sign-out-alt"></i>
                                                 </button>
                                             </form>
@@ -240,7 +240,7 @@
                             <tr>
                                 <td colspan="9" class="text-center py-4">
                                     <i class="fas fa-inbox" style="font-size: 2rem; color: #ccc;"></i>
-                                    <p class="text-muted mt-3">{{ __('No activities found') }}</p>
+                                    <p class="text-muted mt-3">{{ __('me::me.No activities found') }}</p>
                                 </td>
                             </tr>
                         @endforelse
@@ -262,7 +262,7 @@
             <div class="modal-content border-0 shadow">
                 <div class="modal-header bg-light">
                     <h5 class="modal-title d-flex align-items-center">
-                        <i class="fas fa-info-circle me-2 text-primary"></i> {{ __('Activity Details') }}
+                        <i class="fas fa-info-circle me-2 text-primary"></i> {{ __('me::me.Activity Details') }}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
@@ -275,7 +275,7 @@
                                     <i class="fas fa-bolt w-20px"></i>
                                 </div>
                                 <div>
-                                    <small class="text-muted d-block">{{ __('Activity Type') }}</small>
+                                    <small class="text-muted d-block">{{ __('me::me.Activity Type') }}</small>
                                     <span class="badge badge-encodex bg-info text-white">
                                         {{ $activity->getActivityTypeLabel() }}
                                     </span>
@@ -287,7 +287,7 @@
                                     <i class="fas fa-user w-20px"></i>
                                 </div>
                                 <div>
-                                    <small class="text-muted d-block">{{ __('User') }}</small>
+                                    <small class="text-muted d-block">{{ __('me::me.User') }}</small>
                                     <strong>{{ $activity->user?->name ?? 'Guest' }}</strong>
                                     <div class="text-muted small">{{ $activity->user?->email ?? $activity->user?->phone ?? 'N/A' }}</div>
                                 </div>
@@ -298,7 +298,7 @@
                                     <i class="fas fa-network-wired w-20px"></i>
                                 </div>
                                 <div>
-                                    <small class="text-muted d-block">{{ __('Browser Information') }}</small>
+                                    <small class="text-muted d-block">{{ __('me::me.Browser Information') }}</small>
                                     @if($activity->browser_name)
                                         <span>
                                             @if($activity->browser_name == "Chrome")
@@ -324,7 +324,7 @@
                                     <i class="fas fa-network-wired w-20px"></i>
                                 </div>
                                 <div>
-                                    <small class="text-muted d-block">{{ __('IP Address') }}</small>
+                                    <small class="text-muted d-block">{{ __('me::me.IP Address') }}</small>
                                     <code class="text-primary fw-bold">{{ $activity->ip_address }}</code>
                                 </div>
                             </div>
@@ -337,7 +337,7 @@
                                     <i class="fas fa-check-circle w-20px"></i>
                                 </div>
                                 <div>
-                                    <small class="text-muted d-block">{{ __('Status') }}</small>
+                                    <small class="text-muted d-block">{{ __('me::me.Status') }}</small>
                                     <span class="badge badge-encodex bg-{{ $activity->getStatusColor() }} text-white">
                                         {{ ucfirst($activity->status) }}
                                     </span>
@@ -349,7 +349,7 @@
                                     <i class="fas fa-calendar-alt w-20px"></i>
                                 </div>
                                 <div>
-                                    <small class="text-muted d-block">{{ __('Date & Time') }}</small>
+                                    <small class="text-muted d-block">{{ __('me::me.Date & Time') }}</small>
                                     <strong>{{ formatDate($activity->activity_at) }}</strong>
                                     <div class="text-muted small">{{ $activity->activity_at->format('h:i:s A') }}</div>
                                 </div>
@@ -360,7 +360,7 @@
                                     <i class="fas fa-laptop w-20px"></i>
                                 </div>
                                 <div>
-                                    <small class="text-muted d-block">{{ __('Device Type') }}</small>
+                                    <small class="text-muted d-block">{{ __('me::me.Device Type') }}</small>
                                     <span>
                                             @if($activity->device_type === 'mobile')
                                                 @if($activity->device_name == "iPhone")
@@ -382,7 +382,7 @@
                                     <i class="fas fa-laptop w-20px"></i>
                                 </div>
                                 <div>
-                                    <small class="text-muted d-block">{{ __('Operating System') }}</small>
+                                    <small class="text-muted d-block">{{ __('me::me.Operating System') }}</small>
                                     <span>
                                         @if($activity->os_name == "Windows")
                                             <i class="fab fa-windows"></i>
@@ -405,20 +405,20 @@
                     </div>
 
                     <div class="mt-0" style="    padding-right: calc(var(--bs-gutter-x) * 0.5); padding-left: calc(var(--bs-gutter-x) * 0.5);">
-                        <h6 class="fw-bold"><i class="fas fa-fingerprint me-2 text-primary"></i>{{ __('User Agent') }}</h6>
+                        <h6 class="fw-bold"><i class="fas fa-fingerprint me-2 text-primary"></i>{{ __('me::me.User Agent') }}</h6>
                         <div class="p-2 bg-light text-dark rounded small" style="word-break: break-all; font-family: monospace;">
                             {{ $activity->user_agent }}
                         </div>
                     </div>
                     <div class="mt-3" style="padding-right: calc(var(--bs-gutter-x) * 0.5); padding-left: calc(var(--bs-gutter-x) * 0.5);">
-                        <h6 class="fw-bold"><i class="fas fa-link me-2 text-primary"></i>{{ __('URL') }}</h6>
+                        <h6 class="fw-bold"><i class="fas fa-link me-2 text-primary"></i>{{ __('me::me.URL') }}</h6>
                         <div class="p-2 bg-light text-dark rounded small" style="word-break: break-all; font-family: monospace;">
                             {{ $activity->url ?? 'N/A' }}
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer bg-light">
-                    <button type="button" class="btn btn-encodex-delete btn-sm" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                    <button type="button" class="btn btn-encodex-delete btn-sm" data-bs-dismiss="modal">{{ __('me::me.Close') }}</button>
                 </div>
             </div>
         </div>

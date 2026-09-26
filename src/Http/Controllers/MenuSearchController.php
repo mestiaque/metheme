@@ -31,13 +31,18 @@ class MenuSearchController extends Controller
         foreach ($items as $item) {
             $title = $item['title'] ?? '';
             $meta = $item['meta'] ?? '';
+            $translatedTitle = menu_trans($title);
 
-            $titleMatch = stripos((string) $title, $term) !== false;
-            $metaMatch  = stripos((string) $meta, $term) !== false;
+            // Match the English title and the current-language title, so both "sales" and "বিক্রয়" find it
+            $titleMatch = mb_stripos((string) $title, $term) !== false || mb_stripos($translatedTitle, $term) !== false;
+            $metaMatch  = mb_stripos((string) $meta, $term) !== false;
 
             if (! $titleMatch && ! $metaMatch) {
                 continue;
             }
+
+            $item['title'] = $translatedTitle;
+            $item['breadcrumb'] = collect(explode(' / ', $item['breadcrumb']))->filter()->map(fn ($part) => menu_trans($part))->implode(' / ');
 
             $permit = $item['permit'];
             if ($permit !== '' && (! $user || ! $user->can($permit))) {

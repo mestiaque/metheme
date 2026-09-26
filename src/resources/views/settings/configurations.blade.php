@@ -1,6 +1,6 @@
 @extends('me::master')
 
-@section('title', trans('Shop Settings'))
+@section('title', trans('me::me.Shop Settings'))
 
 @section('content')
     <div class="card glass-card">
@@ -14,18 +14,18 @@
                     <div class="card border-0 shadow-sm h-100">
                         <div class="card-header bg-light py-2">
                             <h6 class="mb-0 text-primary fw-semibold">
-                                <i class="fas fa-list-ol me-1"></i> @lang('Table Display Settings')
+                                <i class="fas fa-list-ol me-1"></i> @lang('me::me.Table Display Settings')
                             </h6>
                         </div>
                         <div class="card-body">
                             <label for="pagination" class="form-label fw-semibold">
-                                @lang('Results per page')
+                                @lang('me::me.Results per page')
                             </label>
                             <input type="number" min="1" class="form-control form-control-sm"
                                     id="pagination" name="pagination"
                                     value="{{ old('pagination', $settings['pagination']) }}">
                             <small class="text-muted">
-                                @lang('Controls how many records will be shown per page')
+                                @lang('me::me.Controls how many records will be shown per page')
                             </small>
                         </div>
                     </div>
@@ -36,7 +36,7 @@
                     <div class="card border-0 shadow-sm h-100">
                         <div class="card-header bg-light py-2">
                             <h6 class="mb-0 text-primary fw-semibold">
-                                <i class="fas fa-cog me-1"></i> @lang('Other Settings')
+                                <i class="fas fa-cog me-1"></i> @lang('me::me.Other Settings')
                             </h6>
                         </div>
                         <div class="card-body">
@@ -44,21 +44,21 @@
                                 <input type="checkbox" class="form-check-input" id="enable_translation"
                                         name="enable_translation" {{ $settings['enable_translation'] ? 'checked' : '' }}>
                                 <label class="form-check-label" for="enable_translation">
-                                    @lang('Enable Translation')
+                                    @lang('me::me.Enable Translation')
                                 </label>
                             </div>
                             <div class="form-check form-switch mb-3">
                                 <input type="checkbox" class="form-check-input" id="enable_registration"
                                         name="enable_registration" {{ $settings['enable_registration'] ? 'checked' : '' }}>
                                 <label class="form-check-label" for="enable_registration">
-                                    @lang('Enable Registration')
+                                    @lang('me::me.Enable Registration')
                                 </label>
                             </div>
                             <div class="form-check form-switch mb-3">
                                 <input type="checkbox" class="form-check-input" id="enable_forget_password"
                                         name="enable_forget_password" {{ $settings['enable_forget_password'] ? 'checked' : '' }}>
                                 <label class="form-check-label" for="enable_forget_password">
-                                    @lang('Enable Forget Password')
+                                    @lang('me::me.Enable Forget Password')
                                 </label>
                             </div>
                         </div>
@@ -70,12 +70,12 @@
                     <div class="card border-0 shadow-sm h-100">
                         <div class="card-header bg-light py-2">
                             <h6 class="mb-0 text-primary fw-semibold">
-                                <i class="fas fa-cog me-1"></i> @lang('Logo Settings')
+                                <i class="fas fa-cog me-1"></i> @lang('me::me.Logo Settings')
                             </h6>
                         </div>
                         <div class="card-body">
                             <div class="form-group text-center">
-                                <label class="font-weight-bold text-primary d-block">@lang('App Logo')</label>
+                                <label class="font-weight-bold text-primary d-block">@lang('me::me.App Logo')</label>
                                 <div class="logo-preview mb-3" style="height: 10rem">
                                     @if($settings['app_logo'])
                                         <img loading="lazy" src="{{ asset('storage/images/app_logo/' . $settings['app_logo']) }}"
@@ -83,7 +83,7 @@
                                     @else
                                         <div class="empty-logo p-4 bg-light text-center border rounded">
                                             <i class="fas fa-image fa-2x text-gray-400"></i>
-                                            <p class="mt-2 text-gray-500">@lang('No image uploaded')</p>
+                                            <p class="mt-2 text-gray-500">@lang('me::me.No image uploaded')</p>
                                         </div>
                                     @endif
                                 </div>
@@ -92,7 +92,7 @@
                                 @error('app_logo')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
-                                <small class="form-text text-muted">@lang('Recommended size: 200x200px, Max: 4MB')</small>
+                                <small class="form-text text-muted">@lang('me::me.Recommended size: 200x200px, Max: 4MB')</small>
                             </div>
                         </div>
                     </div>
@@ -103,12 +103,12 @@
                     <div class="card border-0 shadow-sm h-100">
                         <div class="card-header bg-light py-2">
                             <h6 class="mb-0 text-primary fw-semibold">
-                                <i class="fas fa-cog me-1"></i> @lang('Favicon(Ico) Settings')
+                                <i class="fas fa-cog me-1"></i> @lang('me::me.Favicon(Ico) Settings')
                             </h6>
                         </div>
                         <div class="card-body">
                             <div class="form-group text-center">
-                                <label class="font-weight-bold text-primary d-block">@lang('Favicon (ICO)')</label>
+                                <label class="font-weight-bold text-primary d-block">@lang('me::me.Favicon (ICO)')</label>
                                 <div class="logo-preview mb-3" style="height: 10rem">
                                     @if($settings['app_ico'])
                                         <img loading="lazy" src="{{ get_image('app_ico') }}"
@@ -116,7 +116,7 @@
                                     @else
                                         <div class="empty-logo p-4 bg-light text-center border rounded">
                                             <i class="fas fa-image fa-2x text-gray-400"></i>
-                                            <p class="mt-2 text-gray-500">@lang('No image uploaded')</p>
+                                            <p class="mt-2 text-gray-500">@lang('me::me.No image uploaded')</p>
                                         </div>
                                     @endif
                                 </div>
@@ -125,7 +125,7 @@
                                 @error('app_ico')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
-                                <small class="form-text text-muted">@lang('Recommended size: 64x64px, Max: 4MB')</small>
+                                <small class="form-text text-muted">@lang('me::me.Recommended size: 64x64px, Max: 4MB')</small>
                             </div>
                         </div>
                     </div>
@@ -136,53 +136,53 @@
                     <div class="card border-0 shadow-sm">
                         <div class="card-header bg-light py-2">
                             <h6 class="mb-0 text-primary fw-semibold">
-                                <i class="fas fa-link me-1"></i> @lang('URL Configuration')
+                                <i class="fas fa-link me-1"></i> @lang('me::me.URL Configuration')
                             </h6>
                         </div>
                         <div class="card-body">
                             <div class="row g-3">
                                 <div class="col-md-6">
-                                    <label for="root_url" class="form-label fw-semibold">@lang('Root URL')</label>
+                                    <label for="root_url" class="form-label fw-semibold">@lang('me::me.Root URL')</label>
                                     <input type="url" class="form-control form-control-sm" id="root_url"
                                             name="root_url" value="{{ old('root_url', $settings['root_url']) }}"
                                             placeholder="https://example.com">
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label for="profile_url" class="form-label fw-semibold">@lang('Profile URL')</label>
+                                    <label for="profile_url" class="form-label fw-semibold">@lang('me::me.Profile URL')</label>
                                     <input type="url" class="form-control form-control-sm" id="profile_url"
                                             name="profile_url" value="{{ old('profile_url', $settings['profile_url']) }}"
                                             placeholder="https://example.com/profile">
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label for="setting_url" class="form-label fw-semibold">@lang('Setting URL')</label>
+                                    <label for="setting_url" class="form-label fw-semibold">@lang('me::me.Setting URL')</label>
                                     <input type="url" class="form-control form-control-sm" id="setting_url"
                                             name="setting_url" value="{{ old('setting_url', $settings['setting_url']) }}"
                                             placeholder="https://example.com/settings">
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label for="logout_url" class="form-label fw-semibold">@lang('Logout URL')</label>
+                                    <label for="logout_url" class="form-label fw-semibold">@lang('me::me.Logout URL')</label>
                                     <input type="url" class="form-control form-control-sm" id="logout_url"
                                             name="logout_url" value="{{ old('logout_url', $settings['logout_url']) }}"
                                             placeholder="https://example.com/logout">
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label for="login_url" class="form-label fw-semibold">@lang('Login URL')</label>
+                                    <label for="login_url" class="form-label fw-semibold">@lang('me::me.Login URL')</label>
                                     <input type="url" class="form-control form-control-sm" id="login_url"
                                             name="login_url" value="{{ old('login_url', $settings['login_url']) }}"
                                             placeholder="https://example.com/login">
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="login_redirect_url" class="form-label fw-semibold">@lang('Login Redirect URL')</label>
+                                    <label for="login_redirect_url" class="form-label fw-semibold">@lang('me::me.Login Redirect URL')</label>
                                     <input type="url" class="form-control form-control-sm" id="login_redirect_url"
                                             name="login_redirect_url" value="{{ old('login_redirect_url', $settings['login_redirect_url']) }}"
                                             placeholder="https://example.com/admin/dashboard">
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="dev_url" class="form-label fw-semibold">@lang('Dev URL')</label>
+                                    <label for="dev_url" class="form-label fw-semibold">@lang('me::me.Dev URL')</label>
                                     <input type="url" class="form-control form-control-sm" id="dev_url"
                                             name="dev_url" value="{{ old('dev_url', $settings['dev_url']) }}"
                                             placeholder="https://example.com/">
@@ -196,7 +196,7 @@
 
             <div class="text-end mt-4">
                 <button type="submit" class="btn btn-encodex px-4">
-                    <i class="fas fa-save me-1"></i> @lang('Save Settings')
+                    <i class="fas fa-save me-1"></i> @lang('me::me.Save Settings')
                 </button>
             </div>
         </form>

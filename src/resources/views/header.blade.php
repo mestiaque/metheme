@@ -59,7 +59,7 @@
               <button type="button" class="nav-linkx search-icon-btn" id="navSearchToggle" aria-label="Search" aria-expanded="false">
                   <i class="bi bi-search"></i>
               </button>
-              <input type="text" class="search-input" id="navSearchInput" placeholder="Search..." aria-label="Search">
+              <input type="text" class="search-input" id="navSearchInput" placeholder="@lang('me::me.search_menu_placeholder')" aria-label="@lang('me::me.Search')">
               <div id="navSearchResults" class="menu-search-results" style="display:none;"></div>
           </div>
       </li>
@@ -158,13 +158,13 @@
         <ul class="dropdown-menu" id="userMenuDropdown" style="display:none;">
           <li class="py-1">
             <a class="dropdown-item" href="{{ Route::has('admin.profile.edit') ? route('admin.profile.edit') : route('me.profile.edit') }}">
-              <i class="bi bi-person me-2"></i> @lang("Profile")
+              <i class="bi bi-person me-2"></i> @lang("me::me.Profile")
             </a>
           </li>
           @can('setting.edit')
           <li class="py-1">
             <a class="dropdown-item" href="{{ Route::has('admin.settings.edit') ? route('admin.settings.edit') : route('me.settings.edit') }}">
-              <i class="bi bi-gear me-2"></i> @lang("Settings")
+              <i class="bi bi-gear me-2"></i> @lang("me::me.Settings")
             </a>
           </li>
           @endcan
@@ -173,7 +173,7 @@
             <form method="POST" action="{{ route('logout') }}">
               @csrf
               <button type="submit" class="dropdown-item">
-                <i class="bi bi-box-arrow-right me-2"></i> @lang("Sign Out")
+                <i class="bi bi-box-arrow-right me-2"></i> @lang("me::me.Sign Out")
               </button>
             </form>
           </li>
@@ -622,7 +622,7 @@ margin: 5px 0;
         if (!items.length) {
             var empty = document.createElement('div');
             empty.className = 'menu-search-empty';
-            empty.textContent = 'No matching menu found.';
+            empty.textContent = @json(__('me::me.no_matching_menu_found'));
             results.appendChild(empty);
             results.style.display = 'block';
             return;

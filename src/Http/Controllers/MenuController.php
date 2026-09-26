@@ -49,7 +49,7 @@ class MenuController extends Controller
 
         Menu::create($validated);
 
-        return redirect()->route('me.menus.index')->with('success', __('Menu created successfully.'));
+        return redirect()->route('me.menus.index')->with('success', __('me::me.Menu created successfully.'));
     }
 
     public function update(Request $request, Menu $menu)
@@ -68,13 +68,13 @@ class MenuController extends Controller
 
         $menu->update($validated);
 
-        return redirect()->route('me.menus.index')->with('success', __('Menu updated successfully.'));
+        return redirect()->route('me.menus.index')->with('success', __('me::me.Menu updated successfully.'));
     }
 
     public function destroy(Menu $menu)
     {
         $menu->delete();
 
-        return redirect()->route('me.menus.index')->with('success', __('Menu deleted successfully.'));
+        return redirect()->route('me.menus.index')->with('success', __('me::me.Menu deleted successfully.'));
     }
 }

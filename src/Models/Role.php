@@ -17,6 +17,24 @@ class Role extends Model
     ];
 
     /**
+     * The encodex role is permanent: it can never be deleted or have its slug changed.
+     */
+    protected static function booted(): void
+    {
+        static::deleting(function (Role $role) {
+            if ($role->slug === 'encodex') {
+                return false;
+            }
+        });
+
+        static::updating(function (Role $role) {
+            if ($role->getOriginal('slug') === 'encodex' && $role->isDirty('slug')) {
+                return false;
+            }
+        });
+    }
+
+    /**
      * The users that belong to the role.
      */
     public function users(): BelongsToMany

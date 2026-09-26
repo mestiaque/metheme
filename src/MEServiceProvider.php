@@ -4,9 +4,15 @@ namespace ME;
 
 use Illuminate\Routing\Router;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Mail\Events\MessageSending;
+use Illuminate\Mail\Events\MessageSent;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use ME\Http\Middleware\ActivityLogger;
 use ME\Http\Middleware\AuthorizationMiddleware;
+use ME\Models\Setting;
+use ME\Services\MailLogger;
 
 class MEServiceProvider extends ServiceProvider
 {
@@ -86,6 +92,10 @@ class MEServiceProvider extends ServiceProvider
         */
         $this->registerMiddleware();
         $this->registerAuthProvider();
+        $this->applyStoredMailAndSmsConfig();
+
+        Event::listen(MessageSending::class, [MailLogger::class, 'sending']);
+        Event::listen(MessageSent::class, [MailLogger::class, 'sent']);
     }
 
     /**
@@ -133,5 +143,53 @@ class MEServiceProvider extends ServiceProvider
     private function registerAuthProvider()
     {
         $this->app->register(\ME\Providers\AuthServiceProvider::class);
+    }
+
+    /**
+     * Override mail and SMS config with the values saved on the
+     * Mail Configuration / SMS Configuration pages (settings table).
+     */
+    private function applyStoredMailAndSmsConfig()
+    {
+        try {
+            $settings = Setting::whereIn('key', [
+                'mail_custom_enabled', 'mail_mailer', 'mail_host', 'mail_port', 'mail_encryption',
+                'mail_username', 'mail_password', 'mail_from_address', 'mail_from_name',
+                'sms_api_url', 'sms_api_key', 'sms_sender_id', 'sms_balance_url',
+            ])->pluck('value', 'key');
+        } catch (\Throwable $e) {
+            return; // database or settings table not ready yet (fresh install, migrations) - keep .env values
+        }
+
+        $decrypt = function ($value) {
+            try {
+                return filled($value) ? Crypt::decryptString($value) : null;
+            } catch (\Throwable $e) {
+                return null; // saved with a different APP_KEY
+            }
+        };
+
+        if (!empty($settings['mail_custom_enabled'])) {
+            config([
+                'mail.default'               => $settings['mail_mailer'] ?? 'smtp',
+                'mail.mailers.smtp.host'     => $settings['mail_host'] ?? null,
+                'mail.mailers.smtp.port'     => (int) ($settings['mail_port'] ?? 587),
+                // Laravel's smtp scheme: "smtps" = implicit SSL (port 465), "smtp" = STARTTLS when offered
+                'mail.mailers.smtp.scheme'   => ($settings['mail_encryption'] ?? null) === 'ssl' ? 'smtps' : 'smtp',
+                'mail.mailers.smtp.username' => $settings['mail_username'] ?? null,
+                'mail.mailers.smtp.password' => $decrypt($settings['mail_password'] ?? null),
+                'mail.from.address'          => $settings['mail_from_address'] ?? config('mail.from.address'),
+                'mail.from.name'             => $settings['mail_from_name'] ?? config('mail.from.name'),
+            ]);
+        }
+
+        if (filled($settings['sms_api_url'] ?? null)) {
+            config([
+                'services.sms_api_url'   => $settings['sms_api_url'],
+                'services.sms_api_key'   => $decrypt($settings['sms_api_key'] ?? null),
+                'services.sms_sender_id' => $settings['sms_sender_id'] ?? null,
+                'services.sms_balance_url' => $settings['sms_balance_url'] ?? null,
+            ]);
+        }
     }
 }

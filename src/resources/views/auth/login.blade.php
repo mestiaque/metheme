@@ -10,8 +10,8 @@
                     @php $logo = (get_setting('app_logo')) ? get_image('app_logo') : asset('assets/img/favicon/Encodex.ico'); @endphp
                     <img loading="lazy" src="{{ $logo }}" class="brand-image opacity-75 " style="width: 100%" alt="M. ESTIAQUE">
                 </div>
-                <h1 class="login-title text-shadow">{{ __('WELCOME') }}</h1>
-                <p style="text-align: center; color:#6b7280" class="text-shadow">{{ __('Enter your email/phone and password to login.') }}</p>
+                <h1 class="login-title text-shadow">{{ __('me::me.WELCOME') }}</h1>
+                <p style="text-align: center; color:#6b7280" class="text-shadow">{{ __('me::me.Enter your email/phone and password to login.') }}</p>
             </div>
 
             @if (session('status'))
@@ -32,13 +32,13 @@
                 @csrf
                 <!-- Tab Labels (Clickable) -->
                 <div class="form-group" style="position: relative;">
-                    <label class="text-shadow" for="user_name">{{ __('EMAIL / PHONE') }}</label>
-                    <input type="text" spellcheck="false" class="form-control text-shadow box-shadow @error('user_name') is-invalid @enderror" name="user_name" id="email" placeholder="{{ __('EMAIL OR PHONE') }}" value="{{ old('user_name') }}" required>
+                    <label class="text-shadow" for="user_name">{{ __('me::me.EMAIL / PHONE') }}</label>
+                    <input type="text" spellcheck="false" class="form-control text-shadow box-shadow @error('user_name') is-invalid @enderror" name="user_name" id="email" placeholder="{{ __('me::me.EMAIL OR PHONE') }}" value="{{ old('user_name') }}" required>
                 </div>
 
                 <div class="form-group" style="position: relative;">
-                    <label class="text-shadow" for="password">{{ __('PASSWORD') }}</label>
-                    <input type="password" class="form-control text-shadow box-shadow @error('password') is-invalid @enderror" id="password" name="password" placeholder="{{ __('PASSWORD') }}" value="{{ old('password') }}"  required>
+                    <label class="text-shadow" for="password">{{ __('me::me.PASSWORD') }}</label>
+                    <input type="password" class="form-control text-shadow box-shadow @error('password') is-invalid @enderror" id="password" name="password" placeholder="{{ __('me::me.PASSWORD') }}" value="{{ old('password') }}"  required>
                     <span class="password-toggle text-shadow" id="togglePassword" style="position: absolute; right: 15px; top: 41px; cursor: pointer;">
                         <i class="fas fa-eye"></i>
                     </span>
@@ -49,13 +49,13 @@
                     <label class="custom-checkbox text-shadow ">
                         <input type="checkbox" class="box-shadow" id="remember_me" name="remember">
                         <span class="box-shadow"></span>
-                        {{ __('Remember Me') }}
+                        {{ __('me::me.Remember Me') }}
                     </label>
                 </div>
 
                 <div>
                     <button type="submit" class="btn-login btn btn-blank box-shadow w-100 px-3">
-                        {{ __('LOGIN') }}
+                        {{ __('me::me.LOGIN') }}
                     </button>
                 </div>
 
@@ -64,9 +64,9 @@
                     @if(get_setting('enable_registration'))
                     <!-- রেজিস্ট্রেশন লিঙ্ক (যদি নতুন ইউজার হয়) -->
                     <p style="color: rgba(15, 45, 74, 0.7); font-size: 0.9rem;" class="mb-2">
-                        {{ __("Don't have an account?") }}
+                        {{ __("me::me.Don't have an account?") }}
                         <a href="{{ route('register') }}" style="color: #0f2d4a; font-weight: 600; text-decoration: none; border-bottom: 1px solid #0f2d4a;">
-                            {{ __('Create Account') }}
+                            {{ __('me::me.Create Account') }}
                         </a>
                     </p>
                     @endif
@@ -75,7 +75,7 @@
                     <!-- পাসওয়ার্ড ভুলে গেলে -->
                     <p class="mt-2">
                         <a href="{{ route('password.forget') }}" style="color: rgba(15, 45, 74, 0.75); font-size: 0.85rem; text-decoration: none; transition: 0.3s;" onmouseover="this.style.color='#0f2d4a'" onmouseout="this.style.color='rgba(15, 45, 74, 0.75)'">
-                            <i class="fas fa-lock me-1"></i> {{ __('Forgot your password?') }}
+                            <i class="fas fa-lock me-1"></i> {{ __('me::me.Forgot your password?') }}
                         </a>
                     </p>
                     @endif
@@ -85,7 +85,7 @@
 
                         <!-- Registration/Login Toggle -->
                         <a href="{{ route('register') }}" class="text-decoration-none" style="color: #0f2d4ad1; font-size: 13px;">
-                            {{ __('Register') }}
+                            {{ __('me::me.Register') }}
                         </a>
 
                         <span style="color: rgba(15,45,74,0.2)">|</span>
@@ -93,7 +93,7 @@
 
                         <!-- Forgot Password -->
                         <a href="{{ route('password.forget') }}" class="text-decoration-none" style="color: #0f2d4ad1; font-size: 13px;">
-                            {{ __('Reset Password') }}
+                            {{ __('me::me.Reset Password') }}
                         </a>
 
 

@@ -9,8 +9,8 @@
                     @php $logo = (get_setting('app_logo')) ? get_image('app_logo') : asset('assets/img/favicon/Encodex.ico'); @endphp
                     <img loading="lazy" src="{{ $logo }}" class="brand-image opacity-75 shadow " style="width: 100%" alt="M. ESTIAQUE">
                 </div>
-                <h1 class="login-title text-shadow">{{ __('REGISTER') }}</h1>
-                <p style="text-align: center; color:#6b7280" class="text-shadow">{{ __('Create your account to get started.') }}</p>
+                <h1 class="login-title text-shadow">{{ __('me::me.REGISTER') }}</h1>
+                <p style="text-align: center; color:#6b7280" class="text-shadow">{{ __('me::me.Create your account to get started.') }}</p>
             </div>
 
             <!-- Error/Status Messages -->
@@ -27,21 +27,21 @@
 
                 <!-- Name Field -->
                 <div class="form-group">
-                    <label class="text-shadow" for="name">{{ __('FULL NAME') }}</label>
-                    <input type="text" class="form-control text-shadow box-shadow" id="name" name="name" spellcheck="false" value="{{ old('name') }}" placeholder="{{ __('FULL NAME') }}" required autofocus>
+                    <label class="text-shadow" for="name">{{ __('me::me.FULL NAME') }}</label>
+                    <input type="text" class="form-control text-shadow box-shadow" id="name" name="name" spellcheck="false" value="{{ old('name') }}" placeholder="{{ __('me::me.FULL NAME') }}" required autofocus>
                 </div>
 
                 <!-- Email Field -->
                 {{-- <div class="form-group">
-                    <label class="text-shadow" for="email">{{ __('EMAIL ADDRESS') }}</label>
-                    <input type="email" class="form-control text-shadow box-shadow" id="email" name="email" value="{{ old('email') }}" placeholder="{{ __('EMAIL ADDRESS') }}" required>
+                    <label class="text-shadow" for="email">{{ __('me::me.EMAIL ADDRESS') }}</label>
+                    <input type="email" class="form-control text-shadow box-shadow" id="email" name="email" value="{{ old('email') }}" placeholder="{{ __('me::me.EMAIL ADDRESS') }}" required>
                 </div> --}}
 
                 <!-- Tab Labels (Clickable) -->
                 <div class="auth-tabs">
                     <div class="tab-wrapper">
-                        <label class="auth-tab" data-target="emailInput">{{ __('EMAIL ADDRESS') }}</label>
-                        <label class="auth-tab" data-target="phoneInput">{{ __('PHONE NUMBER') }}</label>
+                        <label class="auth-tab" data-target="emailInput">{{ __('me::me.EMAIL ADDRESS') }}</label>
+                        <label class="auth-tab" data-target="phoneInput">{{ __('me::me.PHONE NUMBER') }}</label>
                     </div>
                 </div>
 
@@ -58,8 +58,8 @@
 
                 <!-- Password Field -->
                 <div class="form-group" style="position: relative;">
-                    <label class="text-shadow" for="password">{{ __('PASSWORD') }}</label>
-                    <input type="password" spellcheck="false" class="form-control text-shadow box-shadow" id="password" name="password" placeholder="{{ __('PASSWORD') }}" required>
+                    <label class="text-shadow" for="password">{{ __('me::me.PASSWORD') }}</label>
+                    <input type="password" spellcheck="false" class="form-control text-shadow box-shadow" id="password" name="password" placeholder="{{ __('me::me.PASSWORD') }}" required>
                     <span class="password-toggle text-shadow" id="togglePassword" style="position: absolute; right: 15px; top: 41px; cursor: pointer;">
                         <i class="fas fa-eye"></i>
                     </span>
@@ -68,19 +68,19 @@
                 <!-- Step 1: Send OTP Button Container -->
                 <div id="send-otp-container" class="mt-3">
                     <button type="button" id="sendOtpBtn" class="btn btn-blank box-shadow w-100">
-                        {{ __('SEND OTP') }}
+                        {{ __('me::me.SEND OTP') }}
                     </button>
                 </div>
 
                 <!-- Timer Display (Initially Hidden) -->
                 <div id="timer-display" class="text-center mt-2" style="color: #ff4d4d; display: none;">
-                    {{ __('Resend OTP in:') }} <span id="countdown">02:00</span>
+                    {{ __('me::me.Resend OTP in:') }} <span id="countdown">02:00</span>
                 </div>
 
                 <!-- Step 2: OTP Section (Initially Hidden) -->
                 <div id="otp-section" style="display: none;" class="mt-3">
                     <div class="form-group">
-                        <label class="text-shadow" for="otp">{{ __('6-DIGIT OTP') }}</label>
+                        <label class="text-shadow" for="otp">{{ __('me::me.6-DIGIT OTP') }}</label>
                         <input type="text" class="form-control text-shadow box-shadow text-center"
                             style="letter-spacing: 10px; font-size: 20px; font-weight: bold;"
                             id="otp" name="otp" maxlength="6" pattern="\d{6}" inputmode="numeric"
@@ -88,24 +88,24 @@
                     </div>
 
                     <button type="submit" id="verifyOtpBtn" class="btn-login btn btn-blank box-shadow mt-2">
-                        {{ __('REGISTER NOW') }}
+                        {{ __('me::me.REGISTER NOW') }}
                     </button>
                 </div>
 
                 <!-- Divider -->
                 <div class="text-center my-4 d-none" style="color: #6b7280; position: relative;">
                     <hr style="border-color: #0f2d4a26;">
-                    <span style="position: absolute; top: -12px; background: #fff; padding: 0 15px; left: 50%; transform: translateX(-50%);">{{ __('OR') }}</span>
+                    <span style="position: absolute; top: -12px; background: #fff; padding: 0 15px; left: 50%; transform: translateX(-50%);">{{ __('me::me.OR') }}</span>
                 </div>
 
                 <!-- Google Login -->
                 <a href="{{ url('auth/google') }}" class="btn btn-blank box-shadow w-100 mb-3 d-none" style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-                    <i class="fab fa-google"></i> {{ __('Continue with Google') }}
+                    <i class="fab fa-google"></i> {{ __('me::me.Continue with Google') }}
                 </a>
 
                 <div class="text-center mt-3">
                     <p style="color:#6b7280" class="text-shadow">
-                        {{ __('Already have an account?') }} <a href="{{ route('login') }}" style="color: #0f2d4a; text-decoration: underline;">{{ __('Login') }}</a>
+                        {{ __('me::me.Already have an account?') }} <a href="{{ route('login') }}" style="color: #0f2d4a; text-decoration: underline;">{{ __('me::me.Login') }}</a>
                     </p>
                 </div>
             </form>

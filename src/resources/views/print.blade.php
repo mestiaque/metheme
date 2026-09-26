@@ -263,15 +263,15 @@
 
                 <div class="header-info">
                     <h1 style="margin:0; margin-bottom:1px; font-size:2rem;">
-                        {{ get_setting('shop_name', config('app.name')) }}
+                        {{ get_setting('app_name', config('app.name')) }}
                     </h1>
-                    <p>{{ get_setting('shop_address') }}</p>
-                    <p>@lang('Phone'): {{ get_setting('shop_phone') }} | @lang('Email'): {{ get_setting('shop_email') }}</p>
+                    <p>{{ get_setting('app_address') }}</p>
+                    <p>@lang('me::me.Phone'): {{ get_setting('app_phone') }} | @lang('me::me.Email'): {{ get_setting('app_email') }}</p>
                     <h5 style="margin:0; margin-top:2px;">
                         @if(isset($printTitle))
                             @lang($printTitle)
                         @else
-                            @lang('INVOICE')
+                            @lang('me::me.INVOICE')
                         @endif
                     </h5>
                 </div>
@@ -300,7 +300,7 @@
                         @if(isset($headerName) && $headerName)
                             {{ $headerName }}
                             @else
-                            {{ get_setting('shop_name', config('app.name')) }}
+                            {{ get_setting('app_name', config('app.name')) }}
                         @endif
                         <h5 class="report-title m-0"><span>{{ $printTitle ?? 'REPORT' }}</span></h5>
                     </span>
@@ -331,7 +331,7 @@
             </div>
         </div>
         <div class="pfooter">
-            @lang('This is a computer-generated invoice.') | @lang('Developed by: ENcodeX')
+            @lang('me::me.This is a computer-generated invoice.') | @lang('me::me.Developed by: ENcodeX')
         </div>
     </div>
 

@@ -1,11 +1,13 @@
+@php $prefix = request()->segment(1); @endphp
+
 @extends('me::master')
 
-@section('title', trans('Role Details'))
+@section('title', trans('me::me.Role Details'))
 
 @push('buttons')
   @component('me::components.btn.add-button', [
-      'route' => route('me.roles.index'),
-      'text' => __('All Roles'),
+      'route' => route("{$prefix}.roles.index"),
+      'text' => __('me::me.All Roles'),
       'class' => 'btn-encodex-list'
   ])
   @endcomponent
@@ -16,30 +18,30 @@
         <div class="card shadow mb-4">
             <div class="card-header py-2 bg-encodex">
                 <h6 class="m-0 font-weight-bold text-white">
-                    <i class="fas fa-user-tag me-1"></i> @lang('Role Information')
+                    <i class="fas fa-user-tag me-1"></i> @lang('me::me.Role Information')
                 </h6>
             </div>
             <div class="card-body">
                 <table class="table table-bordered table-sm table-hover table-striped table-encodex">
                     <tbody>
                         <tr>
-                            <th width="30%">@lang('Name')</th>
+                            <th width="30%">@lang('me::me.Name')</th>
                             <td>{{ $role->name }}</td>
                         </tr>
                         <tr>
-                            <th>@lang('Slug')</th>
+                            <th>@lang('me::me.Slug')</th>
                             <td><code>{{ $role->slug }}</code></td>
                         </tr>
                         <tr>
-                            <th>@lang('Description')</th>
+                            <th>@lang('me::me.Description')</th>
                             <td>{{ $role->description ?? '-' }}</td>
                         </tr>
                         <tr>
-                            <th>@lang('Created At')</th>
+                            <th>@lang('me::me.Created At')</th>
                             <td>{{ optional($role->created_at)->format('M d, Y H:i') }}</td>
                         </tr>
                         <tr>
-                            <th>@lang('Updated At')</th>
+                            <th>@lang('me::me.Updated At')</th>
                             <td>{{ optional($role->updated_at)->format('M d, Y H:i') }}</td>
                         </tr>
                     </tbody>
@@ -50,7 +52,7 @@
         <div class="card shadow mb-4">
             <div class="card-header py-2 bg-encodex">
                 <h6 class="m-0 font-weight-bold text-white">
-                    <i class="fas fa-key me-1"></i> @lang('Permissions')
+                    <i class="fas fa-key me-1"></i> @lang('me::me.Permissions')
                 </h6>
             </div>
             <div class="card-body">
@@ -64,7 +66,7 @@
 
                 @if(empty($permissions))
                     <div class="alert alert-info mb-0">
-                        @lang('No permissions assigned to this role.')
+                        @lang('me::me.No permissions assigned to this role.')
                     </div>
                 @else
                     <div class="row">
@@ -101,23 +103,23 @@
         <div class="card shadow mb">
             <div class="card-header py-2 bg-encodex-light">
                 <h6 class="m-0 font-weight-bold text-white">
-                    <i class="fas fa-users me-1"></i> @lang('Users with this Role')
+                    <i class="fas fa-users me-1"></i> @lang('me::me.Users with this Role')
                 </h6>
             </div>
             <div class="card-body">
                 @if($role->users->isEmpty())
                     <div class="alert alert-info">
-                        @lang('No users currently have this role.')
+                        @lang('me::me.No users currently have this role.')
                     </div>
                 @else
                     <div class="table-responsive">
                         <table class="table table-bordered table-sm table-hover table-striped table-encodex" width="100%" cellspacing="0">
                             <thead class="text-center">
                                 <tr>
-                                    <th>@lang('Name')</th>
-                                    <th>@lang('Email')</th>
-                                    <th>@lang('Joined')</th>
-                                    <th>@lang('Actions')</th>
+                                    <th>@lang('me::me.Name')</th>
+                                    <th>@lang('me::me.Email')</th>
+                                    <th>@lang('me::me.Joined')</th>
+                                    <th>@lang('me::me.Actions')</th>
                                 </tr>
                             </thead>
                             <tbody>

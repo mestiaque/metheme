@@ -12,8 +12,8 @@ class SettingController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('authorization:me_setting.configurations')
-            ->only(['editConfigurations', 'updateConfigurations']);
+        $this->middleware('authorization:me_setting.configurations')->only(['editConfigurations', 'updateConfigurations']);
+        $this->middleware('authorization:me_setting.settings')->only(['edit', 'update']);
     }
 
     public function editConfigurations()
@@ -82,4 +82,61 @@ class SettingController extends Controller
         return redirect()->route('me.configurations.edit')
             ->with('success', 'Configurations updated successfully.');
     }
+
+    public function edit()
+    {
+        // Get all settings
+        $settings = [
+            'app_name' => Setting::get('app_name', 'My Shop'),
+            'app_address' => Setting::get('app_address', ''),
+            'app_email' => Setting::get('app_email', ''),
+            'app_phone' => Setting::get('app_phone', ''),
+            'app_logo' => Setting::get('app_logo'),
+            'low_stock_threshold' => Setting::get('low_stock_threshold', 5),
+            'sms_permit' => Setting::get('sms_permit'),
+        ];
+
+        return view('me::settings.edit', compact('settings'));
+    }
+
+    public function update(Request $request)
+    {
+        $request->validate([
+            'app_name' => 'required|string|max:255',
+            'app_address' => 'nullable|string',
+            'app_email' => 'nullable|email|max:255',
+            'app_phone' => 'nullable|string|max:50',
+            'app_logo' => 'nullable|image|max:2048',
+            'low_stock_threshold' => 'required|integer|min:1',
+            'sms_notifications' => 'nullable|array',
+            'sms_notifications.*' => 'boolean',
+        ]);
+
+        // Update text settings
+        Setting::set('app_name', $request->app_name);
+        Setting::set('app_address', $request->app_address);
+        Setting::set('app_email', $request->app_email);
+        Setting::set('app_phone', $request->app_phone);
+        Setting::set('low_stock_threshold', $request->low_stock_threshold);
+        Setting::set('sms_notifications', $request->sms_notifications);
+
+        if ($request->hasFile('app_logo')) {
+            $image = $request->file('app_logo');
+            $imageName = Str::uuid() . '.' . $image->getClientOriginalExtension();
+            $imagePath = storage_path('app/public/images/app_logo');
+
+            // Ensure the directory exists
+            if (!file_exists($imagePath)) {
+                mkdir($imagePath, 0755, true);
+            }
+
+            $image->move($imagePath, $imageName);
+            // $data['app_logo'] = $imageName;
+            Setting::set('app_logo', $imageName);
+        }
+
+        return redirect()->route('admin.settings.edit')
+            ->with('success', __('Settings updated successfully'));
+    }
+
 }

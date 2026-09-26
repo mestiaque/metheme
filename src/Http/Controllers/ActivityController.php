@@ -87,15 +87,15 @@ class ActivityController extends Controller
             ->toArray();
 
         $statuses = [
-            'success' => __('Success'),
-            'failed' => __('Failed'),
-            'pending' => __('Pending'),
+            'success' => __('me::me.Success'),
+            'failed' => __('me::me.Failed'),
+            'pending' => __('me::me.Pending'),
         ];
 
         $deviceTypes = [
-            'phone' => __('Phone'),
-            'tablet' => __('Tablet'),
-            'desktop' => __('Desktop'),
+            'phone' => __('me::me.Phone'),
+            'tablet' => __('me::me.Tablet'),
+            'desktop' => __('me::me.Desktop'),
         ];
 
         $currentIp = $request->ip();
@@ -117,15 +117,15 @@ class ActivityController extends Controller
     public function logoutDevice(Request $request, UserActivity $activity): RedirectResponse
     {
         if ((int) $activity->user_id !== (int) Auth::id()) {
-            return back()->withErrors(['activity' => __('You are not allowed to logout this device.')]);
+            return back()->withErrors(['activity' => __('me::me.You are not allowed to logout this device.')]);
         }
 
         if ($activity->activity_type !== 'login' || $activity->status !== 'success') {
-            return back()->withErrors(['activity' => __('Only successful login activities can be logged out.')]);
+            return back()->withErrors(['activity' => __('me::me.Only successful login activities can be logged out.')]);
         }
 
         if (!Schema::hasTable('sessions')) {
-            return back()->withErrors(['activity' => __('Sessions table not found. Device logout is unavailable.')]);
+            return back()->withErrors(['activity' => __('me::me.Sessions table not found. Device logout is unavailable.')]);
         }
 
         $sessionQuery = DB::table('sessions')->where('user_id', $activity->user_id);
@@ -141,7 +141,7 @@ class ActivityController extends Controller
         $deletedSessions = $sessionQuery->delete();
 
         if ($deletedSessions < 1) {
-            return back()->withErrors(['activity' => __('No active session found for this device. It may already be logged out.')]);
+            return back()->withErrors(['activity' => __('me::me.No active session found for this device. It may already be logged out.')]);
         }
 
         UserActivity::create([
@@ -160,7 +160,7 @@ class ActivityController extends Controller
             'activity_at' => now(),
         ]);
 
-        return back()->with('status', __('Device logged out successfully.'));
+        return back()->with('status', __('me::me.Device logged out successfully.'));
     }
 
     /**

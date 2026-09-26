@@ -5,7 +5,7 @@
 
         {{-- Current Password --}}
         <div class="form-group mb-3 position-relative">
-            <label for="update_password_current_password" class="font-weight-bold text-primary">{{ __('Current Password') }}</label>
+            <label for="update_password_current_password" class="font-weight-bold text-primary">{{ __('me::me.Current Password') }}</label>
             <input id="update_password_current_password" name="current_password" type="password" class="form-control" autocomplete="current-password">
             <span class="toggle-password" data-target="update_password_current_password">
                 <i class="fas fa-eye"></i>
@@ -17,7 +17,7 @@
 
         {{-- New Password --}}
         <div class="form-group mb-3 position-relative">
-            <label for="update_password_password" class="font-weight-bold text-primary">{{ __('New Password') }}</label>
+            <label for="update_password_password" class="font-weight-bold text-primary">{{ __('me::me.New Password') }}</label>
             <input id="update_password_password" name="password" type="password" class="form-control" autocomplete="new-password">
             <span class="toggle-password" data-target="update_password_password">
                 <i class="fas fa-eye"></i>
@@ -29,7 +29,7 @@
 
         {{-- Confirm Password --}}
         <div class="form-group mb-4 position-relative">
-            <label for="update_password_password_confirmation" class="font-weight-bold text-primary">{{ __('Confirm Password') }}</label>
+            <label for="update_password_password_confirmation" class="font-weight-bold text-primary">{{ __('me::me.Confirm Password') }}</label>
             <input id="update_password_password_confirmation" name="password_confirmation" type="password" class="form-control" autocomplete="new-password">
             <span class="toggle-password" data-target="update_password_password_confirmation">
                 <i class="fas fa-eye"></i>
@@ -41,7 +41,7 @@
 
         <div class="form-group text-end">
             <button type="submit" class="btn btn-encodex">
-                {{ __('Save Changes') }}
+                {{ __('me::me.Save Changes') }}
             </button>
         </div>
     </form>

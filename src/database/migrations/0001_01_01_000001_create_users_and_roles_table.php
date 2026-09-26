@@ -98,8 +98,8 @@ return new class extends Migration
         |--------------------------------------------------------------------------
         */
         DB::table('roles')->insert([
-            'name' => 'Super Admin',
-            'slug' => 'super_admin',
+            'name' => 'ENCODEX',
+            'slug' => 'encodex',
             'description' => 'Administrator with all permissions',
             'created_at' => now(),
             'updated_at' => now(),

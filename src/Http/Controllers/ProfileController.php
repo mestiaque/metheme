@@ -56,7 +56,7 @@ class ProfileController extends Controller
 
             $request->user()->save();
 
-            return Redirect::route('me.profile.edit')->with('success', __('Profile updated'));
+            return Redirect::route('me.profile.edit')->with('success', __('me::me.Profile updated'));
         } catch (\Exception $e) {
             return redirect()->route('me.profile.edit')->withErrors($e->getMessage())->withInput();
         }

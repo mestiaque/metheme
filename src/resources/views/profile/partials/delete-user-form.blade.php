@@ -1,11 +1,11 @@
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Delete Account') }}
+            {{ __('me::me.Delete Account') }}
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.') }}
+            {{ __('me::me.Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.') }}
         </p>
     </header>
 
@@ -15,7 +15,7 @@
         data-toggle="modal"
         data-target="#confirm-user-deletion-modal"
     >
-        {{ __('Delete Account') }}
+        {{ __('me::me.Delete Account') }}
     </button>
 
     <!-- Modal -->
@@ -25,23 +25,23 @@
                 @csrf
                 @method('delete')
                 <div class="modal-header">
-                    <h5 class="modal-title" id="confirmUserDeletionLabel">{{ __('Are you sure you want to delete your account?') }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('Close') }}">
+                    <h5 class="modal-title" id="confirmUserDeletionLabel">{{ __('me::me.Are you sure you want to delete your account?') }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('me::me.Close') }}">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <p class="text-sm text-gray-600">
-                        {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.') }}
+                        {{ __('me::me.Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.') }}
                     </p>
                     <div class="form-group mt-3">
-                        <label for="delete_user_password" class="sr-only">{{ __('Password') }}</label>
+                        <label for="delete_user_password" class="sr-only">{{ __('me::me.Password') }}</label>
                         <input
                             id="delete_user_password"
                             name="password"
                             type="password"
                             class="form-control"
-                            placeholder="{{ __('Password') }}"
+                            placeholder="{{ __('me::me.Password') }}"
                         >
                         @if($errors->userDeletion->has('password'))
                             <div class="text-danger mt-2">{{ $errors->userDeletion->first('password') }}</div>
@@ -50,10 +50,10 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-encodex-cancel" data-dismiss="modal">
-                        {{ __('Cancel') }}
+                        {{ __('me::me.Cancel') }}
                     </button>
                     <button type="submit" class="btn btn-danger">
-                        {{ __('Delete Account') }}
+                        {{ __('me::me.Delete Account') }}
                     </button>
                 </div>
             </form>

@@ -126,7 +126,7 @@ class RoleController extends Controller
             'permissions' => 'nullable|array',
         ]);
 
-        if ($role->name !== $request->name) {
+        if ($role->name !== $request->name && $role->slug !== 'encodex') {
             $role->slug = Str::slug($request->name);
         }
 
@@ -157,9 +157,9 @@ class RoleController extends Controller
 
     public function destroy(Role $role)
     {
-        if ($role->slug === 'super_admin') {
+        if ($role->slug === 'encodex') {
             return redirect()->route('me.roles.index')
-                ->with('error', 'Cannot delete the Admin role');
+                ->with('error', 'Cannot delete the ENCODEX role');
         }
 
         $role->delete();

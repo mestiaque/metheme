@@ -1,11 +1,12 @@
+@php $prefix = request()->segment(1); @endphp
 @extends('me::master')
 
-@section('title', trans('Create User'))
+@section('title', trans('me::me.Create User'))
 
 @push('buttons')
   @component('me::components.btn.add-button', [
-      'route' => route('me.users.index'),
-      'text' => __('All Users'),
+      'route' => route("{$prefix}.users.index"),
+      'text' => __('me::me.All Users'),
       'class' => 'btn-encodex-list'
   ])
   @endcomponent
@@ -15,19 +16,19 @@
 <div class="container-fluids">
     <div class="card shadow mb-4">
         <div class="card-body">
-            <form action="{{ route('me.users.store') }}" method="POST" autocomplete="off" enctype="multipart/form-data">
+            <form action="{{ route("{$prefix}.users.store") }}" method="POST" autocomplete="off" enctype="multipart/form-data">
                 @csrf
 
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group mb-3">
                             <label for="profile_image" class="font-weight-bold text-primary">
-                                <i class="fas fa-image me-1"></i> @lang('Profile Image')
+                                <i class="fas fa-image me-1"></i> @lang('me::me.Profile Image')
                             </label>
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input border border-primary @error('profile_image') is-invalid @enderror"
                                        id="profile_image" name="profile_image" accept="image/*">
-                                <small class="form-text text-muted">@lang('Recommended size: 300x300px. Max: 2MB')</small>
+                                <small class="form-text text-muted">@lang('me::me.Recommended size: 300x300px. Max: 2MB')</small>
                             </div>
                             @error('profile_image')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -36,7 +37,7 @@
 
                         <div class="form-group mb-3">
                             <label for="name" class="font-weight-bold text-primary">
-                                <i class="fas fa-user me-1"></i> @lang('Name') <span class="text-danger">*</span>
+                                <i class="fas fa-user me-1"></i> @lang('me::me.Name') <span class="text-danger">*</span>
                             </label>
                             <input type="text" class="form-control form-control-sm @error('name') is-invalid @enderror" id="name" name="name"
                                    value="{{ old('name') }}" required autocomplete="off">
@@ -47,7 +48,7 @@
 
                         <div class="form-group mb-3">
                             <label for="email" class="font-weight-bold text-primary">
-                                <i class="fas fa-envelope me-1"></i> @lang('Email') <span class="text-danger">*</span>
+                                <i class="fas fa-envelope me-1"></i> @lang('me::me.Email') <span class="text-danger">*</span>
                             </label>
                             <input type="email" class="form-control form-control-sm @error('email') is-invalid @enderror" id="email" name="email"
                                    value="{{ old('email') }}" required autocomplete="new-email">
@@ -58,7 +59,7 @@
 
                         <div class="form-group mb-3">
                             <label for="phone" class="font-weight-bold text-primary">
-                                <i class="fas fa-phone me-1"></i> @lang('Phone Number')
+                                <i class="fas fa-phone me-1"></i> @lang('me::me.Phone Number')
                             </label>
                             <input type="text" class="form-control form-control-sm @error('phone') is-invalid @enderror" id="phone" name="phone"
                                    value="{{ old('phone') }}" autocomplete="off">
@@ -69,7 +70,7 @@
 
                         <div class="form-group mb-3">
                             <label for="password" class="font-weight-bold text-primary">
-                                <i class="fas fa-lock me-1"></i> @lang('Password') <span class="text-danger">*</span>
+                                <i class="fas fa-lock me-1"></i> @lang('me::me.Password') <span class="text-danger">*</span>
                             </label>
                             <input type="password" class="form-control form-control-sm @error('password') is-invalid @enderror" id="password" name="password" required autocomplete="new-password">
                             @error('password')
@@ -79,7 +80,7 @@
 
                         <div class="form-group mb-3">
                             <label for="password_confirmation" class="font-weight-bold text-primary">
-                                <i class="fas fa-lock me-1"></i> @lang('Confirm Password') <span class="text-danger">*</span>
+                                <i class="fas fa-lock me-1"></i> @lang('me::me.Confirm Password') <span class="text-danger">*</span>
                             </label>
                             <input type="password" class="form-control form-control-sm" id="password_confirmation" name="password_confirmation" required autocomplete="new-password">
                         </div>
@@ -88,7 +89,7 @@
                     <div class="col-md-6">
                         <div class="form-group mb-3">
                             <label class="font-weight-bold text-primary">
-                                <i class="fas fa-user-shield me-1"></i> @lang('Role') <span class="text-danger">*</span>
+                                <i class="fas fa-user-shield me-1"></i> @lang('me::me.Role') <span class="text-danger">*</span>
                             </label>
                             <div class="border p-3 rounded">
                                 @foreach($roles as $role)
@@ -111,9 +112,9 @@
                                 <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1"
                                        {{ old('is_active', true) ? 'checked' : '' }}>
                                 <label class="form-check-label font-weight-bold" for="is_active">
-                                    @lang('Active User')
+                                    @lang('me::me.Active User')
                                 </label>
-                                <small class="form-text text-muted">@lang('Inactive users cannot log in to the system.')</small>
+                                <small class="form-text text-muted">@lang('me::me.Inactive users cannot log in to the system.')</small>
                             </div>
                         </div>
                     </div>
@@ -121,7 +122,7 @@
 
                 <div class="mt-4 text-end">
                     <button type="submit" class="btn btn-encodex-save float-right">
-                        <i class="fas fa-save me-1"></i> @lang('Create User')
+                        <i class="fas fa-save me-1"></i> @lang('me::me.Create User')
                     </button>
                 </div>
             </form>

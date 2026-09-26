@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'M. ESTIAQUE') }} - @lang("Login")</title>
+    <title>{{ config('app.name', 'M. ESTIAQUE') }} - @lang("me::me.Login")</title>
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:400,500,600,700&display=swap">
@@ -338,8 +338,8 @@
                         {{-- <i class="fas fa-user"></i> --}}
                         <img src="{{ asset('assets/img/favicon/Encodex.ico') }}" class="brand-image opacity-75 shadow " style="width: 100%" alt="M. ESTIAQUE">
                     </div>
-                    <h1 class="login-title text-shadow">{{ __('WELCOME') }}</h1>
-                    <p style="text-align: center;" class="text-shadow">{{ __('Enter your username and password to log in.') }}</p>
+                    <h1 class="login-title text-shadow">{{ __('me::me.WELCOME') }}</h1>
+                    <p style="text-align: center;" class="text-shadow">{{ __('me::me.Enter your username and password to log in.') }}</p>
                 </div>
 
                 @if (session('status'))
@@ -359,13 +359,13 @@
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <div class="form-group ">
-                        <label class="text-shadow" for="email">{{ __('EMAIL') }}</label>
+                        <label class="text-shadow" for="email">{{ __('me::me.EMAIL') }}</label>
                         <input type="email" class="form-control text-shadow box-shadow" id="email" name="email"
                                value="{{ old('email') }}" required autofocus>
                     </div>
 
                     <div class="form-group" style="position: relative;">
-                        <label class="text-shadow" for="password">{{ __('PASSWORD') }}</label>
+                        <label class="text-shadow" for="password">{{ __('me::me.PASSWORD') }}</label>
                         <input type="password" class="form-control text-shadow box-shadow" id="password" name="password" required>
                         <span class="password-toggle text-shadow" id="togglePassword" style="position: absolute; right: 15px; top: 38px; cursor: pointer;">
                             <i class="fas fa-eye"></i>
@@ -375,16 +375,16 @@
 
                     <div class="remember-me">
                         <input type="checkbox" id="remember_me" name="remember" class="text-shadow box-shadow">
-                        <label for="remember_me" class="text-shadow">{{ __('Remember Me') }}</label>
+                        <label for="remember_me" class="text-shadow">{{ __('me::me.Remember Me') }}</label>
                     </div>
 
                     <button type="submit" class="btn-login btn btn-encodex box-shadow">
-                        {{ __('LOGIN') }}
+                        {{ __('me::me.LOGIN') }}
                     </button>
                 </form>
 
                 <div class="copyright">
-                    @lang('me::metheme.mycopyright', [
+                    @lang('me::me.mycopyright', [
                         'year' => banglaYear(date('Y')),
                         'company' => get_setting('shop_name', 'Your Company')
                     ])

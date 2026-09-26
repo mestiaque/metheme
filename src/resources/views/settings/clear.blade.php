@@ -1,13 +1,13 @@
 @extends('me::master')
 
-@section('title', trans('Clear Data'))
+@section('title', trans('me::me.Clear Data'))
 
 @section('content')
 
 <div class="card glass-card shadow-lg">
     <div class="card-header glass-header text-white d-flex align-items-center">
         <i class="fas fa-exclamation-triangle mr-3 fa-2x"></i>
-        <h5 class="mb-0">@lang('Clear All Data')</h5>
+        <h5 class="mb-0">@lang('me::me.Clear All Data')</h5>
     </div>
 
     <div class="card-body">
@@ -19,16 +19,16 @@
                         <i class="fas fa-skull-crossbones fa-lg mr-3 mt-1" style="font-size: 9rem;     margin-right: 2rem;margin-top: 1rem !important;"></i>
                     </div>
                     <div class="col-md-8 col-sm-12">
-                        <h5 class="alert-heading mb-1">@lang('DANGER ZONE')</h5>
+                        <h5 class="alert-heading mb-1">@lang('me::me.DANGER ZONE')</h5>
                         <p class="mb-1">
-                            @lang('This action will permanently delete all system data, including test records and other content.')
+                            @lang('me::me.This action will permanently delete all system data, including test records and other content.')
                         </p>
                         <p class="mb-1">
-                            <strong>@lang('Users and Roles will be preserved.')</strong>
+                            <strong>@lang('me::me.Users and Roles will be preserved.')</strong>
                         </p>
                         <hr class="my-2">
                         <p class="mb-0">
-                            <strong class="text-danger">@lang('This action cannot be undone!')</strong>
+                            <strong class="text-danger">@lang('me::me.This action cannot be undone!')</strong>
                         </p>
                     </div>
                 </div>
@@ -54,7 +54,7 @@
 
             <div class="form-group">
                 <label for="confirm_text" class="font-weight-bold">
-                    @lang('Type') <code>CLEAR ALL DATA</code> @lang('to confirm'):
+                    @lang('me::me.Type') <code>CLEAR ALL DATA</code> @lang('me::me.to confirm'):
                 </label>
                 <input type="text"
                        name="confirm_text"
@@ -72,7 +72,7 @@
                         class="btn btn-danger btn-lg shadow-lg glass-button"
                         id="clearButton"
                         disabled>
-                    <i class="fas fa-trash-alt mr-2"></i> @lang('Clear All Data')
+                    <i class="fas fa-trash-alt mr-2"></i> @lang('me::me.Clear All Data')
                 </button>
             </div>
         </form>

@@ -43,6 +43,17 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
+    /**
+     * Filters for the user list: ?name=, ?email= (partial match), ?role= (role id).
+     */
+    public function scopeFilter($query, array $filters)
+    {
+        return $query
+            ->when($filters['name'] ?? null, fn ($q, $name) => $q->where('name', 'like', "%{$name}%"))
+            ->when($filters['email'] ?? null, fn ($q, $email) => $q->where('email', 'like', "%{$email}%"))
+            ->when($filters['role'] ?? null, fn ($q, $role) => $q->whereHas('roles', fn ($r) => $r->where('roles.id', $role)));
+    }
+
     public function activities()
     {
         return $this->hasMany(UserActivity::class);
@@ -55,7 +66,7 @@ class User extends Authenticatable
 
     public function hasPermission($permission)
     {
-        if ($this->hasRole('super_admin')) {
+        if ($this->hasRole('encodex')) {
             return true;
         }
         foreach ($this->roles as $role) {
@@ -109,5 +120,10 @@ class User extends Authenticatable
     public function isActive()
     {
         return $this->is_active == 1;
+    }
+
+    public function is_encodex()
+    {
+        return $this->hasRole('encodex');
     }
 }

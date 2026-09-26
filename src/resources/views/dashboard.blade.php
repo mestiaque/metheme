@@ -1,6 +1,6 @@
 @extends('me::master')
 
-@section('title', __('Dashboard'))
+@section('title', __('me::me.Dashboard'))
 
 @section('content')
 <div style="min-height: 85vh; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at center, #0a110e 0%, #000 100%); overflow: hidden; position: relative; font-family: 'Fira Code', monospace; padding: 20px; margin-top:2rem">

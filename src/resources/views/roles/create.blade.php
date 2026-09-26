@@ -1,11 +1,12 @@
+@php $prefix = request()->segment(1); @endphp
 @extends('me::master')
 
-@section('title', trans('Create Role'))
+@section('title', trans('me::me.Create Role'))
 
 @push('buttons')
   @component('me::components.btn.add-button', [
-      'route' => route('me.roles.index'),
-      'text' => __('All Roles'),
+      'route' => route("{$prefix}.roles.index"),
+      'text' => __('me::me.All Roles'),
       'class' => 'btn-encodex-list'
   ])
   @endcomponent
@@ -15,17 +16,17 @@
 <div class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-body">
-            <form action="{{ route('me.roles.store') }}" method="POST">
+            <form action="{{ route("{$prefix}.roles.store") }}" method="POST">
                 @csrf
 
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="name" class="font-weight-bold text-primary">
-                                <i class="fas fa-user-tag me-1"></i> @lang('Role Name') <span class="text-danger">*</span>
+                                <i class="fas fa-user-tag me-1"></i> @lang('me::me.Role Name') <span class="text-danger">*</span>
                             </label>
                             <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
-                            <small class="form-text text-muted">@lang('The name will be converted to a slug automatically.')</small>
+                            <small class="form-text text-muted">@lang('me::me.The name will be converted to a slug automatically.')</small>
                             @error('name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -33,7 +34,7 @@
 
                         <div class="form-group">
                             <label for="description" class="font-weight-bold text-primary">
-                                <i class="fas fa-align-left me-1"></i> @lang('Description')
+                                <i class="fas fa-align-left me-1"></i> @lang('me::me.Description')
                             </label>
                             <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="3">{{ old('description') }}</textarea>
                             @error('description')
@@ -45,7 +46,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="font-weight-bold text-primary">
-                                <i class="fas fa-key me-1"></i> @lang('Permissions')
+                                <i class="fas fa-key me-1"></i> @lang('me::me.Permissions')
                             </label>
 
                             <div class="input-group mb-2">
@@ -55,14 +56,14 @@
                                     </div>
                                 </div>
                                 <div class="form-control">
-                                    <label for="check-all-permissions">@lang('Select All Permissions')</label>
+                                    <label for="check-all-permissions">@lang('me::me.Select All Permissions')</label>
                                 </div>
                             </div>
 
                             <div class="border p-3 rounded permission-list">
                                 @if($permissions->isEmpty())
                                     <div class="text-center text-muted">
-                                        @lang('No permissions defined in the system.')
+                                        @lang('me::me.No permissions defined in the system.')
                                     </div>
                                 @else
                                     @foreach($permissions->groupBy(function($item) {
@@ -96,7 +97,7 @@
 
                 <div class="mt-4 text-end">
                     <button type="submit" class="btn btn-encodex float-right">
-                        <i class="fas fa-save me-1"></i> @lang('Create Role')
+                        <i class="fas fa-save me-1"></i> @lang('me::me.Create Role')
                     </button>
                 </div>
             </form>

@@ -49,6 +49,38 @@ return [
                 'icon_color' => 'icc-67',
             ],
             [
+                'permit' => 'me_setting.mail',
+                'title'  => 'Mail Configuration',
+                'icon'   => 'fas fa-at',
+                'route'  => 'me.mail-config.edit',
+                'for_active' => 'me.mail-config',
+                'icon_color' => 'icc-38',
+            ],
+            [
+                'permit' => 'me_setting.sms',
+                'title'  => 'SMS Configuration',
+                'icon'   => 'fas fa-sms',
+                'route'  => 'me.sms-config.edit',
+                'for_active' => 'me.sms-config',
+                'icon_color' => 'icc-81',
+            ],
+            [
+                'permit' => 'me_sms.view',
+                'title'  => 'SMS Log & Balance',
+                'icon'   => 'fas fa-comment-dollar',
+                'route'  => 'me.sms-log.index',
+                'for_active' => 'me.sms-log',
+                'icon_color' => 'icc-40',
+            ],
+            [
+                'permit' => 'me_mail.view',
+                'title'  => 'Mail Log',
+                'icon'   => 'fas fa-envelope-open-text',
+                'route'  => 'me.mail-log.index',
+                'for_active' => 'me.mail-log',
+                'icon_color' => 'icc-55',
+            ],
+            [
                 'icon'   => 'fas fa-trash-alt',
                 'title'  => 'Clear Data',
                 'route'  => 'me.data.clear.form',
@@ -82,6 +114,22 @@ return [
             ],
         ]
     ],
+    // [
+    //     'title'      => 'Roles',
+    //     'icon'       => 'fas fa-book',
+    //     'icon_color' => 'text-secondary',
+    //     'route'      => 'admin.roles.index',
+    //     'for_active' => 'admin.roles',
+    //     'permit'     => 'me.dashboard',
+    // ],
+    // [
+    //     'title'      => 'Users',
+    //     'icon'       => 'fas fa-book',
+    //     'icon_color' => 'text-secondary',
+    //     'route'      => 'admin.users.index',
+    //     'for_active' => 'admin.users',
+    //     'permit'     => 'me.dashboard',
+    // ],
 
 ];
 

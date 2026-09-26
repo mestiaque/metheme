@@ -21,10 +21,16 @@ class UserController extends Controller
         $this->middleware('authorization:me_user.delete')->only('destroy');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::with('roles')->latest()->paginate(get_setting('pagination', 10));
-        return view('me::users.index', compact('users'));
+        $users = User::with('roles')
+            ->filter($request->only(['name', 'email', 'role']))
+            ->latest()
+            ->paginate(get_setting('pagination', 10))
+            ->withQueryString();
+        $roles = Role::orderBy('name')->get();
+
+        return view('me::users.index', compact('users', 'roles'));
     }
 
     public function create()
@@ -75,7 +81,7 @@ class UserController extends Controller
             $user->roles()->sync([$request->role]);
         }
 
-        return redirect()->route('me.users.index')->with('success', __('User created successfully'));
+        return redirect()->route('me.users.index')->with('success', __('me::me.User created successfully'));
     }
 
     public function show(User $user)
@@ -149,7 +155,7 @@ class UserController extends Controller
             $user->roles()->detach();
         }
 
-        return redirect()->route('me.users.index')->with('success', __('User updated successfully'));
+        return redirect()->route('me.users.index')->with('success', __('me::me.User updated successfully'));
     }
 
     public function toggleActive(User $user)

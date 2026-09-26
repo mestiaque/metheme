@@ -1,12 +1,12 @@
 @extends('me::master')
 
-@section('title', trans('Clear Data'))
+@section('title', trans('me::me.Clear Data'))
 
 @section('content')
 
 <div class="card glass-card shadow-lg">
     <div class="card-header d-flex align-items-center">
-        <h5 class="mb-0">@lang('Sidebar Color Plate')</h5>
+        <h5 class="mb-0">@lang('me::me.Sidebar Color Plate')</h5>
     </div>
 
     <div class="card-body">
@@ -28,7 +28,7 @@
 
 <div class="card glass-card shadow-lg">
     <div class="card-header d-flex align-items-center">
-        <h5 class="mb-0">@lang('Buttons')</h5>
+        <h5 class="mb-0">@lang('me::me.Buttons')</h5>
     </div>
 
     <div class="card-body">

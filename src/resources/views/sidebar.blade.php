@@ -18,7 +18,7 @@
 
                 {{-- <li class="company-text-sidebar">{{ get_setting('shop_name', 'M. ESTIAQUE') }}</li> --}}
                 @php
-                    $fullName = get_setting('shop_name', 'M. ESTIAQUE');
+                    $fullName = get_setting('app_name', 'M. ESTIAQUE');
                     $words = explode(" ", $fullName);
                     $shortName = "";
                     foreach ($words as $w) {
@@ -40,7 +40,7 @@
                     @if(isset($item['header']))
                         <li class="nav-header">
                             <i class="{{ $item['icon'] ?? 'bi bi-grid-3x3-gap-fill' }} me-2"></i>
-                            {{ strtoupper(__($item['header'])) }}
+                            {{ mb_strtoupper(menu_trans($item['header'])) }}
                         </li>
                     @elseif(isset($item['children']))
                         @php
@@ -72,7 +72,7 @@
                                 <a href="#" class="nav-link {{ $isParentActive ? 'active' : '' }}">
                                     <i class="nav-icon {{ $item['icon'] }} {{ $item['icon_color'] ?? 'default-sidebar-icon' }}"></i>
                                     <p>
-                                        {{ __($item['title']) }}
+                                        {{ menu_trans($item['title']) }}
                                         <i class="nav-arrow bi bi-chevron-right"></i>
                                     </p>
                                 </a>
@@ -88,7 +88,7 @@
                                         <li class="nav-item">
                                             <a href="{{ route($child['route']) }}" class="nav-link {{ $isChildActive ? 'active' : '' }} m-1">
                                                 <i class="nav-icon {{ $child['icon'] }} {{ $child['icon_color'] ?? 'text-muted' }}"></i>
-                                                <p>{{ __($child['title']) }}</p>
+                                                <p>{{ menu_trans($child['title']) }}</p>
                                             </a>
                                         </li>
                                     @endforeach
@@ -117,7 +117,7 @@
                             <li class="parentnav nav-item {{ $isActive ? 'menu-open' : '' }}">
                                 <a href="{{ route($item['route']) }}" class="nav-link {{ $isActive ? 'active' : '' }}">
                                     <i class="nav-icon {{ $item['icon'] }} {{ $item['icon_color'] ?? 'text-primary' }}"></i>
-                                    <p>{{ __($item['title']) }}</p>
+                                    <p>{{ menu_trans($item['title']) }}</p>
                                 </a>
                             </li>
                         @endif
