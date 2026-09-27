@@ -94,12 +94,12 @@ return new class extends Migration
 
         /*
         |--------------------------------------------------------------------------
-        | Default Data Insert (Super Admin + ENCODEX User)
+        | Default Data Insert (Super Admin Role + User)
         |--------------------------------------------------------------------------
         */
         DB::table('roles')->insert([
-            'name' => 'ENCODEX',
-            'slug' => 'encodex',
+            'name' => 'Super Admin',
+            'slug' => 'super-admin',
             'description' => 'Administrator with all permissions',
             'created_at' => now(),
             'updated_at' => now(),
@@ -108,7 +108,7 @@ return new class extends Migration
         DB::table('users')->insert([
             'name' => 'ESTIAQUE',
             'email' => 'admin@mestiaque.com',
-            'password' => Hash::make('encodex@1234'),
+            'password' => Hash::make('p@ssword'),
             'phone' => '01796009656',
             'is_active' => 1,
             'created_at' => now(),

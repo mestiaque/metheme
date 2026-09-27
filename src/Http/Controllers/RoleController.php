@@ -5,6 +5,7 @@ namespace ME\Http\Controllers;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use ME\Models\Role;
+use ME\Models\Roles;
 use Illuminate\Support\Collection;
 use ME\Models\RolePermission;
 use ME\Http\Controllers\Controller;
@@ -180,7 +181,7 @@ class RoleController extends Controller
 
         $parentId = $this->validateParent($request, $role);
 
-        if ($role->name !== $request->name && $role->slug !== 'encodex') {
+        if ($role->name !== $request->name && !in_array($role->slug, Roles::SUPER_ADMIN_SLUGS, true)) {
             $role->slug = Str::slug($request->name);
         }
 
@@ -210,9 +211,9 @@ class RoleController extends Controller
             return redirect()->route('roles.index')->with('error', __('me::me.role_not_manageable'));
         }
 
-        if ($role->slug === 'encodex') {
+        if (in_array($role->slug, Roles::SUPER_ADMIN_SLUGS, true)) {
             return redirect()->route('roles.index')
-                ->with('error', 'Cannot delete the ENCODEX role');
+                ->with('error', __('me::me.super_admin_role_cannot_be_deleted'));
         }
 
         if ($role->children()->exists()) {

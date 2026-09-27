@@ -117,7 +117,7 @@
                     <th>@lang('me::me.sent_to')</th>
                     <th>@lang('me::me.message')</th>
                     <th>@lang('me::me.Status')</th>
-                    @if(auth()->user()->is_encodex())
+                    @if(auth()->user()->is_super_admin())
                         <th>@lang('me::me.api_response')</th>
                     @endif
                     <th>@lang('me::me.time')</th>
@@ -134,7 +134,7 @@
                                 @lang('me::me.sms_status_' . $log->status)
                             </span>
                         </td>
-                        @if(auth()->user()->is_encodex())
+                        @if(auth()->user()->is_super_admin())
                             <td class="small text-muted text-break" style="max-width: 280px">{{ \Illuminate\Support\Str::limit($log->api_response, 160) }}</td>
                         @endif
                         <td class="text-nowrap">{{ formatDateTime($log->created_at) }}</td>

@@ -33,6 +33,9 @@ Route::group(['prefix' => me_prefix(), 'middleware' => ['web', 'auth', LocaleMid
     Route::get('/configurations', [SettingController::class, 'editConfigurations'])->name('configurations.edit');
     Route::put('/configurations', [SettingController::class, 'updateConfigurations'])->name('configurations.update');
 
+    Route::get('/settings', [SettingController::class, 'edit'])->name('settings.edit');
+    Route::put('/settings', [SettingController::class, 'update'])->name('settings.update');
+
     Route::get('/mail-config', [MailConfigController::class, 'edit'])->name('mail-config.edit');
     Route::put('/mail-config', [MailConfigController::class, 'update'])->name('mail-config.update');
     Route::post('/mail-config/test', [MailConfigController::class, 'test'])->name('mail-config.test');

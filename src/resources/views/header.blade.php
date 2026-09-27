@@ -157,13 +157,13 @@
         </a>
         <ul class="dropdown-menu" id="userMenuDropdown" style="display:none;">
           <li class="py-1">
-            <a class="dropdown-item" href="{{ Route::has('admin.profile.edit') ? route('admin.profile.edit') : route('profile.edit') }}">
+            <a class="dropdown-item" href="{{ Route::has(me_prefix().'.profile.edit') ? route(me_prefix().'.profile.edit') : route('profile.edit') }}">
               <i class="bi bi-person me-2"></i> @lang("me::me.Profile")
             </a>
           </li>
           @can('setting.edit')
           <li class="py-1">
-            <a class="dropdown-item" href="{{ Route::has('admin.settings.edit') ? route('admin.settings.edit') : route('settings.edit') }}">
+            <a class="dropdown-item" href="{{ Route::has(me_prefix().'.settings.edit') ? route(me_prefix().'.settings.edit') : route('settings.edit') }}">
               <i class="bi bi-gear me-2"></i> @lang("me::me.Settings")
             </a>
           </li>

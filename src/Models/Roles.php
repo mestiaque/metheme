@@ -2,7 +2,6 @@
 
 namespace ME\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -37,26 +36,17 @@ class Roles extends Model
     }
 
     /**
-     * The encodex role is never visible through this model (lists, find, counts, relations),
-     * and is permanent: it can never be deleted or have its slug changed.
-     * Use Role (singular) when the full set is needed, e.g. for permission checks.
+     * The super admin role is permanent: it can never be deleted or renamed.
      */
     protected static function booted(): void
     {
-        static::addGlobalScope('hide_encodex', function (Builder $query) {
-            $query->where($query->qualifyColumn('slug'), '!=', 'encodex');
-        });
-
         static::deleting(function (Roles $role) {
-            if ($role->slug === 'encodex' || $role->isSuperAdmin()) {
+            if ($role->isSuperAdmin()) {
                 return false;
             }
         });
 
         static::updating(function (Roles $role) {
-            if ($role->getOriginal('slug') === 'encodex' && $role->isDirty('slug')) {
-                return false;
-            }
             if ($role->isSuperAdmin() && $role->isDirty(['name', 'slug', 'description'])) {
                 return false;
             }

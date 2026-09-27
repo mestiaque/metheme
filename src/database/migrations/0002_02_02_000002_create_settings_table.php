@@ -17,11 +17,11 @@ return new class extends Migration
 
         // Insert default settings
         DB::table('settings')->insert([
-            ['key' => 'shop_name', 'value' => 'My Shop', 'created_at' => now(), 'updated_at' => now()],
-            ['key' => 'shop_address', 'value' => '123 Main Street', 'created_at' => now(), 'updated_at' => now()],
-            ['key' => 'shop_email', 'value' => 'info@myshop.com', 'created_at' => now(), 'updated_at' => now()],
-            ['key' => 'shop_phone', 'value' => '+880 1234 567890', 'created_at' => now(), 'updated_at' => now()],
-            ['key' => 'shop_logo', 'value' => null, 'created_at' => now(), 'updated_at' => now()],
+            ['key' => 'app_name', 'value' => 'My app', 'created_at' => now(), 'updated_at' => now()],
+            ['key' => 'app_address', 'value' => '123 Main Street', 'created_at' => now(), 'updated_at' => now()],
+            ['key' => 'app_email', 'value' => 'info@myapp.com', 'created_at' => now(), 'updated_at' => now()],
+            ['key' => 'app_phone', 'value' => '+880 1234 567890', 'created_at' => now(), 'updated_at' => now()],
+            ['key' => 'app_logo', 'value' => null, 'created_at' => now(), 'updated_at' => now()],
             ['key' => 'low_stock_threshold', 'value' => '5', 'created_at' => now(), 'updated_at' => now()]
         ]);
     }

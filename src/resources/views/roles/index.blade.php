@@ -49,7 +49,7 @@
                                     <a href="{{ route("roles.show", $role->id) }}" class="btn btn-sm btn-encodex-show me-1" title="@lang("me::me.View")">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    @if($role->slug !== 'encodex' && in_array($role->id, $manageable ?? []))
+                                    @if(!in_array($role->slug, \ME\Models\Roles::SUPER_ADMIN_SLUGS, true) && in_array($role->id, $manageable ?? []))
                                     <a href="{{ route("roles.edit", $role->id) }}" class="btn btn-sm btn-encodex-edit me-1" title="@lang("me::me.Edit")">
                                         <i class="fas fa-edit"></i>
                                     </a>

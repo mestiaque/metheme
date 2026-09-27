@@ -69,7 +69,7 @@ class User extends Authenticatable
         if (me_is_developer_only($permission)) {
             return me_is_developer($this);
         }
-        if (me_is_developer($this) || $this->hasRole('encodex')) {
+        if (me_is_developer($this) || $this->isSuperAdmin()) {
             return true;
         }
         foreach ($this->roles as $role) {
@@ -125,8 +125,14 @@ class User extends Authenticatable
         return $this->is_active == 1;
     }
 
-    public function is_encodex()
+    /** Super admin role (Roles::SUPER_ADMIN_SLUGS) gets every permission. */
+    public function isSuperAdmin(): bool
     {
-        return me_is_developer($this) || $this->hasRole('encodex');
+        return $this->roles()->whereIn('slug', Roles::SUPER_ADMIN_SLUGS)->exists();
+    }
+
+    public function is_super_admin()
+    {
+        return me_is_developer($this) || $this->isSuperAdmin();
     }
 }

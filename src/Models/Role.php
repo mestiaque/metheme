@@ -105,18 +105,18 @@ class Role extends Model
     }
 
     /**
-     * The encodex role is permanent: it can never be deleted or have its slug changed.
+     * The super admin role is permanent: it can never be deleted or have its slug changed.
      */
     protected static function booted(): void
     {
         static::deleting(function (Role $role) {
-            if ($role->slug === 'encodex') {
+            if (in_array($role->slug, Roles::SUPER_ADMIN_SLUGS, true)) {
                 return false;
             }
         });
 
         static::updating(function (Role $role) {
-            if ($role->getOriginal('slug') === 'encodex' && $role->isDirty('slug')) {
+            if (in_array($role->getOriginal('slug'), Roles::SUPER_ADMIN_SLUGS, true) && $role->isDirty('slug')) {
                 return false;
             }
         });

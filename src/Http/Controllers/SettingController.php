@@ -116,7 +116,7 @@ class SettingController extends Controller
             Setting::set('app_logo', $imageName);
         }
 
-        return redirect()->route('admin.settings.edit')
+        return redirect()->route(me_prefix().'.settings.edit')
             ->with('success', __('Settings updated successfully'));
     }
 
