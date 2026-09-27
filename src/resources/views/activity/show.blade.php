@@ -7,7 +7,7 @@
 <div class="container-fluid">
     <div class="row mb-4">
         <div class="col-12">
-            <a href="{{ route('me.activity.index') }}" class="btn btn-secondary">
+            <a href="{{ route('activity.index') }}" class="btn btn-secondary">
                 <i class="fas fa-arrow-left"></i> {{ __('me::me.Back') }}
             </a>
         </div>

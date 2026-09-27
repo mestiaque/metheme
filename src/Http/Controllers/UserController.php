@@ -9,11 +9,13 @@ use ME\Models\User;
 use Illuminate\Support\Facades\Hash;
 use ME\Http\Controllers\Controller;
 use ME\Http\Middleware\AuthorizationMiddleware;
+use ME\Services\RoleHierarchy;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
 
-    public function __construct()
+    public function __construct(private RoleHierarchy $hierarchy)
     {
         $this->middleware('authorization:me_user.view')->only(['index', 'show']);
         $this->middleware('authorization:me_user.create')->only(['create', 'store']);
@@ -30,12 +32,35 @@ class UserController extends Controller
             ->withQueryString();
         $roles = Role::orderBy('name')->get();
 
-        return view('me::users.index', compact('users', 'roles'));
+        // Users on this page the logged-in user may edit / deactivate / delete (hierarchy)
+        $manageableUserIds = $users->getCollection()
+            ->filter(fn ($u) => $this->hierarchy->canManageUser(auth()->user(), $u))
+            ->pluck('id')->all();
+
+        return view('me::users.index', compact('users', 'roles', 'manageableUserIds'));
+    }
+
+    /**
+     * Roles the logged-in user may assign (roles below their own).
+     */
+    private function assignableRoles()
+    {
+        return Role::whereIn('id', $this->hierarchy->manageableRoleIds(auth()->user()))->orderBy('name')->get();
+    }
+
+    private function roleRule(): array
+    {
+        return ['required', 'integer', Rule::in($this->hierarchy->manageableRoleIds(auth()->user()))];
+    }
+
+    private function authorizeManage(User $user): void
+    {
+        abort_unless($this->hierarchy->canManageUser(auth()->user(), $user), 403, __('me::me.user_not_manageable'));
     }
 
     public function create()
     {
-        $roles = Role::all();
+        $roles = $this->assignableRoles();
         return view('me::users.create', compact('roles'));
     }
 
@@ -46,7 +71,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'phone' => 'nullable|string|max:20',
             'password' => 'required|confirmed|min:8',
-            'role' => 'required|exists:roles,id',
+            'role' => $this->roleRule(),
             'is_active' => 'nullable|boolean',
             'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
@@ -81,7 +106,7 @@ class UserController extends Controller
             $user->roles()->sync([$request->role]);
         }
 
-        return redirect()->route('me.users.index')->with('success', __('me::me.User created successfully'));
+        return redirect()->route('users.index')->with('success', __('me::me.User created successfully'));
     }
 
     public function show(User $user)
@@ -92,7 +117,8 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        $roles = Role::all();
+        $this->authorizeManage($user);
+        $roles = $this->assignableRoles();
         $userRoles = $user->roles->pluck('id')->toArray();
         return view('me::users.edit', compact('user', 'roles', 'userRoles'));
     }
@@ -100,13 +126,14 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
+        $this->authorizeManage($user);
 
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'phone' => 'nullable|string|max:20',
             'password' => 'nullable|confirmed|min:8',
-            'role' => 'required|exists:roles,id',
+            'role' => $this->roleRule(),
             'is_active' => 'nullable|boolean',
             'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
@@ -155,14 +182,16 @@ class UserController extends Controller
             $user->roles()->detach();
         }
 
-        return redirect()->route('me.users.index')->with('success', __('me::me.User updated successfully'));
+        return redirect()->route('users.index')->with('success', __('me::me.User updated successfully'));
     }
 
     public function toggleActive(User $user)
     {
+        $this->authorizeManage($user);
+
         // Prevent deactivating your own account
         if ($user->id === auth()->id()) {
-            return redirect()->route('me.users.index')
+            return redirect()->route('users.index')
                 ->with('error', 'You cannot deactivate your own account');
         }
 
@@ -170,21 +199,23 @@ class UserController extends Controller
         $user->save();
 
         $status = $user->is_active ? 'activated' : 'deactivated';
-        return redirect()->route('me.users.index')
+        return redirect()->route('users.index')
             ->with('success', "User {$status} successfully");
     }
 
     public function destroy(User $user)
     {
+        $this->authorizeManage($user);
+
         // Prevent deleting yourself
         if ($user->id === auth()->id()) {
-            return redirect()->route('me.users.index')
+            return redirect()->route('users.index')
                 ->with('error', 'You cannot delete your own account');
         }
 
         $user->delete();
 
-        return redirect()->route('me.users.index')
+        return redirect()->route('users.index')
             ->with('success', 'User deleted successfully');
     }
 }

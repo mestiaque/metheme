@@ -429,22 +429,37 @@
             });
         </script>
 
-        <!-- Summernote Init Script -->
+        <!-- Summernote: add class="summernote" to any <textarea> and it becomes an editor.
+             Options (optional attributes):
+               data-height="200"          editor height in px (default 150)
+               data-placeholder="..."     placeholder text (or the textarea's placeholder)
+               data-images="false"        hide the picture button
+             Inside a Bootstrap modal it is initialised when the modal opens. -->
         <script>
             $(function () {
                 function initSummernote($el) {
-                    if ($el.data('summernote-init')) return;
+                    if ($el.data('summernote-init') || typeof $.fn.summernote === 'undefined') return;
                     $el.data('summernote-init', true);
+
+                    var insert = ['link'];
+                    if (String($el.data('images')) !== 'false') insert.push('picture');
+
                     $el.summernote({
-                        height: 120,
+                        height: parseInt($el.data('height'), 10) || 150,
+                        placeholder: $el.data('placeholder') || $el.attr('placeholder') || '',
+                        dialogsInBody: true,
                         toolbar: [
-                            ['style', ['bold', 'italic', 'underline', 'strikethrough']],
+                            ['style', ['bold', 'italic', 'underline', 'clear']],
+                            ['color', ['forecolor']],
                             ['para', ['ul', 'ol']],
-                            ['insert', ['picture', 'link']],
-                            ['misc', ['undo', 'redo']]
+                            ['insert', insert]
                         ]
                     });
                 }
+
+                // Also usable from page scripts, e.g. after adding a textarea with JS:
+                // window.meSummernote($('#my-textarea'));
+                window.meSummernote = function (el) { $(el).each(function () { initSummernote($(this)); }); };
 
                 // Textareas already visible on page load.
                 $('.summernote').not('.modal .summernote').each(function () {

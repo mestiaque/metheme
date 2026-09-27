@@ -16,6 +16,128 @@ if (!function_exists('get_setting')) {
     }
 }
 
+if (!function_exists('me_mail')) {
+    /**
+     * Send an e-mail with a Metheme template, using the SMTP settings saved on the
+     * Mail Configuration page. Returns true when handed to the mailer.
+     *
+     *   me_mail('a@b.com', 'Hello', '<p>Your order is ready.</p>');  // common layout
+     *   me_mail($emails, 'Code', '<p>Use this code</p>', ['otp' => 123456], 'auth');
+     *   me_mail($email, 'Invoice', '', ['invoice' => $invoice], 'emails.invoice', queue: true);
+     *
+     * @param string|array $to       one address or a list
+     * @param string       $content  HTML body (trusted; escape user input with e())
+     * @param array        $data     extra variables for the template (title, otp, showGreeting, ...)
+     * @param string       $template name from config('me_settings.mail_templates') or a Blade view
+     * @param bool         $queue    queue the mail instead of sending now
+     */
+    function me_mail($to, string $subject, string $content = '', array $data = [], string $template = 'default', bool $queue = false): bool
+    {
+        $view = config('me_settings.mail_templates.' . $template, $template);
+
+        if (!view()->exists($view)) {
+            report(new \InvalidArgumentException("Mail template [{$template}] not found."));
+            return false;
+        }
+
+        try {
+            $mail = new \ME\Mail\TemplateMail($view, $subject, array_merge(['content' => $content], $data));
+            $pending = \Illuminate\Support\Facades\Mail::to($to);
+            $queue ? $pending->queue($mail) : $pending->send($mail);
+
+            return true;
+        } catch (\Throwable $e) {
+            report($e);
+            return false;
+        }
+    }
+}
+
+if (!function_exists('me_sms')) {
+    /**
+     * Send an SMS through the gateway saved on the SMS Configuration page.
+     * Returns true when the gateway accepted the message.
+     *
+     *   me_sms('01712345678', 'Your order is ready.');
+     *   me_sms($phone, "Your code is {$otp}", hideMessage: true); // text not stored in the SMS log
+     */
+    function me_sms(string $to, string $message, bool $hideMessage = false): bool
+    {
+        try {
+            return (bool) (\ME\Services\SmsService::send($to, $message, $hideMessage)['success'] ?? false);
+        } catch (\Throwable $e) {
+            report($e);
+            return false;
+        }
+    }
+}
+
+if (!function_exists('me_prefix')) {
+    /**
+     * Admin URL prefix (.env METHEME_ROUTE_PREFIX, default "admin").
+     */
+    function me_prefix(): string
+    {
+        return (string) config('me_settings.route_prefix', 'admin');
+    }
+}
+
+if (!function_exists('me_is_developer')) {
+    /**
+     * Developer mode: true when METHEME_DEVELOPER_MODE=true and the user's email is listed
+     * in METHEME_DEVELOPER_EMAILS. Such users skip every permission check.
+     */
+    function me_is_developer($user = null): bool
+    {
+        $user = $user ?? auth()->user();
+
+        if (!$user || !config('me_settings.developer_mode')) {
+            return false;
+        }
+
+        $email = strtolower(trim((string) ($user->email ?? '')));
+
+        return $email !== '' && in_array($email, (array) config('me_settings.developer_emails', []), true);
+    }
+}
+
+if (!function_exists('me_developer_permission_keys')) {
+    /**
+     * Every "module.action" key in config('me_settings.developer_permissions').
+     */
+    function me_developer_permission_keys(): array
+    {
+        $keys = [];
+        foreach ((array) config('me_settings.developer_permissions', []) as $module => $data) {
+            foreach (explode(',', (string) ($data['actions'] ?? '')) as $action) {
+                $action = trim($action);
+                if ($action !== '') {
+                    $keys[] = $module . '.' . $action;
+                }
+            }
+        }
+
+        return $keys;
+    }
+}
+
+if (!function_exists('me_is_developer_only')) {
+    /**
+     * Whether a permission is reserved for developer mode (never granted through roles).
+     */
+    function me_is_developer_only($permission): bool
+    {
+        // Entries may be exact keys ("me_setting.mail") or wildcard patterns ("me.*", "me_*").
+        foreach ((array) config('me_settings.developer_only_permissions', []) as $pattern) {
+            if (\Illuminate\Support\Str::is((string) $pattern, (string) $permission)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
+
 if (!function_exists('menu_trans')) {
     /**
      * Translate a sidebar/menu title. Menu titles are plain English ("Sales Report"),

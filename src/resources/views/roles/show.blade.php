@@ -1,4 +1,3 @@
-@php $prefix = request()->segment(1); @endphp
 
 @extends('me::master')
 
@@ -6,7 +5,7 @@
 
 @push('buttons')
   @component('me::components.btn.add-button', [
-      'route' => route("{$prefix}.roles.index"),
+      'route' => route("roles.index"),
       'text' => __('me::me.All Roles'),
       'class' => 'btn-encodex-list'
   ])
@@ -26,7 +25,21 @@
                     <tbody>
                         <tr>
                             <th width="30%">@lang('me::me.Name')</th>
-                            <td>{{ $role->name }}</td>
+                            <td>@include('me::roles.partials.badge', ['role' => $role])</td>
+                        </tr>
+                        <tr>
+                            <th>@lang('me::me.Parent Role')</th>
+                            <td>
+                                @if($role->parent)
+                                    @include('me::roles.partials.badge', ['role' => $role->parent])
+                                @else
+                                    <span class="badge bg-dark">@lang('me::me.Top role')</span>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>@lang('me::me.Hierarchy')</th>
+                            <td>{{ $role->hierarchyPath() }}</td>
                         </tr>
                         <tr>
                             <th>@lang('me::me.Slug')</th>
@@ -143,7 +156,7 @@
                                         <td>{{ $user->email }}</td>
                                         <td>{{ optional($user->created_at)->format('M d, Y') ?? '--' }}</td>
                                         <td class="text-center">
-                                            <a href="{{ route('me.users.show', $user->id) }}" class="btn btn-sm btn-encodex-show">
+                                            <a href="{{ route('users.show', $user->id) }}" class="btn btn-sm btn-encodex-show">
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                         </td>

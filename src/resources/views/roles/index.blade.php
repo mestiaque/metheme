@@ -1,4 +1,3 @@
-@php $prefix = request()->segment(1); @endphp
 
 @extends('me::master')
 
@@ -6,7 +5,7 @@
 
 @push('buttons')
   @component('me::components.btn.add-button', [
-      'route' => route('me.roles.create'),
+      'route' => route('roles.create'),
       'text' => __('me::me.Add Role'),
       'class' => 'btn-encodex-create'
   ])
@@ -21,6 +20,7 @@
                     <tr>
                         <th>#</th>
                         <th>@lang('me::me.Role Name')</th>
+                        <th>@lang('me::me.Parent Role')</th>
                         <th>@lang('me::me.Slug')</th>
                         <th>@lang('me::me.Description')</th>
                         <th>@lang('me::me.Users')</th>
@@ -31,7 +31,14 @@
                     @forelse($roles as $role)
                         <tr>
                             <td>{{ toBanglaNumber($loop->iteration) }}</td>
-                            <td>{{ $role->name }}</td>
+                            <td>@include('me::roles.partials.badge', ['role' => $role])</td>
+                            <td>
+                                @if($role->parent)
+                                    @include('me::roles.partials.badge', ['role' => $role->parent])
+                                @else
+                                    <span class="badge bg-dark">@lang('me::me.Top role')</span>
+                                @endif
+                            </td>
                             <td><code>{{ $role->slug }}</code></td>
                             <td>{{ $role->description ?? __('me::me.N/A') }}</td>
                             <td>
@@ -39,19 +46,18 @@
                             </td>
                             <td class="text-center">
                                 <div class="d-inline-flex align-items-center gap-1">
-                                    <a href="{{ route("{$prefix}.roles.show", $role->id) }}" class="btn btn-sm btn-encodex-show me-1" title="@lang("me::me.View")">
+                                    <a href="{{ route("roles.show", $role->id) }}" class="btn btn-sm btn-encodex-show me-1" title="@lang("me::me.View")">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    @if($role->slug !== 'encodex')
-                                    <a href="{{ route("{$prefix}.roles.edit", $role->id) }}" class="btn btn-sm btn-encodex-edit me-1" title="@lang("me::me.Edit")">
+                                    @if($role->slug !== 'encodex' && in_array($role->id, $manageable ?? []))
+                                    <a href="{{ route("roles.edit", $role->id) }}" class="btn btn-sm btn-encodex-edit me-1" title="@lang("me::me.Edit")">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     @php
-                                        // Super admin and the logged-in user's own roles can't be deleted
-                                        $cannotDelete = in_array($role->slug, ['super-admin', 'super_admin'], true)
-                                            || auth()->user()->roles->contains('id', $role->id);
+                                        // Only roles below yours can be deleted, and only when they have no child roles
+                                        $cannotDelete = $role->children_count > 0;
                                     @endphp
-                                    <form action="{{ route("{$prefix}.roles.destroy", $role->id) }}" method="POST" class="d-inline">
+                                    <form action="{{ route("roles.destroy", $role->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-encodex-delete" title="@lang("me::me.Delete")"
@@ -66,7 +72,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center">@lang('me::me.No roles found')</td>
+                            <td colspan="7" class="text-center">@lang('me::me.No roles found')</td>
                         </tr>
                     @endforelse
                 </tbody>

@@ -9,12 +9,10 @@ use ME\Http\Controllers\MenuController;
 use ME\Http\Controllers\MenuSearchController;
 use ME\Http\Controllers\ProfileController;
 use ME\Http\Controllers\RoleController;
-use ME\Http\Controllers\RolesController;
 use ME\Http\Controllers\SettingController;
 use ME\Http\Controllers\SmsConfigController;
 use ME\Http\Controllers\SmsLogController;
 use ME\Http\Controllers\UserController;
-use ME\Http\Controllers\UsersController;
 use ME\Http\Middleware\LocaleMiddleware;
 
 Route::middleware(['web', LocaleMiddleware::class])->group(function () {
@@ -24,8 +22,13 @@ Route::middleware(['web', LocaleMiddleware::class])->group(function () {
 
 });
 
-Route::group(['prefix' => 'me', 'as' => 'me.', 'middleware' => ['web', 'auth', LocaleMiddleware::class, 'activityLog']], function () {
+// URL prefix comes from config('me_settings.route_prefix') (.env METHEME_ROUTE_PREFIX). Route names have no prefix.
+Route::group(['prefix' => me_prefix(), 'middleware' => ['web', 'auth', LocaleMiddleware::class, 'activityLog']], function () {
     Route::get('/', [DataController::class, 'index'])->name('dashboard');
+
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/configurations', [SettingController::class, 'editConfigurations'])->name('configurations.edit');
     Route::put('/configurations', [SettingController::class, 'updateConfigurations'])->name('configurations.update');
@@ -60,19 +63,6 @@ Route::group(['prefix' => 'me', 'as' => 'me.', 'middleware' => ['web', 'auth', L
     Route::resource('menus', MenuController::class);
 });
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['web', 'auth', LocaleMiddleware::class, 'activityLog']], function () {
-    Route::resource('users', UsersController::class);
-    Route::patch('/users/{user}/toggle-active', [UsersController::class, 'toggleActive'])->name('users.toggle-active');
-    Route::resource('roles', RolesController::class);
-    Route::get('/settings', [SettingController::class, 'edit'])->name('settings.edit');
-    Route::put('/settings', [SettingController::class, 'update'])->name('settings.update');
-});
-
-Route::group(['prefix' => 'my', 'as' => 'me.', 'middleware' => ['web', 'auth', LocaleMiddleware::class, 'activityLog']], function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
 require __DIR__.'/file.php';
 require __DIR__.'/auth.php';

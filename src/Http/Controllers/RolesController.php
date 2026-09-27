@@ -91,7 +91,7 @@ class RolesController extends Controller
             ]);
         }
 
-        return redirect()->route('me.roles.index')
+        return redirect()->route('roles.index')
             ->with('success', 'Role created successfully');
     }
 
@@ -155,7 +155,7 @@ class RolesController extends Controller
             ['permissions' => $selectedPermissions]
         );
 
-        return redirect()->route('me.roles.index')
+        return redirect()->route('roles.index')
             ->with('success', 'Role updated successfully');
     }
 
@@ -163,23 +163,23 @@ class RolesController extends Controller
     public function destroy(Roles $role)
     {
         if ($role->slug === 'encodex') {
-            return redirect()->route('me.roles.index')
+            return redirect()->route('roles.index')
                 ->with('error', 'Cannot delete the ENCODEX role');
         }
 
         if ($role->isSuperAdmin()) {
-            return redirect()->route('me.roles.index')
+            return redirect()->route('roles.index')
                 ->with('error', __('me::me.super_admin_role_cannot_be_deleted'));
         }
 
         if ($role->belongsToUser()) {
-            return redirect()->route('me.roles.index')
+            return redirect()->route('roles.index')
                 ->with('error', __('me::me.you_cannot_delete_your_own_role'));
         }
 
         $role->delete();
 
-        return redirect()->route('me.roles.index')
+        return redirect()->route('roles.index')
             ->with('success', 'Role deleted successfully');
     }
 }

@@ -12,7 +12,7 @@
 <div class="container-fluids">
     <div class="card shadow mb-4 w-100">
         <div class="card-body">
-            <form method="GET" action="{{ route('me.menus.index') }}" class="mb-3 glass-search-form">
+            <form method="GET" action="{{ route('menus.index') }}" class="mb-3 glass-search-form">
                 <div class="row">
                     <div class="col-md">
                         <input type="text" name="name" class="form-control form-control-sm" placeholder="@lang('me::me.Enter Name')" value="{{ request('name') }}">
@@ -27,7 +27,7 @@
                         <button type="submit" class="btn btn-sm btn-encodex-search rounded">
                             <i class="fas fa-search"></i> @lang('me::me.Search')
                         </button>
-                        <a href="{{ route('me.menus.index') }}" class="btn btn-sm btn-encodex-clear rounded">
+                        <a href="{{ route('menus.index') }}" class="btn btn-sm btn-encodex-clear rounded">
                             <i class="fas fa-eraser"></i> @lang('me::me.Reset')
                         </a>
                     </div>
@@ -69,7 +69,7 @@
                                     <button class="btn btn-sm btn-encodex-edit" data-bs-toggle="modal" data-bs-target="#editMenuModal{{ $menu->id }}">
                                         <i class="fas fa-edit"></i>
                                     </button>
-                                    <form action="{{ route('me.menus.destroy', $menu->id) }}" method="POST" class="d-inline m-0">
+                                    <form action="{{ route('menus.destroy', $menu->id) }}" method="POST" class="d-inline m-0">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-encodex-delete"
@@ -95,7 +95,7 @@
 
 <div class="modal fade" id="createMenuModal" tabindex="-1">
     <div class="modal-dialog glass-card modal-lg">
-        <form action="{{ route('me.menus.store') }}" method="POST" class="modal-content">
+        <form action="{{ route('menus.store') }}" method="POST" class="modal-content">
             @csrf
             <div class="modal-header">
                 <h5 class="modal-title">{{ __('me::me.Add Menu') }}</h5>
@@ -115,7 +115,7 @@
 @foreach($menus as $menu)
     <div class="modal fade" id="editMenuModal{{ $menu->id }}" tabindex="-1">
         <div class="modal-dialog glass-card modal-lg">
-            <form action="{{ route('me.menus.update', $menu->id) }}" method="POST" class="modal-content">
+            <form action="{{ route('menus.update', $menu->id) }}" method="POST" class="modal-content">
                 @csrf
                 @method('PUT')
                 <div class="modal-header">

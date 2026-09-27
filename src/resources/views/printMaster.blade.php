@@ -5,7 +5,7 @@
 
 @push('buttons')
   {{-- @component('me::components.btn.add-button', [
-      'route' => route('me.roles.create'),
+      'route' => route('roles.create'),
       'text' => __('me::me.Add Role'),
       'class' => 'btn-encodex-create'
   ])

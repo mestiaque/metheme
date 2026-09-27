@@ -75,7 +75,7 @@ class UsersController extends Controller
             $user->roles()->sync([$request->role]);
         }
 
-        return redirect()->route('me.users.index')->with('success', __('me::me.User created successfully'));
+        return redirect()->route('users.index')->with('success', __('me::me.User created successfully'));
     }
 
     public function show(Users $user)
@@ -149,14 +149,14 @@ class UsersController extends Controller
             $user->roles()->detach();
         }
 
-        return redirect()->route('me.users.index')->with('success', __('me::me.User updated successfully'));
+        return redirect()->route('users.index')->with('success', __('me::me.User updated successfully'));
     }
 
     public function toggleActive(Users $user)
     {
         // Prevent deactivating your own account
         if ($user->id === auth()->id()) {
-            return redirect()->route('me.users.index')
+            return redirect()->route('users.index')
                 ->with('error', 'You cannot deactivate your own account');
         }
 
@@ -164,7 +164,7 @@ class UsersController extends Controller
         $user->save();
 
         $status = $user->is_active ? 'activated' : 'deactivated';
-        return redirect()->route('me.users.index')
+        return redirect()->route('users.index')
             ->with('success', "User {$status} successfully");
     }
 
@@ -172,13 +172,13 @@ class UsersController extends Controller
     {
         // Prevent deleting yourself
         if ($user->id === auth()->id()) {
-            return redirect()->route('me.users.index')
+            return redirect()->route('users.index')
                 ->with('error', 'You cannot delete your own account');
         }
 
         $user->delete();
 
-        return redirect()->route('me.users.index')
+        return redirect()->route('users.index')
             ->with('success', 'User deleted successfully');
     }
 }

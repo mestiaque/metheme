@@ -7,7 +7,7 @@
     {{-- Mail server settings --}}
     <div class="col-lg-8">
         <div class="card glass-card h-100">
-            <form method="POST" action="{{ route('me.mail-config.update') }}">
+            <form method="POST" action="{{ route('mail-config.update') }}">
                 @csrf
                 @method('PUT')
 
@@ -16,14 +16,9 @@
                         <h6 class="mb-0 text-primary fw-semibold">
                             <i class="fas fa-envelope me-1"></i> @lang('me::me.mail_server')
                         </h6>
-                        <div class="form-check form-switch mb-0">
-                            <input type="checkbox" class="form-check-input" id="mail_custom_enabled" name="mail_custom_enabled"
-                                   {{ old('mail_custom_enabled', $settings['mail_custom_enabled']) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="mail_custom_enabled">@lang('me::me.use_these_mail_settings')</label>
-                        </div>
                     </div>
                     <div class="card-body">
-                        <p class="small text-muted mb-3">@lang('me::me.mail_settings_hint')</p>
+                        <p class="small text-muted mb-3">@lang('me::me.mail_settings_db_only')</p>
 
                         <div class="row g-3">
                             <div class="col-md-6">
@@ -108,7 +103,7 @@
     {{-- Test email --}}
     <div class="col-lg-4">
         <div class="card glass-card h-100">
-            <form method="POST" action="{{ route('me.mail-config.test') }}">
+            <form method="POST" action="{{ route('mail-config.test') }}">
                 @csrf
                 <div class="card border-0 shadow-sm">
                     <div class="card-header bg-light py-2">
@@ -123,6 +118,25 @@
                                class="form-control form-control-sm @error('test_email') is-invalid @enderror"
                                value="{{ old('test_email', auth()->user()->email ?? '') }}">
                         @error('test_email') <div class="invalid-feedback">{{ $message }}</div> @enderror
+
+                        <label for="test_template" class="form-label fw-semibold mt-3">@lang('me::me.mail_template')</label>
+                        <select name="test_template" id="test_template" class="form-select form-select-sm @error('test_template') is-invalid @enderror">
+                            @foreach(array_keys(config('me_settings.mail_templates', [])) as $templateName)
+                                <option value="{{ $templateName }}" {{ old('test_template', 'default') === $templateName ? 'selected' : '' }}>{{ ucfirst($templateName) }}</option>
+                            @endforeach
+                        </select>
+                        @error('test_template') <div class="invalid-feedback">{{ $message }}</div> @enderror
+
+                        <label for="test_subject" class="form-label fw-semibold mt-3">@lang('me::me.Subject')</label>
+                        <input type="text" name="test_subject" id="test_subject" maxlength="200"
+                               class="form-control form-control-sm @error('test_subject') is-invalid @enderror"
+                               value="{{ old('test_subject') }}" placeholder="@lang('me::me.test_subject_placeholder')">
+                        @error('test_subject') <div class="invalid-feedback">{{ $message }}</div> @enderror
+
+                        <label for="test_message" class="form-label fw-semibold mt-3">@lang('me::me.Message')</label>
+                        <textarea name="test_message" id="test_message" class="summernote @error('test_message') is-invalid @enderror"
+                                  data-height="160" placeholder="@lang('me::me.test_message_placeholder')">{{ old('test_message') }}</textarea>
+                        @error('test_message') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
                     </div>
                     <div class="card-footer bg-transparent text-end">
                         <button type="submit" class="btn btn-sm btn-encodex px-4">

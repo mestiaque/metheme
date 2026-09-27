@@ -22,7 +22,7 @@
             <span>
                 @lang('me::me.mail_log_hint')
                 @if(auth()->user()->hasPermission('me_setting.mail'))
-                    <a href="{{ route('me.mail-config.edit') }}">@lang('me::me.mail_configuration')</a>
+                    <a href="{{ route('mail-config.edit') }}">@lang('me::me.mail_configuration')</a>
                 @endif
             </span>
         </div>
@@ -30,7 +30,7 @@
 </div>
 
 <div class="card glass-card w-100">
-    <form method="GET" action="{{ route('me.mail-log.index') }}" class="mb-3">
+    <form method="GET" action="{{ route('mail-log.index') }}" class="mb-3">
         <div class="row g-2">
             <div class="col-md">
                 <input type="text" name="search" class="form-control form-control-sm" placeholder="@lang('me::me.recipient_or_subject')" value="{{ request('search') }}">
@@ -51,7 +51,7 @@
             </div>
             <div class="col-md-auto">
                 <button type="submit" class="btn btn-sm btn-encodex-search rounded"><i class="fas fa-search"></i> @lang('me::me.Search')</button>
-                <a href="{{ route('me.mail-log.index') }}" class="btn btn-sm btn-encodex-clear rounded"><i class="fas fa-eraser"></i> @lang('me::me.Reset')</a>
+                <a href="{{ route('mail-log.index') }}" class="btn btn-sm btn-encodex-clear rounded"><i class="fas fa-eraser"></i> @lang('me::me.Reset')</a>
             </div>
         </div>
     </form>

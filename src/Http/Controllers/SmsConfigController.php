@@ -19,9 +19,10 @@ class SmsConfigController extends Controller
     {
         $settings = [
             'enable_sms'    => (bool) Setting::get('enable_sms', false),
-            'sms_api_url'   => Setting::get('sms_api_url', config('services.sms_api_url')),
-            'sms_sender_id' => Setting::get('sms_sender_id', config('services.sms_sender_id')),
-            'sms_balance_url' => Setting::get('sms_balance_url', config('services.sms_balance_url')),
+            // Database only (.env SMS_* values are not used)
+            'sms_api_url'   => Setting::get('sms_api_url'),
+            'sms_sender_id' => Setting::get('sms_sender_id'),
+            'sms_balance_url' => Setting::get('sms_balance_url'),
             'has_api_key'   => filled(Setting::get('sms_api_key')),
         ];
 
@@ -47,7 +48,7 @@ class SmsConfigController extends Controller
             Setting::set('sms_api_key', Crypt::encryptString($request->sms_api_key));
         }
 
-        return redirect()->route('me.sms-config.edit')
+        return redirect()->route('sms-config.edit')
             ->with('success', __('me::me.sms_settings_saved'));
     }
 

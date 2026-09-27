@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="card glass-card">
-        <form method="POST" action="{{ route('me.configurations.update') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('configurations.update') }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -126,68 +126,6 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                                 <small class="form-text text-muted">@lang('me::me.Recommended size: 64x64px, Max: 4MB')</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- URL Settings --}}
-                <div class="col-12">
-                    <div class="card border-0 shadow-sm">
-                        <div class="card-header bg-light py-2">
-                            <h6 class="mb-0 text-primary fw-semibold">
-                                <i class="fas fa-link me-1"></i> @lang('me::me.URL Configuration')
-                            </h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label for="root_url" class="form-label fw-semibold">@lang('me::me.Root URL')</label>
-                                    <input type="url" class="form-control form-control-sm" id="root_url"
-                                            name="root_url" value="{{ old('root_url', $settings['root_url']) }}"
-                                            placeholder="https://example.com">
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label for="profile_url" class="form-label fw-semibold">@lang('me::me.Profile URL')</label>
-                                    <input type="url" class="form-control form-control-sm" id="profile_url"
-                                            name="profile_url" value="{{ old('profile_url', $settings['profile_url']) }}"
-                                            placeholder="https://example.com/profile">
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label for="setting_url" class="form-label fw-semibold">@lang('me::me.Setting URL')</label>
-                                    <input type="url" class="form-control form-control-sm" id="setting_url"
-                                            name="setting_url" value="{{ old('setting_url', $settings['setting_url']) }}"
-                                            placeholder="https://example.com/settings">
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label for="logout_url" class="form-label fw-semibold">@lang('me::me.Logout URL')</label>
-                                    <input type="url" class="form-control form-control-sm" id="logout_url"
-                                            name="logout_url" value="{{ old('logout_url', $settings['logout_url']) }}"
-                                            placeholder="https://example.com/logout">
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label for="login_url" class="form-label fw-semibold">@lang('me::me.Login URL')</label>
-                                    <input type="url" class="form-control form-control-sm" id="login_url"
-                                            name="login_url" value="{{ old('login_url', $settings['login_url']) }}"
-                                            placeholder="https://example.com/login">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="login_redirect_url" class="form-label fw-semibold">@lang('me::me.Login Redirect URL')</label>
-                                    <input type="url" class="form-control form-control-sm" id="login_redirect_url"
-                                            name="login_redirect_url" value="{{ old('login_redirect_url', $settings['login_redirect_url']) }}"
-                                            placeholder="https://example.com/admin/dashboard">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="dev_url" class="form-label fw-semibold">@lang('me::me.Dev URL')</label>
-                                    <input type="url" class="form-control form-control-sm" id="dev_url"
-                                            name="dev_url" value="{{ old('dev_url', $settings['dev_url']) }}"
-                                            placeholder="https://example.com/">
-                                </div>
-
                             </div>
                         </div>
                     </div>

@@ -16,9 +16,66 @@ class DataController extends Controller
         $this->middleware('authorization:me.mailLayoutPreview')->only(['mailLayoutPreview']);
     }
 
+    /**
+     * Demo admin dashboard built from real package data (users, roles, activity, mail, SMS).
+     * Every query is guarded, so a missing table only empties its widget.
+     */
     public function index()
     {
-        return view('me::dashboard');
+        $safe = function (callable $query, $default = 0) {
+            try {
+                return $query();
+            } catch (\Throwable $e) {
+                return $default;
+            }
+        };
+
+        $today = now()->startOfDay();
+        $monthStart = now()->startOfMonth();
+
+        $stats = [
+            'users'            => $safe(fn () => DB::table('users')->count()),
+            'active_users'     => $safe(fn () => DB::table('users')->where('is_active', 1)->count()),
+            'roles'            => $safe(fn () => DB::table('roles')->count()),
+            'logins_today'     => $safe(fn () => DB::table('user_activities')->where('activity_type', 'login')->where('status', 'success')->where('activity_at', '>=', $today)->count()),
+            'failed_today'     => $safe(fn () => DB::table('user_activities')->where('activity_type', 'login')->where('status', 'failed')->where('activity_at', '>=', $today)->count()),
+            'activities_today' => $safe(fn () => DB::table('user_activities')->where('activity_at', '>=', $today)->count()),
+            'mail_month'       => $safe(fn () => DB::table('mail_logs')->where('created_at', '>=', $monthStart)->count()),
+            'sms_month'        => $safe(fn () => DB::table('sms_logs')->where('created_at', '>=', $monthStart)->count()),
+        ];
+
+        // Activity per day for the last 7 days (chart)
+        $days = collect(range(6, 0))->map(fn ($i) => now()->subDays($i)->toDateString());
+        $since = now()->subDays(6)->startOfDay();
+        $perDay = $safe(fn () => DB::table('user_activities')
+            ->selectRaw('DATE(activity_at) as day, COUNT(*) as total')
+            ->where('activity_at', '>=', $since)
+            ->groupBy('day')
+            ->pluck('total', 'day'), collect());
+        $loginsPerDay = $safe(fn () => DB::table('user_activities')
+            ->selectRaw('DATE(activity_at) as day, COUNT(*) as total')
+            ->where('activity_type', 'login')->where('status', 'success')
+            ->where('activity_at', '>=', $since)
+            ->groupBy('day')
+            ->pluck('total', 'day'), collect());
+
+        $chart = [
+            'labels'     => $days->map(fn ($d) => \Carbon\Carbon::parse($d)->format('d M'))->values(),
+            'activities' => $days->map(fn ($d) => (int) ($perDay[$d] ?? 0))->values(),
+            'logins'     => $days->map(fn ($d) => (int) ($loginsPerDay[$d] ?? 0))->values(),
+        ];
+
+        $recentActivities = $safe(fn () => \ME\Models\UserActivity::with('user:id,name')
+            ->orderByDesc('activity_at')->limit(8)->get(), collect());
+
+        $roleDistribution = $safe(fn () => DB::table('roles')
+            ->leftJoin('role_user', 'roles.id', '=', 'role_user.role_id')
+            ->select('roles.name', DB::raw('COUNT(role_user.user_id) as total'))
+            ->groupBy('roles.id', 'roles.name')
+            ->orderByDesc('total')
+            ->get(), collect());
+
+        return view('me::dashboard-demo', compact('stats', 'chart', 'recentActivities', 'roleDistribution'));
     }
 
     public function clearDataForm()

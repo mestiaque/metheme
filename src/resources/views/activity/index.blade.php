@@ -4,7 +4,7 @@
 
 
 @push('buttons')
-    <a href="{{ route('me.activity.export', request()->query()) }}" class="btn btn-encodex-print btn-sm">
+    <a href="{{ route('activity.export', request()->query()) }}" class="btn btn-encodex-print btn-sm">
         <i class="fas fa-download"></i> {{ __('me::me.Export CSV') }}
     </a>
 @endpush
@@ -12,7 +12,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form method="GET" action="{{ route('me.activity.index') }}" class="mb-4 glass-search-form">
+            <form method="GET" action="{{ route('activity.index') }}" class="mb-4 glass-search-form">
                 <div class="row g-3 p-2">
                     <div class="col-md-2 mt-2">
                         <label for="search" class="form-label mb-0">{{ __('me::me.Search User') }}</label>
@@ -84,7 +84,7 @@
                         <button type="submit" class="btn btn-encodex-search btn-sm me-2">
                             <i class="fas fa-search"></i> {{ __('me::me.Search') }}
                         </button>
-                        <a href="{{ route('me.activity.index') }}" class="btn btn-encodex-clear btn-sm">
+                        <a href="{{ route('activity.index') }}" class="btn btn-encodex-clear btn-sm">
                              <i class="fas fa-redo"></i> {{ __('me::me.Reset') }}
                         </a>
                     </div>
@@ -219,7 +219,7 @@
                                         @endphp
 
                                         @if($isOwnLoginActivity)
-                                            <form method="POST" action="{{ route('me.activity.logout-device', $activity->id) }}"
+                                            <form method="POST" action="{{ route('activity.logout-device', $activity->id) }}"
                                                   onsubmit="return confirm('{{ __('me::me.Are you sure you want to logout this device?') }}');">
                                                 @csrf
                                                 <button type="submit"

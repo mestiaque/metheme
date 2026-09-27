@@ -53,6 +53,6 @@ class SmsLogController extends Controller
         $account->sms_rate = $request->rate ?? $account->sms_rate;
         $account->save();
 
-        return redirect()->route('me.sms-log.index')->with('success', __('me::me.sms_account_updated'));
+        return redirect()->route('sms-log.index')->with('success', __('me::me.sms_account_updated'));
     }
 }

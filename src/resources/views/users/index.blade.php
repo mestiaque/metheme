@@ -1,12 +1,11 @@
 @extends('me::master')
 
-@php $prefix = request()->segment(1); @endphp
 
 @section('title', trans('me::me.Users'))
 
 @push('buttons')
   @component('me::components.btn.add-button', [
-      'route' => route("{$prefix}.users.create"),
+      'route' => route("users.create"),
       'text' => __('me::me.Add User'),
       'class' => 'btn-encodex-create'
   ])
@@ -76,7 +75,7 @@
                         <td>{{ $user->email }}</td>
                         <td>
                             @foreach($user->roles as $role)
-                                <span class="badge bg-info">{{ $role->name }}</span>
+                                @include('me::roles.partials.badge', ['role' => $role])
                             @endforeach
                         </td>
                         <td>
@@ -89,29 +88,29 @@
                         <td>{{ $user->created_at ? $user->created_at->format('d M Y') : __('me::me.N/A') }}</td>
                         <td class="text-center">
                             <div class="d-inline-flex align-items-center gap-1">
-                                <a href="{{ route("{$prefix}.users.show", $user->id) }}" class="btn btn-sm me-1 btn-encodex-show" title="@lang("me::me.View")">
+                                <a href="{{ route("users.show", $user->id) }}" class="btn btn-sm me-1 btn-encodex-show" title="@lang("me::me.View")">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <a href="{{ route("{$prefix}.users.edit", $user->id) }}" class="btn btn-sm me-1 btn-encodex-edit {{ $user->id === auth()->id() ? 'disabled-link' : '' }}" title="@lang("me::me.Edit")" >
+                                <a href="{{ route("users.edit", $user->id) }}" class="btn btn-sm me-1 btn-encodex-edit {{ !in_array($user->id, $manageableUserIds ?? []) ? 'disabled-link' : '' }}" title="@lang("me::me.Edit")" >
                                     <i class="fas fa-edit"></i>
                                 </a>
 
-                                <form action="{{ route("{$prefix}.users.toggle-active", $user->id) }}" method="POST" class="d-inline">
+                                <form action="{{ route("users.toggle-active", $user->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('PATCH')
                                     <button type="submit" class="btn btn-sm me-1 {{ $user->is_active ? 'btn-encodex-deactive' : 'btn-encodex-active' }}"
                                         title="{{ $user->is_active ? 'Deactivate' : 'Activate' }}"
-                                        {{ $user->id === auth()->id() ? 'disabled' : '' }}>
+                                        {{ !in_array($user->id, $manageableUserIds ?? []) ? 'disabled' : '' }}>
                                         <i class="fas {{ $user->is_active ? 'fa-ban' : 'fa-check' }}"></i>
                                     </button>
                                 </form>
 
-                                <form action="{{ route("{$prefix}.users.destroy", $user->id) }}" method="POST" class="d-inline">
+                                <form action="{{ route("users.destroy", $user->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-encodex-delete" title="@lang("me::me.Delete")"
                                         onclick="return confirm('{{ __('me::me.Are you sure you want to delete this?') }}')"
-                                        {{ $user->id === auth()->id() ? 'disabled' : '' }}>
+                                        {{ !in_array($user->id, $manageableUserIds ?? []) ? 'disabled' : '' }}>
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>

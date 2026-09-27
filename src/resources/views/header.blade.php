@@ -15,7 +15,7 @@
     </li>
 
     <li class="nav-item d-nonex d-md-block ms-2"> <!-- ms-2 দিয়ে একটু গ্যাপ দেওয়া হয়েছে -->
-        <a href="{{ Route::has('admin.dashboard') ? route('admin.dashboard') : route('me.dashboard') }}"
+        <a href="{{ route('dashboard') }}"
             class="nav-link d-flex align-items-center"
             style="height: 40px; padding:0px !important;"> <!-- প্যাডিং ০ করে দেওয়া হয়েছে যাতে ইমেজ বড় হলে সমস্যা না হয় -->
             @include('me::svg')
@@ -157,13 +157,13 @@
         </a>
         <ul class="dropdown-menu" id="userMenuDropdown" style="display:none;">
           <li class="py-1">
-            <a class="dropdown-item" href="{{ Route::has('admin.profile.edit') ? route('admin.profile.edit') : route('me.profile.edit') }}">
+            <a class="dropdown-item" href="{{ Route::has('admin.profile.edit') ? route('admin.profile.edit') : route('profile.edit') }}">
               <i class="bi bi-person me-2"></i> @lang("me::me.Profile")
             </a>
           </li>
           @can('setting.edit')
           <li class="py-1">
-            <a class="dropdown-item" href="{{ Route::has('admin.settings.edit') ? route('admin.settings.edit') : route('me.settings.edit') }}">
+            <a class="dropdown-item" href="{{ Route::has('admin.settings.edit') ? route('admin.settings.edit') : route('settings.edit') }}">
               <i class="bi bi-gear me-2"></i> @lang("me::me.Settings")
             </a>
           </li>

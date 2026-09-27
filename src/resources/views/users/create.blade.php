@@ -1,11 +1,10 @@
-@php $prefix = request()->segment(1); @endphp
 @extends('me::master')
 
 @section('title', trans('me::me.Create User'))
 
 @push('buttons')
   @component('me::components.btn.add-button', [
-      'route' => route("{$prefix}.users.index"),
+      'route' => route("users.index"),
       'text' => __('me::me.All Users'),
       'class' => 'btn-encodex-list'
   ])
@@ -16,7 +15,7 @@
 <div class="container-fluids">
     <div class="card shadow mb-4">
         <div class="card-body">
-            <form action="{{ route("{$prefix}.users.store") }}" method="POST" autocomplete="off" enctype="multipart/form-data">
+            <form action="{{ route("users.store") }}" method="POST" autocomplete="off" enctype="multipart/form-data">
                 @csrf
 
                 <div class="row">

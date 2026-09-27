@@ -24,13 +24,6 @@ class SettingController extends Controller
             'enable_translation'     => (bool) Setting::get('enable_translation', false),
             'enable_registration'    => (bool) Setting::get('enable_registration', false),
             'enable_forget_password' => (bool) Setting::get('enable_forget_password', false),
-            'root_url'               => Setting::get('root_url', url('/')),
-            'profile_url'            => Setting::get('profile_url', url('/profile')),
-            'setting_url'            => Setting::get('setting_url', url('/settings')),
-            'logout_url'             => Setting::get('logout_url', url('/logout')),
-            'login_url'              => Setting::get('login_url', url('/login')),
-            'dev_url'                => Setting::get('dev_url', ('mestiaque.com')),
-            'login_redirect_url'      => Setting::get('login_redirect_url', url('/admin/dashboard')),
             'app_logo'               => Setting::get('app_logo'),
             'app_ico'                => Setting::get('app_ico'),
         ];
@@ -42,11 +35,6 @@ class SettingController extends Controller
     {
         $request->validate([
             'pagination'  => 'required|integer|min:1',
-            'root_url'    => 'nullable|url',
-            'profile_url' => 'nullable|url',
-            'setting_url' => 'nullable|url',
-            'logout_url'  => 'nullable|url',
-            'login_url'   => 'nullable|url',
             'app_logo'    => 'nullable|image|max:4096',
             'app_ico'     => 'nullable|file|mimes:svg,ico,png,jpg|max:1024',
         ]);
@@ -56,13 +44,6 @@ class SettingController extends Controller
         Setting::set('enable_translation', $request->has('enable_translation'));
         Setting::set('enable_registration', $request->has('enable_registration'));
         Setting::set('enable_forget_password', $request->has('enable_forget_password'));
-        Setting::set('root_url', $request->root_url);
-        Setting::set('profile_url', $request->profile_url);
-        Setting::set('setting_url', $request->setting_url);
-        Setting::set('logout_url', $request->logout_url);
-        Setting::set('login_url', $request->login_url);
-        Setting::set('dev_url', $request->dev_url);
-        Setting::set('login_redirect_url', $request->login_redirect_url);
 
         foreach (['app_logo', 'app_ico'] as $imgField) {
             if ($request->hasFile($imgField)) {
@@ -79,7 +60,7 @@ class SettingController extends Controller
             }
         }
 
-        return redirect()->route('me.configurations.edit')
+        return redirect()->route('configurations.edit')
             ->with('success', 'Configurations updated successfully.');
     }
 

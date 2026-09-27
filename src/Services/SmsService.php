@@ -26,13 +26,15 @@ class SmsService
     /**
      * @return array{success: bool, response_code: mixed, response: mixed, error: ?string}
      */
-    public static function send(string $to, string $message): array
+    public static function send(string $to, string $message, bool $hideMessage = false): array
     {
+        $to = preg_replace('/[\s\-()]/', '', trim($to));
         $result = self::attempt($to, $message);
 
         SmsLog::create([
             'to'            => $to,
-            'message'       => $message,
+            // Messages with secrets (e.g. OTP codes) are not stored in the log
+            'message'       => $hideMessage ? '[hidden: one-time code]' : $message,
             'status'        => $result['success'] ? 'success' : ($result['response_code'] === null ? 'error' : 'failed'),
             'response_code' => $result['response_code'],
             'api_response'  => $result['response'] !== null ? json_encode($result['response'], JSON_UNESCAPED_UNICODE) : $result['error'],
@@ -90,6 +92,11 @@ class SmsService
     private static function attempt(string $to, string $message): array
     {
         $url = config('services.sms_api_url');
+
+        // "Enable SMS" switch on the SMS Configuration page
+        if (!config('services.sms_enabled')) {
+            return self::result(false, null, null, __('me::me.sms_disabled'));
+        }
 
         if (empty($url) || empty(config('services.sms_api_key'))) {
             return self::result(false, null, null, __('me::me.sms_gateway_not_configured'));

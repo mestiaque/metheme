@@ -1,12 +1,11 @@
 
-@php $prefix = request()->segment(1); @endphp
 @extends('me::master')
 
 @section('title', trans('me::me.User Details'))
 
 @push('buttons')
   @component('me::components.btn.add-button', [
-      'route' => route("{$prefix}.users.index"),
+      'route' => route("users.index"),
       'text' => __('me::me.All Users'),
       'class' => 'btn-encodex-list'
   ])

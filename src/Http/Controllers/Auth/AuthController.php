@@ -51,7 +51,7 @@ class AuthController extends Controller
         $activityLogger->logActivity(Auth::id(), 'login', 'success');
 
         // return redirect()->intended(RouteServiceProvider::HOME);
-        return redirect()->intended(get_setting('login_redirect_url', url('/admin/dashboard'))); // সেটিং থেকে রিডাইরেক্ট ইউআরএল নেওয়া হচ্ছে
+        return redirect()->route('dashboard'); // লগইনের পরে সবসময় ড্যাশবোর্ড: {APP_URL}/{route_prefix}
     }
 
     public function logOut(Request $request): RedirectResponse
@@ -166,19 +166,14 @@ class AuthController extends Controller
 
     private function sendOtp($type, $identity, $otp)
     {
+        // Gateway / SMTP settings come from the SMS and Mail Configuration pages (database)
         if ($type == 'phone') {
-            Http::get(env('SMS_API_URL', ''), [
-                'api_key' => env('SMS_API_KEY'),
-                'type' => 'text',
-                'number' => $identity,
-                'senderid' => env('SMS_SENDER_ID', ''),
-                'message' => "Your registration OTP is: {$otp}"
-            ]);
+            me_sms($identity, "Your verification code is: {$otp}", hideMessage: true);
         } elseif ($type == 'email') {
-            $companyName = config('app.name', 'MESTIAQUE');
+            $companyName = e(get_setting('app_name', config('app.name')));
             $content = '<h2 style="color: #1a1a1a; font-size: 24px; font-weight: 700; margin: 0; text-align: center;">Verify Your Account</h2>';
-            $content .= '<p style="color: #4a4a4a; font-size: 16px; line-height: 1.6; margin-top: 20px; text-align: center;">Hello, thank you for joining <strong>' . $companyName . '</strong>. Use the secure code below to complete your registration.</p>';
-            Mail::to($identity)->send(new \ME\Mail\AuthMailLayout($content, $otp));
+            $content .= '<p style="color: #4a4a4a; font-size: 16px; line-height: 1.6; margin-top: 20px; text-align: center;">Hello, thank you for joining <strong>' . $companyName . '</strong>. Use the secure code below to continue.</p>';
+            me_mail($identity, 'Your verification code', $content, ['otp' => $otp], 'auth');
         }
     }
 

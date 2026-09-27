@@ -1,4 +1,3 @@
-@php $prefix = request()->segment(1); @endphp
 
 @extends('me::master')
 
@@ -6,7 +5,7 @@
 
 @push('buttons')
   @component('me::components.btn.add-button', [
-      'route' => route("{$prefix}.roles.index"),
+      'route' => route("roles.index"),
       'text' => __('me::me.All Roles'),
       'class' => 'btn-encodex-list'
   ])
@@ -16,7 +15,7 @@
 @section('content')
 <div class="card shadow mb-4">
     <div class="card-body">
-        <form action="{{ route("{$prefix}.roles.update", $role->id) }}" method="POST">
+        <form action="{{ route("roles.update", $role->id) }}" method="POST">
             @csrf
             @method('PUT')
 
@@ -52,6 +51,9 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+
+                    @include('me::roles.partials.parent-select', ['selectedParent' => old('parent_id', $role->parent_id)])
+                    @include('me::roles.partials.color-input', ['selectedColor' => old('color', $role->color)])
                 </div>
 
                 <div class="col-md-6">

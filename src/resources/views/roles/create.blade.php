@@ -1,11 +1,10 @@
-@php $prefix = request()->segment(1); @endphp
 @extends('me::master')
 
 @section('title', trans('me::me.Create Role'))
 
 @push('buttons')
   @component('me::components.btn.add-button', [
-      'route' => route("{$prefix}.roles.index"),
+      'route' => route("roles.index"),
       'text' => __('me::me.All Roles'),
       'class' => 'btn-encodex-list'
   ])
@@ -16,7 +15,7 @@
 <div class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-body">
-            <form action="{{ route("{$prefix}.roles.store") }}" method="POST">
+            <form action="{{ route("roles.store") }}" method="POST">
                 @csrf
 
                 <div class="row">
@@ -41,6 +40,9 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+
+                        @include('me::roles.partials.parent-select', ['selectedParent' => old('parent_id')])
+                        @include('me::roles.partials.color-input', ['selectedColor' => old('color')])
                     </div>
 
                     <div class="col-md-6">

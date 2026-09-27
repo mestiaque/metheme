@@ -47,7 +47,7 @@
                 <div class="small text-muted">
                     @lang('me::me.gateway_balance_not_set')
                     @if(auth()->user()->hasPermission('me_setting.sms'))
-                        <a href="{{ route('me.sms-config.edit') }}">@lang('me::me.sms_configuration')</a>
+                        <a href="{{ route('sms-config.edit') }}">@lang('me::me.sms_configuration')</a>
                     @endif
                 </div>
             @endif
@@ -58,7 +58,7 @@
 {{-- Recharge --}}
 @if(auth()->user()->hasPermission('me_sms.recharge'))
 <div class="card glass-card mb-3">
-    <form method="POST" action="{{ route('me.sms-log.recharge') }}" class="row g-2 align-items-end">
+    <form method="POST" action="{{ route('sms-log.recharge') }}" class="row g-2 align-items-end">
         @csrf
         <div class="col-md-auto">
             <h6 class="mb-2 text-primary fw-semibold"><i class="fas fa-wallet me-1"></i> @lang('me::me.recharge_update_account')</h6>
@@ -84,7 +84,7 @@
 
 {{-- Log --}}
 <div class="card glass-card w-100">
-    <form method="GET" action="{{ route('me.sms-log.index') }}" class="mb-3">
+    <form method="GET" action="{{ route('sms-log.index') }}" class="mb-3">
         <div class="row g-2">
             <div class="col-md">
                 <input type="text" name="phone" class="form-control form-control-sm" placeholder="@lang('me::me.mobile_number')" value="{{ request('phone') }}">
@@ -105,7 +105,7 @@
             </div>
             <div class="col-md-auto">
                 <button type="submit" class="btn btn-sm btn-encodex-search rounded"><i class="fas fa-search"></i> @lang('me::me.Search')</button>
-                <a href="{{ route('me.sms-log.index') }}" class="btn btn-sm btn-encodex-clear rounded"><i class="fas fa-eraser"></i> @lang('me::me.Reset')</a>
+                <a href="{{ route('sms-log.index') }}" class="btn btn-sm btn-encodex-clear rounded"><i class="fas fa-eraser"></i> @lang('me::me.Reset')</a>
             </div>
         </div>
     </form>

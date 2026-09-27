@@ -66,7 +66,10 @@ class User extends Authenticatable
 
     public function hasPermission($permission)
     {
-        if ($this->hasRole('encodex')) {
+        if (me_is_developer_only($permission)) {
+            return me_is_developer($this);
+        }
+        if (me_is_developer($this) || $this->hasRole('encodex')) {
             return true;
         }
         foreach ($this->roles as $role) {
@@ -124,6 +127,6 @@ class User extends Authenticatable
 
     public function is_encodex()
     {
-        return $this->hasRole('encodex');
+        return me_is_developer($this) || $this->hasRole('encodex');
     }
 }

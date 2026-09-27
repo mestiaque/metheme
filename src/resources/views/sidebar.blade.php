@@ -2,7 +2,7 @@
 <!--begin::Sidebar-->
 <aside class="app-sidebar sidebar-glass bg-encodexx shadow" data-bs-theme="dark">
   <div class="sidebar-brand">
-    @php $url = get_setting('root_url') ?: '/'; @endphp
+    @php $url = route('dashboard'); @endphp
     <a href="{{ $url }}" class="brand-link">
     @php $logo = (get_setting('app_logo')) ? get_image('app_logo') : asset('assets/img/favicon/Encodex.ico'); @endphp
       <img src="{{ $logo }}" class="brand-image opacity-75" alt="M. ESTIAQUE">

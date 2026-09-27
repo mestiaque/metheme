@@ -7,7 +7,7 @@
     {{-- SMS gateway settings --}}
     <div class="col-lg-8">
         <div class="card glass-card h-100">
-            <form method="POST" action="{{ route('me.sms-config.update') }}">
+            <form method="POST" action="{{ route('sms-config.update') }}">
                 @csrf
                 @method('PUT')
 
@@ -73,7 +73,7 @@
     {{-- Test SMS --}}
     <div class="col-lg-4">
         <div class="card glass-card h-100">
-            <form method="POST" action="{{ route('me.sms-config.test') }}">
+            <form method="POST" action="{{ route('sms-config.test') }}">
                 @csrf
                 <div class="card border-0 shadow-sm">
                     <div class="card-header bg-light py-2">
