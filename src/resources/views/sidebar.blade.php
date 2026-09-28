@@ -34,6 +34,24 @@
                 @php
                     // sidebar config টি সংগ্রহ করে sl অনুযায়ী সর্ট করা হচ্ছে
                     $sidebarMenu = collect(config('sidebar'))->sortBy('sl')->toArray();
+
+                    // for_active thakle sheta check korbe, na thakle route*; "params" thakle segulo o milte hobe
+                    $menuActive = function ($item) {
+                        try {
+                            $pattern = isset($item['for_active']) ? $item['for_active'] . '*' : $item['route'] . '*';
+                            if (!request()->routeIs($pattern)) {
+                                return false;
+                            }
+                            foreach ($item['params'] ?? [] as $key => $value) {
+                                if ((string) request()->route($key) !== (string) $value) {
+                                    return false;
+                                }
+                            }
+                            return true;
+                        } catch (\Exception $e) {
+                            return false;
+                        }
+                    };
                 @endphp
 
                 @foreach($sidebarMenu as $item)
@@ -49,22 +67,14 @@
                                     return false;
                                 }
                                 try {
-                                    route($child['route']);
+                                    route($child['route'], $child['params'] ?? []);
                                     return true;
                                 } catch (\Exception $e) {
                                     return false;
                                 }
                             });
 
-                            $isParentActive = $visibleChildren->contains(function($child) {
-                                try {
-                                    // for_active thakle sheta check korbe, na thakle route*
-                                    $pattern = isset($child['for_active']) ? $child['for_active'] . '*' : $child['route'] . '*';
-                                    return request()->routeIs($pattern);
-                                } catch (\Exception $e) {
-                                    return false;
-                                }
-                            });
+                            $isParentActive = $visibleChildren->contains($menuActive);
                         @endphp
 
                         @if($visibleChildren->isNotEmpty())
@@ -78,15 +88,9 @@
                                 </a>
                                 <ul class="nav nav-treeview">
                                     @foreach($visibleChildren as $child)
-                                        @php
-                                            $isChildActive = false;
-                                            try {
-                                                $childPattern = isset($child['for_active']) ? $child['for_active'] . '*' : $child['route'] . '*';
-                                                $isChildActive = request()->routeIs($childPattern);
-                                            } catch (\Exception $e) {}
-                                        @endphp
+                                        @php $isChildActive = $menuActive($child); @endphp
                                         <li class="nav-item">
-                                            <a href="{{ route($child['route']) }}" class="nav-link {{ $isChildActive ? 'active' : '' }} m-1">
+                                            <a href="{{ route($child['route'], $child['params'] ?? []) }}" class="nav-link {{ $isChildActive ? 'active' : '' }} m-1">
                                                 <i class="nav-icon {{ $child['icon'] }} {{ $child['icon_color'] ?? 'text-muted' }}"></i>
                                                 <p>{{ menu_trans($child['title']) }}</p>
                                             </a>
@@ -100,22 +104,16 @@
                             $canAccess = !isset($item['permit']) || auth()->user()->can($item['permit']);
                             $routeExists = false;
                             try {
-                                route($item['route']);
+                                route($item['route'], $item['params'] ?? []);
                                 $routeExists = true;
                             } catch (\Exception $e) {}
 
-                            $isActive = false;
-                            if ($routeExists) {
-                                try {
-                                    $parentPattern = isset($item['for_active']) ? $item['for_active'] . '*' : $item['route'] . '*';
-                                    $isActive = request()->routeIs($parentPattern);
-                                } catch (\Exception $e) {}
-                            }
+                            $isActive = $routeExists && $menuActive($item);
                         @endphp
 
                         @if($canAccess && $routeExists)
                             <li class="parentnav nav-item {{ $isActive ? 'menu-open' : '' }}">
-                                <a href="{{ route($item['route']) }}" class="nav-link {{ $isActive ? 'active' : '' }}">
+                                <a href="{{ route($item['route'], $item['params'] ?? []) }}" class="nav-link {{ $isActive ? 'active' : '' }}">
                                     <i class="nav-icon {{ $item['icon'] }} {{ $item['icon_color'] ?? 'text-primary' }}"></i>
                                     <p>{{ menu_trans($item['title']) }}</p>
                                 </a>

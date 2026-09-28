@@ -312,7 +312,7 @@ class AuthController extends Controller
         try {
             $validated = $request->validateWithBag('updatePassword', [
                 'current_password' => ['required', 'current_password'],
-                'password' => ['required', Password::defaults(), 'confirmed'],
+                'password' => ['required', Rules\Password::defaults(), 'confirmed'],
             ]);
 
             $request->user()->update([

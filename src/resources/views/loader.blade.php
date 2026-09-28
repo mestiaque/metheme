@@ -193,6 +193,12 @@
     // Show loader on form submit (but not AJAX forms)
     document.addEventListener('submit', function(e) {
         const target = e.target;
+        // A form that opens in another tab/window (e.g. print → target="_blank") never unloads
+        // this page, so the loader would never be hidden. The submit button's formtarget wins.
+        const formTarget = (e.submitter && e.submitter.getAttribute('formtarget')) || target.getAttribute('target');
+        if (formTarget && formTarget !== '_self') {
+            return;
+        }
         // Only for non-AJAX forms
         if (!target.classList.contains('no-loader') && !target.classList.contains('ajax-form')) {
             XLoader.show();

@@ -129,10 +129,25 @@
         show();
     }, true);
 
+    // A submit that opens in another tab/window — target="_blank" on the form, or
+    // formtarget="_blank" on the button that was clicked (e.g. Print / Excel) — never
+    // unloads this page, so showing the loader here would leave it stuck forever.
+    function submitOpensElsewhere(form, submitter) {
+        var target = (submitter && submitter.getAttribute('formtarget')) || form.getAttribute('target');
+        return !!target && target !== '_self';
+    }
+
     document.addEventListener('submit', function (e) {
         var form = e.target;
         if (!form || form.classList.contains('no-loader') || form.classList.contains('ajax-form')) return;
+        if (submitOpensElsewhere(form, e.submitter)) return;
         show();
+    });
+
+    // Safety net: coming back to this tab while it's still here (a new window opened
+    // from script, a file download, ...) means nothing is navigating — drop the loader.
+    document.addEventListener('visibilitychange', function () {
+        if (document.visibilityState === 'visible') hide();
     });
 
     window.addEventListener('beforeunload', function () {

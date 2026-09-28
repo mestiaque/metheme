@@ -30,8 +30,9 @@
     align-items: center;
 }
 
+/* 31px = Bootstrap .form-control-sm / .form-select-sm height */
 .select2-container .select2-selection--single{
-    height: 30px !important;
+    height: 31px !important;
 }
 
 .select2-container--default .select2-results__option {
@@ -50,8 +51,66 @@ input[type="file"].form-control {
     line-height: 1.5;
 }
 
-/* Fix select2 with multiple */
+/* Select2 multiple: same 31px height as .form-control-sm / a single select;
+   grows only when the chosen items wrap to a new line. !important because
+   select2.min.css is loaded after this file and would otherwise win. */
 .select2-container--default .select2-selection--multiple {
-    min-height: 45px !important;
-    padding: 0.25rem 0.5rem;
+    display: flex !important;
+    align-items: center;
+    position: relative;
+    min-height: 31px !important;
+    padding: 2px 24px 2px 8px !important;
+    font-size: 0.875rem;
+    border: 1px solid #ced4da !important;
+    border-radius: 6px !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__rendered {
+    display: flex !important;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2px 4px;
+    width: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1 !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    float: none !important;
+    display: inline-flex;
+    align-items: center;
+    height: 20px;
+    margin: 0 !important;
+    padding: 0 6px !important;
+    font-size: 0.8rem;
+    line-height: 20px !important;
+}
+
+/* Clear (×) sits in the right padding, so it never pushes the chips onto a new line */
+.select2-container--default .select2-selection--multiple .select2-selection__clear {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    float: none !important;
+    margin: 0 !important;
+    line-height: 20px;
+    transform: translateY(-50%);
+}
+
+.select2-container--default .select2-selection--multiple .select2-search--inline {
+    float: none !important;
+    flex: 1 1 0;
+    min-width: 12px;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-search--inline .select2-search__field {
+    height: 20px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 0.875rem;
+    line-height: 20px !important;
 }

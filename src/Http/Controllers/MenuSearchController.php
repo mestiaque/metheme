@@ -50,12 +50,12 @@ class MenuSearchController extends Controller
             }
 
             try {
-                $item['route'] = route($item['route']);
+                $item['route'] = route($item['route'], $item['params']);
             } catch (\Exception $e) {
                 continue;
             }
 
-            unset($item['permit']);
+            unset($item['permit'], $item['params']);
             $matches[] = $item;
 
             if (count($matches) >= 10) {
@@ -87,6 +87,7 @@ class MenuSearchController extends Controller
                     $items[] = [
                         'title'      => $title,
                         'route'      => $node['route'],
+                        'params'     => $node['params'] ?? [],
                         'icon'       => $node['icon'] ?? 'fa-solid fa-circle',
                         'breadcrumb' => implode(' / ', $trail),
                         'permit'     => $node['permit'] ?? '',
