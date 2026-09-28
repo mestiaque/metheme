@@ -243,6 +243,12 @@
                 }
 
             }
+
+            /* রিলোডে সেভ করা সাইডবার স্টেট বসানোর সময় কোনো ট্রানজিশন/শেক যেন না হয় -
+               প্রথম পেইন্টের আগেই এই ক্লাস বডিতে বসে, লোড হয়ে গেলে সরিয়ে ফেলা হয় */
+            body.sidebar-preload * {
+                transition: none !important;
+            }
         </style>
 
         @stack('css')
@@ -264,6 +270,9 @@
                 const savedState = localStorage.getItem('sidebarState');
                 const breakpoint = 768;
 
+                // ট্রানজিশন বন্ধ রেখে ক্লাস বসানো হচ্ছে যাতে প্রথম পেইন্টে কোনো শেক/জাম্প না দেখা যায়
+                document.body.classList.add('sidebar-preload');
+
                 if (window.innerWidth > breakpoint) {
                     if (savedState === 'collapsed') {
                         document.body.classList.add('sidebar-collapse');
@@ -276,6 +285,12 @@
                     document.body.classList.add('sidebar-collapse');
                     document.body.classList.remove('sidebar-open');
                 }
+
+                window.addEventListener('load', function () {
+                    requestAnimationFrame(function () {
+                        document.body.classList.remove('sidebar-preload');
+                    });
+                });
             })();
         </script>
 
@@ -312,6 +327,21 @@
         <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.min.js" integrity="sha256-+vh8GkaU7C9/wbSLIcwq82tQ2wTf44aOHA8HlBMwRI8=" crossorigin="anonymous" ></script>
         <script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/js/jsvectormap.min.js" integrity="sha256-/t1nN2956BT869E6H4V1dnt0X5pAQHPytli+1nTZm2Y=" crossorigin="anonymous" ></script>
         <script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/maps/world.js" integrity="sha256-XPpPaZlU8S/HWf7FZLAncLg2SAkP8ScUTII89x9D3lY=" crossorigin="anonymous" ></script>
+
+        <!-- সাইডবার মিনিমাইজ/এক্সপ্যান্ড স্টেট সেভ - toggle বাটনে সরাসরি বাইন্ড করা
+             AdminLTE-র নিজের ক্লিক হ্যান্ডলারের আগে/পরে কবে চলবে তা নিয়ে অনুমান না করে,
+             document-এ ডেলিগেট করা হয়েছে: bubble phase এ এটা সবসময় টার্গেট এলিমেন্টে
+             সরাসরি বাইন্ড করা AdminLTE-র হ্যান্ডলারের পরেই চলবে, তাই body-র ক্লাস তখন
+             ইতিমধ্যে আপডেট হয়ে গেছে থাকে - সেটাই পড়ে localStorage এ সেভ করা হয় -->
+        <script>
+            document.addEventListener('click', function (e) {
+                if (!e.target.closest('[data-lte-toggle="sidebar"]')) return;
+                if (window.innerWidth <= 768) return; // মোবাইলে সবসময় collapsed, সেভ করার দরকার নেই
+
+                var collapsed = document.body.classList.contains('sidebar-collapse');
+                localStorage.setItem('sidebarState', collapsed ? 'collapsed' : 'open');
+            });
+        </script>
 
         <script>
             $(document).ready(function() {
