@@ -254,7 +254,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 /* 1. List - New Indigo Look */
 .btn-encodex-list { color: #000000 !important; border-color: #000000 !important; }
-.btn-encodex-list:hover { color: #ffffff !important; background: #000000 !important; box-shadow: 0 6px 15px rgba(75, 57, 181, 0.4); }
+.btn-encodex-list:hover { color: #ffffff !important; background: #000000 !important; box-shadow: 0 6px 15px rgba(75, 57, 181, 0.3); }
 
 /* Search - Electric Blue */
 .btn-encodex-search { color: #007bff; border-color: #007bff; }
@@ -264,21 +264,33 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .btn-encodex-create { color: #2850a7 !important; border-color: #1e418d !important; }
 .btn-encodex-create:hover { color: #fff !important; background: #1e418d !important; box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3) !important; }
 
-/* Cancel & Delete - Neon Red */
-.btn-encodex-cancel, .btn-encodex-delete { color: #dc3545; border-color: #dc3545; }
-.btn-encodex-cancel:hover, .btn-encodex-delete:hover { color: #fff !important; background: #dc3545 !important; box-shadow: 0 6px 15px rgba(220, 53, 69, 0.3); }
+/* Cancel - Neon Red */
+.btn-encodex-cancel { color: #e73446bb; border-color: #e73446bb; }
+.btn-encodex-cancel:hover { color: #fff !important; background: #e73446bb !important; box-shadow: 0 6px 15px rgba(231, 52, 70, 0.3); }
+
+/* Delete - Red */
+.btn-encodex-delete { color: #bb0618; border-color: #bb0618; }
+.btn-encodex-delete:hover { color: #fff !important; background: #bb0618 !important; box-shadow: 0 6px 15px rgba(187, 6, 24, 0.3);  }
 
 /* Print - Vibrant Orange */
-.btn-encodex-print, .btn-encodex-print2 { color: #fd7e14; border-color: #fd7e14 !important; }
-.btn-encodex-print:hover, .btn-encodex-print2:hover { color: #fff !important; background: #fd7e14 !important; box-shadow: 0 6px 15px rgba(253, 126, 20, 0.3); }
+.btn-encodex-print { color: #fd7e14; border-color: #fd7e14 !important; }
+.btn-encodex-print:hover { color: #fff !important; background: #fd7e14 !important; box-shadow: 0 6px 15px rgba(253, 126, 20, 0.3); }
 
-/* Edit & Payment - Royal Purple */
+/* Print - Vibrant Orange */
+.btn-encodex-print2 { color: #fded14; border-color: #fded14 !important; }
+.btn-encodex-print2:hover { color: #fff !important; background: #fded14 !important; box-shadow: 0 6px 15px rgba(253, 210, 20, 0.3); }
+
+/* Edit - Royal Purple */
 .btn-encodex-edit { color: #6f42c1; border-color: #6f42c1; }
 .btn-encodex-edit:hover { color: #fff !important; background: #6f42c1 !important; box-shadow: 0 6px 15px rgba(111, 66, 193, 0.3); }
 
 /* Edit & Payment - Royal Purple */
-.btn-encodex-payment { color: #a97142; border-color: #a97142; }
-.btn-encodex-payment:hover { color: #fff !important; background: #a97142 !important; box-shadow: 0 6px 15px rgba(210, 125, 45, 0.3); }
+.btn-encodex-payment { color: #1a365d; border-color: #1a365d; }
+.btn-encodex-payment:hover { color: #fff !important; background: #1a365d !important; box-shadow: 0 6px 15px rgba(26, 54, 93, 0.4);  }
+
+/* Payment - Royal Purple */
+.btn-encodex-payment { color: #b8471b; border-color: #b8471b; }
+.btn-encodex-payment:hover { color: #fff !important; background: #b8471b !important; box-shadow: 0 6px 15px rgba(184, 71, 27, 0.3); }
 
 /* Show - Bright Teal */
 .btn-encodex-show { color: #17a2b8; border-color: #17a2b8; }
@@ -287,6 +299,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 /* Clear - Neutral Gray */
 .btn-encodex-clear { color: #6c757d; border-color: #6c757d; }
 .btn-encodex-clear:hover { color: #fff !important; background: #6c757d !important; box-shadow: 0 6px 15px rgba(108, 117, 125, 0.3); }
+
+/* Excel - Classic Forest Green */
+.btn-encodex-excel { color: #1f7246; border-color: #1f7246; }
+.btn-encodex-excel:hover { color: #fff !important; background: #1f7246 !important; box-shadow: 0 6px 15px rgba(31, 114, 70, 0.3); }
+
+/* Download - Cool Ocean/Sky Blue */
+.btn-encodex-download { color: #00a8cc; border-color: #00a8cc; }
+.btn-encodex-download:hover { color: #fff !important; background: #00a8cc !important; box-shadow: 0 6px 15px rgba(0, 168, 204, 0.3); }
 
 /* Status: Active */
 .btn-encodex-active { color: #28a745; border-color: #28a745; }
@@ -344,14 +364,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     outline: none !important;
 }
 
-
-.badge-encodex {
+.badge-encodex, .badge {
     display: inline-flex;
     align-items: center;
     padding: 4px 12px;
     font-size: 0.85rem;
     font-weight: 500;
-    color: rgba(25, 46, 235, 0.95); /* টেক্সট কালার */
+    color: rgb(11, 12, 22); /* টেক্সট কালার */
     border-radius: 50px; /* পিল শেপ */
 
     /* ব্যাকগ্রাউন্ড ব্লার এবং ট্রান্সপারেন্সি */
@@ -370,10 +389,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 /* হোভার ইফেক্ট */
-.badge-encodex:hover {
-    background: rgba(255, 255, 255, 0.25);
+.badge-encodex:hover, .badge:hover {
+    background: rgba(255, 255, 255, 0.25); /* হালকা হোভার ব্যাকগ্রাউন্ড */
     transform: scale(1.05); /* হালকা স্কেলিং */
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15) ; /* হালকা শ্যাডো */
+    color: #0a0d1a ; /* হোভার টেক্সট কালার */
 }
 
 

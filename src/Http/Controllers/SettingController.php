@@ -24,6 +24,7 @@ class SettingController extends Controller
             'enable_translation'     => (bool) Setting::get('enable_translation', false),
             'enable_registration'    => (bool) Setting::get('enable_registration', false),
             'enable_forget_password' => (bool) Setting::get('enable_forget_password', false),
+            'show_settings_link'     => (bool) Setting::get('show_settings_link', true),
             'app_logo'               => Setting::get('app_logo'),
             'app_ico'                => Setting::get('app_ico'),
         ];
@@ -44,6 +45,7 @@ class SettingController extends Controller
         Setting::set('enable_translation', $request->has('enable_translation'));
         Setting::set('enable_registration', $request->has('enable_registration'));
         Setting::set('enable_forget_password', $request->has('enable_forget_password'));
+        Setting::set('show_settings_link', $request->has('show_settings_link'));
 
         foreach (['app_logo', 'app_ico'] as $imgField) {
             if ($request->hasFile($imgField)) {
@@ -116,7 +118,7 @@ class SettingController extends Controller
             Setting::set('app_logo', $imageName);
         }
 
-        return redirect()->route(me_prefix().'.settings.edit')
+        return redirect()->route('settings.edit')
             ->with('success', __('Settings updated successfully'));
     }
 

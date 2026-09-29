@@ -411,6 +411,7 @@ return [
     'Enable Forget Password' => 'Enable Forget Password',
     'Enable Registration' => 'Enable Registration',
     'Enable Translation' => 'Enable Translation',
+    'Show Settings Link in Profile Menu' => 'Show Settings Link in Profile Menu',
     'Enter Name' => 'Enter Name',
     'Enter Type' => 'Enter Type',
     'Enter URL' => 'Enter URL',

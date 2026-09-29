@@ -162,11 +162,13 @@
             </a>
           </li>
           @can('setting.edit')
+                    @if(get_setting('show_settings_link', true))
           <li class="py-1">
             <a class="dropdown-item" href="{{ Route::has(me_prefix().'.settings.edit') ? route(me_prefix().'.settings.edit') : route('settings.edit') }}">
               <i class="bi bi-gear me-2"></i> @lang("me::me.Settings")
             </a>
           </li>
+                    @endif
           @endcan
           <li><hr class="dropdown-divider"></li>
           <li class="pb-1">

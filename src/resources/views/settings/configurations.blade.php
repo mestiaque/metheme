@@ -61,6 +61,13 @@
                                     @lang('me::me.Enable Forget Password')
                                 </label>
                             </div>
+                            <div class="form-check form-switch mb-3">
+                                <input type="checkbox" class="form-check-input" id="show_settings_link"
+                                        name="show_settings_link" {{ $settings['show_settings_link'] ? 'checked' : '' }}>
+                                <label class="form-check-label" for="show_settings_link">
+                                    @lang('me::me.Show Settings Link in Profile Menu')
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>

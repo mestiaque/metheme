@@ -474,6 +474,7 @@ return [
     'super_admin_only_permissions_editable' => 'সুপার অ্যাডমিন রোল: শুধু পারমিশন পরিবর্তন করা যাবে।',
     'Activity Log' => 'কার্যকলাপ লগ',
     'Mail Configuration' => 'মেইল কনফিগারেশন',
+    'Show Settings Link in Profile Menu' => 'প্রোফাইল মেনুতে সেটিংস লিংক দেখান',
     'SMS Configuration' => 'এসএমএস কনফিগারেশন',
     'SMS Log & Balance' => 'এসএমএস লগ ও ব্যালেন্স',
     'Mail Log' => 'মেইল লগ',
