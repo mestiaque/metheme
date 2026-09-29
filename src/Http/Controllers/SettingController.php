@@ -63,7 +63,7 @@ class SettingController extends Controller
         }
 
         return redirect()->route('configurations.edit')
-            ->with('success', 'Configurations updated successfully.');
+            ->with('success', __('me::me.Configurations updated successfully'));
     }
 
     public function edit()
@@ -119,7 +119,7 @@ class SettingController extends Controller
         }
 
         return redirect()->route('settings.edit')
-            ->with('success', __('Settings updated successfully'));
+            ->with('success', __('me::me.Settings updated successfully'));
     }
 
 }

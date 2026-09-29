@@ -17,7 +17,7 @@ return [
         'route'      => 'dashboard',
         'for_active' => 'dashboard',
         'permit'     => 'me.dashboard',
-        'sl'         => 1000,
+        'sl'         => 1,
     ],
     [
         'title'      => 'Users & Roles',

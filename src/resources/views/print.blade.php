@@ -306,9 +306,9 @@
                     </span>
                     <div class="report-header-side text-end">
                         @if(isset($printTimeType) && $printTimeType == 'date')
-                            <small class="print-time">Print: {{ formatDate(now()) }}</small>
+                            <small class="print-time">@lang('me::me.Print:') {{ formatDate(now()) }}</small>
                         @else
-                            <small class="print-time">Print: {{ formatDateTime(now()) }}</small>
+                            <small class="print-time">@lang('me::me.Print:') {{ formatDateTime(now()) }}</small>
                         @endif
                     </div>
                 </div>
@@ -319,15 +319,15 @@
         <div class=" print-footer">
             <div class="sig signature-box">
                 <div class="signature-line"></div>
-                Prepared By
+                @lang('me::me.Prepared By')
             </div>
             <div class="sig signature-box">
                 <div class="signature-line"></div>
-                Checked By
+                @lang('me::me.Checked By')
             </div>
             <div class="sig signature-box">
                 <div class="signature-line"></div>
-                Authorized Signature
+                @lang('me::me.Authorized Signature')
             </div>
         </div>
         <div class="pfooter">
