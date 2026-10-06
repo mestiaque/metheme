@@ -16,7 +16,7 @@ class Roles extends Model
     protected $fillable = [
         'name',
         'slug',
-        'description'
+        'description',
     ];
 
     /** Super admin can't be deleted or renamed; only its permissions can change. */
@@ -70,8 +70,10 @@ class Roles extends Model
     {
         if ($this->rolePermission) {
             $permissions = $this->rolePermission->permissions ?? [];
+
             return in_array($permission, $permissions);
         }
+
         return false;
     }
 }

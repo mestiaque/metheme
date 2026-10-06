@@ -1,4 +1,4 @@
-@extends('me::app')
+@extends('me::master')
 
 @section('title', 'Activity Details')
 @section('meta-title', 'Activity Details')
@@ -61,6 +61,11 @@
                                 </p>
                             </div>
                         </div>
+                    @endif
+
+                    @if($activity->isDataChange())
+                        <hr>
+                        @include('me::activity.partials.changes', ['activity' => $activity])
                     @endif
 
                     <hr>

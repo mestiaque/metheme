@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Http;
 class TelegramBotService
 {
     protected $token;
+
     protected $chatId;
 
     public function __construct()
@@ -74,12 +75,11 @@ class TelegramBotService
         if ($netBalance == 0) {
             $message .= "All accounts are settled\n";
         } elseif ($netBalance > 0) {
-            $message .= "Total Receivable: " . number_format(abs($netBalance), 2) . "\n";
+            $message .= 'Total Receivable: '.number_format(abs($netBalance), 2)."\n";
         } else {
-            $message .= "Total Payable: " . number_format(abs($netBalance), 2) . "\n";
+            $message .= 'Total Payable: '.number_format(abs($netBalance), 2)."\n";
         }
 
         return $this->sendMessage($message);
     }
-
 }

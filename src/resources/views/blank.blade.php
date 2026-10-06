@@ -419,6 +419,7 @@
             document.addEventListener('mousemove', onMouseMove);
         })();
     </script>
+    @include('me::components.fileDrop')
     @stack('js')
     @include('me::components.lmAlert')
 </body>

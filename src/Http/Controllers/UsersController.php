@@ -53,21 +53,6 @@ class UsersController extends Controller
             'is_active' => $request->has('is_active') ? 1 : 0,
         ];
 
-        // Handle profile image upload
-        if ($request->hasFile('profile_image')) {
-            $image = $request->file('profile_image');
-            $imageName = Str::uuid() . '.' . $image->getClientOriginalExtension();
-            $imagePath = storage_path('app/public/images/profile_images');
-
-            // Ensure the directory exists
-            if (!file_exists($imagePath)) {
-                mkdir($imagePath, 0755, true);
-            }
-
-            $image->move($imagePath, $imageName);
-            $data['profile_image'] = $imageName;
-        }
-
         $user = Users::create($data);
 
         // Assign role
@@ -118,26 +103,6 @@ class UsersController extends Controller
         // For security, don't allow users to deactivate their own account
         if ($user->id !== auth()->id()) {
             $data['is_active'] = $request->has('is_active') ? 1 : 0;
-        }
-
-        // Handle profile image upload
-        if ($request->hasFile('profile_image')) {
-            // Unlink old image if it exists
-            if ($user->profile_image && file_exists(storage_path('app/public/images/profile_images/' . $user->profile_image))) {
-                unlink(storage_path('app/public/images/profile_images/' . $user->profile_image));
-            }
-
-            $image = $request->file('profile_image');
-            $imageName = Str::uuid() . '.' . $image->getClientOriginalExtension();
-            $imagePath = storage_path('app/public/images/profile_images');
-
-            // Ensure the directory exists
-            if (!file_exists($imagePath)) {
-                mkdir($imagePath, 0755, true);
-            }
-
-            $image->move($imagePath, $imageName);
-            $data['profile_image'] = $imageName;
         }
 
         $user->update($data);

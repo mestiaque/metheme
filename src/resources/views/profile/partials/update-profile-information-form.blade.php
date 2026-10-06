@@ -11,9 +11,9 @@
             <label for="profile_image" class="font-weight-bold text-primary mb-1">
                 <i class="fas fa-image me-1"></i> {{ __('me::me.Profile Image') }}
             </label>
-            @if($user->profile_image)
+            @if($user->avatar_url)
                 <div class="mb-2">
-                    <img src="{{ route('profile_img.show', ($user->profile_image)) }}"
+                    <img src="{{ $user->avatar_url }}"
                          alt="{{ $user->name }}" class="img-thumbnail" style="max-width: 150px;">
                 </div>
             @endif

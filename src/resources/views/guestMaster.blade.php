@@ -1153,6 +1153,7 @@
       });
     })();
   </script>
+  @include('me::components.fileDrop')
   @stack('js')
 </body>
 </html>

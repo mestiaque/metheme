@@ -25,7 +25,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $users = User::with('roles')
+        $users = User::with(['roles', 'media'])
             ->filter($request->only(['name', 'email', 'role']))
             ->latest()
             ->paginate(get_setting('pagination', 10))
@@ -84,29 +84,39 @@ class UserController extends Controller
             'is_active' => $request->has('is_active') ? 1 : 0,
         ];
 
-        // Handle profile image upload
-        if ($request->hasFile('profile_image')) {
-            $image = $request->file('profile_image');
-            $imageName = Str::uuid() . '.' . $image->getClientOriginalExtension();
-            $imagePath = storage_path('app/public/images/profile_images');
+        // Data change log: user + role in one entry
+        $this->changeLog('User created', 'user.create')->with(['roles'])->create(function () use ($data, $request) {
+            $user = User::create($data);
 
-            // Ensure the directory exists
-            if (!file_exists($imagePath)) {
-                mkdir($imagePath, 0755, true);
+            // Profile photo lives in me_media (collection "avatar")
+            if ($request->hasFile('profile_image')) {
+                $user->replaceMedia($request->file('profile_image'), 'avatar');
             }
 
-            $image->move($imagePath, $imageName);
-            $data['profile_image'] = $imageName;
-        }
+            // Assign role
+            if ($request->has('role')) {
+                $user->roles()->sync([$request->role]);
+            }
 
-        $user = User::create($data);
-
-        // Assign role
-        if ($request->has('role')) {
-            $user->roles()->sync([$request->role]);
-        }
+            return $user;
+        });
 
         return redirect()->route('users.index')->with('success', __('me::me.User created successfully'));
+    }
+
+    /**
+     * Change log with readable labels for user fields and roles.
+     */
+    private function changeLog(string $title, string $slug): \ME\Services\DataChangeLogger
+    {
+        return me_change_log($title, $slug)->labels([
+            'name' => __('me::me.Name'),
+            'email' => __('me::me.Email'),
+            'phone' => __('me::me.Phone'),
+            'is_active' => __('me::me.Status'),
+            'profile_image' => __('me::me.Profile Image'),
+            'roles' => __('me::me.Roles'),
+        ]);
     }
 
     public function show(User $user)
@@ -153,34 +163,20 @@ class UserController extends Controller
             $data['is_active'] = $request->has('is_active') ? 1 : 0;
         }
 
-        // Handle profile image upload
-        if ($request->hasFile('profile_image')) {
-            // Unlink old image if it exists
-            if ($user->profile_image && file_exists(storage_path('app/public/images/profile_images/' . $user->profile_image))) {
-                unlink(storage_path('app/public/images/profile_images/' . $user->profile_image));
+        $this->changeLog('User "' . $user->name . '" updated', 'user.update')->watch($user, ['roles'])->run(function () use ($user, $data, $request) {
+            $user->update($data);
+
+            if ($request->hasFile('profile_image')) {
+                $user->replaceMedia($request->file('profile_image'), 'avatar');
             }
 
-            $image = $request->file('profile_image');
-            $imageName = Str::uuid() . '.' . $image->getClientOriginalExtension();
-            $imagePath = storage_path('app/public/images/profile_images');
-
-            // Ensure the directory exists
-            if (!file_exists($imagePath)) {
-                mkdir($imagePath, 0755, true);
+            // Sync role
+            if ($request->has('role')) {
+                $user->roles()->sync([$request->role]);
+            } else {
+                $user->roles()->detach();
             }
-
-            $image->move($imagePath, $imageName);
-            $data['profile_image'] = $imageName;
-        }
-
-        $user->update($data);
-
-        // Sync role
-        if ($request->has('role')) {
-            $user->roles()->sync([$request->role]);
-        } else {
-            $user->roles()->detach();
-        }
+        });
 
         return redirect()->route('users.index')->with('success', __('me::me.User updated successfully'));
     }
@@ -195,8 +191,12 @@ class UserController extends Controller
                 ->with('error', 'You cannot deactivate your own account');
         }
 
-        $user->is_active = !$user->is_active;
-        $user->save();
+        $this->changeLog('User "' . $user->name . '" ' . ($user->is_active ? 'deactivated' : 'activated'), 'user.status')
+            ->watch($user)
+            ->run(function () use ($user) {
+                $user->is_active = !$user->is_active;
+                $user->save();
+            });
 
         $status = $user->is_active ? 'activated' : 'deactivated';
         return redirect()->route('users.index')
@@ -213,7 +213,7 @@ class UserController extends Controller
                 ->with('error', 'You cannot delete your own account');
         }
 
-        $user->delete();
+        $this->changeLog('User "' . $user->name . '" deleted', 'user.delete')->watch($user, ['roles'])->delete(fn () => $user->delete());
 
         return redirect()->route('users.index')
             ->with('success', 'User deleted successfully');

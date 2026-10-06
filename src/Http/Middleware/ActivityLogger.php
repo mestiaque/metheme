@@ -31,6 +31,12 @@ class ActivityLogger
 		try {
 			$response = $next($request);
 
+			// A data change was already logged for this request (me_change_log()); that row
+			// carries the URL too, so no separate "visit" row is needed.
+			if ($request->attributes->get('me_change_logged')) {
+				return $response;
+			}
+
 			$status = $response->getStatusCode() < 400 ? 'success' : 'failed';
 			$this->log($request, $activityType, $status, $description);
 

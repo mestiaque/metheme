@@ -21,11 +21,11 @@ class MailLogger
         try {
             $message = $event->message;
             $log = MailLog::create([
-                'to'      => self::addresses($message->getTo()),
-                'cc'      => self::addresses($message->getCc()) ?: null,
+                'to' => self::addresses($message->getTo()),
+                'cc' => self::addresses($message->getCc()) ?: null,
                 'subject' => $message->getSubject(),
-                'mailer'  => $event->data['mailer'] ?? config('mail.default'),
-                'status'  => 'sending',
+                'mailer' => $event->data['mailer'] ?? config('mail.default'),
+                'status' => 'sending',
             ]);
             self::$pending[spl_object_id($message)] = $log->id;
         } catch (\Throwable $e) {

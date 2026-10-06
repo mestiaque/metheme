@@ -3,7 +3,7 @@
 return [
     "me" => [
         "title" => "Admin Area",
-        "actions" => "dashboard,theme,mailLayoutPreview,clearData",
+        "actions" => "theme,mailLayoutPreview,clearData",
     ],
     "me_user" => [
         "title" => "Users",
@@ -32,5 +32,9 @@ return [
     "me_mail" => [
         "title" => "Mail Log",
         "actions" => "view",
+    ],
+    "me_media" => [
+        "title" => "Media Library",
+        "actions" => "view,edit,delete",
     ],
 ];

@@ -60,8 +60,8 @@
                     <tr>
                         <td>{{ toBanglaNumber($loop->iteration) }}</td>
                         <td class="text-center">
-                            @if($user->profile_image)
-                                <img src="{{ route('profile_img.show', ($user->profile_image)) }}"
+                            @if($user->avatar_url)
+                                <img src="{{ $user->avatar_url }}"
                                         alt="{{ $user->name }}" class="rounded-circle"
                                         style="width: 40px; height: 40px; object-fit: cover;">
                             @else

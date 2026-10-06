@@ -12,7 +12,7 @@ trait HasPermissions
     public function hasPermission(string $permission): bool
     {
         // If permission not declared in config, return false
-        if (!PermissionHelper::permissionExists($permission)) {
+        if (! PermissionHelper::permissionExists($permission)) {
             return false;
         }
 

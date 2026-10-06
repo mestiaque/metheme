@@ -11,7 +11,7 @@ MeTheme একটি Laravel অ্যাডমিন প্যাকেজ (`me
 1. [ইনস্টলেশন](#১-ইনস্টলেশন)
 2. [.env সেটিংস](#২-env-সেটিংস)
 3. [Route ও URL prefix](#৩-route-ও-url-prefix)
-4. [ড্যাশবোর্ড](#৪-ড্যাশবোর্ড)
+4. [হোম পেজ ও System Overview উইজেট](#৪-ড্যাশবোর্ড-নেই--হোম-পেজ-ও-system-overview-উইজেট)
 5. [Sidebar মেনু](#৫-sidebar-মেনু)
 6. [পারমিশন](#৬-পারমিশন)
 7. [রোল অনুক্রম (Parent role)](#৭-রোল-অনুক্রম-parent-role)
@@ -20,6 +20,8 @@ MeTheme একটি Laravel অ্যাডমিন প্যাকেজ (`me
 10. [মেইল ও এসএমএস (শুধু ডাটাবেস)](#১০-মেইল-ও-এসএমএস-শুধু-ডাটাবেস)
 11. [মেইল টেমপ্লেট: `me_mail()`](#১১-মেইল-টেমপ্লেট-me_mail)
 12. [এসএমএস: `me_sms()`](#১২-এসএমএস-me_sms)
+    - [ডেটা পরিবর্তন লগ: `me_change_log()`](#ডেটা-পরিবর্তন-লগ-me_change_log)
+    - [মিডিয়া লাইব্রেরি (ফাইল ও ছবি)](#মিডিয়া-লাইব্রেরি-ফাইল-ও-ছবি)
 13. [Helper ফাংশন](#১৩-helper-ফাংশন)
 14. [Artisan কমান্ড](#১৪-artisan-কমান্ড)
 15. [ডাটাবেস টেবিল](#১৫-ডাটাবেস-টেবিল)
@@ -79,19 +81,40 @@ Route::group(['prefix' => me_prefix(), 'middleware' => ['web', 'auth', LocaleMid
 
 ---
 
-## ৪. ড্যাশবোর্ড
+## ৪. ড্যাশবোর্ড (নেই) — হোম পেজ ও System Overview উইজেট
 
-`/{prefix}` — `DataController@index`, view `me::dashboard-demo`। পারমিশন: `me.dashboard`।
+metheme-এর নিজের কোনো ড্যাশবোর্ড পেজ বা `dashboard` রুট নেই। প্রজেক্টের মূল ড্যাশবোর্ড প্রজেক্ট/প্যাকেজ নিজে বানায়; metheme শুধু ডেটা আর একটা উইজেট দেয়।
 
-সব তথ্য আসল ডাটাবেস থেকে:
+### হোম পেজ
 
-- কার্ড: মোট ইউজার (সক্রিয় কতজন), রোল, আজকের লগইন (ব্যর্থ কত), আজকের কার্যক্রম, এই মাসের ইমেইল ও এসএমএস
-- গত ৭ দিনের কার্যক্রম ও লগইনের চার্ট (ApexCharts)
-- রোল অনুযায়ী ইউজার
-- সাম্প্রতিক ৮টি কার্যক্রম
-- দ্রুত লিংক — শুধু যেগুলোর পারমিশন ইউজারের আছে
+- `/{prefix}` (রুট নাম `me.home`) — কোনো পেজ নয়, হোম পেজে রিডাইরেক্ট করে। কোনো প্যাকেজ নিজের পেজ `/{prefix}`-এ রাখলে (যেমন ecom-এর Dashboard) metheme এই রিডাইরেক্ট রুট বানায় না — প্যাকেজের পেজই খোলে। লগইনের পরে, হেডার ও সাইডবারের লোগোতেও একই হোম।
+- হোম ঠিক হয় `config('me_settings.home_route')` দিয়ে (`.env`: `METHEME_HOME_ROUTE=ecom.dashboard`)। ফাঁকা থাকলে প্যাকেজ সেট করতে পারে (ecom নিজে `ecom.dashboard` দেয়); কিছুই না থাকলে প্রোফাইল পেজ।
+- কোডে: `me_home_url()`।
+- লগইনের আগে কোনো অ্যাডমিন পেজ খুলতে চাইলে (`url.intended`) লগইনের পরে সেই পেজে যায়; অ্যাডমিনের বাইরের লিংক হলে হোম পেজে। `url.intended` সবসময় মুছে দেয়, যাতে অন্য লগইনে (যেমন স্টোরফ্রন্ট) পুরনো অ্যাডমিন লিংক না যায়।
 
-কোনো টেবিল না থাকলে পুরো পেজ ভাঙে না, শুধু সেই অংশ ফাঁকা দেখায়।
+### System Overview উইজেট
+
+যেকোনো ড্যাশবোর্ড পেজে বসানো যায়:
+
+```blade
+@include('me::widgets.system-overview')                                    {{-- সব অংশ --}}
+@include('me::widgets.system-overview', ['sections' => ['cards', 'chart']])  {{-- শুধু কিছু অংশ --}}
+```
+
+অংশ (`sections`): `welcome` (স্বাগতম), `cards` (মোট ইউজার, রোল, আজকের লগইন/ব্যর্থ, আজকের কার্যক্রম, এই মাসের ইমেইল ও এসএমএস), `chart` (গত ৭ দিনের কার্যক্রম ও লগইন, ApexCharts), `roles` (রোল অনুযায়ী ইউজার), `activity` (সাম্প্রতিক ৮টি কার্যক্রম), `links` (দ্রুত লিংক — শুধু পারমিশন থাকা)।
+
+শুধু ডেটা লাগলে নিজের ভিউতে `ME\Services\SystemOverview` ব্যবহার করুন:
+
+```php
+$overview = app(\ME\Services\SystemOverview::class);
+$overview->stats();             // ['users', 'active_users', 'roles', 'logins_today', 'failed_today', 'activities_today', 'mail_month', 'sms_month']
+$overview->chart(7);            // ['labels' => [...], 'activities' => [...], 'logins' => [...]]
+$overview->roleDistribution();  // [{name, total}]
+$overview->recentActivities(8); // UserActivity মডেল
+$overview->quickLinks();        // [['route', 'icon', 'label']]
+```
+
+কোনো টেবিল না থাকলে ভাঙে না, সেই অংশ ০ / ফাঁকা দেখায়। উইজেট নিজে পারমিশন চেক করে না — যে পেজে বসাবেন, সেই পেজের পারমিশনই যথেষ্ট।
 
 ---
 
@@ -445,19 +468,234 @@ me_sms($phone, "Your code is {$otp}", hideMessage: true); // লেখা SMS Lo
 
 ---
 
+## ডেটা পরিবর্তন লগ: `me_change_log()`
+
+store/update/delete-এর **আগের ও পরের ডেটা** Activity Log-এ রাখে — একটা কাজের জন্য **একটা পড়ার মতো এন্ট্রি**, সম্পর্কিত মডেলসহ (যেমন Order + তার Items)। সার্ভিস: `ME\Services\DataChangeLogger`।
+
+### ব্যবহার
+
+```php
+// ১) আগে-পরে: watch() আগের অবস্থা নেয়, save() পরের অবস্থা নিয়ে লগ করে
+$log = me_change_log('Order #'.$order->id.' updated', 'order.update')
+    ->watch($order, ['items'])                              // মডেল + কোন relation দেখবে
+    ->labels([
+        'status'           => 'অবস্থা',
+        'items'            => 'আইটেম',
+        'items.qty'        => 'পরিমাণ',
+        'items.unit_price' => 'দাম',
+    ])
+    ->itemName('items', fn ($item) => $item['product_name']); // আইটেম কোন নামে দেখাবে
+
+DB::transaction(function () use ($order, $data) { /* order ও items আপডেট */ });
+
+$log->save();
+
+// ২) Closure দিয়ে সংক্ষেপে
+me_change_log('User updated', 'user.update')->watch($user, ['roles'])->run(fn () => $user->update($data));
+
+// ৩) নতুন তৈরি — closure যা ফেরত দেয় সেটাই রেকর্ড
+me_change_log('Order created', 'order.create')->with(['items'])->create(fn () => Order::create($data));
+
+// ৪) মুছে ফেলা
+me_change_log('Order deleted', 'order.delete')->watch($order, ['items'])->delete(fn () => $order->delete());
+
+// ৫) মডেল ছাড়া, সাধারণ array (যেমন settings)
+$before = Setting::snapshot($keys);
+// ... সেভ ...
+me_change_log('SMS settings updated', 'settings.sms')->record($before, Setting::snapshot($keys));
+//   record([], $new) = তৈরি, record($old, []) = মুছে ফেলা; ->subject($model) দিলে রেকর্ডের ইতিহাসে যুক্ত হয়
+```
+
+| মেথড | কাজ |
+|---|---|
+| `me_change_log($title = null, $slug = null)` | শুরু। title = তালিকায় যা দেখাবে, slug = Activity Type (ফিল্টার)। না দিলে মডেল থেকে বানায় ("Order #12 updated", `order.update`) |
+| `->watch($model, ['relation', ...])` | আগের snapshot (মডেল + relation) |
+| `->with(['relation'])` | `create()`-এ কোন relation লগ হবে |
+| `->labels([...])` | ফিল্ডের পড়ার মতো নাম: `'field'`, `'relation'`, `'relation.field'` |
+| `->itemName('relation', 'column' \| fn($attrs))` | relation-এর আইটেম কী নামে দেখাবে (ডিফল্ট `name` → `title` → `#id`) |
+| `->action('approve')` | নিজের action শব্দ |
+| `->subject($model)` | `record()`-এ রেকর্ড যুক্ত করা |
+| `->save()` / `->run(fn)` / `->create(fn)` / `->delete(fn)` / `->record($old, $new)` | লগ লেখা |
+
+### কী লগ হয়
+
+- মূল মডেল: শুধু **যে ফিল্ড বদলেছে** — `অবস্থা: Pending → Paid`।
+- has-many / belongs-to-many relation (id দিয়ে মিলিয়ে): **যোগ** (`Item C`), **বাদ** (`Item B`), **বদল** (`"Item A" › পরিমাণ: 1 → 3`)।
+- তালিকা-ধরনের মান (যেমন permission-এর array): কোনটা যোগ, কোনটা বাদ।
+- কিছুই না বদলালে লগ হয় না। closure exception দিলে লগ হয় না। transaction rollback হলে লগও rollback।
+- লগ লিখতে ব্যর্থ হলে মূল কাজ ভাঙে না (`report()` হয়)।
+- একই request-এ ডেটা পরিবর্তন লগ হলে সেই request-এর আলাদা "URL visit" সারি লেখা হয় না।
+
+`me_settings.php` → `data_change_log`:
+
+```php
+'data_change_log' => [
+    'enabled'          => true,
+    'hidden_fields'    => ['password', 'remember_token', 'mail_password', 'sms_api_key', 'api_key', 'token', 'secret'], // মান কখনো নয়, শুধু "বদলেছে"
+    'ignore_fields'    => ['created_at', 'updated_at', 'email_verified_at'],                                       // পরিবর্তন হিসেবে ধরা হয় না
+    'max_value_length' => 2000,
+],
+```
+
+`hidden_fields`-এর নাম দিয়ে শেষ হওয়া ফিল্ডও লুকানো থাকে (যেমন `*_password`, `*_token`)।
+
+### দেখা
+
+**Logs → Activity Log**:
+- ডেটা পরিবর্তনের সারিতে বেগুনি "N পরিবর্তন" ব্যাজ, শিরোনাম, আর রেকর্ডের নাম (ক্লিক করলে সেই রেকর্ডের সব পরিবর্তন)।
+- "শুধু ডেটা পরিবর্তন" ফিল্টার; Activity Type ফিল্টারে slug দিয়ে খোঁজা যায়।
+- বিস্তারিত পেজে "পরিবর্তন" অংশ: মূল ফিল্ডের **আগে | পরে** টেবিল, তারপর প্রতিটি relation-এর যোগ/বাদ/বদল।
+
+সংরক্ষণ: `user_activities` টেবিলের কলাম `changes` (JSON), `change_count`, `subject_type`, `subject_id`; `activity_type` = slug, `description` = title।
+
+metheme-এ যেখানে চালু আছে: ইউজার তৈরি/আপডেট/স্ট্যাটাস/মুছে ফেলা (রোলসহ), রোল তৈরি/আপডেট/মুছে ফেলা (parent, রঙ, permission), Configurations, Settings, Mail ও SMS Configuration।
+
+---
+
+## মিডিয়া লাইব্রেরি (ফাইল ও ছবি)
+
+সব প্যাকেজের (metheme, ecom, efront …) সব ফাইল একটা টেবিলে — `me_media`। কোন মডেলের ফাইল, তা polymorphic সম্পর্ক দিয়ে বোঝা যায়। মডেলে শুধু `HasMedia` trait লাগে, কোনো কলাম লাগে না।
+
+### টেবিল `me_media`
+
+| কলাম | কাজ |
+|---|---|
+| `uuid` | পাবলিক আইডি (প্রাইভেট ফাইলের URL, সেটিংয়ের মান) |
+| `mediable_type`, `mediable_id` | মালিক মডেল (পুরো ক্লাস নাম)। `null` = এখনো কোথাও লাগানো হয়নি |
+| `collection` | মডেলের কোন স্লট — `gallery`, `avatar`, `logo` … |
+| `disk`, `path`, `visibility` | কোথায় আছে; `private` হলে শুধু signed URL দিয়ে খোলে |
+| `original_name`, `mime_type`, `extension`, `size`, `width`, `height`, `hash` | ফাইলের তথ্য (`hash` = sha1) |
+| `conversions` | JSON — `{"thumb": "…/conversions/x-thumb.webp"}` |
+| `alt`, `title`, `sort_order`, `custom_properties` | বর্ণনা, ক্রম (ছোট = আগে, প্রথমটা "main"), বাড়তি তথ্য |
+| `uploaded_by_type`, `uploaded_by_id` | কে আপলোড করেছে |
+| `deleted_at` | ট্র্যাশ (soft delete) |
+
+### মডেলে যোগ করা
+
+```php
+use ME\Traits\HasMedia;
+
+class Product extends Model
+{
+    use HasMedia;
+
+    protected function mediaCollections(): array
+    {
+        return [
+            'gallery' => ['mimes' => 'jpg,jpeg,png,webp', 'max_kb' => 4096, 'conversions' => ['thumb' => 400]],
+            'manual'  => ['single' => true, 'mimes' => 'pdf', 'max_kb' => 10240, 'visibility' => 'private'],
+        ];
+    }
+}
+```
+
+- `single` = একটাই ফাইল; নতুন দিলে আগেরটা ট্র্যাশে যায় (লোগো, অবতার)।
+- `conversions` = নাম => সবচেয়ে বড় দিক (px)। webp থাম্বনেইল ব্যাকগ্রাউন্ডে তৈরি হয়।
+- না দিলে `config('me_settings.media')`-এর ডিফল্ট (`mimes`, `max_kb`, `conversions`)।
+
+### মেথড
+
+| মেথড | কাজ |
+|---|---|
+| `$m->media` | সব ফাইল (ক্রম অনুযায়ী)। লিস্টে `->with('media')` |
+| `$m->getMedia('gallery')`, `firstMedia()`, `hasMedia()` | একটা কালেকশনের ফাইল |
+| `$m->mediaUrl('logo', 'thumb', $default)` | প্রথম ফাইলের URL (থাম্বনেইল না থাকলে আসল ছবি) |
+| `$m->addMedia($file, 'gallery', ['alt' => '…'])` | আপলোড (`UploadedFile`), লোকাল পাথ বা আগের `Media` যোগ — ভ্যালিডেশন হয় |
+| `$m->addMediaFromDisk('ecom/x.jpg', 'gallery')` | ডিস্কে থাকা ফাইল কপি ছাড়া যোগ (সিডার/ইমপোর্ট) |
+| `$m->replaceMedia($file, 'avatar')` | পুরনোটা ট্র্যাশে, নতুনটা বসে |
+| `$m->clearMedia('gallery')`, `deleteMedia([ids])` | ট্র্যাশে পাঠানো |
+| `$m->reorderMedia('gallery', [ids])` | নতুন ক্রম (প্রথমটা main) |
+| `$m->syncMediaFromRequest($request, 'gallery', 'images')` | ফর্মের সব কাজ একসাথে (নিচে দেখুন) |
+| `$media->url()`, `$media->url('thumb')`, `thumb_url`, `human_size`, `isImage()` | `Media` মডেলের |
+
+মডেল মুছলে তার ফাইল ট্র্যাশে যায় (মডেল শুধু soft delete হলে ফাইল থাকে)।
+
+### ফর্ম: `me::components.media-input`
+
+```blade
+@include('me::components.media-input', [
+    'name' => 'images', 'model' => $product ?? null, 'collection' => 'gallery',
+    'multiple' => true, 'label' => 'Images', 'help' => 'JPG/PNG/WebP, 4 MB',
+])
+```
+
+আগের ছবি দেখায় — টেনে ক্রম বদলানো, **Main** বাছাই, **Remove** টিক, নতুন ফাইলের প্রিভিউ। ফর্মে `enctype="multipart/form-data"` লাগবে। কন্ট্রোলারে:
+
+```php
+$product = Product::create($data);
+$product->syncMediaFromRequest($request, 'gallery', 'images');
+```
+
+ভুল ফাইল হলে `ValidationException` ফর্মের ফিল্ডের নামে (`images`) আসে।
+
+### সেটিংয়ের ছবি (লোগো, ফেভিকন)
+
+`settings` টেবিলের রো-ও মিডিয়ার মালিক; রো-র `value`-তে মিডিয়ার `uuid` থাকে।
+
+```php
+Setting::setImage('app_logo', $request->file('app_logo'));   // আপলোড + আগেরটা ট্র্যাশে
+Setting::image('app_logo');                                  // Media|null
+Setting::imageUrl('app_logo', 'thumb');
+Setting::removeImage('app_logo');
+get_image('app_logo', asset('default.png'));                 // ব্লেডে
+```
+
+`get_image()` পুরনো প্রজেক্টে (মান uuid নয়) আগের মতো `storage/images/{key}/{file}` দেখায়।
+
+### প্রাইভেট ফাইল
+
+`visibility => 'private'` দিলে `$media->url()` একটা ৬০ মিনিটের signed URL দেয় (`me.media.show` রুট, `/media/{uuid}/{conversion?}`)। signature ছাড়া 403।
+
+### অন্য প্যাকেজ থেকে নিবন্ধন
+
+প্যাকেজের `boot()`-এ `ME\Services\MediaRegistry` দিয়ে:
+
+```php
+MediaRegistry::owner(Product::class, 'Product');   // Media Library-র "Owner" ফিল্টারে নাম
+MediaRegistry::import(['type' => 'column', 'model' => Brand::class, 'column' => 'logo', 'collection' => 'logo']);
+MediaRegistry::import(['type' => 'setting', 'key' => 'ecom_store_logo']);
+MediaRegistry::import(['type' => 'table', 'table' => 'old_images', 'model' => Product::class, 'foreign_key' => 'product_id',
+    'path_column' => 'path', 'collection' => 'gallery', 'order_column' => 'sort_order']);
+MediaRegistry::afterImport(fn (callable $mediaIdFor) => /* পুরনো id → নতুন media id */);
+```
+
+### কমান্ড
+
+| কমান্ড | কাজ |
+|---|---|
+| `php artisan metheme:media-import [--dry-run]` | পুরনো কলাম/সেটিং/টেবিলের ছবি `me_media`-তে আনে (`app_logo`, `app_ico`, `users.profile_image` + অন্য প্যাকেজের নিবন্ধিত উৎস)। বারবার চালানো নিরাপদ |
+| `php artisan metheme:media-conversions [--force] [--collection=]` | থাম্বনেইল বানায় (`--force` = সব নতুন করে) |
+| `php artisan metheme:media-cleanup [--dry-run]` | ২৪ ঘণ্টার পুরনো অসংযুক্ত আপলোড আর ৩০ দিনের পুরনো ট্র্যাশ ডিস্ক থেকে মুছে দেয় — স্কেডিউলারে দিনে একবার দিন |
+
+### কনফিগ (`config('me_settings.media')`)
+
+`disk` (`ME_MEDIA_DISK`, ডিফল্ট `public`), `directory` (`media`), `quality` (webp, ৮০), `conversions`, `max_kb`, `mimes`, `cleanup.unattached_hours`, `cleanup.trash_days`।
+
+### নিয়ম
+
+1. নতুন টেবিলে ছবি/ফাইলের কলাম নয় — `HasMedia` ব্যবহার করুন।
+2. লিস্ট কুয়েরিতে `->with('media')`।
+3. ফাইল ডাউনলোডের লিংকে `download` অ্যাট্রিবিউট আর `no-loader` ক্লাস দিন, নইলে পেজ লোডার আটকে থাকে।
+4. ভারী কাজ (থাম্বনেইল) সবসময় জবে — `QUEUE_CONNECTION=sync` হলে রেসপন্স পাঠানোর পরে চলে।
+
+---
+
 ## ১৩. Helper ফাংশন
 
 | ফাংশন | কাজ |
 |---|---|
+| `me_home_url()` | অ্যাডমিন হোম পেজের URL (`me_settings.home_route`) |
 | `me_prefix()` | অ্যাডমিন URL prefix (`.env` `METHEME_ROUTE_PREFIX`, ডিফল্ট `admin`) |
 | `me_mail(...)` | টেমপ্লেট দিয়ে মেইল ([১১](#১১-মেইল-টেমপ্লেট-me_mail)) |
 | `me_sms(...)` | এসএমএস ([১২](#১২-এসএমএস-me_sms)) |
+| `me_change_log($title, $slug)` | আগের ও পরের ডেটা লগ ([দেখুন](#ডেটা-পরিবর্তন-লগ-me_change_log)) |
 | `me_is_developer($user = null)` | ইউজার ডেভেলপার কিনা |
 | `me_is_developer_only($permission)` | পারমিশনটি developer-only তালিকায় কিনা |
 | `me_developer_permission_keys()` | ডেভেলপার পারমিশনের সব key |
 | `can($permission)` | লগইন করা ইউজারের পারমিশন আছে কিনা |
 | `get_setting($key, $default = null)` | `settings` টেবিল থেকে মান |
-| `get_image($key, $default = null)` | সেভ করা ছবির URL (যেমন `app_logo`) |
+| `get_image($key, $default = null, $conversion = null)` | সেটিংয়ের ছবির URL (যেমন `app_logo`), `me_media` থেকে |
+| `me_media_url($media, $conversion = null, $default = null)` | `Media` (বা id/uuid) থেকে URL |
 | `menu_trans($text)` | মেনুর লেখা অনুবাদ |
 | `toBanglaNumber($n, $decimals = 0)` | `bn` locale-এ বাংলা অঙ্ক |
 | `toBanglaPhone($phone)` | `bn` locale-এ বাংলা অঙ্কে ফোন |
@@ -507,7 +745,8 @@ me_sms($phone, "Your code is {$otp}", hideMessage: true); // লেখা SMS Lo
 
 | টেবিল | কাজ |
 |---|---|
-| `users` | ইউজার (`phone`, `profile_image`, `is_active` সহ) |
+| `users` | ইউজার (`phone`, `is_active` সহ; প্রোফাইল ছবি `me_media`-তে, `$user->avatar_url`) |
+| `me_media` | সব প্যাকেজের ফাইল/ছবি ([মিডিয়া লাইব্রেরি](#মিডিয়া-লাইব্রেরি-ফাইল-ও-ছবি)) |
 | `roles` | রোল (`parent_id`, `color` সহ) |
 | `role_user` | ইউজার ↔ রোল |
 | `role_permissions` | রোলের পারমিশন (JSON) |
@@ -522,6 +761,7 @@ me_sms($phone, "Your code is {$otp}", hideMessage: true); // লেখা SMS Lo
 
 - `2026_09_27_000001_add_parent_id_to_roles_table` — রোল অনুক্রম
 - `2026_09_27_000002_add_color_to_roles_table` — ব্যাজ রঙ
+- `2026_10_06_000001_create_me_media_table` — মিডিয়া লাইব্রেরি
 
 ---
 

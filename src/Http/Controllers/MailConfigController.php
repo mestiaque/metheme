@@ -45,6 +45,9 @@ class MailConfigController extends Controller
             'mail_from_name'    => 'required|string|max:255',
         ]);
 
+        $logKeys = ['mail_mailer', 'mail_host', 'mail_port', 'mail_encryption', 'mail_username', 'mail_password', 'mail_from_address', 'mail_from_name'];
+        $before = Setting::snapshot($logKeys);
+
         foreach (['mail_mailer', 'mail_host', 'mail_port', 'mail_encryption', 'mail_username', 'mail_from_address', 'mail_from_name'] as $key) {
             Setting::set($key, $request->input($key));
         }
@@ -53,6 +56,9 @@ class MailConfigController extends Controller
         if ($request->filled('mail_password')) {
             Setting::set('mail_password', Crypt::encryptString($request->mail_password));
         }
+
+        // mail_password is a hidden field: the log only says it changed, never the value
+        me_change_log('Mail settings updated', 'settings.mail')->record($before, Setting::snapshot($logKeys));
 
         return redirect()->route('mail-config.edit')
             ->with('success', __('me::me.mail_settings_saved'));

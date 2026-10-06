@@ -2,19 +2,17 @@
 
 namespace ME\Models;
 
-use ME\Models\Role;
-use Illuminate\Notifications\Notifiable;
-use ME\Models\RolePermission;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use ME\Traits\HasMedia;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, HasMedia, Notifiable;
 
     protected $fillable = [
         'name',
-        'profile_image',
         'email',
         'email_verified_at',
         'password',
@@ -37,6 +35,30 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Profile photo in me_media (collection "avatar").
+     */
+    protected function mediaCollections(): array
+    {
+        return [
+            'avatar' => ['single' => true, 'mimes' => 'jpg,jpeg,png,gif,webp', 'max_kb' => 2048, 'conversions' => ['thumb' => 200]],
+        ];
+    }
+
+    /**
+     * Profile photo URL (small version), or null. Photos saved before me_media still show until imported.
+     */
+    public function getAvatarUrlAttribute(): ?string
+    {
+        if ($url = $this->mediaUrl('avatar', 'thumb')) {
+            return $url;
+        }
+
+        $legacy = $this->attributes['profile_image'] ?? null;
+
+        return $legacy ? route('profile_img.show', $legacy) : null;
+    }
 
     public function roles()
     {
@@ -80,6 +102,7 @@ class User extends Authenticatable
                 }
             }
         }
+
         return false;
     }
 
@@ -117,6 +140,7 @@ class User extends Authenticatable
                 $permissions = array_merge($permissions, $rolePermission->permissions);
             }
         }
+
         return array_unique($permissions);
     }
 

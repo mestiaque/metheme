@@ -11,15 +11,6 @@
 
 return [
     [
-        'title'      => 'Dashboard',
-        'icon'       => 'fas fa-tachometer-alt',
-        'icon_color' => 'text-encodex-secondary',
-        'route'      => 'dashboard',
-        'for_active' => 'dashboard',
-        'permit'     => 'me.dashboard',
-        'sl'         => 1,
-    ],
-    [
         'title'      => 'Users & Roles',
         'icon'       => 'fas fa-users-cog',
         'icon_color' => 'icc-81',
@@ -72,6 +63,14 @@ return [
                 'for_active' => 'sms-config.',
                 'permit'     => 'me_setting.sms',
                 'icon_color' => 'icc-81',
+            ],
+            [
+                'title'      => 'Media Library',
+                'icon'       => 'fas fa-photo-video',
+                'route'      => 'media.index',
+                'for_active' => 'media.',
+                'permit'     => 'me_media.view',
+                'icon_color' => 'icc-38',
             ],
             [
                 'title'      => 'Menus',

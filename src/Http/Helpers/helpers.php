@@ -72,6 +72,22 @@ if (!function_exists('me_sms')) {
     }
 }
 
+if (!function_exists('me_change_log')) {
+    /**
+     * Log the before/after data of an action as one readable entry in the Activity Log.
+     *
+     *   $log = me_change_log('Order #12 updated', 'order.update')->watch($order, ['items']);
+     *   ... update ...
+     *   $log->save();
+     *
+     * See ME\Services\DataChangeLogger and doc.md for all options.
+     */
+    function me_change_log(?string $title = null, ?string $slug = null): \ME\Services\DataChangeLogger
+    {
+        return new \ME\Services\DataChangeLogger($title, $slug);
+    }
+}
+
 if (!function_exists('me_prefix')) {
     /**
      * Admin URL prefix (.env METHEME_ROUTE_PREFIX, default "admin").
@@ -79,6 +95,18 @@ if (!function_exists('me_prefix')) {
     function me_prefix(): string
     {
         return (string) config('me_settings.route_prefix', 'admin');
+    }
+}
+
+if (!function_exists('me_home_url')) {
+    /**
+     * Admin home page URL: route config('me_settings.home_route'), or the profile page when unset / missing.
+     */
+    function me_home_url(): string
+    {
+        $route = config('me_settings.home_route');
+
+        return route($route && \Illuminate\Support\Facades\Route::has($route) ? $route : 'profile.edit');
     }
 }
 
@@ -166,21 +194,44 @@ if (!function_exists('menu_trans')) {
 
 if (!function_exists('get_image')) {
     /**
-     * Get the full URL of a stored image by key
+     * URL of an image setting ('app_logo', 'app_ico', 'ecom_store_logo' …) from me_media.
+     * Settings saved before media was added (a file name in storage/images/{key}/) still work.
      *
-     * @param string $key   // example: 'app_ico', 'app_logo', 'profile_image', 'signature_image'
-     * @param string|null $default   // optional default image if setting is empty
-     * @return string
+     * @param string $key
+     * @param string|null $default   asset path used when the setting has no image
+     * @param string|null $conversion  e.g. 'thumb'
+     * @return string|null
      */
-    function get_image($key, $default = null)
+    function get_image($key, $default = null, $conversion = null)
     {
-        $filename = Setting::get($key);
-
-        if (!$filename) {
-            return $default ? asset($default) : null;
+        try {
+            if ($url = Setting::imageUrl($key, $conversion)) {
+                return $url;
+            }
+            $filename = Setting::get($key);
+        } catch (\Throwable $e) {
+            $filename = null; // database not ready (fresh install, error pages)
         }
 
-        return asset("storage/images/{$key}/{$filename}");
+        if ($filename && !\Illuminate\Support\Str::isUuid($filename)) {
+            return asset("storage/images/{$key}/{$filename}");
+        }
+
+        return $default ? asset($default) : null;
+    }
+}
+
+if (!function_exists('me_media_url')) {
+    /**
+     * URL of a media file (Media model, id or uuid), optionally a conversion like 'thumb'.
+     */
+    function me_media_url($media, $conversion = null, $default = null)
+    {
+        if (!$media instanceof \ME\Models\Media) {
+            $media = $media ? \ME\Models\Media::where(is_numeric($media) ? 'id' : 'uuid', $media)->first() : null;
+        }
+
+        return $media?->url($conversion) ?? ($default ? asset($default) : null);
     }
 }
 

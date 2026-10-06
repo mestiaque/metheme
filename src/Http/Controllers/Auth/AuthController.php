@@ -2,21 +2,20 @@
 
 namespace ME\Http\Controllers\Auth;
 
-use ME\Models\User;
-use Illuminate\View\View;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rules;
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Auth\Events\Registered;
-use ME\Providers\RouteServiceProvider;
-use ME\Http\Requests\Auth\LoginRequest;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules;
+use Illuminate\View\View;
+use ME\Http\Requests\Auth\LoginRequest;
+use ME\Models\User;
+use ME\Providers\RouteServiceProvider;
 use ME\Services\ActivityLoggerService;
 
 class AuthController extends Controller
@@ -33,7 +32,7 @@ class AuthController extends Controller
         $request->session()->regenerate();
 
         // Check if user is active (User মডেলে isActive() মেথড থাকতে হবে)
-        if (method_exists(Auth::user(), 'isActive') && !Auth::user()->isActive()) {
+        if (method_exists(Auth::user(), 'isActive') && ! Auth::user()->isActive()) {
             Auth::logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
@@ -50,8 +49,14 @@ class AuthController extends Controller
         $activityLogger = new ActivityLoggerService($request);
         $activityLogger->logActivity(Auth::id(), 'login', 'success');
 
-        // return redirect()->intended(RouteServiceProvider::HOME);
-        return redirect()->route('dashboard'); // লগইনের পরে সবসময় ড্যাশবোর্ড: {APP_URL}/{route_prefix}
+        // যে অ্যাডমিন পেজ খুলতে গিয়ে লগইনে এসেছিল সেখানে ফেরত, নইলে হোম পেজ (config('me_settings.home_route')).
+        // "url.intended" সবসময় মুছে ফেলা হয়, যাতে অন্য লগইনে (যেমন স্টোরফ্রন্ট) পুরনো অ্যাডমিন লিংক না যায়।
+        $intended = (string) $request->session()->pull('url.intended', '');
+        $admin = url(me_prefix());
+
+        $target = $intended === $admin || str_starts_with($intended, $admin.'/') ? $intended : me_home_url();
+
+        return redirect()->to($target);
     }
 
     public function logOut(Request $request): RedirectResponse
@@ -69,12 +74,11 @@ class AuthController extends Controller
         return redirect()->route('login');
     }
 
-
     public function register(): View
     {
-        if(get_setting('enable_registration')){
+        if (get_setting('enable_registration')) {
             return view('me::auth.registration');
-        }else{
+        } else {
             return view('me::auth.login');
         }
     }
@@ -110,7 +114,7 @@ class AuthController extends Controller
                 'identity' => $request->identity,
                 'password' => Hash::make($request->password),
                 'otp' => $otp,
-            ]
+            ],
         ]);
 
         // ৩. OTP পাঠানো
@@ -119,7 +123,7 @@ class AuthController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'OTP sent successfully!',
-            'otp_debug' => $otp // প্রোডাকশনে এটা বাদ দিবেন
+            'otp_debug' => $otp, // প্রোডাকশনে এটা বাদ দিবেন
         ]);
     }
 
@@ -129,7 +133,7 @@ class AuthController extends Controller
 
         $sessionData = session('reg_data');
 
-        if (!$sessionData || $sessionData['otp'] != $request->otp) {
+        if (! $sessionData || $sessionData['otp'] != $request->otp) {
             return response()->json(['success' => false, 'message' => 'Invalid OTP or session expired!'], 422);
         }
 
@@ -160,7 +164,7 @@ class AuthController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Registration successful!',
-            'redirect' => url(RouteServiceProvider::HOME)
+            'redirect' => url(RouteServiceProvider::HOME),
         ]);
     }
 
@@ -172,17 +176,16 @@ class AuthController extends Controller
         } elseif ($type == 'email') {
             $companyName = e(get_setting('app_name', config('app.name')));
             $content = '<h2 style="color: #1a1a1a; font-size: 24px; font-weight: 700; margin: 0; text-align: center;">Verify Your Account</h2>';
-            $content .= '<p style="color: #4a4a4a; font-size: 16px; line-height: 1.6; margin-top: 20px; text-align: center;">Hello, thank you for joining <strong>' . $companyName . '</strong>. Use the secure code below to continue.</p>';
+            $content .= '<p style="color: #4a4a4a; font-size: 16px; line-height: 1.6; margin-top: 20px; text-align: center;">Hello, thank you for joining <strong>'.$companyName.'</strong>. Use the secure code below to continue.</p>';
             me_mail($identity, 'Your verification code', $content, ['otp' => $otp], 'auth');
         }
     }
 
-
     public function forgetPassword(): View
     {
-        if(get_setting('enable_forget_password')){
+        if (get_setting('enable_forget_password')) {
             return view('me::auth.forget');
-        }else{
+        } else {
             return view('me::auth.login');
         }
     }
@@ -206,7 +209,7 @@ class AuthController extends Controller
     {
         $request->validate([
             'identity' => ['required'], // phone or email
-            'type' => ['required', 'in:phone,email']
+            'type' => ['required', 'in:phone,email'],
         ]);
 
         $type = $request->type;
@@ -220,7 +223,7 @@ class AuthController extends Controller
             $user = User::where('email', $identity)->first();
         }
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'success' => false,
                 'message' => "User not found with this {$type}.",
@@ -234,7 +237,7 @@ class AuthController extends Controller
         session([
             'reset_type' => $type,
             'reset_identity' => $identity,
-            'reset_otp' => $otp
+            'reset_otp' => $otp,
         ]);
 
         // Log password reset request activity
@@ -258,7 +261,7 @@ class AuthController extends Controller
     public function resetPasswordStore(Request $request)
     {
         // ১. নিরাপত্তা চেক: OTP ভেরিফাই হয়েছিল কিনা
-        if (!session('otp_verified_for_reset')) {
+        if (! session('otp_verified_for_reset')) {
             return response()->json(['success' => false, 'message' => 'Unauthorized action!'], 403);
         }
 
@@ -267,11 +270,11 @@ class AuthController extends Controller
             'new_password' => [
                 'required',
                 'min:8',
-                \Illuminate\Validation\Rules\Password::defaults()
+                Rules\Password::defaults(),
             ],
             'confirm_password' => [
                 'required',
-                'same:new_password' // নিশ্চিত করে যে দুটি পাসওয়ার্ড মিলেছে
+                'same:new_password', // নিশ্চিত করে যে দুটি পাসওয়ার্ড মিলেছে
             ],
         ], [
             'confirm_password.same' => 'The confirm password does not match with new password.',
@@ -285,13 +288,13 @@ class AuthController extends Controller
                 ? User::where('phone', $identity)->first()
                 : User::where('email', $identity)->first();
 
-        if (!$user) {
+        if (! $user) {
             return response()->json(['success' => false, 'message' => 'User not found!'], 404);
         }
 
         // ৪. পাসওয়ার্ড আপডেট (Hash::make ব্যবহার করা হয়েছে)
         $user->update([
-            'password' => \Illuminate\Support\Facades\Hash::make($request->new_password)
+            'password' => Hash::make($request->new_password),
         ]);
         // Log successful password reset activity
         $activityLogger = new ActivityLoggerService($request);
@@ -302,10 +305,9 @@ class AuthController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Password reset successful! Please login.',
-            'redirect' => route('login')
+            'redirect' => route('login'),
         ]);
     }
-
 
     public function updatePassword(Request $request): RedirectResponse
     {
@@ -324,8 +326,4 @@ class AuthController extends Controller
             return back()->withErrors($e->getMessage())->withInput();
         }
     }
-
-
-
-
 }

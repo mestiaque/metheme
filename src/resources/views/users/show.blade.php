@@ -23,8 +23,8 @@
                 <div class="card-body">
                     <div class="text-center mb-4">
                         <div class="avatar-circle mb-3">
-                            @if($user->profile_image)
-                                <img src="{{ route('profile_img.show', $user->profile_image) }}" alt="{{ $user->name }}" class="img-fluid rounded-circle h-100">
+                            @if($user->avatar_url)
+                                <img src="{{ $user->avatar_url }}" alt="{{ $user->name }}" class="img-fluid rounded-circle h-100">
                             @else
                                 <div class="bg-light rounded-circle d-flex align-items-center justify-content-center"
                                         style="width: 98px; height: 98px; margin: 0 auto;">

@@ -261,7 +261,7 @@
             fileInputs.forEach(input => {
                 input.addEventListener('change', function() {
                     const fileName = this.files[0] ? this.files[0].name : 'Choose file';
-                    const fileLabel = this.nextElementSibling;
+                    const fileLabel = this.parentElement.querySelector('.custom-file-label');
                     if (fileLabel) {
                         fileLabel.textContent = fileName;
                     }
@@ -369,6 +369,7 @@
 
 
 
+    @include('me::components.fileDrop')
     @stack('js')
     @stack('scripts')
     <!--end::Scripts-->

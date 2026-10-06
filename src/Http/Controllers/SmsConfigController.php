@@ -38,6 +38,9 @@ class SmsConfigController extends Controller
             'sms_balance_url' => 'nullable|url|max:255',
         ]);
 
+        $logKeys = ['enable_sms', 'sms_api_url', 'sms_api_key', 'sms_sender_id', 'sms_balance_url'];
+        $before = Setting::snapshot($logKeys);
+
         Setting::set('enable_sms', $request->has('enable_sms'));
         Setting::set('sms_api_url', $request->sms_api_url);
         Setting::set('sms_sender_id', $request->sms_sender_id);
@@ -47,6 +50,9 @@ class SmsConfigController extends Controller
         if ($request->filled('sms_api_key')) {
             Setting::set('sms_api_key', Crypt::encryptString($request->sms_api_key));
         }
+
+        // sms_api_key is a hidden field: the log only says it changed, never the value
+        me_change_log('SMS settings updated', 'settings.sms')->record($before, Setting::snapshot($logKeys));
 
         return redirect()->route('sms-config.edit')
             ->with('success', __('me::me.sms_settings_saved'));

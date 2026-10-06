@@ -32,19 +32,19 @@ class SmsService
         $result = self::attempt($to, $message);
 
         SmsLog::create([
-            'to'            => $to,
+            'to' => $to,
             // Messages with secrets (e.g. OTP codes) are not stored in the log
-            'message'       => $hideMessage ? '[hidden: one-time code]' : $message,
-            'status'        => $result['success'] ? 'success' : ($result['response_code'] === null ? 'error' : 'failed'),
+            'message' => $hideMessage ? '[hidden: one-time code]' : $message,
+            'status' => $result['success'] ? 'success' : ($result['response_code'] === null ? 'error' : 'failed'),
             'response_code' => $result['response_code'],
-            'api_response'  => $result['response'] !== null ? json_encode($result['response'], JSON_UNESCAPED_UNICODE) : $result['error'],
+            'api_response' => $result['response'] !== null ? json_encode($result['response'], JSON_UNESCAPED_UNICODE) : $result['error'],
         ]);
 
         if ($result['success']) {
             // Atomic, so two SMS sent at the same moment can't both read the old balance
             SmsAccount::query()->limit(1)->update([
                 'sms_used' => DB::raw('sms_used + 1'),
-                'balance'  => DB::raw('balance - sms_rate'),
+                'balance' => DB::raw('balance - sms_rate'),
             ]);
             Cache::forget(self::GATEWAY_BALANCE_CACHE_KEY);
         }
@@ -79,8 +79,8 @@ class SmsService
                     : (is_numeric(trim($response->body())) ? trim($response->body()) : null);
 
                 return [
-                    'balance'    => $balance !== null ? (float) $balance : null,
-                    'error'      => $balance === null ? __('me::me.gateway_balance_unreadable') . ' ' . str($response->body())->limit(120) : null,
+                    'balance' => $balance !== null ? (float) $balance : null,
+                    'error' => $balance === null ? __('me::me.gateway_balance_unreadable').' '.str($response->body())->limit(120) : null,
                     'checked_at' => now()->toDateTimeString(),
                 ];
             } catch (\Throwable $e) {
@@ -94,7 +94,7 @@ class SmsService
         $url = config('services.sms_api_url');
 
         // "Enable SMS" switch on the SMS Configuration page
-        if (!config('services.sms_enabled')) {
+        if (! config('services.sms_enabled')) {
             return self::result(false, null, null, __('me::me.sms_disabled'));
         }
 
@@ -102,7 +102,7 @@ class SmsService
             return self::result(false, null, null, __('me::me.sms_gateway_not_configured'));
         }
 
-        if (!preg_match('/^(?:01[3-9]\d{8}|\+8801[3-9]\d{8})$/', $to)) {
+        if (! preg_match('/^(?:01[3-9]\d{8}|\+8801[3-9]\d{8})$/', $to)) {
             return self::result(false, null, null, __('me::me.invalid_phone_number'));
         }
 
@@ -113,10 +113,10 @@ class SmsService
 
         try {
             $response = Http::asForm()->timeout(20)->post($url, [
-                'api_key'  => config('services.sms_api_key'),
+                'api_key' => config('services.sms_api_key'),
                 'senderid' => config('services.sms_sender_id'),
-                'number'   => $to,
-                'message'  => $message,
+                'number' => $to,
+                'message' => $message,
             ]);
 
             $body = $response->json() ?? ['raw' => $response->body()];

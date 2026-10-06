@@ -138,8 +138,40 @@ class RoleController extends Controller
             'permissions' => $this->selectedSlugs($request),
         ]);
 
+        $this->changeLog('Role "' . $role->name . '" created', 'role.create')->subject($role)->record([], $this->roleState($role));
+
         return redirect()->route('roles.index')
             ->with('success', 'Role created successfully');
+    }
+
+    /**
+     * Readable state of a role for the data change log (parent by name, permissions as a list).
+     */
+    private function roleState(Role $role): array
+    {
+        $role = $role->fresh(['parent', 'rolePermission']) ?? $role;
+        $permissions = (array) ($role->rolePermission->permissions ?? []);
+        sort($permissions);
+
+        return [
+            'name' => $role->name,
+            'slug' => $role->slug,
+            'description' => $role->description,
+            'parent' => $role->parent?->name,
+            'color' => $role->color,
+            'permissions' => array_values($permissions),
+        ];
+    }
+
+    private function changeLog(string $title, string $slug): \ME\Services\DataChangeLogger
+    {
+        return me_change_log($title, $slug)->labels([
+            'name' => __('me::me.Role Name'),
+            'description' => __('me::me.Description'),
+            'parent' => __('me::me.Parent Role'),
+            'color' => __('me::me.Badge Color'),
+            'permissions' => __('me::me.Permissions'),
+        ]);
     }
 
     public function show(Role $role)
@@ -180,6 +212,7 @@ class RoleController extends Controller
         ]);
 
         $parentId = $this->validateParent($request, $role);
+        $before = $this->roleState($role);
 
         if ($role->name !== $request->name && !in_array($role->slug, Roles::SUPER_ADMIN_SLUGS, true)) {
             $role->slug = Str::slug($request->name);
@@ -201,6 +234,8 @@ class RoleController extends Controller
             ['permissions' => array_values(array_unique(array_merge($this->selectedSlugs($request), $kept)))]
         );
 
+        $this->changeLog('Role "' . $role->name . '" updated', 'role.update')->subject($role)->record($before, $this->roleState($role));
+
         return redirect()->route('roles.index')
             ->with('success', 'Role updated successfully');
     }
@@ -220,7 +255,9 @@ class RoleController extends Controller
             return redirect()->route('roles.index')->with('error', __('me::me.role_has_children'));
         }
 
+        $before = $this->roleState($role);
         $role->delete();
+        $this->changeLog('Role "' . $before['name'] . '" deleted', 'role.delete')->subject($role)->record($before, []);
 
         return redirect()->route('roles.index')
             ->with('success', 'Role deleted successfully');

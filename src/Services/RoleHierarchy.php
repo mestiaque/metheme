@@ -32,7 +32,7 @@ class RoleHierarchy
      */
     public function ownRoleIds($actor): array
     {
-        if (!$actor) {
+        if (! $actor) {
             return [];
         }
 
@@ -45,13 +45,13 @@ class RoleHierarchy
      */
     public function manageableRoleIds($actor): array
     {
-        if (!$actor) {
+        if (! $actor) {
             return [];
         }
 
         $key = $actor->getAuthIdentifier();
 
-        if (!isset($this->manageableCache[$key])) {
+        if (! isset($this->manageableCache[$key])) {
             if ($this->isDeveloper($actor)) {
                 $ids = Role::query()->pluck('id')->map(fn ($id) => (int) $id)->all();
             } else {
@@ -115,7 +115,7 @@ class RoleHierarchy
      */
     public function canManageUser($actor, $target): bool
     {
-        if (!$actor || !$target) {
+        if (! $actor || ! $target) {
             return false;
         }
 

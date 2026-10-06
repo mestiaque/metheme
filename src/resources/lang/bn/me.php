@@ -787,4 +787,25 @@ return [
     'Twitter Link' => 'Twitter লিংক',
     'URL Configuration' => 'URL কনফিগারেশন',
     'You are not allowed to logout this device.' => 'আপনার এই ডিভাইস থেকে লগআউট করার অনুমতি নেই।',
+
+    // Data change log
+    'change_count' => ':countটি পরিবর্তন',
+    'record_history' => 'এই রেকর্ডের ইতিহাস',
+    'data_changes_only' => 'শুধু ডেটা পরিবর্তন',
+    'Changes' => 'পরিবর্তন',
+    'Record' => 'রেকর্ড',
+    'Field' => 'ফিল্ড',
+    'Before' => 'আগে',
+    'After' => 'পরে',
+    'value_hidden_changed' => 'বদলেছে (মান লুকানো)',
+    'Added' => 'যোগ',
+    'Removed' => 'বাদ',
+    'Changed' => 'বদল',
+
+    // Media Library
+    'Media Library' => 'মিডিয়া লাইব্রেরি',
+    'media_saved' => 'মিডিয়ার তথ্য সেভ হয়েছে।',
+    'media_trashed' => 'ট্র্যাশে পাঠানো হয়েছে। Trash ফিল্টার থেকে ফেরানো যাবে।',
+    'media_restored' => 'ফাইল ফেরানো হয়েছে।',
+    'media_deleted' => 'ফাইল স্থায়ীভাবে মুছে ফেলা হয়েছে।',
 ];

@@ -26,12 +26,12 @@ class RolePermission extends Model
     protected static function booted()
     {
         static::saving(function (RolePermission $rolePermission) {
-            if (app()->runningInConsole() || !auth()->check() || me_is_developer()) {
+            if (app()->runningInConsole() || ! auth()->check() || me_is_developer()) {
                 return;
             }
 
             $developerKeys = me_developer_permission_keys();
-            if (!$developerKeys) {
+            if (! $developerKeys) {
                 return;
             }
 

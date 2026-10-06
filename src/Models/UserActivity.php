@@ -28,13 +28,40 @@ class UserActivity extends Model
         'description',
         'activity_at',
         'url',
+        'subject_type',
+        'subject_id',
+        'changes',
+        'change_count',
     ];
 
     protected $casts = [
         'activity_at' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+        'changes' => 'array',
     ];
+
+    /**
+     * Whether this row is a data change log (before/after) rather than a page visit.
+     */
+    public function isDataChange(): bool
+    {
+        // getAttribute(): inside the model, $this->changes would read Eloquent's own
+        // protected $changes property (dirty tracking), not the "changes" column.
+        return $this->getAttribute('changes') !== null;
+    }
+
+    /**
+     * Readable name of the changed record, e.g. "Order #12".
+     */
+    public function subjectLabel(): ?string
+    {
+        if (! $this->subject_type) {
+            return null;
+        }
+
+        return class_basename($this->subject_type).($this->subject_id !== null ? ' #'.$this->subject_id : '');
+    }
 
     /**
      * Get the user associated with this activity

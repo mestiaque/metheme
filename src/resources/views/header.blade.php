@@ -15,7 +15,7 @@
     </li>
 
     <li class="nav-item d-nonex d-md-block ms-2"> <!-- ms-2 দিয়ে একটু গ্যাপ দেওয়া হয়েছে -->
-        <a href="{{ route('dashboard') }}"
+        <a href="{{ me_home_url() }}"
             class="nav-link d-flex align-items-center"
             style="height: 40px; padding:0px !important;"> <!-- প্যাডিং ০ করে দেওয়া হয়েছে যাতে ইমেজ বড় হলে সমস্যা না হয় -->
             @include('me::svg')
@@ -142,9 +142,9 @@
       <li class="nav-item dropdown user-menu">
         <a href="#" class="nav-link dropdown-toggle" id="userMenuToggle" aria-expanded="false">
             @if(Auth::check())
-                @if(Auth::user()->profile_image)
+                @if(Auth::user()->avatar_url)
                     <img class="user-image rounded-circle shadow"
-                        src="{{ route('profile_img.show', Auth::user()->profile_image) }}">
+                        src="{{ Auth::user()->avatar_url }}">
                 @else
                     <img class="user-image rounded-circle shadow"
                         src="{{ asset('backend/img/undraw_profile.svg') }}">

@@ -76,7 +76,7 @@ class Role extends Model
         while ($queue) {
             $current = array_shift($queue);
             foreach ($parents as $childId => $parentId) {
-                if ((int) $parentId === $current && !isset($found[$childId]) && !in_array((int) $childId, $roleIds, true)) {
+                if ((int) $parentId === $current && ! isset($found[$childId]) && ! in_array((int) $childId, $roleIds, true)) {
                     $found[$childId] = true;
                     $queue[] = (int) $childId;
                 }
@@ -95,7 +95,7 @@ class Role extends Model
         $seen = [$this->id => true];
         $role = $this->parent;
 
-        while ($role && !isset($seen[$role->id])) {
+        while ($role && ! isset($seen[$role->id])) {
             array_unshift($names, $role->name);
             $seen[$role->id] = true;
             $role = $role->parent;
@@ -139,8 +139,10 @@ class Role extends Model
     {
         if ($this->rolePermission) {
             $permissions = $this->rolePermission->permissions ?? [];
+
             return in_array($permission, $permissions);
         }
+
         return false;
     }
 }

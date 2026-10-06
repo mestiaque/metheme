@@ -68,11 +68,22 @@ class ActivityController extends Controller
             });
         }
 
+        // Only data change entries (me_change_log)
+        if ($request->boolean('changes_only')) {
+            $query->whereNotNull('changes');
+        }
+
+        // History of one record (e.g. Order #12)
+        if ($request->filled('subject_type')) {
+            $query->where('subject_type', $request->subject_type)
+                ->when($request->filled('subject_id'), fn ($q) => $q->where('subject_id', (string) $request->subject_id));
+        }
+
         // Sort by latest activity
-        $query->orderBy('activity_at', 'desc');
+        $query->orderBy('activity_at', 'desc')->orderBy('id', 'desc');
 
         // Paginate results
-        $activities = $query->paginate(20)->withQueryString();
+        $activities = $query->paginate((int) get_setting('pagination', 20) ?: 20)->withQueryString();
 
         // Get unique activity types from stored activity logs
         $activityTypes = UserActivity::query()

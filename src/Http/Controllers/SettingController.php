@@ -40,6 +40,9 @@ class SettingController extends Controller
             'app_ico'     => 'nullable|file|mimes:svg,ico,png,jpg|max:1024',
         ]);
 
+        $logKeys = ['pagination', 'enable_translation', 'enable_registration', 'enable_forget_password', 'show_settings_link', 'app_logo', 'app_ico'];
+        $before = Setting::snapshot($logKeys);
+
         // Store values properly
         Setting::set('pagination', (int) $request->pagination);
         Setting::set('enable_translation', $request->has('enable_translation'));
@@ -47,20 +50,24 @@ class SettingController extends Controller
         Setting::set('enable_forget_password', $request->has('enable_forget_password'));
         Setting::set('show_settings_link', $request->has('show_settings_link'));
 
+        // Images live in me_media (Media Library); get_image('app_logo') reads them
         foreach (['app_logo', 'app_ico'] as $imgField) {
             if ($request->hasFile($imgField)) {
-                $image = $request->file($imgField);
-                $imageName = Str::uuid() . '.' . $image->getClientOriginalExtension();
-                $imagePath = storage_path("app/public/images/{$imgField}");
-
-                if (!file_exists($imagePath)) {
-                    mkdir($imagePath, 0755, true);
-                }
-
-                $image->move($imagePath, $imageName);
-                Setting::set($imgField, $imageName);
+                Setting::setImage($imgField, $request->file($imgField));
             }
         }
+
+        me_change_log('Configurations updated', 'settings.configurations')
+            ->labels([
+                'pagination' => __('me::me.Results per page'),
+                'enable_translation' => __('me::me.Enable Translation'),
+                'enable_registration' => __('me::me.Enable Registration'),
+                'enable_forget_password' => __('me::me.Enable Forget Password'),
+                'show_settings_link' => __('me::me.Show Settings Link in Profile Menu'),
+                'app_logo' => __('me::me.App Logo'),
+                'app_ico' => 'Favicon',
+            ])
+            ->record($before, Setting::snapshot($logKeys));
 
         return redirect()->route('configurations.edit')
             ->with('success', __('me::me.Configurations updated successfully'));
@@ -95,6 +102,9 @@ class SettingController extends Controller
             'sms_notifications.*' => 'boolean',
         ]);
 
+        $logKeys = ['app_name', 'app_address', 'app_email', 'app_phone', 'low_stock_threshold', 'sms_notifications', 'app_logo'];
+        $before = Setting::snapshot($logKeys);
+
         // Update text settings
         Setting::set('app_name', $request->app_name);
         Setting::set('app_address', $request->app_address);
@@ -104,19 +114,10 @@ class SettingController extends Controller
         Setting::set('sms_notifications', $request->sms_notifications);
 
         if ($request->hasFile('app_logo')) {
-            $image = $request->file('app_logo');
-            $imageName = Str::uuid() . '.' . $image->getClientOriginalExtension();
-            $imagePath = storage_path('app/public/images/app_logo');
-
-            // Ensure the directory exists
-            if (!file_exists($imagePath)) {
-                mkdir($imagePath, 0755, true);
-            }
-
-            $image->move($imagePath, $imageName);
-            // $data['app_logo'] = $imageName;
-            Setting::set('app_logo', $imageName);
+            Setting::setImage('app_logo', $request->file('app_logo'));
         }
+
+        me_change_log('Settings updated', 'settings.general')->record($before, Setting::snapshot($logKeys));
 
         return redirect()->route('settings.edit')
             ->with('success', __('me::me.Settings updated successfully'));

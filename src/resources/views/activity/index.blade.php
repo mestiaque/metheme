@@ -80,7 +80,18 @@
                                placeholder="{{ __('me::me.Chrome, Firefox, Safari') }}" value="{{ request('browser_name') }}">
                     </div>
 
-                    <div class="col-md-4 d-flex align-items-end">
+                    <div class="col-md-2 mt-2 d-flex align-items-end">
+                        <div class="form-check mb-1">
+                            <input class="form-check-input" type="checkbox" id="changes_only" name="changes_only" value="1" {{ request('changes_only') ? 'checked' : '' }}>
+                            <label class="form-check-label small" for="changes_only">{{ __('me::me.data_changes_only') }}</label>
+                        </div>
+                        @if(request('subject_type'))
+                            <input type="hidden" name="subject_type" value="{{ request('subject_type') }}">
+                            <input type="hidden" name="subject_id" value="{{ request('subject_id') }}">
+                        @endif
+                    </div>
+
+                    <div class="col-md-2 d-flex align-items-end">
                         <button type="submit" class="btn btn-encodex-search btn-sm me-2">
                             <i class="fas fa-search"></i> {{ __('me::me.Search') }}
                         </button>
@@ -124,9 +135,22 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <span class="badge badge-encodex bg-info text-white">
-                                        {{ ucwords($activity->getActivityTypeLabel()) }}
-                                    </span>
+                                    @if($activity->isDataChange())
+                                        <span class="badge text-white" style="background-color: #6f42c1;">
+                                            <i class="fas fa-exchange-alt me-1"></i>{{ __('me::me.change_count', ['count' => toBanglaNumber($activity->change_count)]) }}
+                                        </span>
+                                        <div class="small fw-semibold mt-1">{{ $activity->description }}</div>
+                                        @if($activity->subjectLabel())
+                                            <a href="{{ route('activity.index', ['subject_type' => $activity->subject_type, 'subject_id' => $activity->subject_id]) }}"
+                                               class="small text-muted" title="{{ __('me::me.record_history') }}">
+                                                <i class="fas fa-history"></i> {{ $activity->subjectLabel() }}
+                                            </a>
+                                        @endif
+                                    @else
+                                        <span class="badge badge-encodex bg-info text-white">
+                                            {{ ucwords($activity->getActivityTypeLabel()) }}
+                                        </span>
+                                    @endif
                                 </td>
                                 <td>
                                     <div>
@@ -403,6 +427,13 @@
                             </div>
                         </div>
                     </div>
+
+                    @if($activity->isDataChange())
+                        <div class="mb-3" style="padding-right: calc(var(--bs-gutter-x) * 0.5); padding-left: calc(var(--bs-gutter-x) * 0.5);">
+                            <div class="fw-semibold mb-2">{{ $activity->description }}</div>
+                            @include('me::activity.partials.changes', ['activity' => $activity])
+                        </div>
+                    @endif
 
                     <div class="mt-0" style="    padding-right: calc(var(--bs-gutter-x) * 0.5); padding-left: calc(var(--bs-gutter-x) * 0.5);">
                         <h6 class="fw-bold"><i class="fas fa-fingerprint me-2 text-primary"></i>{{ __('me::me.User Agent') }}</h6>

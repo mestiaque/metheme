@@ -2,8 +2,8 @@
 
 namespace ME\Services;
 
-use ME\Models\UserActivity;
 use Illuminate\Http\Request;
+use ME\Models\UserActivity;
 
 class ActivityLoggerService
 {
@@ -21,7 +21,8 @@ class ActivityLoggerService
         ?int $userId,
         string $activityType,
         string $status = 'success',
-        ?string $description = null
+        ?string $description = null,
+        array $extra = []
     ): UserActivity {
         $browser = $this->detectBrowser();
         $os = $this->detectOs();
@@ -43,7 +44,48 @@ class ActivityLoggerService
             'activity_at' => now(),
         ];
 
-        return UserActivity::create($activityData);
+        return UserActivity::create(array_merge($activityData, $extra));
+    }
+
+    /**
+     * Log a data change (before/after) as one activity row. Used by DataChangeLogger.
+     * Marks the request so the ActivityLogger middleware does not add a separate "visit" row.
+     */
+    public function logChange(
+        ?int $userId,
+        string $activityType,
+        ?string $title,
+        array $changes,
+        ?string $subjectType = null,
+        $subjectId = null
+    ): UserActivity {
+        // One insert: if it fails (e.g. migration not run) no half-written row is left behind
+        $activity = $this->logActivity($userId, $activityType, 'success', $title, [
+            'url' => $this->redactedUrl(),
+            'subject_type' => $subjectType,
+            'subject_id' => $subjectId !== null ? (string) $subjectId : null,
+            'changes' => $changes,
+            'change_count' => count($changes),
+        ]);
+
+        $this->request->attributes->set('me_change_logged', true);
+
+        return $activity;
+    }
+
+    /**
+     * Full URL with sensitive query values (token, password, otp ...) hidden.
+     */
+    protected function redactedUrl(): string
+    {
+        $query = $this->request->query();
+        array_walk_recursive($query, function (&$value, $key) {
+            if (preg_match('/token|password|otp|secret|key|code|signature/i', (string) $key)) {
+                $value = '[hidden]';
+            }
+        });
+
+        return $query ? $this->request->url().'?'.http_build_query($query) : $this->request->url();
     }
 
     /**

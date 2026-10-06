@@ -5,6 +5,7 @@ use ME\Http\Controllers\ActivityController;
 use ME\Http\Controllers\DataController;
 use ME\Http\Controllers\MailConfigController;
 use ME\Http\Controllers\MailLogController;
+use ME\Http\Controllers\MediaController;
 use ME\Http\Controllers\MenuController;
 use ME\Http\Controllers\MenuSearchController;
 use ME\Http\Controllers\ProfileController;
@@ -24,8 +25,6 @@ Route::middleware(['web', LocaleMiddleware::class])->group(function () {
 
 // URL prefix comes from config('me_settings.route_prefix') (.env METHEME_ROUTE_PREFIX). Route names have no prefix.
 Route::group(['prefix' => me_prefix(), 'middleware' => ['web', 'auth', LocaleMiddleware::class, 'activityLog']], function () {
-    Route::get('/', [DataController::class, 'index'])->name('dashboard');
-
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -64,8 +63,19 @@ Route::group(['prefix' => me_prefix(), 'middleware' => ['web', 'auth', LocaleMid
     Route::get('/mail-layout-preview', [DataController::class, 'mailLayoutPreview'])->name('mail-layout-preview');
 
     Route::resource('menus', MenuController::class);
+
+    // Media Library (me_media — files of every package)
+    Route::get('/media', [MediaController::class, 'index'])->name('media.index');
+    Route::patch('/media/{media}', [MediaController::class, 'update'])->name('media.update');
+    Route::delete('/media/{media}', [MediaController::class, 'destroy'])->name('media.destroy');
+    Route::post('/media/{media}/restore', [MediaController::class, 'restore'])->name('media.restore');
+    Route::delete('/media/{media}/force', [MediaController::class, 'forceDelete'])->name('media.force-delete');
 });
 
+
+// Serves a media file by uuid; private files need a signed URL (Media::url() makes it)
+Route::get('/media/{media}/{conversion?}', [MediaController::class, 'show'])->middleware('web')
+    ->where('media', '[0-9a-fA-F-]{36}')->name('me.media.show');
 
 require __DIR__.'/file.php';
 require __DIR__.'/auth.php';

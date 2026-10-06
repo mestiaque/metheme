@@ -758,4 +758,25 @@ return [
     'Used for: Announcements, Bulk notices' => 'Used for: Announcements, Bulk notices',
     'Auth Layout with OTP' => 'Auth Layout with OTP',
     'Auth Layout without OTP' => 'Auth Layout without OTP',
+
+    // Data change log
+    'change_count' => ':count changes',
+    'record_history' => 'History of this record',
+    'data_changes_only' => 'Data changes only',
+    'Changes' => 'Changes',
+    'Record' => 'Record',
+    'Field' => 'Field',
+    'Before' => 'Before',
+    'After' => 'After',
+    'value_hidden_changed' => 'changed (value hidden)',
+    'Added' => 'Added',
+    'Removed' => 'Removed',
+    'Changed' => 'Changed',
+
+    // Media Library
+    'Media Library' => 'Media Library',
+    'media_saved' => 'Media details saved.',
+    'media_trashed' => 'Moved to the trash. You can restore it from the Trash filter.',
+    'media_restored' => 'File restored.',
+    'media_deleted' => 'File deleted permanently.',
 ];
