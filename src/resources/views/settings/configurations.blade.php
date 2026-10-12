@@ -85,7 +85,7 @@
                                 <label class="font-weight-bold text-primary d-block">@lang('me::me.App Logo')</label>
                                 <div class="logo-preview mb-3" style="height: 10rem">
                                     @if($settings['app_logo'])
-                                        <img loading="lazy" src="{{ asset('storage/images/app_logo/' . $settings['app_logo']) }}"
+                                        <img loading="lazy" src="{{ get_image('app_logo') }}"
                                                 alt="App Logo" class="img-thumbnail" style="max-height: 150px;">
                                     @else
                                         <div class="empty-logo p-4 bg-light text-center border rounded">

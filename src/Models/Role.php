@@ -33,13 +33,18 @@ class Role extends Model
     /**
      * Inline style for a role badge: the role color with black or white text, whichever is readable.
      */
+    /**
+     * Soft badge in the role's colour, like "badge bg-X-subtle text-X": a light tint behind coloured text.
+     * Light colours (e.g. yellow) get darker text so the name stays readable.
+     */
     public function badgeStyle(): string
     {
         $hex = ltrim($this->badgeColor(), '#');
         [$r, $g, $b] = [hexdec(substr($hex, 0, 2)), hexdec(substr($hex, 2, 2)), hexdec(substr($hex, 4, 2))];
-        $text = (($r * 299 + $g * 587 + $b * 114) / 1000) > 150 ? '#212529' : '#ffffff';
+        $light = (($r * 299 + $g * 587 + $b * 114) / 1000) > 150;
+        [$tr, $tg, $tb] = $light ? [(int) ($r * .45), (int) ($g * .45), (int) ($b * .45)] : [$r, $g, $b];
 
-        return "background-color: #{$hex}; color: {$text};";
+        return "background-color: rgba({$r}, {$g}, {$b}, .15); color: rgb({$tr}, {$tg}, {$tb}); border: 1px solid rgba({$r}, {$g}, {$b}, .3);";
     }
 
     /**

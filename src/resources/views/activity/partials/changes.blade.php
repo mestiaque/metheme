@@ -4,6 +4,7 @@
     $main = $rows->whereNull('section');
     $sections = $rows->whereNotNull('section')->groupBy('section');
     $colors = ['added' => '#198754', 'removed' => '#dc3545', 'changed' => '#fd7e14', 'hidden' => '#6c757d'];
+    $tones = ['added' => 'success', 'removed' => 'danger', 'changed' => 'warning', 'hidden' => 'secondary']; // badge bg-{tone}-subtle text-{tone}
     $value = fn ($v) => $v === null || $v === '' ? '—' : $v;
 @endphp
 
@@ -60,18 +61,18 @@
             @foreach($items as $row)
                 <li class="mb-1">
                     @if($row['type'] === 'added' && $row['field'] === null)
-                        <span class="badge" style="background:{{ $colors['added'] }}">{{ __('me::me.Added') }}</span>
+                        <span class="badge bg-success-subtle text-success">{{ __('me::me.Added') }}</span>
                         <strong>{{ $row['item'] }}</strong>
                         @if($row['new'])<span class="text-muted">({{ $row['new'] }})</span>@endif
                     @elseif($row['type'] === 'removed' && $row['field'] === null)
-                        <span class="badge" style="background:{{ $colors['removed'] }}">{{ __('me::me.Removed') }}</span>
+                        <span class="badge bg-danger-subtle text-danger">{{ __('me::me.Removed') }}</span>
                         <strong><del>{{ $row['item'] }}</del></strong>
                         @if($row['old'])<span class="text-muted">({{ $row['old'] }})</span>@endif
                     @elseif($row['type'] === 'hidden')
-                        <span class="badge" style="background:{{ $colors['hidden'] }}">{{ __('me::me.Changed') }}</span>
+                        <span class="badge bg-secondary-subtle text-secondary">{{ __('me::me.Changed') }}</span>
                         <strong>{{ $row['item'] }}</strong> › {{ $row['label'] }}: <em class="text-muted">{{ __('me::me.value_hidden_changed') }}</em>
                     @else
-                        <span class="badge" style="background:{{ $colors[$row['type']] ?? '#6c757d' }}">{{ __('me::me.' . ucfirst($row['type'])) }}</span>
+                        <span class="badge bg-{{ $tones[$row['type']] ?? 'secondary' }}-subtle text-{{ $tones[$row['type']] ?? 'secondary' }}">{{ __('me::me.' . ucfirst($row['type'])) }}</span>
                         <strong>{{ $row['item'] }}</strong> › {{ $row['label'] }}:
                         <del class="text-danger">{{ $value($row['old']) }}</del> → <span class="text-success fw-semibold">{{ $value($row['new']) }}</span>
                     @endif

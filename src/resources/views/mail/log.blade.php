@@ -79,7 +79,7 @@
                         <td>{{ $log->subject ?? '—' }}</td>
                         <td class="text-nowrap">{{ $log->mailer }}</td>
                         <td>
-                            <span class="badge {{ $log->status === 'sent' ? 'bg-success' : 'bg-danger' }}">
+                            <span class="badge {{ $log->status === 'sent' ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger' }}">
                                 <i class="fas fa-{{ $log->status === 'sent' ? 'check' : 'times' }}"></i>
                                 @lang('me::me.mail_status_' . $log->status)
                             </span>

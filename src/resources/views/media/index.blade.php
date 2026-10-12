@@ -106,7 +106,7 @@
                         </div>
                         <div class="me-media-meta text-truncate" title="{{ $item->owner_label }}">
                             <i class="fas {{ $item->mediable_type ? 'fa-link' : 'fa-unlink text-warning' }}"></i> {{ $item->owner_label }}
-                            @if($item->mediable_type)<span class="badge bg-light text-dark border">{{ $item->collection }}</span>@endif
+                            @if($item->mediable_type)<span class="badge bg-light-subtle text-light border">{{ $item->collection }}</span>@endif
                         </div>
                         <div class="me-media-meta">{{ $item->created_at->format('d M Y') }}</div>
                     </div>

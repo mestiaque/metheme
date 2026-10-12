@@ -124,7 +124,7 @@
                                             <tr>
                                                 <td class="ps-3">{{ $activity->user?->name ?? __('me::me.dash_guest') }}</td>
                                                 <td>{{ $activity->getActivityTypeLabel() }}</td>
-                                                <td><span class="badge bg-{{ $activity->getStatusColor() }}">{{ ucfirst($activity->status) }}</span></td>
+                                                <td><span class="badge bg-{{ $activity->getStatusColor() }}-subtle text-{{ $activity->getStatusColor() }}">{{ ucfirst($activity->status) }}</span></td>
                                                 <td class="text-end pe-3 text-muted small">{{ $activity->activity_at?->diffForHumans() }}</td>
                                             </tr>
                                         @empty

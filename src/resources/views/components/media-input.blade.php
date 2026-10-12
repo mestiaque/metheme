@@ -83,7 +83,7 @@
             input.addEventListener('change', function () {
                 preview.innerHTML = '';
                 Array.from(input.files).forEach(file => {
-                    if (!file.type.startsWith('image/')) { preview.insertAdjacentHTML('beforeend', '<span class="badge bg-light text-dark border">' + file.name.replace(/[<>&]/g, '') + '</span>'); return; }
+                    if (!file.type.startsWith('image/')) { preview.insertAdjacentHTML('beforeend', '<span class="badge bg-light-subtle text-light border">' + file.name.replace(/[<>&]/g, '') + '</span>'); return; }
                     const img = document.createElement('img');
                     img.src = URL.createObjectURL(file);
                     preview.appendChild(img);

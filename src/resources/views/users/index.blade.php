@@ -80,9 +80,9 @@
                         </td>
                         <td>
                             @if($user->is_active)
-                                <span class="badge bg-success">@lang('me::me.Active')</span>
+                                <span class="badge bg-success-subtle text-success">@lang('me::me.Active')</span>
                             @else
-                                <span class="badge bg-danger">@lang('me::me.Inactive')</span>
+                                <span class="badge bg-danger-subtle text-danger">@lang('me::me.Inactive')</span>
                             @endif
                         </td>
                         <td>{{ $user->created_at ? $user->created_at->format('d M Y') : __('me::me.N/A') }}</td>

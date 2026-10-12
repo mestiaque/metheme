@@ -30,7 +30,7 @@
                         <div class="col-md-6">
                             <p>
                                 <strong>{{ __('me::me.Status:') }}</strong><br>
-                                <span class="badge bg-{{ $activity->getStatusColor() }}">
+                                <span class="badge bg-{{ $activity->getStatusColor() }}-subtle text-{{ $activity->getStatusColor() }}">
                                     {{ ucfirst($activity->status) }}
                                 </span>
                             </p>
@@ -41,7 +41,7 @@
                         <div class="col-md-6">
                             <p>
                                 <strong>{{ __('me::me.Activity Type:') }}</strong><br>
-                                <span class="badge bg-info">{{ $activity->getActivityTypeLabel() }}</span>
+                                <span class="badge bg-info-subtle text-info">{{ $activity->getActivityTypeLabel() }}</span>
                             </p>
                         </div>
                         <div class="col-md-6">
@@ -132,7 +132,7 @@
                         <div class="col-md-6">
                             <p>
                                 <strong>{{ __('me::me.Device Type:') }}</strong><br>
-                                <span class="badge bg-secondary">{{ ucfirst($activity->device_type) }}</span>
+                                <span class="badge bg-secondary-subtle text-secondary">{{ ucfirst($activity->device_type) }}</span>
                             </p>
                         </div>
                         <div class="col-md-6">

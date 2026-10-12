@@ -147,7 +147,7 @@
                                             </a>
                                         @endif
                                     @else
-                                        <span class="badge badge-encodex bg-info text-white">
+                                        <span class="badge badge-encodex bg-info-subtle text-info">
                                             {{ ucwords($activity->getActivityTypeLabel()) }}
                                         </span>
                                     @endif
@@ -210,11 +210,11 @@
                                 </td>
                                 <td>
                                     @if($activity->status === 'success')
-                                        <span class="badge badge-encodex bg-success text-white">{{ __('me::me.Success') }}</span>
+                                        <span class="badge badge-encodex bg-success-subtle text-success">{{ __('me::me.Success') }}</span>
                                     @elseif($activity->status === 'failed')
-                                        <span class="badge badge-encodex bg-danger text-white">{{ __('me::me.Failed') }}</span>
+                                        <span class="badge badge-encodex bg-danger-subtle text-danger">{{ __('me::me.Failed') }}</span>
                                     @else
-                                        <span class="badge badge-encodex bg-warning text-white">{{ __('me::me.Pending') }}</span>
+                                        <span class="badge badge-encodex bg-warning-subtle text-warning">{{ __('me::me.Pending') }}</span>
                                     @endif
                                 </td>
                                 <td>
@@ -300,7 +300,7 @@
                                 </div>
                                 <div>
                                     <small class="text-muted d-block">{{ __('me::me.Activity Type') }}</small>
-                                    <span class="badge badge-encodex bg-info text-white">
+                                    <span class="badge badge-encodex bg-info-subtle text-info">
                                         {{ $activity->getActivityTypeLabel() }}
                                     </span>
                                 </div>
@@ -362,7 +362,7 @@
                                 </div>
                                 <div>
                                     <small class="text-muted d-block">{{ __('me::me.Status') }}</small>
-                                    <span class="badge badge-encodex bg-{{ $activity->getStatusColor() }} text-white">
+                                    <span class="badge badge-encodex bg-{{ $activity->getStatusColor() }}-subtle text-{{ $activity->getStatusColor() }}">
                                         {{ ucfirst($activity->status) }}
                                     </span>
                                 </div>

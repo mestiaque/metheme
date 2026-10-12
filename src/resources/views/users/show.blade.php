@@ -36,9 +36,9 @@
                         <p class="text-muted">{{ $user->email }}</p>
                         <div class="mt-2">
                             @if($user->is_active)
-                                <span class="badge bg-success badge-pill">@lang('me::me.Active')</span>
+                                <span class="badge bg-success-subtle text-success badge-pill">@lang('me::me.Active')</span>
                             @else
-                                <span class="badge bg-danger badge-pill">@lang('me::me.Inactive')</span>
+                                <span class="badge bg-danger-subtle text-danger badge-pill">@lang('me::me.Inactive')</span>
                             @endif
                         </div>
                     </div>
@@ -97,7 +97,7 @@
                                                                         $actionName = ucfirst($permParts[1] ?? '');
                                                                         $displayName = $actionName . ' ' . $moduleName;
                                                                     @endphp
-                                                                    <span class="badge badge-pill bg-secondary mb-1">
+                                                                    <span class="badge badge-pill bg-secondary-subtle text-secondary mb-1">
                                                                         {{ $displayName }}
                                                                     </span>
                                                                 @endforeach

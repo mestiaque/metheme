@@ -36,13 +36,13 @@
                                 @if($role->parent)
                                     @include('me::roles.partials.badge', ['role' => $role->parent])
                                 @else
-                                    <span class="badge bg-dark text-white">@lang('me::me.Top role')</span>
+                                    <span class="badge bg-dark-subtle">@lang('me::me.Top role')</span>
                                 @endif
                             </td>
                             <td><code>{{ $role->slug }}</code></td>
                             <td>{{ $role->description ?? __('me::me.N/A') }}</td>
                             <td>
-                                <span class="badge bg-info">{{ $role->users_count }}</span>
+                                <span class="badge bg-info-subtle text-info">{{ $role->users_count }}</span>
                             </td>
                             <td class="text-center">
                                 <div class="d-inline-flex align-items-center gap-1">

@@ -7,7 +7,7 @@
     <div class="d-flex align-items-center gap-2">
         <input type="color" class="form-control form-control-color @error('color') is-invalid @enderror"
                id="color" name="color" value="{{ $colorValue }}" style="width: 60px; height: 38px; padding: 4px;">
-        <span class="badge" id="color-preview" style="background-color: {{ $colorValue }}; font-size: .9rem;">@lang('me::me.Preview')</span>
+        <span class="badge" id="color-preview" style="font-size: .9rem;">@lang('me::me.Preview')</span>
     </div>
     <small class="form-text text-muted">@lang('me::me.badge_color_help')</small>
     @error('color')
@@ -26,8 +26,11 @@
         const refresh = () => {
             const hex = input.value.replace('#', '');
             const r = parseInt(hex.substr(0, 2), 16), g = parseInt(hex.substr(2, 2), 16), b = parseInt(hex.substr(4, 2), 16);
-            preview.style.backgroundColor = input.value;
-            preview.style.color = ((r * 299 + g * 587 + b * 114) / 1000) > 150 ? '#212529' : '#ffffff';
+            // Same soft look as Role::badgeStyle(): light tint, coloured text (darker for light colours)
+            const light = ((r * 299 + g * 587 + b * 114) / 1000) > 150, k = light ? .45 : 1;
+            preview.style.backgroundColor = `rgba(${r}, ${g}, ${b}, .15)`;
+            preview.style.color = `rgb(${Math.round(r * k)}, ${Math.round(g * k)}, ${Math.round(b * k)})`;
+            preview.style.border = `1px solid rgba(${r}, ${g}, ${b}, .3)`;
             if (nameInput && nameInput.value.trim()) preview.textContent = nameInput.value.trim();
         };
 

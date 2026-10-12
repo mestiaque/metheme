@@ -142,6 +142,10 @@ $log->save();
 
 metheme-এ কোনো ড্যাশবোর্ড পেজ বা `/dashboard` রুট নেই। মূল ড্যাশবোর্ড প্রজেক্টের; metheme-এর ইউজার/লগইন/কার্যক্রমের তথ্য দেখাতে সেখানে `@include('me::widgets.system-overview')` দিন (শুধু ডেটা: `ME\Services\SystemOverview`)। লগইনের পরে `me_settings.home_route`-এ যায়। বিস্তারিত: [doc.md › হোম পেজ ও উইজেট](doc.md#৪-ড্যাশবোর্ড-নেই--হোম-পেজ-ও-system-overview-উইজেট)।
 
+### ১১. ব্যাজ
+
+**ব্যাজের নিয়ম:** সব জায়গায় নরম ব্যাজ — `badge bg-X-subtle text-X` (X = primary, secondary, success, danger, warning, info, dark …)। ডাইনামিক রং হলে `badge bg-{{ $x->color() }}-subtle text-{{ $x->color() }}`। শক্ত রঙের `bg-X` / `text-bg-X` ব্যাজ নয়। warning, info, light, secondary-এর লেখা ফিকে পটভূমিতে কম পড়া যায়, তাই CSS (`encodex.css`, efront `efront.css`) ব্যাজে এদের জন্য Bootstrap-এর গাঢ় emphasis রং দেয় — মার্কআপ একই থাকে। রোলের নিজস্ব রঙের ব্যাজও একই চেহারায় (`Role::badgeStyle()`: ১৫% রং পেছনে, রঙিন লেখা)।
+
 ### ১০. ফাইল ও ছবি (Media Library)
 
 1. সব প্যাকেজের সব ফাইল/ছবি **একটাই টেবিলে** — `me_media` (polymorphic: `mediable_type` + `mediable_id` + `collection`)। নতুন টেবিলে ছবির কলাম (`image`, `logo`, `path` …) বানাবেন না।

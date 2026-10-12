@@ -33,7 +33,7 @@
                                 @if($role->parent)
                                     @include('me::roles.partials.badge', ['role' => $role->parent])
                                 @else
-                                    <span class="badge bg-dark">@lang('me::me.Top role')</span>
+                                    <span class="badge bg-dark-subtle">@lang('me::me.Top role')</span>
                                 @endif
                             </td>
                         </tr>
@@ -96,7 +96,7 @@
                                                     $action = explode('.', $permission)[1] ?? '';
                                                 @endphp
                                                 <div class="col-6 mb-2 ">
-                                                    <span class="badge badge-pill bg-encodex-secondary px-3 py-2 text-start">
+                                                    <span class="badge badge-pill bg-secondary-subtle text-secondary px-3 py-2 text-start">
                                                         <i class="fas fa-check-circle me-1"></i>
                                                         {{ ucfirst($action) }}
                                                     </span>

@@ -40,7 +40,7 @@
       <li class="nav-item dropdown d-none">
         <a class="nav-link" data-bs-toggle="dropdown" href="#">
           <i class="bi bi-chat-text"></i>
-          <span class="navbar-badge badge text-bg-danger">3</span>
+          <span class="navbar-badge badge bg-danger-subtle text-danger">3</span>
         </a>
         <div class="dropdown-menu dropdown-menu-end">
           <a href="#" class="dropdown-item">
@@ -69,7 +69,7 @@
       <li class="nav-item dropdown d-none">
         <a class="nav-link" data-bs-toggle="dropdown" href="#">
           <i class="bi bi-bell-fill"></i>
-          <span class="navbar-badge badge text-bg-warning">15</span>
+          <span class="navbar-badge badge bg-warning-subtle text-warning">15</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
           <span class="dropdown-item dropdown-header">15 Notifications</span>

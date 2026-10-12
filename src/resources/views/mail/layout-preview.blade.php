@@ -40,7 +40,7 @@
             <div class="d-flex align-items-center justify-content-between mb-2">
                 <div>
                     <span class="fw-semibold">@lang('me::me.Auth Layout')</span>
-                    <span class="badge bg-success ms-2">@lang('me::me.OTP Enabled')</span>
+                    <span class="badge bg-success-subtle text-success ms-2">@lang('me::me.OTP Enabled')</span>
                 </div>
                 <small class="text-muted">@lang('me::me.Used for: Email verification, Login OTP')</small>
             </div>
@@ -54,7 +54,7 @@
             <div class="d-flex align-items-center justify-content-between mb-2">
                 <div>
                     <span class="fw-semibold">@lang('me::me.Auth Layout')</span>
-                    <span class="badge bg-secondary ms-2">@lang('me::me.No OTP')</span>
+                    <span class="badge bg-secondary-subtle text-secondary ms-2">@lang('me::me.No OTP')</span>
                 </div>
                 <small class="text-muted">@lang('me::me.Used for: Password reset, Notifications')</small>
             </div>
@@ -68,7 +68,7 @@
             <div class="d-flex align-items-center justify-content-between mb-2">
                 <div>
                     <span class="fw-semibold">@lang('me::me.Notice Layout')</span>
-                    <span class="badge bg-primary ms-2">@lang('me::me.With Greeting')</span>
+                    <span class="badge bg-primary-subtle text-primary ms-2">@lang('me::me.With Greeting')</span>
                 </div>
                 <small class="text-muted">@lang('me::me.Used for: Announcements, Bulk notices')</small>
             </div>

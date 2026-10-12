@@ -310,14 +310,17 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 /* Status: Active */
 .btn-encodex-active { color: #28a745; border-color: #28a745; }
-.btn-encodex-active:hover { color: #fff !important; background: #28a745 !important; }
+.btn-encodex-active:hover { color: #fff !important; background: #28a745 !important; box-shadow: 0 6px 15px rgba(40, 167, 69, 0.3); }
 
 /* Status: Deactive */
 .btn-encodex-deactive { color: #495057; border-color: #495057; }
-.btn-encodex-deactive:hover { color: #fff !important; background: #495057 !important; }
+.btn-encodex-deactive:hover { color: #fff !important; background: #495057 !important; box-shadow: 0 6px 15px rgba(73, 80, 87, 0.3); }
 
 .btn-encodex-pink { color: #e83e8c; border-color: #e83e8c; }
-.btn-encodex-pink:hover { color: #fff !important; background: #e83e8c !important; }
+.btn-encodex-pink:hover { color: #fff !important; background: #e83e8c !important; box-shadow: 0 6px 15px rgba(232, 62, 140, 0.3); }
+
+.btn-encodex-blank { color: #d8dfe6; border-color: #d8dfe6; }
+.btn-encodex-blank:hover { color: #fff !important; background: #d8dfe6 !important; box-shadow: 0 6px 15px rgba(216, 223, 230, 0.3); }
 
 
 
@@ -671,3 +674,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .card-header.d-flex::after { content: none; }
 .card-header.d-flex { align-items: center; gap: .5rem; }
 .card-header.d-flex > :last-child:not(:first-child) { margin-left: auto; }
+
+/* Soft badges everywhere: "badge bg-X-subtle text-X". On the pale backgrounds the bright text colours
+   (warning yellow, info cyan, light) are too faint, so badges use Bootstrap's darker emphasis shade for them. */
+.badge.text-warning { color: var(--bs-warning-text-emphasis) !important; }
+.badge.text-info { color: var(--bs-info-text-emphasis) !important; }
+.badge.text-light { color: var(--bs-secondary-text-emphasis) !important; }
+.badge.text-secondary { color: var(--bs-secondary-text-emphasis) !important; }
