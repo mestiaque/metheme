@@ -35,7 +35,9 @@ $(document).ready(function () {
     }
 
     $('.auth-tab').on('click', function () {
-        if (localStorage.getItem('fp_otp_expiry')) return;
+        // shudhu OTP shotti-i cholle tab lock (key thaka mane-i active na, meyad o dekhte hobe)
+        const expiry = parseInt(localStorage.getItem('fp_otp_expiry'), 10);
+        if (expiry && expiry - Date.now() > 0) return;
         applyCenterTabUI($(this).data('target'), 'fp_type');
     });
 
@@ -50,23 +52,30 @@ $(document).ready(function () {
         if (!identity) return mAlert('Please enter your ' + type, "info");
 
         const btn = $(this);
-        btn.prop('disabled', true).text('Sending...');
+        btn.prop('disabled', true);
+        fpSetBtnState('#sendOtpBtn', 'scanning');
 
         $.ajax({
             url: "{{ route('password.forget.store') }}",
             method: "POST",
             data: { _token: "{{ csrf_token() }}", type: type, identity: identity },
             success: function (res) {
+                var fpWait = fpSetBtnState('#sendOtpBtn', 'success') || 0; // scanning shesh howa porjonto opekkha
                 const expiryTime = new Date().getTime() + 120000;
                 localStorage.setItem('fp_otp_expiry', expiryTime);
 
-                $('#send-otp-container').hide();
-                $('#otp-section').slideDown();
-                $('#timer-display').show();
+                setTimeout(function () {
+                    $('#send-otp-container').hide();
+                    $('#otp-section').slideDown();
+                    $('#timer-display').show();
+                    fpSetBtnState('#sendOtpBtn', '');
+                }, 700 + fpWait);
                 startAuthCountdown(expiryTime, onOtpExpire);
             },
             error: function (xhr) {
-                btn.prop('disabled', false).text('SEND OTP');
+                btn.prop('disabled', false);
+                fpSetBtnState('#sendOtpBtn', 'denied');
+                setTimeout(function () { fpSetBtnState('#sendOtpBtn', ''); }, 700);
                 mAlert(xhr.responseJSON?.message || 'Error sending OTP', "error");
             }
         });
@@ -80,21 +89,29 @@ $(document).ready(function () {
         if (otp.length !== 6) return mAlert('Enter 6-digit OTP', "info");
 
         const btn = $(this);
-        btn.prop('disabled', true).text('Verifying...');
+        btn.prop('disabled', true);
+        fpSetBtnState('#verifyOtpBtn', 'scanning');
 
         $.ajax({
             url: "{{ route('password.verify.otp') }}",
             method: "POST",
             data: { _token: "{{ csrf_token() }}", otp: otp },
             success: function(res) {
-                $('#otp-section').hide();
-                $('#timer-display').hide();
-                $('#reset-password-section').slideDown();
-                // Inputs disable kore deya hoyeche jate change korte na pare
-                $('#email, #phone').prop('disabled', true);
+                var fpWait = fpSetBtnState('#verifyOtpBtn', 'success') || 0; // scanning shesh howa porjonto opekkha
+                setTimeout(function () {
+                    $('#otp-section').hide();
+                    $('#timer-display').hide();
+                    $('#reset-password-section').slideDown();
+                    fpSetBtnState('#verifyOtpBtn', '');
+                    btn.prop('disabled', false);
+                    // Inputs disable kore deya hoyeche jate change korte na pare
+                    $('#email, #phone').prop('disabled', true);
+                }, 700 + fpWait);
             },
             error: function(xhr) {
-                btn.prop('disabled', false).text('VERIFY OTP');
+                btn.prop('disabled', false);
+                fpSetBtnState('#verifyOtpBtn', 'denied');
+                setTimeout(function () { fpSetBtnState('#verifyOtpBtn', ''); }, 700);
                 mAlert(xhr.responseJSON?.message || 'Invalid OTP', "error");
             }
         });
@@ -158,7 +175,7 @@ $(document).ready(function () {
         $('#otp-section').hide();
         $('#timer-display').hide();
         $('#send-otp-container').show();
-        $('#sendOtpBtn').prop('disabled', false).text('RESEND OTP');
+        $('#sendOtpBtn').prop('disabled', false).find('.fp-text').text('RESEND OTP');
         $('#email, #phone').prop('disabled', false);
     }
 
@@ -171,6 +188,10 @@ $(document).ready(function () {
             startAuthCountdown(parseInt(expiry), onOtpExpire);
             // OTP step active thakle input disable thakbe
             $('#email, #phone').prop('disabled', true);
+        } else if (expiry) {
+            // page bondho thakar shomoy meyad shesh hoye gele onOtpExpire chole ni - purono key muche fela,
+            // noile tab chirodin lock thake
+            localStorage.removeItem('fp_otp_expiry');
         }
     }
 

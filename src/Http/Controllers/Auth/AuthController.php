@@ -98,10 +98,25 @@ class AuthController extends Controller
             $rules['identity'] = ['required', 'email', 'max:255', 'unique:users,email'];
         }
 
-        $validator = Validator::make($request->all(), $rules);
+        // frontend toast e specific message dekhanor jonno (generic "Error sending OTP" er bodole)
+        $messages = [
+            'identity.unique' => $request->type == 'phone'
+                ? 'This phone number is already registered.'
+                : 'This email is already registered.',
+            'identity.digits' => 'Phone number must be 11 digits.',
+            'identity.numeric' => 'Phone number must contain only digits.',
+            'identity.email' => 'Please enter a valid email address.',
+            'password.min' => 'Password must be at least 8 characters.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
-            return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()->first(), // js.blade.php xhr.responseJSON.message dekhay
+                'errors' => $validator->errors(),
+            ], 422);
         }
 
         $otp = rand(100000, 999999);

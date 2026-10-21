@@ -19,6 +19,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <!-- Animate.css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <!-- Toastr (admin panel/master.blade.php এর মতোই - top-right টোস্ট) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
 
     <style>
         :root {
@@ -179,48 +181,96 @@
             transition: .3s ease-in-out;
         }
 
+        /* ব্লব (গুয়ি) হোভার বাটন - একটা SVG গুয়ি ফিল্টার দিয়ে ৪টা ব্লব সার্কেল একসাথে
+           মিশিয়ে একটা তরল/লিকুইড ফিল আপ ইফেক্ট তৈরি করে। ডিফল্টে বাটন transparent +
+           নীল বর্ডার/টেক্সট, হোভার করলে নিচ থেকে নীল ব্লব উঠে এসে পুরোটা ভরে ফেলে আর
+           টেক্সট সাদা হয়ে যায়। মার্কআপ (__inner/__blobs/__blob) JS দিয়ে অটো-ইনজেক্ট হয়
+           (নিচের স্ক্রিপ্ট দেখুন), তাই .btn-blank যেকোনো পেজে যেভাবে ব্যবহার হচ্ছে সেভাবেই থাকবে */
         .btn-blank {
+            --blob-color: #0f9bd6;
+            z-index: 1;
             position: relative;
-            background-color: #0f9bd6;
-            color: #ffffff;
-            border: 1px solid #0f9bd6;
-            padding: 12px;
-            border-radius: 8px;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-align: center;
+            text-transform: uppercase;
+            color: var(--blob-color);
             font-size: 16px;
             font-weight: 600;
+            background-color: transparent;
+            outline: none;
+            border: none;
             cursor: pointer;
-            overflow: hidden;
-            transition: all 0.35s ease;
-            box-shadow: 0 8px 20px rgba(15, 155, 214, 0.35);
-            text-transform: uppercase;
+            overflow: visible;
+            box-shadow: 0 8px 20px rgba(15, 155, 214, 0.15);
+            transition: color 0.3s, box-shadow 0.3s;
         }
 
         .btn-blank::before {
             content: "";
+            z-index: 1;
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.25), transparent);
-            transition: all 0.6s ease;
+            inset: 0;
+            border: 2px solid var(--blob-color);
+            border-radius: 30px;
         }
 
         .btn-blank:hover {
-            background-color: #0d8ac0 !important;
             color: #ffffff;
-            transform: translateY(-4px) scale(1.01);
-            box-shadow: 0 6px 15px rgba(15, 155, 214, 0.4), 0 0 0 2px rgba(15, 155, 214, 0.25);
+            box-shadow: 0 6px 18px rgba(15, 155, 214, 0.35);
         }
 
-        .btn-blank:hover::before {
-            left: 100%;
+        .btn-blank__inner {
+            z-index: -1;
+            overflow: hidden;
+            position: absolute;
+            inset: 0;
+            border-radius: 30px;
+            background: #ffffff;
         }
 
-        .btn-blank:active {
-            transform: translateY(-1px) scale(0.98);
-            box-shadow: 0 6px 14px rgba(15, 155, 214, 0.3);
+        /* ফায়ারফক্সে goo ফিল্টার overflow:hidden ভেঙে ফেলে, তাই আলাদা একটা কন্টেইনার */
+        .btn-blank__blobs {
+            position: relative;
+            display: block;
+            height: 100%;
+            filter: url('#btn-blank-goo');
         }
+
+        .btn-blank__blob {
+            position: absolute;
+            top: 2px;
+            width: 25%;
+            height: 100%;
+            background: var(--blob-color);
+            border-radius: 100%;
+            transform: translate3d(0, 150%, 0) scale(1.4);
+            transition: transform 0.45s;
+        }
+
+        .btn-blank__blob:nth-child(1) { left: 0%; transition-delay: 0s; }
+        .btn-blank__blob:nth-child(2) { left: 30%; transition-delay: 0.08s; }
+        .btn-blank__blob:nth-child(3) { left: 60%; transition-delay: 0.16s; }
+        .btn-blank__blob:nth-child(4) { left: 90%; transition-delay: 0.24s; }
+
+        .btn-blank:hover .btn-blank__blob {
+            transform: translateZ(0) scale(1.4);
+        }
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
 
         .text-shadow {
             text-shadow: none;
@@ -264,6 +314,18 @@
 </head>
 <body class="">
 
+    <!-- .btn-blank এর গুয়ি/ব্লব হোভার ইফেক্টের জন্য দরকার - CSS এ filter: url('#btn-blank-goo')
+         হিসেবে রেফারেন্স করা হয়, নিজে কিছু দেখায় না -->
+    <svg width="0" height="0" style="position: absolute;" aria-hidden="true">
+        <defs>
+            <filter id="btn-blank-goo">
+                <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="10"></feGaussianBlur>
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 21 -7" result="goo"></feColorMatrix>
+                <feBlend in2="goo" in="SourceGraphic" result="mix"></feBlend>
+            </filter>
+        </defs>
+    </svg>
+
     <!-- Parallax background shapes -->
     <div class="parallax-bg" aria-hidden="true">
         <span class="parallax-shape shape-1"></span>
@@ -286,6 +348,7 @@
     <!-- Scripts -->
     <script src="{{ asset('backend/vendor/jquery/jquery.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> --}}
 
     <script>
@@ -365,14 +428,34 @@
             });
         })();
 
-        /* ইন্টারেক্টিভ মাউস মুভমেন্ট - নিজে থেকে কিছু অ্যানিমেট হবে না, শুধু মাউস
-           নড়লে (১) ব্যাকগ্রাউন্ড শেপ প্যারালাক্স এ উল্টো দিকে সরবে (depth অনুভূতি)
-           এবং (২) বাটন কাছে আসলে ম্যাগনেটিক পুল ইফেক্ট দেখাবে */
+        /* .btn-blank এর ভেতরের আসল কনটেন্ট (টেক্সট/আইকন) না সরিয়ে ব্লব মার্কআপ
+           অটো-ইনজেক্ট করা হচ্ছে, যাতে প্রতিটা পেজে (login/register/forget/error
+           pages) আলাদা করে HTML বদলাতে না হয় */
+        (function () {
+            document.querySelectorAll('.btn-blank').forEach(function (btn) {
+                if (btn.querySelector('.btn-blank__inner')) return; // ইতিমধ্যে ইনজেক্ট করা হয়ে গেছে
+
+                var inner = document.createElement('span');
+                inner.className = 'btn-blank__inner';
+
+                var blobs = document.createElement('span');
+                blobs.className = 'btn-blank__blobs';
+
+                for (var i = 0; i < 4; i++) {
+                    var blob = document.createElement('span');
+                    blob.className = 'btn-blank__blob';
+                    blobs.appendChild(blob);
+                }
+
+                inner.appendChild(blobs);
+                btn.appendChild(inner);
+            });
+        })();
+
+        /* ব্যাকগ্রাউন্ড শেপ প্যারালাক্স - নিজে থেকে কিছু অ্যানিমেট হবে না, শুধু মাউস
+           নড়লে শেপগুলো কেন্দ্র থেকে মাউসের দূরত্ব অনুযায়ী উল্টো দিকে সরে depth অনুভূতি তৈরি করবে */
         (function () {
             var parallaxShapes = document.querySelectorAll('.parallax-shape');
-            var magneticEls = document.querySelectorAll('.btn-blank');
-            var magnetRadius = 70;
-            var magnetStrength = 0.35;
 
             var rafId = null;
             var lastEvent = null;
@@ -388,31 +471,12 @@
                 var e = lastEvent;
                 if (!e) return;
 
-                // প্যারালাক্স: কেন্দ্র থেকে মাউসের দূরত্ব অনুযায়ী শেপগুলো উল্টো দিকে সরবে
                 var cx = window.innerWidth / 2, cy = window.innerHeight / 2;
                 var dx = (e.clientX - cx) / cx;
                 var dy = (e.clientY - cy) / cy;
                 parallaxShapes.forEach(function (shape, i) {
                     var depth = (i + 1) * 10;
                     shape.style.transform = 'translate(' + (-dx * depth) + 'px, ' + (-dy * depth) + 'px)';
-                });
-
-                // ম্যাগনেটিক বাটন: কার্সার কাছাকাছি এলে বাটন হালকা সেদিকে টানবে
-                magneticEls.forEach(function (el) {
-                    var rect = el.getBoundingClientRect();
-                    var ex = rect.left + rect.width / 2;
-                    var ey = rect.top + rect.height / 2;
-                    var ddx = e.clientX - ex;
-                    var ddy = e.clientY - ey;
-                    var dist = Math.sqrt(ddx * ddx + ddy * ddy);
-
-                    if (dist < magnetRadius + rect.width / 2) {
-                        // ইনলাইন style CSS :hover এর lift কে ওভাররাইড করে দেয়, তাই সেই
-                        // অনুভূতিটা ধরে রাখতে scale যোগ করা হচ্ছে ম্যাগনেটিক ট্রান্সফর্মেই
-                        el.style.transform = 'translate(' + (ddx * magnetStrength) + 'px, ' + (ddy * magnetStrength) + 'px) scale(1.03)';
-                    } else {
-                        el.style.transform = '';
-                    }
                 });
             }
 

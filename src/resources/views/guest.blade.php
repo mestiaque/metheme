@@ -34,6 +34,9 @@
       media="print"
       onload="this.media='all'"
     />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+    {{-- Bangla digits + ৳ only: Hind Siliguri's ১ is hard to read --}}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&text=%E0%A7%A6%E0%A7%A7%E0%A7%A8%E0%A7%A9%E0%A7%AA%E0%A7%AB%E0%A7%AC%E0%A7%AD%E0%A7%AE%E0%A7%AF%E0%A7%B3&display=swap" media="print" onload="this.media='all'" />
     <!--end::Fonts-->
 
     <!--begin::Third Party Plugin(OverlayScrollbars)-->

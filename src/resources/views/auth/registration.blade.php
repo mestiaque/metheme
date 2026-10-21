@@ -67,8 +67,21 @@
 
                 <!-- Step 1: Send OTP Button Container -->
                 <div id="send-otp-container" class="mt-3">
-                    <button type="button" id="sendOtpBtn" class="btn btn-blank box-shadow w-100">
-                        {{ __('me::me.SEND OTP') }}
+                    <button type="button" id="sendOtpBtn" class="btn btn-blank fp-send-btn box-shadow w-100">
+                        <span class="fp-text">{{ __('me::me.SEND OTP') }}</span>
+                        <span class="fp-icon-wrap">
+                            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <g fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path class="se-doc pl-plane" d="M15,50 L85,20 L55,50 L85,80 Z" />
+                                    <path class="se-doc pl-plane" d="M55,50 L85,20" />
+                                </g>
+                            </svg>
+                        </span>
+                        <span class="fp-sent-ok">
+                            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M34.912 50.75l10.89 10.125L67 36.75" fill="none" stroke="#fff" stroke-width="6"/>
+                            </svg>
+                        </span>
                     </button>
                 </div>
 
@@ -87,8 +100,16 @@
                             placeholder="000000">
                     </div>
 
-                    <button type="submit" id="verifyOtpBtn" class="btn-login btn btn-blank box-shadow mt-2">
-                        {{ __('me::me.REGISTER NOW') }}
+                    <button type="submit" id="verifyOtpBtn" class="btn-login btn btn-blank fp-verify-btn box-shadow mt-2">
+                        <span class="fp-text">{{ __('me::me.REGISTER NOW') }}</span>
+                        <span class="fp-icon-wrap">
+                            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <g fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path class="se-doc pl-body" d="M28,48 L72,48 L72,85 L28,85 Z" />
+                                    <path class="se-doc pl-shackle" d="M35,48 L35,32 A15,15 0 0 1 65,32 L65,48" />
+                                </g>
+                            </svg>
+                        </span>
                     </button>
                 </div>
 

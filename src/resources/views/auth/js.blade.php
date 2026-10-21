@@ -51,7 +51,8 @@
             }
 
             const btn = $(this);
-            btn.prop('disabled', true).text('Sending...');
+            btn.prop('disabled', true);
+            fpSetBtnState('#sendOtpBtn', 'scanning');
 
             $.ajax({
                 url: "{{ url('register') }}",
@@ -64,16 +65,22 @@
                     identity: identity
                 },
                 success: function (response) {
+                    var fpWait = fpSetBtnState('#sendOtpBtn', 'success') || 0; // scanning shesh howa porjonto opekkha
                     const expiryTime = new Date().getTime() + 120000; // 2 min
                     localStorage.setItem('otp_expiry', expiryTime);
-                    showOtpSection();
+                    setTimeout(function () {
+                        showOtpSection();
+                        fpSetBtnState('#sendOtpBtn', '');
+                    }, 700 + fpWait);
                     startAuthCountdown(expiryTime, function () {
                         localStorage.removeItem('otp_expiry');
                         resetToResendView();
                     });
                 },
                 error: function (xhr) {
-                    btn.prop('disabled', false).text('SEND OTP');
+                    btn.prop('disabled', false);
+                    fpSetBtnState('#sendOtpBtn', 'denied');
+                    setTimeout(function () { fpSetBtnState('#sendOtpBtn', ''); }, 700);
                     mAlert(xhr.responseJSON?.message || 'Error sending OTP', "error");
                 }
             });
@@ -87,6 +94,8 @@
             const otp = $('#otp').val();
             if (otp.length !== 6) return mAlert('Enter 6-digit OTP', "info");
 
+            fpSetBtnState('#verifyOtpBtn', 'scanning');
+
             $.ajax({
                 url: "{{ route('otpVerify') }}",
                 method: "POST",
@@ -95,11 +104,16 @@
                     otp: otp
                 },
                 success: function (response) {
+                    var fpWait = fpSetBtnState('#verifyOtpBtn', 'success') || 0; // scanning shesh howa porjonto opekkha
                     // ক্লিনিং লোকাল স্টোরেজ
                     ['otp_expiry', 'reg_name', 'reg_email', 'reg_phone', 'reg_password', 'reg_type'].forEach(k => localStorage.removeItem(k));
-                    window.location.href = response.redirect;
+                    setTimeout(function () {
+                        window.location.href = response.redirect;
+                    }, 700 + fpWait);
                 },
                 error: function (xhr) {
+                    fpSetBtnState('#verifyOtpBtn', 'denied');
+                    setTimeout(function () { fpSetBtnState('#verifyOtpBtn', ''); }, 700);
                     mAlert(xhr.responseJSON?.message || 'Invalid OTP', "error");
                 }
             });
@@ -129,7 +143,7 @@
             $('#otp-section').hide();
             $('#timer-display').hide();
             $('#send-otp-container').show();
-            $('#sendOtpBtn').prop('disabled', false).text('RESEND OTP');
+            $('#sendOtpBtn').prop('disabled', false).find('.fp-text').text('RESEND OTP');
         }
 
         // ইনিশিয়ালাইজেশন

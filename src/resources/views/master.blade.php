@@ -18,6 +18,10 @@
         <style>html,body{background:#fff;}</style>
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css" integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q=" crossorigin="anonymous" media="print" onload="this.media='all'" />
+        {{-- Bangla letters: Source Sans 3 has none, so they come from Hind Siliguri (stack in encodex.css) --}}
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+        {{-- Bangla digits + ৳ only: Hind Siliguri's ১ is hard to read --}}
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&text=%E0%A7%A6%E0%A7%A7%E0%A7%A8%E0%A7%A9%E0%A7%AA%E0%A7%AB%E0%A7%AC%E0%A7%AD%E0%A7%AE%E0%A7%AF%E0%A7%B3&display=swap" media="print" onload="this.media='all'" />
         <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}" />
         <link href="{{ asset('backend/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
         <link rel="icon" href="{{ get_image('app_ico') ?? asset('assets/img/favicon/Encodex.ico') }}" type="image/x-icon">
@@ -327,6 +331,7 @@
         <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.min.js" integrity="sha256-+vh8GkaU7C9/wbSLIcwq82tQ2wTf44aOHA8HlBMwRI8=" crossorigin="anonymous" ></script>
         <script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/js/jsvectormap.min.js" integrity="sha256-/t1nN2956BT869E6H4V1dnt0X5pAQHPytli+1nTZm2Y=" crossorigin="anonymous" ></script>
         <script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/maps/world.js" integrity="sha256-XPpPaZlU8S/HWf7FZLAncLg2SAkP8ScUTII89x9D3lY=" crossorigin="anonymous" ></script>
+        <script src="{{ asset('js/encodex.js') }}?v={{ filemtime(public_path('js/encodex.js')) }}"></script>
 
         <!-- সাইডবার মিনিমাইজ/এক্সপ্যান্ড স্টেট সেভ - toggle বাটনে সরাসরি বাইন্ড করা
              AdminLTE-র নিজের ক্লিক হ্যান্ডলারের আগে/পরে কবে চলবে তা নিয়ে অনুমান না করে,
