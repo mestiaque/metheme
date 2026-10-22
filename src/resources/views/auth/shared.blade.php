@@ -29,15 +29,27 @@
         pointer-events: none;
     }
 
-    .fp-send-btn.scanning { background-color: var(--blob-color) !important; }
-    .fp-send-btn.success { background-color: #1fb466 !important; }
-    .fp-send-btn.denied { background-color: #d93b3b !important; }
+    .fp-send-btn.scanning,
+    .fp-send-btn.success,
+    .fp-send-btn.denied {
+        background-color: #ffffff !important; /* bg সাদা থাকবে, state বর্ডার-কালারে বোঝা যাবে */
+    }
 
     .fp-send-btn.scanning::before,
     .fp-send-btn.success::before,
     .fp-send-btn.denied::before {
-        opacity: 0;
+        opacity: 1;
+        border-color: var(--blob-color);
     }
+    .fp-send-btn.success::before { border-color: #1fb466; }
+    .fp-send-btn.denied::before { border-color: #d93b3b; }
+
+    /* bg সাদা হওয়ায় প্লেন আইকনের সাদা স্ট্রোক আর দেখা যাবে না - state কালারে বদলানো হচ্ছে */
+    .fp-send-btn .fp-icon-wrap svg g {
+        stroke: var(--blob-color);
+    }
+    .fp-send-btn.success .fp-icon-wrap svg g { stroke: #1fb466; }
+    .fp-send-btn.denied .fp-icon-wrap svg g { stroke: #d93b3b; }
 
     .fp-send-btn.scanning .btn-blank__inner,
     .fp-send-btn.success .btn-blank__inner,
@@ -201,12 +213,24 @@
     .fp-verify-btn.scanning::before,
     .fp-verify-btn.success::before,
     .fp-verify-btn.denied::before {
-        opacity: 0;
+        opacity: 1;
+        border-color: var(--blob-color);
+    }
+    .fp-verify-btn.success::before { border-color: #1fb466; }
+    .fp-verify-btn.denied::before { border-color: #d93b3b; }
+
+    .fp-verify-btn.scanning,
+    .fp-verify-btn.success,
+    .fp-verify-btn.denied {
+        background-color: #ffffff !important; /* bg সাদা থাকবে, state বর্ডার-কালারে বোঝা যাবে */
     }
 
-    .fp-verify-btn.scanning { background-color: var(--blob-color) !important; border-color: var(--blob-color); }
-    .fp-verify-btn.success { background-color: #1fb466 !important; border-color: #1fb466; }
-    .fp-verify-btn.denied { background-color: #d93b3b !important; border-color: #d93b3b; }
+    /* bg সাদা হওয়ায় প্যাডলকের সাদা স্ট্রোক আর দেখা যাবে না - state কালারে বদলানো হচ্ছে */
+    .fp-verify-btn .fp-icon-wrap svg g {
+        stroke: var(--blob-color);
+    }
+    .fp-verify-btn.success .fp-icon-wrap svg g { stroke: #1fb466; }
+    .fp-verify-btn.denied .fp-icon-wrap svg g { stroke: #d93b3b; }
 
     .fp-verify-btn.scanning .btn-blank__inner,
     .fp-verify-btn.success .btn-blank__inner,
