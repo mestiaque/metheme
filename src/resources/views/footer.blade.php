@@ -7,7 +7,8 @@
     @lang('me::me.mycopyright', [
         'year' => banglaYear(date('Y')),
         'company' => get_setting('app_name', 'Your Company'),
-        'developer' => config('me_settings.meta_author')
+        'developer' => config('me_settings.meta_author'),
+        'developer_url' => config('me_settings.meta_author_url')
     ])
 </footer>
 <!--end::Footer-->

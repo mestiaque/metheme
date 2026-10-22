@@ -1,6 +1,6 @@
 @extends('me::master')
 
-@section('title', trans('me::me.Shop Settings'))
+@section('title', trans('me::me.App Configurations'))
 
 @section('content')
     <div class="card glass-card">

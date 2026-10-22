@@ -31,6 +31,8 @@ METHEME_ROUTE_PREFIX=admin          # অ্যাডমিন URL prefix, ড�
 METHEME_DEVELOPER_MODE=false        # শুধু নিজের সার্ভারে true
 METHEME_DEVELOPER_EMAILS=           # ডেভেলপারের ইমেইল, কমা দিয়ে
 METHEME_HOME_ROUTE=                 # লগইনের পরের হোম পেজের রুট নাম (metheme-এর নিজের ড্যাশবোর্ড নেই), যেমন ecom.dashboard
+ME_META_AUTHOR=                     # ফুটার/প্রিন্ট কপিরাইটে "Developed by" নাম, ডিফল্ট "M. Estiaque Ahmed Khan"
+ME_META_AUTHOR_URL=                 # উপরের নামে ক্লিক করলে যে লিংকে যাবে, ডিফল্ট https://www.mestiaque.com
 ```
 
 অন্যান্য publish ট্যাগ: `metheme-auth-config`, `metheme-errors`।
