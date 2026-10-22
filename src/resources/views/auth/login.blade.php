@@ -187,14 +187,25 @@
             padding: 0;
         }
 
-        .fp-login-btn.scanning { background-color: var(--blob-color); }
-        .fp-login-btn.success { background-color: #1fb466; }
-        .fp-login-btn.denied { background-color: #d93b3b; }
+        .fp-login-btn.scanning,
+        .fp-login-btn.success,
+        .fp-login-btn.denied {
+            background-color: #ffffff; /* এই সময় বাটনের ভেতর সাদা থাকবে, বর্ডার-কালারেই state বোঝা যাবে */
+        }
 
         .fp-login-btn.scanning::before,
         .fp-login-btn.success::before,
         .fp-login-btn.denied::before {
-            opacity: 0; /* সলিড বৃত্তে বর্ডার আউটলাইনের দরকার নেই */
+            opacity: 1;
+            border-color: var(--blob-color); /* ডিফল্ট - scanning এ নীল বর্ডার */
+        }
+
+        .fp-login-btn.success::before {
+            border-color: #22c55e; /* সফল হলে সবুজ বর্ডার */
+        }
+
+        .fp-login-btn.denied::before {
+            border-color: #ef4444; /* ব্যর্থ হলে লাল বর্ডার */
         }
 
         .fp-login-btn.scanning .btn-blank__inner,
@@ -229,11 +240,23 @@
         .fp-login-btn.scanning .fp-fingerprint,
         .fp-login-btn.success .fp-fingerprint,
         .fp-login-btn.denied .fp-fingerprint {
-            opacity: 1; /* success/denied এও fingerprint-ই থাকবে, শুধু বাটনের রং বদলাবে */
+            opacity: 1; /* success/denied এও fingerprint-ই থাকবে, শুধু fingerprint এর রং বদলাবে */
         }
 
         .fp-login-btn .fp-fingerprint-base { stroke: rgba(255, 255, 255, 0.45); }
         .fp-login-btn .fp-fingerprint-active { stroke: #ffffff; }
+
+        /* ব্যাকগ্রাউন্ড এখন সাদা, তাই scanning এ fingerprint নীল (--blob-color) - সাদার উপর
+           সাদা স্ট্রোক দেখাই যেত না */
+        .fp-login-btn.scanning .fp-fingerprint-base { stroke: rgba(15, 155, 214, 0.45); }
+        .fp-login-btn.scanning .fp-fingerprint-active { stroke: var(--blob-color); }
+
+        /* সফল হলে fingerprint সবুজ, ব্যর্থ হলে লাল - বাটনের বিজি অপরিবর্তিত থাকবে */
+        .fp-login-btn.success .fp-fingerprint-base { stroke: rgba(34, 197, 94, 0.45); }
+        .fp-login-btn.success .fp-fingerprint-active { stroke: #22c55e; }
+
+        .fp-login-btn.denied .fp-fingerprint-base { stroke: rgba(239, 68, 68, 0.45); }
+        .fp-login-btn.denied .fp-fingerprint-active { stroke: #ef4444; }
 
         /* বিশ্রাম অবস্থা - আনড্রন */
         .fp-login-btn .fp-fingerprint-active .fp-odd {

@@ -260,7 +260,7 @@
 
                 <!-- Footer -->
                 <div class="pfooter">
-                    @lang('me::me.This is a computer-generated invoice.') | @lang('me::me.Developed by: ENcodeX')
+                    @lang('me::me.This is a computer-generated invoice.') | @lang('me::me.Developed by: ENcodeX', ['developer' => config('me_settings.meta_author')])
                 </div>
             </div>
             @stack('pjs')

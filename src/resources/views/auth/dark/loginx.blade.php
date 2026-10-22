@@ -386,7 +386,8 @@
                 <div class="copyright">
                     @lang('me::me.mycopyright', [
                         'year' => banglaYear(date('Y')),
-                        'company' => get_setting('shop_name', 'Your Company')
+                        'company' => get_setting('shop_name', 'Your Company'),
+                        'developer' => config('me_settings.meta_author')
                     ])
                 </div>
             </div>
