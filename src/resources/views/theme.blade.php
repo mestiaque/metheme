@@ -48,7 +48,7 @@
                     'btn-encodex-deactive',
                     'btn-encodex-delete',
                     'btn-encodex-pink',
-                    'btn-encodex-save',
+                    'btn-savex',
                     'btn-close',
                 ];
             @endphp
