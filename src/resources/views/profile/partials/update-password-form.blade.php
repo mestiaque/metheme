@@ -40,7 +40,7 @@
         </div>
 
         <div class="form-group text-end">
-            <button type="submit" class="btn btn-encodex">
+            <button type="submit" class="btn btn-savex">
                 {{ __('me::me.Save Changes') }}
             </button>
         </div>

@@ -1,5 +1,5 @@
 
-<button type="submit" class="btn btn-sm float-right mt-3 btn-new bg-primary text-white fw-bold">
+<button type="submit" class="btn btn-sm btn-savex float-right mt-3">
     <i class="fas fa-paper-plane"></i>
     {{ $text }}
 </button>

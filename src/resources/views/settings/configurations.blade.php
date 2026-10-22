@@ -140,7 +140,7 @@
             </div>
 
             <div class="text-end mt-4">
-                <button type="submit" class="btn btn-encodex px-4">
+                <button type="submit" class="btn btn-savex px-4">
                     <i class="fas fa-save me-1"></i> @lang('me::me.Save Settings')
                 </button>
             </div>

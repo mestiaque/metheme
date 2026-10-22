@@ -151,7 +151,7 @@
                 <label class="form-label small fw-semibold mb-1">Title</label>
                 <input type="text" name="title" maxlength="255" class="form-control form-control-sm">
             </div>
-            <div class="modal-footer"><button class="btn btn-sm btn-encodex-save"><i class="fas fa-save me-1"></i> Save</button></div>
+            <div class="modal-footer"><button class="btn btn-sm btn-savex"><i class="fas fa-save me-1"></i> Save</button></div>
         </form>
     </div>
 </div>

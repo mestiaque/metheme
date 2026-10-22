@@ -106,7 +106,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-sm btn-encodex-cancel" data-bs-dismiss="modal">{{ __('me::me.Close') }}</button>
-                <button type="submit" class="btn btn-sm btn-encodex-save">{{ __('me::me.Save') }}</button>
+                <button type="submit" class="btn btn-sm btn-savex">{{ __('me::me.Save') }}</button>
             </div>
         </form>
     </div>
@@ -127,7 +127,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-encodex-cancel" data-bs-dismiss="modal">{{ __('me::me.Close') }}</button>
-                    <button type="submit" class="btn btn-sm btn-encodex-save">{{ __('me::me.Update') }}</button>
+                    <button type="submit" class="btn btn-sm btn-savex">{{ __('me::me.Update') }}</button>
                 </div>
             </form>
         </div>

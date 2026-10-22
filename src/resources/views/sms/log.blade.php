@@ -76,7 +76,7 @@
             @error('rate') <div class="invalid-feedback">{{ $message }}</div> @enderror
         </div>
         <div class="col-md-auto">
-            <button type="submit" class="btn btn-sm btn-encodex-save"><i class="fas fa-save me-1"></i> @lang('me::me.update')</button>
+            <button type="submit" class="btn btn-sm btn-savex"><i class="fas fa-save me-1"></i> @lang('me::me.update')</button>
         </div>
     </form>
 </div>

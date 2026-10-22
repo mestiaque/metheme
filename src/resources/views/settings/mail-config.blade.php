@@ -91,7 +91,7 @@
                         </div>
                     </div>
                     <div class="card-footer bg-transparent text-end">
-                        <button type="submit" class="btn btn-sm btn-encodex-save px-4">
+                        <button type="submit" class="btn btn-sm btn-savex px-4">
                             <i class="fas fa-save me-1"></i> @lang('me::me.save_settings')
                         </button>
                     </div>

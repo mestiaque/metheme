@@ -132,7 +132,7 @@
                 </div>
 
                 <div class="text-center">
-                    <button type="submit" class="btn btn-encodex px-4">
+                    <button type="submit" class="btn btn-savex px-4">
                         <i class="fas fa-save me-1"></i> @lang('me::me.save_settings')
                     </button>
                 </div>

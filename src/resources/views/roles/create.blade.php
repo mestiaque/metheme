@@ -98,7 +98,7 @@
                 </div>
 
                 <div class="mt-4 text-end">
-                    <button type="submit" class="btn btn-encodex float-right">
+                    <button type="submit" class="btn btn-savex float-right">
                         <i class="fas fa-save me-1"></i> @lang('me::me.Create Role')
                     </button>
                 </div>
