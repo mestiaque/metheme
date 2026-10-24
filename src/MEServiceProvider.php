@@ -40,10 +40,8 @@ class MEServiceProvider extends ServiceProvider
         | Load Package Resources
         |--------------------------------------------------------------------------
         */
-        // Helpers first: route files use them (e.g. me_prefix()).
-        if (file_exists(__DIR__.'/Http/Helpers/helpers.php')) {
-            require_once __DIR__.'/Http/Helpers/helpers.php';
-        }
+        // Http/Helpers/helpers.php (me_prefix() etc.) is autoloaded by Composer ("files"),
+        // so it exists before any provider runs, including other packages' config files.
         if (file_exists(__DIR__.'/Http/Helpers/PermissionHelper.php')) {
             require_once __DIR__.'/Http/Helpers/PermissionHelper.php';
         }
