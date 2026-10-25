@@ -72,9 +72,29 @@ class Setting extends Model
             return is_array($value) ? $value : (json_decode($value ?? '', true) ?: ($default ?? []));
         }
 
-        $setting = static::where('key', $key)->first();
+        $all = static::cached();
 
-        return $setting ? $setting->value : $default;
+        return array_key_exists($key, $all) ? $all[$key] : $default;
+    }
+
+    /**
+     * Every setting as key => value, read with one query per request (see the "me.settings"
+     * scoped binding in MEServiceProvider). Saving or deleting a setting clears it.
+     */
+    public static function cached(): array
+    {
+        return app('me.settings');
+    }
+
+    public static function flushCache(): void
+    {
+        app()->forgetInstance('me.settings');
+    }
+
+    protected static function booted(): void
+    {
+        static::saved(fn () => static::flushCache());
+        static::deleted(fn () => static::flushCache());
     }
 
     /**

@@ -137,6 +137,59 @@
                         </div>
                     </div>
                 </div>
+
+                {{-- Logo in the top header and in the page title bar: on/off + own image (no image: header empty, title bar shows an icon) --}}
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-light py-2">
+                            <h6 class="mb-0 text-primary fw-semibold">
+                                <i class="fas fa-image me-1"></i> @lang('me::me.header_and_title_logo')
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <p class="small text-muted mb-3">@lang('me::me.header_and_title_logo_hint')</p>
+                            <div class="row g-4">
+                                @foreach ([
+                                    ['key' => 'header_logo', 'switch' => 'show_header_logo', 'height' => '2.5rem', 'empty' => 'header_logo_empty', 'emptyIcon' => 'fas fa-ban'],
+                                    ['key' => 'title_logo', 'switch' => 'show_title_logo', 'height' => '2rem', 'empty' => 'title_logo_icon', 'emptyIcon' => 'bi bi-bluesky'],
+                                ] as $logo)
+                                    <div class="col-md-6">
+                                        <div class="form-check form-switch mb-3">
+                                            <input type="checkbox" class="form-check-input" id="{{ $logo['switch'] }}"
+                                                    name="{{ $logo['switch'] }}" {{ $settings[$logo['switch']] ? 'checked' : '' }}>
+                                            <label class="form-check-label fw-semibold" for="{{ $logo['switch'] }}">
+                                                @lang('me::me.' . $logo['switch'])
+                                            </label>
+                                        </div>
+
+                                        <label class="font-weight-bold text-primary d-block">@lang('me::me.' . $logo['key'])</label>
+                                        <div class="logo-preview border rounded bg-light d-flex align-items-center justify-content-center mb-2" style="height: 5rem">
+                                            @if($settings[$logo['key']])
+                                                <img loading="lazy" src="{{ get_image($logo['key']) }}" alt="" style="max-height: {{ $logo['height'] }}; width: auto;">
+                                            @else
+                                                <span class="small text-muted"><i class="{{ $logo['emptyIcon'] }} me-1"></i> @lang('me::me.' . $logo['empty'])</span>
+                                            @endif
+                                        </div>
+                                        <input type="file" class="border border-primary custom-file-input @error($logo['key']) is-invalid @enderror"
+                                                name="{{ $logo['key'] }}" accept="image/*">
+                                        @error($logo['key'])
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                        @if($settings[$logo['key']])
+                                            <div class="form-check mt-2">
+                                                <input type="checkbox" class="form-check-input" id="remove_{{ $logo['key'] }}" name="remove_{{ $logo['key'] }}">
+                                                <label class="form-check-label small text-danger" for="remove_{{ $logo['key'] }}">
+                                                    @lang('me::me.remove_logo_image')
+                                                </label>
+                                            </div>
+                                        @endif
+                                        <small class="form-text text-muted d-block">@lang('me::me.logo_image_size_hint', ['height' => $logo['height']])</small>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="text-end mt-4">

@@ -1,0 +1,929 @@
+/*
+ * Layout styles of the metheme master/header/sidebar views, moved out of the HTML so the
+ * browser downloads them once and caches them (they used to be inline on every page).
+ */
+
+/* ---- from master.blade.php (was inline at line 41) ---- */
+            @media (max-width: 767.98px) {
+                .hide-mobile{ display: none !important}
+            }
+
+            /* Date, Time, Week, Month সবগুলোর আইকন একসাথে পরিবর্তন করার জন্য */
+            input[type="date"]::-webkit-calendar-picker-indicator,
+            input[type="time"]::-webkit-calendar-picker-indicator,
+            input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+            input[type="month"]::-webkit-calendar-picker-indicator,
+            input[type="week"]::-webkit-calendar-picker-indicator {
+                filter: invert(0.5); /* আপনার পছন্দমতো ভ্যালু পরিবর্তন করুন */
+                cursor: pointer;
+            }
+
+            body::before {
+                content: "";
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(44, 62, 80, 0.05);
+                backdrop-filter: blur(50px); /* ঝাপসা ম্যাট ইফেক্ট */
+                z-index: -1;
+            }
+            body::after {
+                content: "";
+                position: fixed;
+                top: -10%;
+                right: -10%;
+                width: 400px;
+                height: 400px;
+                border-radius: 50%;
+                filter: blur(80px);
+                z-index: -2;
+            }
+
+            .glass-card{
+                background: rgba(255, 255, 255, 0.12) ;
+                backdrop-filter: blur(16px) saturate(160%) ;
+                -webkit-backdrop-filter: blur(16px) saturate(160%);
+                border: 1px solid rgba(255, 255, 255, 0.25);
+                border-radius: 16px;
+                padding: 10px;
+            }
+
+            /* হেডারের সার্চ রেজাল্ট/ইউজার মেনুতে ব্যবহৃত লিকুইড গ্লাসমরফিজম -
+               যেকোনো div এ .blur-card ক্লাস বসালেই একই ইফেক্ট পাওয়া যাবে */
+            .blur-card {
+                background: rgba(255, 255, 255, 0.05);
+                backdrop-filter: blur(15px) saturate(160%);
+                -webkit-backdrop-filter: blur(15px) saturate(160%);
+                border: 1px solid rgba(255, 255, 255, 0.6);
+                border-radius: 16px;
+                box-shadow: 0 8px 32px rgba(15, 45, 74, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+            }
+
+            .table thead tr:first-child th:first-child {
+                border-top-left-radius: 8px;
+            }
+            .table thead tr:first-child th:last-child {
+                border-top-right-radius: 8px;
+            }
+            .table tbody tr:last-child td:first-child {
+                border-bottom-left-radius: 8px;
+            }
+            .table tbody tr:last-child td:last-child {
+                border-bottom-right-radius: 8px;
+            }
+
+
+            .table-encodex thead th::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(
+                    120deg,
+                    transparent 20%,
+                    rgba(255,255,255,.12),
+                    transparent 80%
+                );
+                pointer-events: none;
+            }
+            .table-encodex thead th {
+                position: relative;
+                white-space: nowrap ;
+            }
+
+            .glass-bar::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(
+                    120deg,
+                    transparent 20%,
+                    rgba(255,255,255,.12),
+                    transparent 80%
+                );
+                pointer-events: none;
+            }
+            .glass-bar {
+                position: relative;
+            }
+
+
+
+            .glass-breadcrumb {
+                background: rgba(255, 255, 255, 0.12);
+                backdrop-filter: blur(16px) saturate(160%);
+                -webkit-backdrop-filter: blur(16px) saturate(160%);
+                border: 1px solid rgba(255, 255, 255, 0.25);
+                border-radius: 12px;
+                padding: 3px 3px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+                position: relative;
+                min-height: 2.2rem !important
+            }
+            .breadcrumb-title {
+                font-size: 1.05rem;
+                margin: 0;
+                font-weight: 600;
+                /* background: linear-gradient(90deg, #05266b, #5a65ff); */
+                color: #0f9bd6;
+                -webkit-background-clip: text;
+                /* color: transparent; */
+                letter-spacing: 0.5px;
+                margin-left: 5px !important;
+            }
+            .breadcrumb-actions > * {
+                backdrop-filter: blur(10px) !important;
+                border-radius: 10px !important;
+            }
+
+            .glass-breadcrumb {
+                animation: fadeSlide .4s ease;
+            }
+            .glass-breadcrumb .btn{
+                padding: 0.25rem 0.5rem !important;
+            }
+            @keyframes fadeSlide {
+                from {
+                    opacity: 0;
+                    transform: translateY(-6px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            .breadcrumb-title .dev-svg{
+
+            }
+
+            /* মোবাইল ভিউর জন্য ড্রপডাউন ম্যাজিক */
+            @media (max-width: 767px) {
+
+                .glass-search-form {
+                    background: rgba(255, 255, 255, 0.15); /* হালকা সাদা স্বচ্ছতা */
+                    backdrop-filter: blur(12px); /* ব্যাকগ্রাউন্ড ব্লার */
+                    -webkit-backdrop-filter: blur(12px);
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                    border-radius: 15px;
+                    padding: 0px;
+                    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+                }
+
+                .glass-search-form .form-control {
+                    background: rgba(255, 255, 255, 0.1);
+                    border: 1px solid rgba(255, 255, 255, 0.3);
+                    color: #333; /* আপনার থিমের সাথে সামঞ্জস্য রেখে পরিবর্তন করুন */
+                    backdrop-filter: blur(4px);
+                }
+                .glass-search-form .row {
+                    display: none; /* শুরুতে লুকানো থাকবে */
+                    transition: all 0.4s ease-in-out;
+                }
+
+                .glass-search-form.active .row {
+                    display: flex;
+                    margin-top: 15px;
+                }
+
+                /* মোবাইল ট্রিগার বাটন (Glass Button style) */
+                .glass-search-form::before {
+                    content: "\f002  Tap to Filter Options";
+                    font-family: "Font Awesome 5 Free", "Font Awesome 6 Free"; /* ভার্সন অনুযায়ী */
+                    font-weight: 900; /* আইকন দেখানোর জন্য এটি জরুরি */
+                    display: block;
+                    text-align: center;
+                    padding: 5px;
+                    background: #e2e7eb;
+                    color: #000;
+                    border-radius: 10px;
+                    cursor: pointer;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    font-size: 13px;
+                    letter-spacing: 1px;
+                }
+                .glass-search-form .btn{
+                    float: inline-end;
+                }
+
+                .hide-mobile {
+                    display: none !important;
+                }
+
+            }
+
+            /* রিলোডে সেভ করা সাইডবার স্টেট বসানোর সময় কোনো ট্রানজিশন/শেক যেন না হয় -
+               প্রথম পেইন্টের আগেই এই ক্লাস বডিতে বসে, লোড হয়ে গেলে সরিয়ে ফেলা হয় */
+            body.sidebar-preload * {
+                transition: none !important;
+            }
+        
+
+/* ---- from master.blade.php (was inline at line 543) ---- */
+            .summernote-content img {
+                cursor: zoom-in;
+            }
+            .summernote-lightbox-overlay {
+                position: fixed;
+                inset: 0;
+                z-index: 999998;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: rgba(0, 0, 0, 0);
+                opacity: 0;
+                transition: opacity .2s ease, background .2s ease;
+                cursor: zoom-out;
+            }
+            .summernote-lightbox-overlay.show {
+                background: rgba(0, 0, 0, 0.85);
+                opacity: 1;
+            }
+            .summernote-lightbox-overlay img {
+                max-width: 90vw;
+                max-height: 90vh;
+                border-radius: 8px;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            }
+        
+
+/* ---- from header.blade.php (was inline at line 195) ---- */
+/* মেইন হেডার গ্লাস ইফেক্ট */
+.header-glass {
+    background: rgba(255, 255, 255, 0.05) !important; /* হালকা ট্রান্সপারেন্ট */
+    backdrop-filter: blur(15px) saturate(160%); /* ব্লার ইফেক্ট */
+    -webkit-backdrop-filter: blur(15px) saturate(160%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* নেভিগেশন লিঙ্ক এবং আইকন স্টাইল */
+.app-header .navbar-nav .nav-link {
+    color: rgba(16, 7, 70, 0.9) !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+}
+
+.app-header .navbar-nav .nav-link:hover {
+    /* background: rgba(255, 255, 255, 0.1); */
+    color: #0f2d4a !important;
+    transform: translateY(-1px);
+}
+.dropdown-menu{
+    background: rgba(255, 255, 255, 0.99) !important;
+    backdrop-filter: blur(15px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(15px) saturate(180%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1) !important;
+    padding: 10px !important;
+    /* overflow: hidden; */
+}
+
+.dropdown ul.dropdown-menu:before {
+    content: "";
+    border-bottom: 10px solid rgba(255, 255, 255, 0.99) !important;
+    border-right: 10px solid transparent;
+    border-left: 10px solid transparent;
+    position: absolute;
+    top: -10px;
+    right: 16px;
+    z-index: 10;
+}
+
+.dropdown ul.dropdown-menu:after {
+    content: "";
+    border-bottom: 12px solid rgba(255, 255, 255, 0.59) !important;
+    border-right: 12px solid transparent;
+    border-left: 12px solid transparent;
+    position: absolute;
+    top: -12px;
+    right: 14px;
+    z-index: 9;
+}
+
+.dropdown-menu .dropdown-item {
+color: #1a1a1a !important;
+font-weight: 500;
+padding: 8px 15px;
+border-radius: 8px;
+}
+
+/* হোভার করলে আইটেমের ব্যাকগ্রাউন্ড */
+.dropdown-menu .dropdown-item:hover {
+background: rgba(18, 26, 148, 0.5) !important;
+color: #000 !important;
+}
+
+/* ডিভাইডার লাইন */
+.dropdown-divider {
+border-top: 1px solid rgba(255, 255, 255, 1) !important;
+margin: 5px 0;
+}
+
+/* প্রোফাইল ড্রপডাউন - সার্চ রেজাল্টের মতো লিকুইড গ্লাসমরফিজম, একই fixed পজিশনিং কৌশলে
+   (body তে পোর্টাল করা হয় জেএস দিয়ে - #userMenuDropdown এখন .user-menu এর ভেতরে থাকবে না,
+   তাই নেস্টেড সিলেক্টরের বদলে আইডি সিলেক্টর ব্যবহার হচ্ছে) */
+#userMenuDropdown.dropdown-menu {
+    position: fixed;
+    width: 220px;
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(15px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(15px) saturate(160%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 32px rgba(15, 45, 74, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.7) !important;
+    z-index: 2000;
+    margin: 0 !important;
+}
+
+#userMenuDropdown:before {
+    content: "";
+    position: absolute;
+    top: -7px;
+    right: 26px;
+    width: 12px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.6);
+    border-left: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 3px 0 0 0;
+    transform: rotate(45deg);
+    backdrop-filter: blur(15px) saturate(160%);
+    -webkit-backdrop-filter: blur(15px) saturate(160%);
+}
+
+#userMenuDropdown .dropdown-item {
+    color: #0f2d4a !important;
+    border-radius: 10px;
+    transition: background 0.15s ease, transform 0.15s ease;
+}
+
+#userMenuDropdown .dropdown-item:hover {
+    background: rgba(15, 155, 214, 0.18) !important;
+    color: #0f2d4a !important;
+    transform: translateX(2px);
+}
+
+
+/* লোগো এবং ইমেজ ইফেক্ট */
+.company-logo {
+    height: 32px;
+    width: auto;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
+    transition: transform 0.3s ease;
+}
+
+.company-logo:hover {
+    transform: scale(1.05);
+}
+
+.user-image {
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    padding: 1px;
+}
+
+/* ভাষা সিলেক্টর স্টাইল */
+#languageDropdown {
+    background: rgba(255, 255, 255, 0.05);
+    margin: 0 5px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.app-header .dev-svg{
+  max-height: 2.5rem;
+}
+
+.search-box{
+  margin-right: 10px;
+}
+
+/* এক্সপ্যান্ডেবল সার্চ বক্স */
+.search-box .search-wrapper {
+    position: relative;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.search-box .search-icon-btn {
+    position: relative;
+    z-index: 2;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    padding: 0 !important;
+}
+
+.search-box .search-input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 40px;
+    width: 40px;
+    padding: 0 44px 0 14px;
+    outline: none;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(22px) saturate(180%);
+    -webkit-backdrop-filter: blur(22px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 4px 18px rgba(15, 45, 74, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    color: #0f2d4a;
+    font-size: 0.85rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: width 0.35s ease, opacity 0.25s ease;
+}
+
+.search-box .search-input::placeholder {
+    color: #4b5a6b;
+}
+
+.search-box .search-wrapper:hover .search-input,
+.search-box .search-wrapper:focus-within .search-input,
+.search-box .search-wrapper.active .search-input,
+.search-box .search-wrapper.has-results .search-input {
+    width: 220px;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.search-box .search-wrapper:hover .search-icon-btn,
+.search-box .search-wrapper:focus-within .search-icon-btn,
+.search-box .search-wrapper.active .search-icon-btn,
+.search-box .search-wrapper.has-results .search-icon-btn {
+    color: #0f9bd6 !important;
+}
+
+/* টাইপ করার সময় আইকন অ্যানিমেশন - ম্যাগনিফায়ার ছোট বৃত্তাকার পথে ঘুরবে (সোজা থেকে) */
+@keyframes searchIconOrbit {
+    from { transform: rotate(0deg) translateX(2.5px) rotate(0deg); }
+    to   { transform: rotate(360deg) translateX(2.5px) rotate(-360deg); }
+}
+
+.search-box .search-wrapper.typing .search-icon-btn i {
+    display: inline-block;
+    animation: searchIconOrbit 0.9s linear infinite;
+    color: #0f9bd6;
+}
+
+@media (max-width: 767.98px) {
+    .search-box .search-wrapper:hover .search-input,
+    .search-box .search-wrapper.active .search-input,
+    .search-box .search-wrapper.has-results .search-input {
+        width: 160px;
+    }
+}
+
+/* সার্চ রেজাল্ট ড্রপডাউন - লিকুইড গ্লাসমরফিজম
+   (body তে পোর্টাল করা হয় জেএস দিয়ে, তাই .search-box এর ভেতরে নেস্ট করা সিলেক্টর ব্যবহার হয়নি -
+   হেডারের নিজস্ব backdrop-filter একটি নতুন backdrop root তৈরি করে, তাই ভেতরে থাকলে
+   হেডারের নিচের পেজ কনটেন্ট ব্লার করতে পারত না) */
+.menu-search-results {
+    position: fixed;
+    width: 220px;
+    max-height: 320px;
+    overflow-y: auto;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px) saturate(160%);
+    -webkit-backdrop-filter: blur(15px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(15, 45, 74, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    padding: 8px;
+    z-index: 2000;
+}
+
+.menu-search-results:before {
+    content: "";
+    position: absolute;
+    top: -7px;
+    right: 14px;
+    width: 12px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.6);
+    border-left: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 3px 0 0 0;
+    transform: rotate(45deg);
+    backdrop-filter: blur(15px) saturate(160%);
+    -webkit-backdrop-filter: blur(15px) saturate(160%);
+}
+
+.menu-search-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    color: #0f2d4a;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.menu-search-item:hover,
+.menu-search-item.active {
+    background: rgba(15, 155, 214, 0.18);
+    color: #0f2d4a;
+    transform: translateX(2px);
+}
+
+.menu-search-icon {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    background: rgba(15, 155, 214, 0.15);
+    color: #0f9bd6;
+    flex-shrink: 0;
+}
+
+.menu-search-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.menu-search-title {
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.menu-search-breadcrumb {
+    font-size: 0.72rem;
+    color: #4b5a6b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.menu-search-empty {
+    padding: 10px;
+    color: #4b5a6b;
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+@media (max-width: 767.98px) {
+    .menu-search-results,
+    #userMenuDropdown.dropdown-menu {
+        width: 160px;
+    }
+}
+
+/* রেসপন্সিভ ফিক্স */
+
+
+@media (max-width: 767.98px) {
+    /* হেডার কন্টেইনার ফিক্স */
+    .app-header .container-fluid {
+        display: flex;
+        flex-wrap: nowrap; /* আইটেমগুলোকে এক লাইনে রাখবে, নিচে নামতে দেবে না */
+        padding-left: 5px;
+        padding-right: 5px;
+        justify-content: space-between;
+    }
+
+    /* লোগোর সাইজ কমানো */
+    .company-logo {
+        height: 24px !important; /* ছোট স্ক্রিনে লোগো ছোট করা */
+        margin-top: 0 !important;
+    }
+
+    /* ইউজার ইমেজ এবং টেক্সট ফিক্স */
+    .user-menu .user-name {
+        display: none !important; /* মোবাইলে নাম হাইড রাখা ভালো */
+    }
+
+    .user-image {
+        width: 28px !important; /* প্রোফাইল ইমেজ ছোট করা */
+        height: 28px !important;
+        margin-right: 0 !important;
+    }
+
+    /* নেভিগেশন আইটেমগুলোর গ্যাপ কমানো */
+    .app-header .navbar-nav .nav-link {
+        padding: 0.5rem 0.4rem !important;
+    }
+
+    /* ড্রপডাউন মেনু যাতে স্ক্রিনের বাইরে না যায় */
+    .dropdown-menu-end {
+        right: 5px !important;
+        left: auto !important;
+        position: absolute !important;
+    }
+
+    /* ল্যাঙ্গুয়েজ সিলেক্টর মোবাইলে ছোট করা */
+    #languageDropdown span:not(.hide-mobile) {
+        font-size: 16px !important;
+    }
+}
+
+/* ---- from sidebar.blade.php (was inline at line 148) ---- */
+.app-sidebar .sidebar-wrapper {
+    visibility: hidden;
+    overscroll-behavior: contain;
+}
+.app-sidebar .sidebar-wrapper.sidebar-ready {
+    visibility: visible;
+}
+/* ============================================== */
+/* ১. গ্লাস থিম (সাইডবার) বেস স্টাইল */
+/* ============================================== */
+.sidebar-glass {
+    background: rgba(255, 255, 255, 0.05) !important; /* হালকা ট্রান্সপারেন্ট BG */
+    backdrop-filter: blur(15px) saturate(150%) !important; /* ব্লার এবং স্যাচুরেশন */
+    -webkit-backdrop-filter: blur(15px) saturate(150%) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.1) !important; /* সূক্ষ্ম বর্ডার */
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* সাইডবার র‍্যাপার স্বচ্ছ রাখা */
+.sidebar-wrapper {
+    background: transparent !important;
+}
+.default-sidebar-icon{
+    color: #0f9bd6 !important;
+}
+
+/* ============================================== */
+/* ২. মেনু আইটেম ডিজাইন */
+/* ============================================== */
+/* .nav-item {
+    margin: 4px 12px !important;
+} */
+
+.nav-link {
+    border-radius: 12px !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    color: #0f9bd6 !important;
+    padding: 0.5rem 1rem !important;
+    border: 1px solid transparent !important;
+}
+
+/* হোভার ইফেক্ট */
+.nav-link:hover {
+    background: rgba(0, 123, 255, 0.08) !important;
+    /* background: rgba(33, 27, 121, 0.1) !important; */
+    transform: translateX(2px);
+    color: #1a237e !important;
+    /* color: #0d47a1 !important; */
+}
+.nav-link:hover i {
+    color: #1a237e !important;
+}
+
+/* একটিভ মেনু - Liquid Gradient */
+.nav-link.active {
+    /* background: linear-gradient(135deg, rgba(15, 155, 214, 0.8), rgba(0, 86, 179, 0.8)) !important; */
+    box-shadow: 0 4px 15px rgba(15, 155, 214, 0.4) !important;
+    color: #0f2d4a !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.nav-link.active i {
+    color: #0f2d4a !important;
+}
+
+/* সাব-মেনু (Treeview) ডিজাইন */
+.nav-treeview {
+    background: rgba(255, 255, 255, 0.03) !important;
+    margin: 5px 0 5px 0px !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 0 0 12px 12px;
+    padding: 5px 0;
+}
+
+/* ড্রপডাউন ওপেন থাকলে প্যারেন্ট স্টাইল */
+.nav-item.menu-open > .nav-link {
+    background: rgba(255, 255, 255, 0.07) !important;
+    font-weight: 600;
+}
+
+/* ============================================== */
+/* ৩. অন্যান্য স্টাইল ও ফিক্স */
+/* ============================================== */
+
+/* কোম্পানি টেক্সট */
+.company-text-sidebar
+ {
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: linear-gradient(to right, #0f2d4a, #0f9bd6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding: 0px 0 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+}
+
+/* ব্র্যান্ড লোগো গ্লো ইফেক্ট */
+aside .brand-image {
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5)) !important;
+}
+.sidebar-brand .brand-link .brand-image {
+    max-height: 33px; /* এক্সপ্যান্ড থাকা অবস্থায় হাইট */
+    transition: max-height 0.3s ease-in-out; /* হাইট পরিবর্তনের সময়কাল */
+    display: inline-block;
+}
+.sidebar-brand{
+    border-bottom: 1px solid #a0d0ff !important;
+    height: 3.56rem !important;
+}
+
+/* যখন সাইডবার কোল্যাপস থাকবে */
+.sidebar-collapse .sidebar-brand .brand-link .brand-image {
+    max-height: 20px; /* কোল্যাপস থাকা অবস্থায় হাইট */
+}
+.sidebar-collapse .app-sidebar:hover .sidebar-brand .brand-link .brand-image {
+    max-height: 33px !important;
+}
+
+
+/* ডিফল্ট অবস্থা */
+.company-text-sidebar {
+    list-style: none;
+    /* padding: 10px; */
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.short-text {
+    display: none; /* শুরুতে ছোট নাম হাইড থাকবে */
+}
+
+/* যখন সাইডবার কোল্যাপস (Collapse) থাকবে */
+.sidebar-collapse .app-sidebar .full-text {
+    display: none;
+}
+
+.sidebar-collapse .app-sidebar .short-text {
+    display: block;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+/* যখন কোল্যাপস অবস্থায় মাউস হোভার (Hover) করবেন */
+.sidebar-collapse .app-sidebar:hover .full-text {
+    display: block;
+}
+
+.sidebar-collapse .app-sidebar:hover .short-text {
+    display: none;
+}
+
+/* টেক্সট অ্যানিমেশন স্মুথ করার জন্য */
+.full-text, .short-text {
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* মোবাইল রেসপন্সিভ */
+@media (max-width: 767px) {
+    .hide-mobile {
+        display: none !important;
+    }
+    .nav-link{
+        color: #ffffff !important;
+    }
+    .nav .nav-link.active{
+        color: #4ba5fb !important;
+    }
+}
+
+/* ---- from sidebar.blade.php (was inline at line 327) ---- */
+    .icc-1  { color: #2c3e50; }
+    .icc-2  { color: #34495e; }
+    .icc-3  { color: #7f8c8d; }
+    .icc-4  { color: #95a5a6; }
+    .icc-5  { color: #bdc3c7; }
+
+    .icc-6  { color: #0d6efd; }
+    .icc-7  { color: #1a73e8; }
+    .icc-8  { color: #2962ff; }
+    .icc-9  { color: #3f51b5; }
+    .icc-10 { color: #5c6bc0; }
+
+    .icc-11 { color: #4b4dfc; }
+    .icc-12 { color: #536dfe; }
+    .icc-13 { color: #7986cb; }
+    .icc-14 { color: #3d5afe; }
+    .icc-15 { color: #1e40af; }
+
+    .icc-16 { color: #20c997; }
+    .icc-17 { color: #10b981; }
+    .icc-18 { color: #2ecc71; }
+    .icc-19 { color: #27ae60; }
+    .icc-20 { color: #1abc9c; }
+
+    .icc-21 { color: #0fb9b1; }
+    .icc-22 { color: #26de81; }
+    .icc-23 { color: #2ed573; }
+    .icc-24 { color: #55efc4; }
+    .icc-25 { color: #00b894; }
+
+    .icc-26 { color: #f39c12; }
+    .icc-27 { color: #f1c40f; }
+    .icc-28 { color: #e67e22; }
+    .icc-29 { color: #e74c3c; }
+    .icc-30 { color: #d35400; }
+
+    .icc-31 { color: #ff7675; }
+    .icc-32 { color: #fab1a0; }
+    .icc-33 { color: #e17055; }
+    .icc-34 { color: #d63031; }
+    .icc-35 { color: #ff6b6b; }
+
+    .icc-36 { color: #6c5ce7; }
+    .icc-37 { color: #a29bfe; }
+    .icc-38 { color: #8e44ad; }
+    .icc-39 { color: #9b59b6; }
+    .icc-40 { color: #be2edd; }
+
+    .icc-41 { color: #0984e3; }
+    .icc-42 { color: #74b9ff; }
+    .icc-43 { color: #81ecec; }
+    .icc-44 { color: #00cec9; }
+    .icc-45 { color: #00a8ff; }
+
+    .icc-46 { color: #6ab04c; }
+    .icc-47 { color: #badc58; }
+    .icc-48 { color: #7bed9f; }
+    .icc-49 { color: #55efc4; }
+    .icc-50 { color: #1dd1a1; }
+
+    .icc-51 { color: #d980fa; }
+    .icc-52 { color: #e056fd; }
+    .icc-53 { color: #b33771; }
+    .icc-54 { color: #8b53ff; }
+    .icc-55 { color: #9f6bff; }
+
+    .icc-56 { color: #3d3d3d; }
+    .icc-57 { color: #4f4f4f; }
+    .icc-58 { color: #5f6368; }
+    .icc-59 { color: #757575; }
+    .icc-60 { color: #8e8e8e; }
+
+    .icc-61 { color: #ff9f1a; }
+    .icc-62 { color: #ffa502; }
+    .icc-63 { color: #ffb142; }
+    .icc-64 { color: #ff7f50; }
+    .icc-65 { color: #ff6348; }
+
+    .icc-66 { color: #341f97; }
+    .icc-67 { color: #2e86de; }
+    .icc-68 { color: #1b9cfc; }
+    .icc-69 { color: #3742fa; }
+    .icc-70 { color: #5352ed; }
+
+    .icc-71 { color: #2d3436; }
+    .icc-72 { color: #636e72; }
+    .icc-73 { color: #b2bec3; }
+    .icc-74 { color: #dfe6e9; }
+    .icc-75 { color: #a4b0be; }
+
+    .icc-76 { color: #0a3d62; }
+    .icc-77 { color: #3c6382; }
+    .icc-78 { color: #60a3bc; }
+    .icc-79 { color: #82ccdd; }
+    .icc-80 { color: #0abde3; }
+
+    .icc-81 { color: #30336b; }
+    .icc-82 { color: #130f40; }
+    .icc-83 { color: #535c68; }
+    .icc-84 { color: #95afc0; }
+    .icc-85 { color: #7ed6df; }
+
+    .icc-86 { color: #eb4d4b; }
+    .icc-87 { color: #ff4757; }
+    .icc-88 { color: #ff6b81; }
+    .icc-89 { color: #ff4d4d; }
+    .icc-90 { color: #ff3838; }
+
+    .icc-91 { color: #374151; }
+    .icc-92 { color: #4b5563; }
+    .icc-93 { color: #6b7280; }
+    .icc-94 { color: #9ca3af; }
+    .icc-95 { color: #d1d5db; }
+
+    .icc-96 { color: #2563eb; }
+    .icc-97 { color: #1d4ed8; }
+    .icc-98 { color: #1e3a8a; }
+    .icc-99 { color: #60a5fa; }
+    .icc-100{ color: #93c5fd; }

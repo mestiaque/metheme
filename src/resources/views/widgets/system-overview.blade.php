@@ -4,7 +4,7 @@
         @include('me::widgets.system-overview')
         @include('me::widgets.system-overview', ['sections' => ['cards', 'chart']])
 
-    Sections: welcome, cards, chart, roles, activity, links (default: all). The chart needs ApexCharts (loaded by me::master).
+    Sections: welcome, cards, chart, roles, activity, links (default: all). The chart needs ApexCharts (pushed by this view with @pushOnce, once per page).
 --}}
 @php
     $overview = app(\ME\Services\SystemOverview::class);
@@ -161,6 +161,14 @@
         </div>
     @endif
 </div>
+
+{{-- ApexCharts is no longer in me::master; loaded once per page by whichever view needs it --}}
+@pushOnce('css', 'lib-apexcharts-css')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css" integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0=" crossorigin="anonymous">
+@endPushOnce
+@pushOnce('js', 'lib-apexcharts')
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.min.js" integrity="sha256-+vh8GkaU7C9/wbSLIcwq82tQ2wTf44aOHA8HlBMwRI8=" crossorigin="anonymous"></script>
+@endPushOnce
 
 @once
     @push('css')

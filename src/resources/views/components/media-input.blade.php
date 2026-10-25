@@ -63,6 +63,11 @@
     <div class="d-flex flex-wrap gap-2 mt-2 me-mi-preview"></div>
 </div>
 
+{{-- SortableJS (drag to reorder) is no longer in me::master; loaded once per page, before the script below --}}
+@pushOnce('scripts', 'lib-sortablejs')
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js" crossorigin="anonymous"></script>
+@endPushOnce
+
 @once
     @push('css')
     <style>

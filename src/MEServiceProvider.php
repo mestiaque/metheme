@@ -160,6 +160,11 @@ class MEServiceProvider extends ServiceProvider
     {
         $this->app->singleton(RoleHierarchy::class);
 
+        // All settings (key => value) in one query, kept for the current request only:
+        // get_setting() reads from here instead of querying the settings table each time.
+        // Scoped, so queue workers get fresh values for every job.
+        $this->app->scoped('me.settings', fn () => \ME\Models\Setting::query()->pluck('value', 'key')->all());
+
         if ($this->app->runningInConsole()) {
             $this->commands([
                 ImportMailSmsFromEnv::class,

@@ -27,6 +27,12 @@ class SettingController extends Controller
             'show_settings_link'     => (bool) Setting::get('show_settings_link', true),
             'app_logo'               => Setting::get('app_logo'),
             'app_ico'                => Setting::get('app_ico'),
+            // Logo in the top header and in the page title bar: on/off + optional image
+            // (no image = the built-in SVG logo)
+            'show_header_logo'       => (bool) Setting::get('show_header_logo', true),
+            'show_title_logo'        => (bool) Setting::get('show_title_logo', true),
+            'header_logo'            => Setting::get('header_logo'),
+            'title_logo'             => Setting::get('title_logo'),
         ];
 
         return view('me::settings.configurations', compact('settings'));
@@ -38,9 +44,12 @@ class SettingController extends Controller
             'pagination'  => 'required|integer|min:1',
             'app_logo'    => 'nullable|image|max:4096',
             'app_ico'     => 'nullable|file|mimes:svg,ico,png,jpg|max:1024',
+            'header_logo' => 'nullable|file|mimes:jpg,jpeg,png,webp,gif,svg|max:4096',
+            'title_logo'  => 'nullable|file|mimes:jpg,jpeg,png,webp,gif,svg|max:4096',
         ]);
 
-        $logKeys = ['pagination', 'enable_translation', 'enable_registration', 'enable_forget_password', 'show_settings_link', 'app_logo', 'app_ico'];
+        $logKeys = ['pagination', 'enable_translation', 'enable_registration', 'enable_forget_password', 'show_settings_link', 'app_logo', 'app_ico',
+            'show_header_logo', 'show_title_logo', 'header_logo', 'title_logo'];
         $before = Setting::snapshot($logKeys);
 
         // Store values properly
@@ -49,11 +58,20 @@ class SettingController extends Controller
         Setting::set('enable_registration', $request->has('enable_registration'));
         Setting::set('enable_forget_password', $request->has('enable_forget_password'));
         Setting::set('show_settings_link', $request->has('show_settings_link'));
+        Setting::set('show_header_logo', $request->has('show_header_logo'));
+        Setting::set('show_title_logo', $request->has('show_title_logo'));
 
         // Images live in me_media (Media Library); get_image('app_logo') reads them
-        foreach (['app_logo', 'app_ico'] as $imgField) {
+        foreach (['app_logo', 'app_ico', 'header_logo', 'title_logo'] as $imgField) {
             if ($request->hasFile($imgField)) {
                 Setting::setImage($imgField, $request->file($imgField));
+            }
+        }
+
+        // "Remove" goes back to the built-in SVG logo (a new upload in the same save wins)
+        foreach (['header_logo', 'title_logo'] as $imgField) {
+            if ($request->has("remove_{$imgField}") && !$request->hasFile($imgField)) {
+                Setting::removeImage($imgField);
             }
         }
 
@@ -66,6 +84,10 @@ class SettingController extends Controller
                 'show_settings_link' => __('me::me.Show Settings Link in Profile Menu'),
                 'app_logo' => __('me::me.App Logo'),
                 'app_ico' => 'Favicon',
+                'show_header_logo' => __('me::me.show_header_logo'),
+                'show_title_logo' => __('me::me.show_title_logo'),
+                'header_logo' => __('me::me.header_logo'),
+                'title_logo' => __('me::me.title_logo'),
             ])
             ->record($before, Setting::snapshot($logKeys));
 

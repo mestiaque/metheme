@@ -14,9 +14,8 @@
         align-items: center;
         justify-content: center;
         overflow: hidden;
-        background: rgba(255, 255, 255, 0.05) !important;
-        backdrop-filter: blur(15px) saturate(160%);
-        -webkit-backdrop-filter: blur(15px) saturate(160%);
+        /* plain soft-white cover: a full-screen backdrop blur is heavy on the GPU and slows weaker PCs */
+        background: rgba(255, 255, 255, 0.92) !important;
         opacity: 1;
         visibility: visible;
         pointer-events: auto;
@@ -166,8 +165,9 @@
     }
 
     var pageLoaded = false;
+    // Hide as soon as the page has loaded; don't wait for the logo animation to finish
     function maybeHideAfterDraw() {
-        if (drawn && pageLoaded) hide();
+        if (pageLoaded) hide();
     }
 
     function onLoadComplete() {
