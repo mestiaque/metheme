@@ -1,5 +1,5 @@
 <!-- Universal Liquid Glass Rainbow Top Loader (Enhanced Round Glow Point) -->
-<div id="universal-global-loader-container" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 999999; pointer-events: none;">
+<div id="universal-global-loader-container" data-me-loader style="position: fixed; top: 0; left: 0; width: 100%; z-index: 999999; pointer-events: none;">
     <template id="loader-shadow-template">
         <style>
             :host {
@@ -101,40 +101,45 @@
     </template>
 </div>
 
+{{-- show/hide: shared with every loader --}}
+@include('me::components.loader._controller')
+
 <script>
-(function() {
+// Bar + centre point animation only; showing/hiding is done by the shared loader controller
+(function () {
     const container = document.getElementById('universal-global-loader-container');
     const template = document.getElementById('loader-shadow-template');
-    if (!container || !template) return;
+    if (!container || !template || !window.MELoader) return;
 
-    const shadowRoot = container.attachShadow({mode: 'closed'});
+    const shadowRoot = container.attachShadow({ mode: 'closed' });
     shadowRoot.appendChild(template.content.cloneNode(true));
-
-    const loaderRoot = shadowRoot.getElementById('loader-root');
     const centerPoint = shadowRoot.getElementById('point');
+    const movingBar = shadowRoot.querySelector('.moving-bar');
+    let pointTimer = null;
 
-    // ১.৫ সেকেন্ড পর মাঝখানের প্রিমিয়াম পয়েন্টটি খুব স্মুথলি ফেড-আউট হবে
-    setTimeout(() => {
-        if(centerPoint) {
-            centerPoint.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
-            centerPoint.style.opacity = '0';
-            centerPoint.style.transform = 'translate(-50%, -50%) scale(0.5)';
-            setTimeout(() => centerPoint.style.display = 'none', 400);
+    // The glowing centre point fades out after 1.5 s, leaving the expanding bar
+    function startAnimation() {
+        clearTimeout(pointTimer);
+        if (centerPoint) {
+            centerPoint.style.transition = 'none';
+            centerPoint.style.display = '';
+            centerPoint.style.opacity = '';
+            centerPoint.style.transform = '';
+            pointTimer = setTimeout(() => {
+                centerPoint.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                centerPoint.style.opacity = '0';
+                centerPoint.style.transform = 'translate(-50%, -50%) scale(0.5)';
+                pointTimer = setTimeout(() => centerPoint.style.display = 'none', 400);
+            }, 1500);
         }
-    }, 1500);
+        if (movingBar) {
+            movingBar.style.animation = 'none';
+            void movingBar.offsetWidth;   // restart the CSS animation
+            movingBar.style.animation = '';
+        }
+    }
 
-    // পেজ পুরোপুরি লোড শেষ হলে মেইন বার ভ্যানিশ হবে
-    window.addEventListener('load', function() {
-        setTimeout(() => {
-            if(loaderRoot) {
-                loaderRoot.classList.add('fade-out');
-                setTimeout(() => container.remove(), 400);
-            }
-        }, 200);
-    });
-
-    window.addEventListener('beforeunload', function() {
-        container.style.display = 'none';
-    });
+    startAnimation();
+    MELoader.onShow(startAnimation);
 })();
 </script>

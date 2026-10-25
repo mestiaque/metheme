@@ -44,7 +44,16 @@
 
         @stack('css')
         @stack('style')
-        @include('me::components.loader.premium-svg-draw')
+        {{-- Page loader: Configurations → "Show page loader" (off = not sent at all) + which design (me_settings.page_loaders) --}}
+        @if(get_setting('enable_page_loader', true))
+            @php
+                $pageLoaders = config('me_settings.page_loaders', []);
+                $pageLoaderView = $pageLoaders[get_setting('page_loader')]
+                    ?? $pageLoaders[config('me_settings.default_page_loader')]
+                    ?? 'me::components.loader.premium-svg-draw';
+            @endphp
+            @include($pageLoaderView)
+        @endif
         {{-- @include('me::components.loader.premium-skeleton') --}}
         {{-- @include('me::components.loader.premium-dot-wave') --}}
         {{-- @include('me::components.loader.premium-logo-pulse') --}}

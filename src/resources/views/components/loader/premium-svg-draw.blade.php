@@ -1,5 +1,5 @@
 <!-- Premium Loader 6: Logo Line-Draw (SVG stroke-draw reveal, using me::svg) -->
-<div id="pl-svg-draw" class="pl-svg-draw-overlay" aria-hidden="true">
+<div id="pl-svg-draw" class="pl-svg-draw-overlay" data-me-loader aria-hidden="true">
     <div class="pl-svg-draw-canvas" id="pl-svg-draw-canvas">
         @include('me::svg')
     </div>
@@ -16,16 +16,6 @@
         overflow: hidden;
         /* plain soft-white cover: a full-screen backdrop blur is heavy on the GPU and slows weaker PCs */
         background: rgba(255, 255, 255, 0.92) !important;
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-        transition: opacity .25s ease, visibility 0s linear 0s;
-    }
-    .pl-svg-draw-overlay.pl-svg-draw-hidden {
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-        transition: opacity .25s ease, visibility 0s linear .25s;
     }
 
     .pl-svg-draw-canvas {
@@ -48,34 +38,20 @@
     }
 </style>
 
+{{-- show/hide: shared with every loader --}}
+@include('me::components.loader._controller')
+
 <script>
+// Draws the logo once when the page starts; showing it again on navigation keeps it drawn
 (function () {
-    var overlay = document.getElementById('pl-svg-draw');
     var canvas = document.getElementById('pl-svg-draw-canvas');
-    if (!overlay || !canvas) return;
+    if (!canvas) return;
 
     var svgEl = canvas.querySelector('svg');
     var paths = svgEl ? Array.prototype.slice.call(svgEl.querySelectorAll('path')) : [];
 
     var COLOR_A = '#0f9bd6'; // left group (M)
-    var COLOR_B = '#54075C'; // right group (E) — yellow/gold, since M and E interlock and a clean split isn't possible, this reads better than purple where the two groups blend at the seam
-
-    var drawn = false;
-    var hidden = false;
-    var safetyTimer = setTimeout(hide, 7000);
-
-    function hide() {
-        if (hidden) return;
-        hidden = true;
-        clearTimeout(safetyTimer);
-        overlay.classList.add('pl-svg-draw-hidden');
-    }
-
-    function showInstant() {
-        if (!hidden) return;
-        hidden = false;
-        overlay.classList.remove('pl-svg-draw-hidden');
-    }
+    var COLOR_B = '#54075C'; // right group (E)
 
     function assignColors() {
         if (!paths.length) return;
@@ -119,7 +95,7 @@
     }
 
     function runDrawAnimation() {
-        if (!paths.length) { drawn = true; return; }
+        if (!paths.length) return;
 
         assignColors();
 
@@ -155,83 +131,11 @@
                         path.style.fillOpacity = '1';
                         path.style.strokeOpacity = '0';
                     });
-                    setTimeout(function () {
-                        drawn = true;
-                        maybeHideAfterDraw();
-                    }, 140);
                 }, totalDrawTime + 30);
             });
         });
     }
 
-    var pageLoaded = false;
-    // Hide as soon as the page has loaded; don't wait for the logo animation to finish
-    function maybeHideAfterDraw() {
-        if (pageLoaded) hide();
-    }
-
-    function onLoadComplete() {
-        pageLoaded = true;
-        maybeHideAfterDraw();
-    }
-    if (document.readyState === 'complete') {
-        onLoadComplete();
-    } else {
-        window.addEventListener('load', onLoadComplete, { once: true });
-    }
-
     runDrawAnimation();
-
-    // Restore from back/forward cache — never leave the loader stuck
-    window.addEventListener('pageshow', function (e) {
-        if (e.persisted) hide();
-    });
-
-    function isSameTabNavigableLink(link) {
-        if (!link) return false;
-        var targetAttr = link.getAttribute('target');
-        if (targetAttr && targetAttr !== '_self') return false;
-        if (link.hasAttribute('download')) return false;
-        if (link.classList.contains('no-loader')) return false;
-        var href = link.getAttribute('href');
-        if (!href) return false;
-        if (href.startsWith('#')) return false;
-        if (href.startsWith('javascript:')) return false;
-        if (href.startsWith('mailto:') || href.startsWith('tel:')) return false;
-        return true;
-    }
-
-    // Reappear instantly (already-drawn, no redraw) when actually leaving this tab
-    document.addEventListener('click', function (e) {
-        if (e.defaultPrevented || e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
-        var link = e.target.closest('a');
-        if (!isSameTabNavigableLink(link)) return;
-        showInstant();
-    }, true);
-
-    // A submit that opens in another tab/window — target="_blank" on the form, or
-    // formtarget="_blank" on the button that was clicked (e.g. Print / Excel) — never
-    // unloads this page, so showing the loader here would leave it stuck forever.
-    function submitOpensElsewhere(form, submitter) {
-        var target = (submitter && submitter.getAttribute('formtarget')) || form.getAttribute('target');
-        return !!target && target !== '_self';
-    }
-
-    document.addEventListener('submit', function (e) {
-        var form = e.target;
-        if (!form || form.classList.contains('no-loader') || form.classList.contains('ajax-form')) return;
-        if (submitOpensElsewhere(form, e.submitter)) return;
-        showInstant();
-    });
-
-    // Safety net: coming back to this tab while it's still here (a new window opened
-    // from script, a file download, ...) means nothing is navigating — drop the loader.
-    document.addEventListener('visibilitychange', function () {
-        if (document.visibilityState === 'visible') hide();
-    });
-
-    window.addEventListener('beforeunload', function () {
-        showInstant();
-    });
 })();
 </script>

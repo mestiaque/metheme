@@ -68,6 +68,32 @@
                                     @lang('me::me.Show Settings Link in Profile Menu')
                                 </label>
                             </div>
+                            <div class="form-check form-switch mb-3">
+                                <input type="checkbox" class="form-check-input" id="enable_page_loader"
+                                        name="enable_page_loader" {{ $settings['enable_page_loader'] ? 'checked' : '' }}>
+                                <label class="form-check-label" for="enable_page_loader">
+                                    @lang('me::me.enable_page_loader')
+                                </label>
+                            </div>
+                            {{-- Which loader design (me_settings.page_loaders); only matters while the loader is on --}}
+                            <div class="mb-3 ms-4" id="page_loader_wrap" style="{{ $settings['enable_page_loader'] ? '' : 'display: none;' }}">
+                                <label for="page_loader" class="form-label small fw-semibold mb-1">@lang('me::me.page_loader')</label>
+                                <select name="page_loader" id="page_loader" class="form-select form-select-sm @error('page_loader') is-invalid @enderror">
+                                    @foreach (array_keys(config('me_settings.page_loaders', [])) as $loaderKey)
+                                        <option value="{{ $loaderKey }}" {{ old('page_loader', $settings['page_loader']) === $loaderKey ? 'selected' : '' }}>
+                                            @lang('me::me.loader_' . str_replace('-', '_', $loaderKey))
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('page_loader') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            </div>
+                            @push('js')
+                            <script>
+                                document.getElementById('enable_page_loader').addEventListener('change', function () {
+                                    document.getElementById('page_loader_wrap').style.display = this.checked ? '' : 'none';
+                                });
+                            </script>
+                            @endpush
                         </div>
                     </div>
                 </div>

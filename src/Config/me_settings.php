@@ -178,4 +178,26 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Page Loaders
+    |--------------------------------------------------------------------------
+    | Configurations-এ যেগুলো থেকে বেছে নেওয়া যায়: নাম => Blade view।
+    | লেবেল আসে lang key "loader_<নাম>" থেকে। প্রতিটা loader শুধু নিজের ডিজাইন দেয়
+    | (root element-এ data-me-loader); দেখানো/লুকানো সব loader-এ একই
+    | (components/loader/_controller.blade.php)। নতুন loader যোগ করতে এখানে এক লাইন যোগ করুন।
+    */
+    'page_loaders' => [
+        'premium-svg-draw'   => 'me::components.loader.premium-svg-draw',
+        'premium-neon-ring'  => 'me::components.loader.premium-neon-ring',
+        'premium-dot-wave'   => 'me::components.loader.premium-dot-wave',
+        'premium-logo-pulse' => 'me::components.loader.premium-logo-pulse',
+        'premium-blur-focus' => 'me::components.loader.premium-blur-focus',
+        'premium-skeleton'   => 'me::components.loader.premium-skeleton',
+        'foot-print'         => 'me::components.loader.foot-print',
+        'point-split'        => 'me::components.loader.point-split',
+        'classic'            => 'me::loader',
+    ],
+    'default_page_loader' => 'premium-svg-draw',
+
 ];

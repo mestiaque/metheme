@@ -25,6 +25,8 @@ class SettingController extends Controller
             'enable_registration'    => (bool) Setting::get('enable_registration', false),
             'enable_forget_password' => (bool) Setting::get('enable_forget_password', false),
             'show_settings_link'     => (bool) Setting::get('show_settings_link', true),
+            'enable_page_loader'     => (bool) Setting::get('enable_page_loader', true),
+            'page_loader'            => Setting::get('page_loader', config('me_settings.default_page_loader', 'premium-svg-draw')),
             'app_logo'               => Setting::get('app_logo'),
             'app_ico'                => Setting::get('app_ico'),
             // Logo in the top header and in the page title bar: on/off + optional image
@@ -42,13 +44,14 @@ class SettingController extends Controller
     {
         $request->validate([
             'pagination'  => 'required|integer|min:1',
+            'page_loader' => ['nullable', 'in:' . implode(',', array_keys(config('me_settings.page_loaders', [])))],
             'app_logo'    => 'nullable|image|max:4096',
             'app_ico'     => 'nullable|file|mimes:svg,ico,png,jpg|max:1024',
             'header_logo' => 'nullable|file|mimes:jpg,jpeg,png,webp,gif,svg|max:4096',
             'title_logo'  => 'nullable|file|mimes:jpg,jpeg,png,webp,gif,svg|max:4096',
         ]);
 
-        $logKeys = ['pagination', 'enable_translation', 'enable_registration', 'enable_forget_password', 'show_settings_link', 'app_logo', 'app_ico',
+        $logKeys = ['pagination', 'enable_translation', 'enable_registration', 'enable_forget_password', 'show_settings_link', 'enable_page_loader', 'page_loader', 'app_logo', 'app_ico',
             'show_header_logo', 'show_title_logo', 'header_logo', 'title_logo'];
         $before = Setting::snapshot($logKeys);
 
@@ -58,6 +61,10 @@ class SettingController extends Controller
         Setting::set('enable_registration', $request->has('enable_registration'));
         Setting::set('enable_forget_password', $request->has('enable_forget_password'));
         Setting::set('show_settings_link', $request->has('show_settings_link'));
+        Setting::set('enable_page_loader', $request->has('enable_page_loader'));
+        if ($request->filled('page_loader')) {
+            Setting::set('page_loader', $request->page_loader);
+        }
         Setting::set('show_header_logo', $request->has('show_header_logo'));
         Setting::set('show_title_logo', $request->has('show_title_logo'));
 
@@ -82,6 +89,8 @@ class SettingController extends Controller
                 'enable_registration' => __('me::me.Enable Registration'),
                 'enable_forget_password' => __('me::me.Enable Forget Password'),
                 'show_settings_link' => __('me::me.Show Settings Link in Profile Menu'),
+                'enable_page_loader' => __('me::me.enable_page_loader'),
+                'page_loader' => __('me::me.page_loader'),
                 'app_logo' => __('me::me.App Logo'),
                 'app_ico' => 'Favicon',
                 'show_header_logo' => __('me::me.show_header_logo'),

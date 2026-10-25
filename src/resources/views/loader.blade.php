@@ -18,7 +18,8 @@
         transition: opacity 0.3s ease, visibility 0.3s ease;
     }
     
-    .x-loader-overlay.active {
+    .x-loader-overlay.active,
+    #x-page-loader {
         opacity: 1;
         visibility: visible;
     }
@@ -95,7 +96,7 @@
 </style>
 
 <!-- Full Page Loader -->
-<div id="x-page-loader" class="x-loader-overlay">
+<div id="x-page-loader" class="x-loader-overlay" data-me-loader>
     <div class="x-loader">
         <div class="x-loader-spinner multicolor"></div>
         <div class="x-loader-dots">
@@ -114,34 +115,17 @@
     </div>
 </div>
 
+{{-- show/hide of the full-page loader: shared with every loader --}}
+@include('me::components.loader._controller')
+
 <script>
-    // X-Loader JavaScript Functions
+    // XLoader API kept for pages that call it; the full-page part goes through the shared controller
     const XLoader = {
-        shown: false,
-        
-        // Show full page loader
-        show: function() {
-            if (this.shown) return;
-            this.shown = true;
-            
-            const loader = document.getElementById('x-page-loader');
-            if (loader) {
-                loader.classList.add('active');
-            }
-        },
-        
-        // Hide full page loader
-        hide: function() {
-            this.shown = false;
-            
-            const loader = document.getElementById('x-page-loader');
-            if (loader) {
-                loader.classList.remove('active');
-            }
-        },
-        
-        // Show inline loader
-        showInline: function(elementId) {
+        show: function () { window.MELoader && MELoader.show(); },
+        hide: function () { window.MELoader && MELoader.hide(); },
+
+        // Inline loader for a section of the page
+        showInline: function (elementId) {
             const loader = document.getElementById('x-inline-loader');
             const target = document.getElementById(elementId);
             if (loader && target) {
@@ -156,52 +140,12 @@
                 target.appendChild(loader);
             }
         },
-        
-        // Hide inline loader
-        hideInline: function() {
+
+        hideInline: function () {
             const loader = document.getElementById('x-inline-loader');
             if (loader) {
                 loader.classList.remove('active');
             }
         }
     };
-    
-    // Show loader on page refresh/navigation (beforeunload)
-    window.addEventListener('beforeunload', function() {
-        XLoader.show();
-    });
-    
-    // Hide loader when page fully loads
-    window.addEventListener('load', function() {
-        setTimeout(function() {
-            XLoader.hide();
-        }, 500);
-    });
-    
-    // Show loader on link click (for navigation) - but not if it's a data request
-    document.addEventListener('click', function(e) {
-        const target = e.target.closest('a');
-        if (target) {
-            const href = target.getAttribute('href');
-            // Only trigger for actual page navigation, not AJAX
-            if (href && !href.startsWith('#') && !href.startsWith('javascript') && !target.classList.contains('no-loader') && !target.target) {
-                XLoader.show();
-            }
-        }
-    });
-    
-    // Show loader on form submit (but not AJAX forms)
-    document.addEventListener('submit', function(e) {
-        const target = e.target;
-        // A form that opens in another tab/window (e.g. print → target="_blank") never unloads
-        // this page, so the loader would never be hidden. The submit button's formtarget wins.
-        const formTarget = (e.submitter && e.submitter.getAttribute('formtarget')) || target.getAttribute('target');
-        if (formTarget && formTarget !== '_self') {
-            return;
-        }
-        // Only for non-AJAX forms
-        if (!target.classList.contains('no-loader') && !target.classList.contains('ajax-form')) {
-            XLoader.show();
-        }
-    });
 </script>
