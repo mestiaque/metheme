@@ -576,6 +576,7 @@ return [
     'Clear All Data' => 'সব ডেটা মুছুন',
     'Click here to re-send the verification email.' => 'যাচাইকরণ ইমেইল আবার পাঠাতে এখানে ক্লিক করুন।',
     'Close' => 'বন্ধ করুন',
+    'Print' => 'মুদ্রণ করুন',
     'Connection Details' => 'সংযোগের বিবরণ',
     'Continue with Google' => 'Google দিয়ে চালিয়ে যান',
     'Controls how many records will be shown per page' => 'প্রতি পৃষ্ঠায় কতটি রেকর্ড দেখানো হবে তা নিয়ন্ত্রণ করে',

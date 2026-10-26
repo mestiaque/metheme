@@ -134,6 +134,21 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
         <script src="{{ asset('js/encodex.js') }}?v={{ filemtime(public_path('js/encodex.js')) }}"></script>
 
+        <!-- Print links open their tab with window.open(): browsers only let a script close a tab a script
+             opened, so the Close button on printMaster2 can then really remove the tab.
+             Ctrl/Shift/middle click keep the browser's own behaviour. -->
+        <script>
+            document.addEventListener('click', function (e) {
+                var link = e.target.closest('a.btn-encodex-print[target="_blank"], a[data-print-tab]');
+                if (!link || e.defaultPrevented || e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+
+                var tab = window.open(link.href, '_blank');
+                if (!tab) return;                 // popup blocked: let the link open normally
+                tab.opener = null;
+                e.preventDefault();
+            });
+        </script>
+
         <!-- সাইডবার মিনিমাইজ/এক্সপ্যান্ড স্টেট সেভ - toggle বাটনে সরাসরি বাইন্ড করা
              AdminLTE-র নিজের ক্লিক হ্যান্ডলারের আগে/পরে কবে চলবে তা নিয়ে অনুমান না করে,
              document-এ ডেলিগেট করা হয়েছে: bubble phase এ এটা সবসময় টার্গেট এলিমেন্টে

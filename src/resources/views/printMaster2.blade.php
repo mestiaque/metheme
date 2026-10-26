@@ -40,21 +40,83 @@
 
         /* Buttons (hidden in print) */
         .no-print {
-            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;          /* both centered: Close, then Print */
             margin-bottom: 15px;
-            padding: 5px;
-            background: #333;
+            padding: 5px 10px;
+            /* glass: the page shows through, blurred, with a 10% blue tint (savex blue) */
+            background: linear-gradient(rgba(15, 155, 214, .10), rgba(15, 155, 214, .10)), rgba(255, 255, 255, .45);
+            -webkit-backdrop-filter: blur(12px) saturate(160%);
+            backdrop-filter: blur(12px) saturate(160%);
+            border-bottom: 1px solid rgba(255, 255, 255, .6);
+            box-shadow: 0 4px 24px rgba(15, 23, 42, .08);
         }
+        /* Print / Close: .btn-savex style (goo-bubble fill on hover, press on click); encodex.css isn't loaded here */
         .no-print button {
-            padding: 8px 20px;
+            position: relative;
+            z-index: 1;
+            isolation: isolate;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            height: 34px;
+            padding: 0 20px;
             margin: 0 5px;
+            background: transparent;
+            color: var(--btn-color);
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
+            font: 700 13px/1 'Hind Siliguri', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: .5px;
             cursor: pointer;
-            color: #fff;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, .25);
+            transition: color .15s ease, box-shadow .3s, transform .15s ease;
         }
-        .btn-print { background: #28a745; }
-        .btn-close { background: #dc3545; }
+        .no-print button svg { width: 15px; height: 15px; flex-shrink: 0; }
+        .no-print button::before {          /* outline, above the bubbles */
+            content: "";
+            position: absolute;
+            z-index: 1;
+            inset: 0;
+            border: 2px solid var(--btn-color);
+            border-radius: 8px;
+            pointer-events: none;
+        }
+        .no-print button:hover { color: #fff; box-shadow: 0 6px 18px rgba(0, 0, 0, .4); }
+        .no-print button:active { transform: scale(.95); }
+        .no-print button:focus-visible { outline: 2px solid #60a5fa; outline-offset: 3px; }
+        .no-print .btn-print { --btn-color: #28a745; }
+        .no-print .btn-close { --btn-color: #dc3545; }
+
+        .btn-fx__inner {
+            position: absolute;
+            z-index: -1;
+            inset: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .btn-fx__blobs { position: relative; display: block; height: 100%; filter: url('#print-btn-goo'); }
+        .btn-fx__blob {
+            position: absolute;
+            top: 2px;
+            width: 25%;
+            height: 100%;
+            background: var(--btn-color);
+            border-radius: 100%;
+            transform: translate3d(0, 150%, 0) scale(1.4);
+            transition: transform .45s;
+        }
+        .btn-fx__blob:nth-child(1) { left: 0%; }
+        .btn-fx__blob:nth-child(2) { left: 30%; transition-delay: .08s; }
+        .btn-fx__blob:nth-child(3) { left: 60%; transition-delay: .16s; }
+        .btn-fx__blob:nth-child(4) { left: 90%; transition-delay: .24s; }
+        .no-print button:hover .btn-fx__blob { transform: translateZ(0) scale(1.4); }
+        @media (prefers-reduced-motion: reduce) {
+            .btn-fx__blob, .no-print button { transition: none; }
+        }
 
         /* Header */
         .print-header {
@@ -124,13 +186,36 @@
 </head>
 <body>
     <div class="no-print fixed-top">
-        <button class="btn-print" onclick="window.print()">
-            <i class="fa fa-print"></i> @lang('me::me.Print')
+        {{-- goo filter: melts the bubbles together like liquid --}}
+        <svg width="0" height="0" style="position: absolute" aria-hidden="true"><defs>
+            <filter id="print-btn-goo">
+                <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="10"></feGaussianBlur>
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 21 -7" result="goo"></feColorMatrix>
+                <feBlend in2="goo" in="SourceGraphic" result="mix"></feBlend>
+            </filter>
+        </defs></svg>
+        <button type="button" class="btn-close" onclick="mePrintForceClose()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            @lang('me::me.Close')
+            <span class="btn-fx__inner"><span class="btn-fx__blobs"><span class="btn-fx__blob"></span><span class="btn-fx__blob"></span><span class="btn-fx__blob"></span><span class="btn-fx__blob"></span></span></span>
         </button>
-        <button class="btn-close" onclick="window.close()">
-            <i class="fa fa-times"></i> @lang('me::me.Close')
+        <button type="button" class="btn-print" onclick="window.print()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+            @lang('me::me.Print')
+            <span class="btn-fx__inner"><span class="btn-fx__blobs"><span class="btn-fx__blob"></span><span class="btn-fx__blob"></span><span class="btn-fx__blob"></span><span class="btn-fx__blob"></span></span></span>
         </button>
     </div>
+    <script>
+        // Browsers only let a script close a tab that a script opened (master opens print links with
+        // window.open, so this closes them). If the browser still refuses (e.g. a QR scan opened the page)
+        // and the tab has a previous page, go back to it; otherwise stay here (never redirect to login).
+        function mePrintForceClose() {
+            window.close();
+            setTimeout(function () {
+                if (!window.closed && history.length > 1) history.back();
+            }, 150);
+        }
+    </script>
 
     <div class="container">
         @yield('contents')
