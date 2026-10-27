@@ -801,4 +801,10 @@ return [
     'loader_foot_print' => 'Top line (Gemini style)',
     'loader_point_split' => 'Top line (rainbow point)',
     'loader_classic' => 'Classic spinner',
+    'Colors' => 'Colors',
+    'Badges' => 'Badges',
+    'Shadows' => 'Shadows',
+    'Tables' => 'Tables',
+    'Cards' => 'Cards',
+    'Icons' => 'Icons',
 ];

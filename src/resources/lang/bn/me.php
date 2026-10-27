@@ -831,4 +831,10 @@ return [
     'loader_foot_print' => 'উপরে লাইন (Gemini এর মতো)',
     'loader_point_split' => 'উপরে লাইন (রংধনু বিন্দু)',
     'loader_classic' => 'সাধারণ স্পিনার',
+    'Colors' => 'রং',
+    'Badges' => 'ব্যাজ',
+    'Shadows' => 'শ্যাডো',
+    'Tables' => 'টেবিল',
+    'Cards' => 'কার্ড',
+    'Icons' => 'আইকন',
 ];
