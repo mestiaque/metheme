@@ -69,6 +69,13 @@
                                 </label>
                             </div>
                             <div class="form-check form-switch mb-3">
+                                <input type="checkbox" class="form-check-input" id="show_footer_authorization"
+                                        name="show_footer_authorization" {{ $settings['show_footer_authorization'] ? 'checked' : '' }}>
+                                <label class="form-check-label" for="show_footer_authorization">
+                                    @lang('me::me.show_footer_authorization')
+                                </label>
+                            </div>
+                            <div class="form-check form-switch mb-3">
                                 <input type="checkbox" class="form-check-input" id="enable_page_loader"
                                         name="enable_page_loader" {{ $settings['enable_page_loader'] ? 'checked' : '' }}>
                                 <label class="form-check-label" for="enable_page_loader">

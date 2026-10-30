@@ -6,9 +6,8 @@
   </div>
     @lang('me::me.mycopyright', [
         'year' => banglaYear(date('Y')),
-        'company' => get_setting('app_name', 'Your Company'),
         'developer' => config('me_settings.meta_author'),
         'developer_url' => config('me_settings.meta_author_url')
-    ])
+    ])@if (get_setting('show_footer_authorization', true)) {{ __('me::me.footer_authorization', ['company' => get_setting('app_name', 'Your Company')]) }}@endif
 </footer>
 <!--end::Footer-->

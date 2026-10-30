@@ -33,6 +33,7 @@ class SettingController extends Controller
             // (no image = the built-in SVG logo)
             'show_header_logo'       => (bool) Setting::get('show_header_logo', true),
             'show_title_logo'        => (bool) Setting::get('show_title_logo', true),
+            'show_footer_authorization' => (bool) Setting::get('show_footer_authorization', true),
             'header_logo'            => Setting::get('header_logo'),
             'title_logo'             => Setting::get('title_logo'),
         ];
@@ -52,7 +53,7 @@ class SettingController extends Controller
         ]);
 
         $logKeys = ['pagination', 'enable_translation', 'enable_registration', 'enable_forget_password', 'show_settings_link', 'enable_page_loader', 'page_loader', 'app_logo', 'app_ico',
-            'show_header_logo', 'show_title_logo', 'header_logo', 'title_logo'];
+            'show_header_logo', 'show_title_logo', 'show_footer_authorization', 'header_logo', 'title_logo'];
         $before = Setting::snapshot($logKeys);
 
         // Store values properly
@@ -67,6 +68,7 @@ class SettingController extends Controller
         }
         Setting::set('show_header_logo', $request->has('show_header_logo'));
         Setting::set('show_title_logo', $request->has('show_title_logo'));
+        Setting::set('show_footer_authorization', $request->has('show_footer_authorization'));
 
         // Images live in me_media (Media Library); get_image('app_logo') reads them
         foreach (['app_logo', 'app_ico', 'header_logo', 'title_logo'] as $imgField) {
@@ -95,6 +97,7 @@ class SettingController extends Controller
                 'app_ico' => 'Favicon',
                 'show_header_logo' => __('me::me.show_header_logo'),
                 'show_title_logo' => __('me::me.show_title_logo'),
+                'show_footer_authorization' => __('me::me.show_footer_authorization'),
                 'header_logo' => __('me::me.header_logo'),
                 'title_logo' => __('me::me.title_logo'),
             ])
